@@ -1,6 +1,13 @@
 .container_shop{
     position: relative;
     box-sizing: border-box;
+    display: block;
     height: 100rem;
+    box-sizing: border-box;
     
+}
+.Categories_container{
+    position: absolute;
+    
+
 }

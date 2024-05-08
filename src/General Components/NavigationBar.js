@@ -30,7 +30,7 @@ export default function NavigationBar() {
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
       <Link to="/">
-        <img src="./logo2.0.jpg" alt="Atlas Copco" className="logo" />
+        <img src="/logo2.0.jpg" alt="Atlas Copco" className="logo" />
       </Link>
 
       <div
@@ -45,8 +45,8 @@ export default function NavigationBar() {
         {categoriesappear && (
           <div className="listedproducts">
           
-            <Link to='/Shop/Big' ><li>BIG</li></Link> 
-            <Link to='/Shop/Heavy'><li>HEAVY</li></Link> 
+            <Link to='/Shop/Big' style={{ textDecoration: "none", color: "black" }}><li>BIG</li></Link> 
+            <Link to='/Shop/Heavy'style={{ textDecoration: "none", color: "black" }} ><li>HEAVY</li></Link> 
             <li>BIG</li>
             <li>HEAVY</li>
             <li>BIG</li>

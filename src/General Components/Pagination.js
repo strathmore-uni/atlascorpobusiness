@@ -1,14 +1,16 @@
 import React,{useState} from 'react'
+import './pagination.css'
+import { CiGrid41 } from "react-icons/ci";
+import { CiGrid2H } from "react-icons/ci";
 
-export default function Pagination() {
+
+export default function Pagination( fulldatas) {
     const [isGridMode, setGridMode] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 20;
     const totalItems = 60;
   
-    const toggleLayout = () => {
-      setGridMode(!isGridMode);
-    };
+   
   
     const totalPages = Math.ceil(totalItems / itemsPerPage);
   
@@ -37,20 +39,30 @@ export default function Pagination() {
         items.push(<div key={i} className={`single_product ${color}`}></div>);
       }
       return items;
+
+      
     };
+ 
   
     return (
       <div className="big_container">
-        <div className="button_container">
-          <button onClick={toggleLayout}>
-            {isGridMode ? 'Switch to Single Product View' : 'Switch to Grid View'}
-          </button>
-        </div>
+        
         <div className="productdisplay_container" style={isGridMode ? null : { width: '55rem' }}>
+            
+        <div className="button_container">
+        <p className='sort_p' >Sort By: <p   className={`layout_option1 ${isGridMode ? 'active' : ''}`} 
+            onClick={() => setGridMode(true)}><CiGrid41 /></p>
+            
+            <p className={`layout_option2 ${isGridMode ? 'active' : ''}`} 
+            onClick={() => setGridMode(false)} ><CiGrid2H /> </p>  </p>
+        
+        </div>
           {isGridMode ? (
             <div className="products_grid">{renderItems()}</div>
           ) : (
+           
             <div className="single_product_container">{renderItems()}</div>
+           
           )}
           {renderPagination()}
         </div>

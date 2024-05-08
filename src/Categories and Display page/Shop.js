@@ -9,13 +9,17 @@ import Footer from '../General Components/Footer'
 
 export default function Shop() {
   return (
+    <div>
     <div className='container_shop' >
       
       
-        <Products />
+        
+       
+    </div>
+    <Products />
         <Categories />
         <NavigationBar  />
-        <Footer />
+    <Footer />
     </div>
   )
 }

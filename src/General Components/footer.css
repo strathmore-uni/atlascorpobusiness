@@ -1,8 +1,10 @@
 .container_footer {
   position: absolute;
+  display: flex;
   background-color: grey;
   bottom: 0;
   height: 10rem;
   left: 0;
   right: 0;
+  box-sizing: border-box;
 }
