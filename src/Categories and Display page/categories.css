@@ -6,3 +6,33 @@
     height: 30rem;
     width: 17rem;
 }
+.listedproducts_categories{
+    position: absolute;
+    top: 2.5rem;
+   
+    list-style-type: none;
+    width: 10rem;
+    padding: 2rem;
+display: flex;
+flex-direction: column;
+
+
+
+}
+.listedproducts_categories li{
+    position: relative;
+    top: -2rem;
+    left: -1.8rem;
+    width: 135%;
+    height: 1.5rem;
+    margin-top: .5rem;
+    color: black;
+    list-style-type: none;
+    text-decoration: none;
+}
+
+.listedproducts_categories  li:hover{
+    position: relative;
+    opacity: .6;
+    background-color: grey;
+}

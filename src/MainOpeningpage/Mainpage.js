@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import NavigationBar from '../General Components/NavigationBar'
 import './mainpage.css'
 import { FaArrowRight } from "react-icons/fa";
+import Footer from '../General Components/Footer';
 
 export default function Mainpage() {
 
@@ -90,6 +91,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 
 
   <NavigationBar  />
+  <Footer />
     </div>
   )
 }

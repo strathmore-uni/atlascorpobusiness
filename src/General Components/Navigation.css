@@ -27,6 +27,9 @@ box-shadow: 0px 0px 5px 0px;
     top: 1.3rem;
 
 }
+.products_li p{
+    text-decoration: none!important;
+}
 .products_li p:hover  {
     opacity: .6;
 

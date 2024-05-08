@@ -5,6 +5,8 @@ import Mainpage from "./MainOpeningpage/Mainpage";
 import NavigationBar from "./General Components/NavigationBar";
 import Categories from "./Categories and Display page/Categories";
 import Shop from "./Categories and Display page/Shop";
+import Big from "./Categories and Display page/Categories Pages/Big";
+import Heavy from "./Categories and Display page/Categories Pages/Heavy";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
             <Route path="" element={<NavigationBar  />}  />
             <Route path="" element={<Categories  />}  />
             <Route  path="/Shop"  element={<Shop  />} />
+            <Route path="/Shop/Big" element={<Big />}  />
+            <Route  path="/Shop/Heavy" element={<Heavy />} />
             
             
           </Routes>
