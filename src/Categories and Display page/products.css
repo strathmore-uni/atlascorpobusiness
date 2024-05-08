@@ -1,0 +1,8 @@
+.products_container{
+    position: absolute;
+    top: 8rem;
+    left: 20rem;
+    height: 50rem;
+    width: 50rem;
+    background-color: rgb(246, 240, 255);
+}

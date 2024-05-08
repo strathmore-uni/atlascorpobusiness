@@ -9,7 +9,7 @@
 section{
     position: absolute;
     height: 30rem;
-   top: 16rem;
+   top: 21rem;
    left: 1rem;
     width: 98%;
     background-color: rgb(240, 239, 239);
@@ -45,7 +45,7 @@ section{
 }
 .container_media{
     position: absolute;
-    height: 15rem;
+    height: 20rem;
     width: 86%;
     left: 5rem;
     top: 1rem;
@@ -93,7 +93,7 @@ section{
 }
 .shopwithus{
     position: absolute;
-    top: 48rem;
+    top: 55rem;
     background-color: rgb(240, 239, 239) ;
     left: 5rem;
     font-size: 2rem;

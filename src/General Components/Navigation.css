@@ -52,6 +52,9 @@ flex-direction: column;
     width: 135%;
     height: 1.5rem;
     margin-top: .5rem;
+    color: black;
+    list-style-type: none;
+    text-decoration: none;
 }
 .listedproducts  li:hover{
     position: relative;

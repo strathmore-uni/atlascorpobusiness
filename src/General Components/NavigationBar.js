@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import "./Navigation.css"
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
+import { Link } from 'react-router-dom';
 
 export default function NavigationBar() {
 
@@ -32,12 +33,11 @@ export default function NavigationBar() {
     <div
     className={`container_NavigationBar ${isScrolled ? 'scrolled' : ''}`}
   >
-      <img  src='./logo2.0.jpg' alt='Atlas Copco' className='logo'  />
-
+      <Link to='/'><img  src='./logo2.0.jpg' alt='Atlas Copco' className='logo'  /></Link>
       
             
-                <div className='products_li' onMouseEnter={toggleCategoriesAppear} onMouseLeave={toggleCategoriesAppear} >
-                    <p className='' >Products</p>
+                <div className='products_li' onMouseEnter={toggleCategoriesAppear} onMouseLeave={toggleCategoriesAppear}   >
+                  <Link to='./Shop' ><p className='' style={{textDecoration:'none',color:'black'}} >Products</p> </Link>  
                 <IoIosArrowDown  className='arrow_down_li' />
                 {categoriesappear && (
                     <div  className='listedproducts' >
