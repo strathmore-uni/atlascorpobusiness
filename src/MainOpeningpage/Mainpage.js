@@ -3,6 +3,7 @@ import NavigationBar from '../General Components/NavigationBar'
 import './mainpage.css'
 import { FaArrowRight } from "react-icons/fa";
 import Footer from '../General Components/Footer';
+import { Link } from 'react-router-dom';
 
 export default function Mainpage() {
 
@@ -53,6 +54,7 @@ export default function Mainpage() {
 
 <div className='mainpage_container'>
 
+
 <div className='container_media' >
 <img src={images[prevImageIndex]} alt='' className='image1' style={{opacity:'.5'}} />
           <img src={images[currentImageIndex]} alt='' className='image2'   />
@@ -77,20 +79,20 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
   </section>
 
  
-<div className='shopwithus'>
+ <Link to='/Shop' style={{color:'black'}} > <div className='shopwithus'>
    <FaArrowRight className='shopwithus_arrowright' />
 
   <h3>Shop With Us</h3>
 
 
 
-</div>
+</div></Link>
 
 
 </div>
 
 
-  <NavigationBar  />
+<NavigationBar  />
   <Footer />
     </div>
   )

@@ -7,6 +7,7 @@ import Categories from "./Categories and Display page/Categories";
 import Shop from "./Categories and Display page/Shop";
 import Big from "./Categories and Display page/Categories Pages/Big";
 import Heavy from "./Categories and Display page/Categories Pages/Heavy";
+import Pagination from "./General Components/Pagination";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route  path="/Shop"  element={<Shop  />} />
             <Route path="/Shop/Big" element={<Big />}  />
             <Route  path="/Shop/Heavy" element={<Heavy />} />
+            <Route  path="" element={<Pagination />}  />
             
             
           </Routes>

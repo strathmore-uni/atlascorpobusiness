@@ -1,17 +1,17 @@
-import React from 'react'
-import NavigationBar from '../../General Components/NavigationBar'
-import Categories from '../Categories'
-import './big.css'
+import React from 'react';
+import NavigationBar from '../../General Components/NavigationBar';
+import Categories from '../Categories';
+import './big.css';
+import Pagination from '../../General Components/Pagination';
+
 export default function Big() {
-  return (
-    <div  className='big_container' >
 
-<p className='p_big' >Prouduct 1</p>
+  return(
+    <div>
 
-
+<Pagination />
+      <NavigationBar />
       <Categories />
-     <NavigationBar />
-     
-        </div>
+    </div>
   )
 }

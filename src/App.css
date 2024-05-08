@@ -1,7 +1,15 @@
 .App {
   text-align: center;
-}
+  box-sizing: border-box;
 
+}
+body{
+  margin: 0; 
+  position: relative;
+  box-sizing: inherit;
+  min-height: 100%;
+
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
