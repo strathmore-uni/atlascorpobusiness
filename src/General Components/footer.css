@@ -1,6 +1,6 @@
 .container_footer{
-display: block;
-    position: relative;
+position: absolute;
+    
     background-color: aqua;
     bottom: 0;
 
