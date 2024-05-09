@@ -11,9 +11,12 @@
 .productview_container{
     position: relative;
     background-color: aqua;
-    height: 10rem;
-    width: 10rem;
+    height: 40rem;
+    width: 80%;
     top: 8rem;
     left: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }

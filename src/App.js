@@ -30,10 +30,12 @@ function App() {
           item.id === productdetailss.id ? { ...ProductExistDetail } : item
         )
       );
+
     } else {
       setproductdetails([{ ...productdetailss }]);
     }
   };
+  console.log(productdetails)
 
   const handleAddProduct = (product) => {
     const ProductExist = cartItems.find((item) => item.id === product.id);
@@ -76,14 +78,15 @@ function App() {
                   fulldatas={fulldatas}
                   handleAddProduct={handleAddProduct}
                   handleAddProductDetails={handleAddProductDetails}
+                  
                 />
               }
             />
             <Route path="/Shop/Heavy" element={<Heavy />} />
             <Route path="" element={<Pagination fulldatas={fulldatas} />} />
             <Route path="/Productdetails"  handleAddProductDetails={handleAddProductDetails} element={<Productdetails  handleAddProductDetails={handleAddProductDetails}  productdetails={productdetails} />} />
-            <Route path="" element={<Products fulldatas={fulldatas} />} />
-            <Route path="Cart" element={<ShoppingCartPage />} />
+            <Route path="" element={<Products  handleAddProductDetails={handleAddProductDetails} fulldatas={fulldatas} />} />
+            <Route path="/Cart" element={<ShoppingCartPage />} />
           </Routes>
         </main>
       </BrowserRouter>

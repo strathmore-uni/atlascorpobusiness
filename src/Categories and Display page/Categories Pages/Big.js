@@ -5,7 +5,7 @@ import Categories from '../Categories';
 import './big.css';
 import { Link } from 'react-router-dom';
 
-export default function Big({ fulldatas,handleAddProduct }) {
+export default function Big({ fulldatas,handleAddProductDetails }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState('grid');
 
@@ -28,7 +28,7 @@ export default function Big({ fulldatas,handleAddProduct }) {
           
           <Link key={product.id}
           // Moving to the product page
-          to={`/Productdetails?name=${product.title}?id=${product.id}`}  > 
+          to={`/Productdetails?name=${product.title}?id=${product.id}`} onClick={() => handleAddProductDetails(product)} > 
           <div key={index} className="single_product">
             <img src={product.image} alt='' className='myimages' />
             <p>{product.title}   </p>
