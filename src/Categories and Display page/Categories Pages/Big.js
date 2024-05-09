@@ -1,24 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ReactPaginate from 'react-paginate';
 import NavigationBar from '../../General Components/NavigationBar';
 import Categories from '../Categories';
 import './big.css';
-import Pagination from '../../General Components/Pagination';
-import Footer from '../../General Components/Footer';
 
-export default function Big({fulldatas}) {
-  console.log(fulldatas);
+export default function Big({ fulldatas }) {
+  const [pageNumber, setPageNumber] = useState(0);
+  const [layoutMode, setLayoutMode] = useState('grid');
 
-  return(
-    <div className='big_cont'>
+  const itemsPerPage = 12;
+  const pagesVisited = pageNumber * itemsPerPage;
+  const pageCount = Math.ceil(fulldatas.length / itemsPerPage);
 
-      {fulldatas.map((product)=> (
-        <p>{product.image}</p>
-      ))}
+  return (
+    <div className='big_container' key={1}>
+      <div className='productdisplay_container' >
 
-<Pagination />
+ <div className={`sub_productdisplay_container ${layoutMode}`}>
+      <div className='btn_group' >
+      <button   onClick={() => setLayoutMode('grid')}>Grid</button>
+      <button onClick={() => setLayoutMode('normal')}>Normal</button>
+</div>
+        {fulldatas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
+          <div key={index} className="single_product">
+            <img src={product.image} alt='' className='myimages' />
+          </div>
+        ))}
+            <ReactPaginate
+        previousLabel={'Previous'}
+        nextLabel={'Next'}
+        pageCount={pageCount}
+        onPageChange={(e) => setPageNumber(e.selected)}
+        containerClassName={'pagination'}
+        previousLinkClassName={'pagination__link'}
+        nextLinkClassName={'pagination__link'}
+        disabledClassName={'pagination__link--disabled'}
+        activeClassName={'pagination__link--active'}
+      />
+
+      </div>
+      </div>
+     
+
+  
       <NavigationBar />
       <Categories />
-      <Footer />
+
     </div>
-  )
+  );
 }

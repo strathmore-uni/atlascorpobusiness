@@ -1,5 +1,5 @@
 .container_footer {
-  position: absolute;
+  position: relative;
   display: flex;
   background-color: grey;
   bottom: 0;

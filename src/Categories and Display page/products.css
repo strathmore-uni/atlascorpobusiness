@@ -1,8 +1,9 @@
 .products_container{
     position: absolute;
-    top: 0rem;
-    left: 9.9rem;
+    top: 8rem;
+    
+    left: 19rem;
     height: 50rem;
-    width: 50rem;
+    width: 57rem;
    
 }

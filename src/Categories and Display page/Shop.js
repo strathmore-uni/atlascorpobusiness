@@ -4,22 +4,22 @@ import Categories from './Categories'
 import Products from './Products'
 
 import './shop.css'
-import Footer from '../General Components/Footer'
 
 
-export default function Shop() {
+
+export default function Shop( {fulldatas} ) {
+
   return (
     <div>
     <div className='container_shop' >
       
-      
-        
-       
+    
+           <Products fulldatas={fulldatas} />
     </div>
-    <Products />
+
         <Categories />
         <NavigationBar  />
-    <Footer />
+  
     </div>
   )
 }
