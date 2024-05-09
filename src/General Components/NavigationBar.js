@@ -3,6 +3,7 @@ import "./Navigation.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { Link} from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 
 export default function NavigationBar() {
   const [categoriesappear, categoriessetAppear] = useState();
@@ -55,6 +56,7 @@ export default function NavigationBar() {
         )}
       </div>
       <p className="p_navigation_contacts">Contact Us</p>
+     <Link to='/Cart' style={{textDecoration:'none',color:'black'}} ><p className="p_cart" > <FaShoppingCart />  </p></Link> 
 
       <IoSearchOutline className="search_icon_navigation" />
     </div>

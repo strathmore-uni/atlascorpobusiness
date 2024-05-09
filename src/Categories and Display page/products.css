@@ -1,9 +1,16 @@
 .products_container{
     position: absolute;
-    top: 8rem;
+    top: 0rem;
     
-    left: 19rem;
+    left: 0rem;
     height: 50rem;
-    width: 57rem;
+    width: 100%;
+    
    
+}
+.products_container .productdisplay_container{
+    
+    top: 0;
+    left: 0;
+    width: 100%;
 }

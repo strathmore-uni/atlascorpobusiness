@@ -14,6 +14,10 @@ export default function Products({ fulldatas }) {
   const pageCount = Math.ceil(fulldatas.length / itemsPerPage);
   return (
     <div className="products_container">
+      <div className="" >
+
+
+      </div>
    <div className='productdisplay_container' >
 
 <div className={`productdisplay_container ${layoutMode}`}>

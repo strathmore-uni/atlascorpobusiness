@@ -13,8 +13,12 @@ export default function Shop( {fulldatas} ) {
     <div>
     <div className='container_shop' >
       
+      <div className='shop_product_container' >
+        
+<Products fulldatas={fulldatas} />
+      </div>
     
-           <Products fulldatas={fulldatas} />
+           
     </div>
 
         <Categories />

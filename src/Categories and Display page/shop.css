@@ -1,13 +1,26 @@
 .container_shop{
-    position: relative;
-    box-sizing: border-box;
-    display: block;
-    height: 100rem;
-    box-sizing: border-box;
+    position: absolute;
+    top: 0rem;
+    
+    width: 100%;  
+    flex-grow: 1;
+    background-color: brown;
+    
+  
     
 }
 .Categories_container{
     position: absolute;
     
 
+}
+.shop_product_container{
+ 
+    position: absolute;
+    top: 8rem;
+ width: 70%;
+    left: 20rem;
+   
+    display: flex;
+    flex-grow: 1;
 }

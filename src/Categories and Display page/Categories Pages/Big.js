@@ -3,8 +3,9 @@ import ReactPaginate from 'react-paginate';
 import NavigationBar from '../../General Components/NavigationBar';
 import Categories from '../Categories';
 import './big.css';
+import { Link } from 'react-router-dom';
 
-export default function Big({ fulldatas }) {
+export default function Big({ fulldatas,handleAddProduct }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState('grid');
 
@@ -14,17 +15,24 @@ export default function Big({ fulldatas }) {
 
   return (
     <div className='big_container' key={1}>
-      <div className='productdisplay_container' >
+     
+<div className='productdisplay_container' >
 
  <div className={`sub_productdisplay_container ${layoutMode}`}>
       <div className='btn_group' >
       <button   onClick={() => setLayoutMode('grid')}>Grid</button>
       <button onClick={() => setLayoutMode('normal')}>Normal</button>
 </div>
+
         {fulldatas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
+          
+          <Link key={product.id}
+          // Moving to the product page
+          to={`/Productdetails?name=${product.title}?id=${product.id}`}  > 
           <div key={index} className="single_product">
             <img src={product.image} alt='' className='myimages' />
-          </div>
+            <p>{product.title}   </p>
+          </div></Link>
         ))}
             <ReactPaginate
         previousLabel={'Previous'}
@@ -41,6 +49,9 @@ export default function Big({ fulldatas }) {
       </div>
       </div>
      
+
+     
+      
 
   
       <NavigationBar />

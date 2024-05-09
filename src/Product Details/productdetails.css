@@ -1,0 +1,19 @@
+.productdetails_container{
+    position: absolute;
+   
+    width: 100%;
+    height: 100%;
+    
+    
+
+
+}
+.productview_container{
+    position: relative;
+    background-color: aqua;
+    height: 10rem;
+    width: 10rem;
+    top: 8rem;
+    left: 8rem;
+
+}
