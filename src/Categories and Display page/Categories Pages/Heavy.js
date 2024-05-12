@@ -12,7 +12,7 @@ export default function Heavy() {
    
         
         <Categories />
-        <NavigationBar />
+        <NavigationBar cartItems />
     </div>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import NavigationBar from '../General Components/NavigationBar';
 import './productdetails.css';
 
-export default function ProductDetails({ productdetails,handleAddProduct }) {
+export default function ProductDetails({ productdetails,handleAddProduct,cartItems }) {
   return (
     <div className="productdetails_container">
       <div className="productview_container">
@@ -54,7 +54,7 @@ export default function ProductDetails({ productdetails,handleAddProduct }) {
         ))}
        
       </div>
-      <NavigationBar />
+      <NavigationBar cartItems={cartItems} />
     </div>
   );
 }

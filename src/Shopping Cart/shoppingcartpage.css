@@ -6,26 +6,39 @@
 }
 .productsdisplay_shoppingcart{
  position: absolute;
-
+ border-radius: 6px;
  width: 70%;
+ height: 100%;
  top: 6rem;
  left: 15rem;
+ box-shadow: 0px 0px 5px 0px;
     
 }
 .display_cart{
     position: relative;
     display: flex;
-   
+left: 1rem;
     margin-top: 20px;
     margin-bottom: 10px;
     height: 10rem;
+  
 
+
+}
+.cart_empty{
+    position: relative;
+    background-color: aqua;
+    top: 10rem;
+    left: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 .cart_itemprice{
     position: absolute;
     top: 0rem;
-    right: 1rem;
+    right:2rem;
     
 }
 .btngroup_cart{
@@ -75,7 +88,13 @@
 }
 .hr_shoppingcartpage{
     position: relative;
-    bottom: 3rem;
-    color: red;
+    top: 0rem;
+  
     
+}
+.hr_incartdisplay{
+   position: absolute;
+   display: flex;
+   width: 95%;
+   bottom: 0;
 }

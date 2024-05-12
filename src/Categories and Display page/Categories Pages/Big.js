@@ -5,7 +5,7 @@ import Categories from '../Categories';
 import './big.css';
 import { Link } from 'react-router-dom';
 
-export default function Big({ fulldatas,handleAddProductDetails,handleAddProduct }) {
+export default function Big({ fulldatas,handleAddProductDetails,cartItems }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState('grid');
 
@@ -52,10 +52,10 @@ export default function Big({ fulldatas,handleAddProductDetails,handleAddProduct
 
      
       
-
+   <Categories />
   
-      <NavigationBar  />
-      <Categories />
+      <NavigationBar cartItems={cartItems} />
+   
 
     </div>
   );

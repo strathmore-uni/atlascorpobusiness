@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa";
 
 import { Link } from 'react-router-dom';
 
-export default function Mainpage() {
+export default function Mainpage({cartItems}) {
 
   const images = [
     '/images/QAS generator.jpeg',
@@ -93,7 +93,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 </div>
 
 
-<NavigationBar cartItems  />
+<NavigationBar cartItems={cartItems}/>
 
     </div>
   )

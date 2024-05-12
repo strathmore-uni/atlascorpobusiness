@@ -7,7 +7,7 @@ import './shop.css'
 
 
 
-export default function Shop( {fulldatas} ) {
+export default function Shop( {fulldatas,cartItems} ) {
 
   return (
     <div>
@@ -21,8 +21,8 @@ export default function Shop( {fulldatas} ) {
            
     </div>
 
-        <Categories />
-        <NavigationBar  />
+        <Categories /> 
+        <NavigationBar   cartItems={cartItems}/>
   
     </div>
   )

@@ -11,6 +11,8 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
   return (
     <div className='shoppingcartpage_container' >
       <div  className='productsdisplay_shoppingcart' >
+        <h2 style={{ color: '#0078a1'}} >Cart Items</h2>
+        <hr  className='hr_shoppingcartpage' />
  {cartItems.map((item) => (
         <div key={item.id} className='display_cart' >
           
@@ -35,22 +37,22 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
                   -
                 </button>
           </div>
-          
-             <p> {item.title}</p>
+          <p>{item.id}</p>
+             <p style={{fontWeight:'bold'}}> {item.title}</p>
              <p className='cart_itemprice' >USD{item.price}</p>
-          
+          <hr className='hr_incartdisplay' />
           </div>
      
 
       ))}
-      <hr  className='hr_shoppingcartpage' />
+
         <p className='p_carttotal' >Total Price</p>
 <small className='cart_totalitemsprice' >USD {totalPrice}</small>
       </div>
      
 
 
-        <NavigationBar />
+        <NavigationBar  cartItems={cartItems}/>
     </div>
   )
 }

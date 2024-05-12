@@ -6,7 +6,7 @@ import Categories from "./Categories and Display page/Categories";
 import Shop from "./Categories and Display page/Shop";
 import Big from "./Categories and Display page/Categories Pages/Big";
 import Heavy from "./Categories and Display page/Categories Pages/Heavy";
-import Pagination from "./General Components/Pagination";
+
 import Productdetails from "./Product Details/Productdetails";
 import fulldata from "./Fulldata";
 import Products from "./Categories and Display page/Products";
@@ -57,7 +57,7 @@ function App() {
 
   const handleAddProduct = (product) => {
     const ProductExist = cartItems.find((item) => item.id === product.id);
-
+  
     if (ProductExist) {
       setCartItems(
         cartItems.map((item) =>
@@ -70,7 +70,7 @@ function App() {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
     }
   };
-
+ 
   return (
     <>
       <BrowserRouter>
@@ -102,7 +102,7 @@ function App() {
               }
             />
             <Route path="/Shop/Heavy" element={<Heavy />} />
-            <Route path="" element={<Pagination fulldatas={fulldatas} />} />
+          
             <Route
               path="/Productdetails"
               element={
