@@ -5,7 +5,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { Link} from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 
-export default function NavigationBar() {
+export default function NavigationBar({cartItems}) {
   const [categoriesappear, categoriessetAppear] = useState();
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -21,6 +21,7 @@ export default function NavigationBar() {
         setIsScrolled(false);
       }
     };
+   
 
     window.addEventListener("scroll", handleScroll);
 
@@ -56,8 +57,12 @@ export default function NavigationBar() {
         )}
       </div>
       <p className="p_navigation_contacts">Contact Us</p>
-     <Link to='/Cart' style={{textDecoration:'none',color:'black'}} ><p className="p_cart" > <FaShoppingCart />  </p></Link> 
 
+     <Link to='/Cart' style={{textDecoration:'none',color:'black'}} ><p className="p_cart" > <FaShoppingCart />  </p></Link> 
+     <span className="count">
+            
+            {cartItems.length === 0 ? "" : cartItems.length}{" "}
+          </span>
       <IoSearchOutline className="search_icon_navigation" />
     </div>
   );

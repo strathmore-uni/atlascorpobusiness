@@ -1,0 +1,81 @@
+.shoppingcartpage_container {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+}
+.productsdisplay_shoppingcart{
+ position: absolute;
+
+ width: 70%;
+ top: 6rem;
+ left: 15rem;
+    
+}
+.display_cart{
+    position: relative;
+    display: flex;
+   
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 10rem;
+
+
+}
+.cart_itemprice{
+    position: absolute;
+    top: 0rem;
+    right: 1rem;
+    
+}
+.btngroup_cart{
+    position: absolute;
+    display: flex;
+    top: 4rem;
+  
+    flex-direction: row;
+
+}
+.btngroup_cart button{
+    position: relative;
+    height:1.5rem ;
+  
+
+
+}
+.increase-item{
+    position: relative;
+    left: 0rem;
+}
+.decrease-item{
+    position: relative;
+    left: 2rem;
+}
+
+
+.btngroup_cart .cart_quantity{
+    position: relative;
+    top: -1rem;
+    left: 1rem;
+
+}
+.p_carttotal{
+    position: absolute;
+    bottom: 0rem;
+    left: 0rem;
+    color: #0078a1;
+
+}
+
+.cart_totalitemsprice{
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 1.2rem;
+}
+.hr_shoppingcartpage{
+    position: relative;
+    bottom: 3rem;
+    color: red;
+    
+}

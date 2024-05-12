@@ -93,7 +93,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 </div>
 
 
-<NavigationBar  />
+<NavigationBar cartItems  />
 
     </div>
   )

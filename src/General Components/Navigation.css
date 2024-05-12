@@ -94,6 +94,11 @@ flex-direction: column;
     right: 2rem;
     top: .7rem;
 }
+.count{
+    position: relative;
+    right: 0rem;
+    top: 0rem;
+}
 @media(max-width:45rem) {
     .container_NavigationBar{
         position: absolute;

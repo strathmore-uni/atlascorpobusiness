@@ -30,12 +30,30 @@ function App() {
           item.id === productdetailss.id ? { ...ProductExistDetail } : item
         )
       );
-
     } else {
       setproductdetails([{ ...productdetailss }]);
     }
   };
-  console.log(productdetails)
+
+  const handleRemoveProduct = (product) => {
+    const ProductExist = cartItems.find((item) => item.id === product.id);
+
+    if (ProductExist.quantity === 1) {
+      setCartItems(cartItems.filter((item) => item.id !== product.id));
+    } else {
+      setCartItems(
+        cartItems.map((item) =>
+          item.id === product.id
+            ? { ...ProductExist, quantity: ProductExist.quantity - 1 }
+            : item
+        )
+      );
+    }
+  };
+
+  const handleCartClearance = () => {
+    setCartItems([]);
+  };
 
   const handleAddProduct = (product) => {
     const ProductExist = cartItems.find((item) => item.id === product.id);
@@ -58,8 +76,8 @@ function App() {
       <BrowserRouter>
         <main>
           <Routes>
-            <Route path="/" element={<Mainpage />} />
-            <Route path="" element={<NavigationBar />} />
+            <Route path="/" element={<Mainpage    cartItems={cartItems} />} />
+            <Route path="" element={<NavigationBar   cartItems={cartItems} />} />
             <Route path="" element={<Categories />} />
             <Route
               path="/Shop"
@@ -68,6 +86,7 @@ function App() {
                   fulldatas={fulldatas}
                   handleAddProduct={handleAddProduct}
                   handleAddProductDetails={handleAddProductDetails}
+                  cartItems={cartItems}
                 />
               }
             />
@@ -78,15 +97,45 @@ function App() {
                   fulldatas={fulldatas}
                   handleAddProduct={handleAddProduct}
                   handleAddProductDetails={handleAddProductDetails}
-                  
+                  cartItems={cartItems}
                 />
               }
             />
             <Route path="/Shop/Heavy" element={<Heavy />} />
             <Route path="" element={<Pagination fulldatas={fulldatas} />} />
-            <Route path="/Productdetails"  handleAddProductDetails={handleAddProductDetails} element={<Productdetails  handleAddProductDetails={handleAddProductDetails}  productdetails={productdetails} />} />
-            <Route path="" element={<Products  handleAddProductDetails={handleAddProductDetails} fulldatas={fulldatas} />} />
-            <Route path="/Cart" element={<ShoppingCartPage />} />
+            <Route
+              path="/Productdetails"
+              element={
+                <Productdetails
+                  handleAddProductDetails={handleAddProductDetails}
+                  handleAddProduct={handleAddProduct}
+                  productdetails={productdetails}
+                  cartItems={cartItems}
+                 
+                />
+              }
+            />
+            <Route
+              path=""
+              element={
+                <Products
+                  handleAddProductDetails={handleAddProductDetails}
+                  fulldatas={fulldatas}
+                  
+                />
+              }
+            />
+            <Route
+              path="/Cart"
+              element={
+                <ShoppingCartPage
+                  handleAddProduct={handleAddProduct}
+                  cartItems={cartItems}
+                  handleRemoveProduct={handleRemoveProduct}
+                  handleCartClearance={handleCartClearance}
+                />
+              }
+            />
           </Routes>
         </main>
       </BrowserRouter>
