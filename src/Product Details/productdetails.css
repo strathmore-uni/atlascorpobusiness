@@ -15,7 +15,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+ 
+  flex-grow: 1;
   
+}
+.product_details{
+  position: absolute;
+
+  top: 0rem;
+  left: 0rem;
 }
 .productdetails_title {
   position: absolute;
@@ -27,14 +35,15 @@
 }
 .producttitleabout{
     position: absolute;
-    top: 7rem;
+    top: 9rem;
     left: 0rem;
     font-family: "Source Sans Pro", helvetica, arial, sans-serif;
+    color: #0078a1;
 }
 .productdetails_about{
 position: absolute;
 
-top: 9rem;
+top: 13rem;
 left: 0rem;
 
 }
@@ -49,7 +58,7 @@ left: 0rem;
     position: relative;
     top: 18rem;
     left: 0rem;
-
+  
 
 
 }
@@ -58,13 +67,26 @@ left: 0rem;
     top: 16rem;
     width: 70%;
 }
+.productdetails_specifications{
+  position: relative;
+  top: 18rem;
+  width: 70%;
+  background-color: rgb(214, 210, 210);
+  height: 20rem;
+  font-size: 1.3rem;
+
+}
+.productdetails_specifications h2{
+  color: #0078a1;
+  font-size: 2rem;
+}
 .productdetails_benefits h2{
     color: #0078a1;
     font-size: 2rem;
 }
 .productdetails_routes{
   position: relative;
-  top: 4.5rem;
+  top: 0rem;
   left: 0rem;
   display: flex;
   flex-direction: row;
@@ -75,6 +97,10 @@ left: 0rem;
   position: relative;
   top: 40rem;
 }
-
+tbody{
+  position: absolute;
+  width: 100%; 
+ 
+}
 
 

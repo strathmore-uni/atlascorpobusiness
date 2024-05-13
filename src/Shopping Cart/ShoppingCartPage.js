@@ -37,7 +37,7 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
                   -
                 </button>
           </div>
-          <p>{item.id}</p>
+          <p className='p_serialnumber' >Serial Number:&nbsp;{item.id}</p>
              <p style={{fontWeight:'bold'}}> {item.title}</p>
              <p className='cart_itemprice' >USD{item.price}</p>
           <hr className='hr_incartdisplay' />

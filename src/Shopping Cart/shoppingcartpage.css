@@ -44,9 +44,13 @@ left: 1rem;
 .btngroup_cart{
     position: absolute;
     display: flex;
-    top: 4rem;
-  
+    top: 7rem;
+
     flex-direction: row;
+    width: 6rem;
+    height: 2rem;
+  
+
 
 }
 .btngroup_cart button{
@@ -97,4 +101,10 @@ left: 1rem;
    display: flex;
    width: 95%;
    bottom: 0;
+}
+.p_serialnumber{
+    position: absolute;
+    left: 0rem;
+    top: 2rem;
+    font-size: .8rem;
 }
