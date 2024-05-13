@@ -5,7 +5,7 @@ import Categories from '../Categories';
 import './big.css';
 import { Link } from 'react-router-dom';
 
-export default function Big({ fulldatas,handleAddProductDetails,cartItems }) {
+export default function Big({ fulldatas,handleAddProductDetails,cartItems,oilfree }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState('grid');
 
@@ -15,6 +15,26 @@ export default function Big({ fulldatas,handleAddProductDetails,cartItems }) {
 
   return (
     <div className='big_container' key={1}>
+           <div className='shop_routes' >
+ <a href="./" style={{ color: "#0078a1", textDecoration: "none" }}>
+                {" "}
+                Home &nbsp;/
+              </a>
+              <a
+              href='/Shop'
+                style={{ color: "#0078a1", textDecoration: "none" }}
+             
+              >
+                &nbsp;Shop &nbsp;/
+              </a>
+              <p
+                style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "7rem", top: "-1rem" }}
+             
+              >
+                &nbsp;Big &nbsp;
+              </p>
+        </div>
+     
      
 <div className='productdisplay_container' >
 
@@ -52,7 +72,7 @@ export default function Big({ fulldatas,handleAddProductDetails,cartItems }) {
 
      
       
-   <Categories />
+   <Categories fulldatas={fulldatas} oilfree={oilfree}  />
   
       <NavigationBar cartItems={cartItems} />
    

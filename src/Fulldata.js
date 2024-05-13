@@ -1,3 +1,5 @@
+
+
 const fulldata = [
   {
     id: 1100,
@@ -46,6 +48,7 @@ const fulldata = [
 
 
     price: 2500,
+    Category:'Oil-free Compressors',
   },
   {
     id: 1200,
@@ -93,6 +96,7 @@ const fulldata = [
     ],
 
     price: 2500,
+    Category:'Oil-free Compressors',
   },
   {
     id: 1300,

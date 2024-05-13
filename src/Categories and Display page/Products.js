@@ -27,7 +27,7 @@ export default function Products({ fulldatas }) {
 </div>
        {fulldatas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
          <div key={index} className="single_product">
-           <img src={product.image} alt='' className='myimages' />
+           <p>{product.title}</p>
          </div>
        ))}
            <ReactPaginate

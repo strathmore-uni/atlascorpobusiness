@@ -4,8 +4,7 @@
     
     width: 100%;  
     flex-grow: 1;
-    background-color: brown;
-    
+   
   
     
 }
@@ -22,5 +21,14 @@
     left: 20rem;
    
     display: flex;
+    flex-direction: row;
     flex-grow: 1;
+}
+.shop_routes{
+    position: absolute;
+    
+    width: 10rem;
+    top: 6rem;
+    left: 20rem;
+ 
 }

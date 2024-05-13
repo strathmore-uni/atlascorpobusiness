@@ -5,13 +5,13 @@ import './big.css'
 
 
 
-export default function Heavy() {
+export default function Heavy({fulldatas}) {
   return (
     <div  className='big_container' >
 
    
         
-        <Categories />
+        <Categories fulldatas={fulldatas} />
         <NavigationBar cartItems />
     </div>
   )

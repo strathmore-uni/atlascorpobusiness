@@ -2,35 +2,36 @@
   position: absolute;
   top: 0rem;
   width: 100%;
-
+background-color: #007bff;
   flex-grow: 1;
 }
 
 .productdisplay_container {
-  position: relative;
-  display: block;
+  position: absolute;
+  display: flex;
   border-radius: 6px;
   top: 8rem;
   left: 20rem;
   width: 70%;
- 
-  
+
+align-items: center;
+  justify-content: center;
  flex-grow: 1;
-  overflow: hidden;
+
   transition: width 0.5s ease;
+  height:auto;
   
 }
 
 .single_product {
   position: relative;
-  top: 2rem;
-  
-  display: flex;
+  top: 1rem;
+ 
 left: 1rem;
 width: 50%;
 
-  height: 200px;
-  padding: 30px;
+ 
+  padding: 20px;
 }
 .single_product:hover {
   box-shadow: 0px 0px 4px 0px;
@@ -40,15 +41,17 @@ width: 50%;
 }
 
 .pagination {
+  position: absolute;
+
   display: flex;
   flex-grow: 1;
   justify-content: space-between;
   align-items: center;
   left: 10rem;
   border-radius: 5px;
-  position: absolute;
+  position: relative;
   width: 30rem;
-  bottom: -1rem;
+  bottom: 0rem;
   list-style-type: none;
 }
 

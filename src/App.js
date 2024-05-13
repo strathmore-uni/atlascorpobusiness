@@ -11,11 +11,13 @@ import Productdetails from "./Product Details/Productdetails";
 import fulldata from "./Fulldata";
 import Products from "./Categories and Display page/Products";
 import ShoppingCartPage from "./Shopping Cart/ShoppingCartPage";
+import OilFreeCompressor from "./Categories and Display page/Categories Pages/OilFreeCompressor";
 
 function App() {
   const fulldatas = fulldata;
 
   const [cartItems, setCartItems] = useState([]);
+  const oilfreedata = fulldatas ? fulldatas.filter((Category) => Category.Category === 'Oil-free Compressors') : [];
 
   const [productdetails, setproductdetails] = useState([]);
 
@@ -57,7 +59,7 @@ function App() {
 
   const handleAddProduct = (product) => {
     const ProductExist = cartItems.find((item) => item.id === product.id);
-  
+
     if (ProductExist) {
       setCartItems(
         cartItems.map((item) =>
@@ -70,15 +72,25 @@ function App() {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
     }
   };
- 
+
   return (
     <>
       <BrowserRouter>
         <main>
           <Routes>
-            <Route path="/" element={<Mainpage    cartItems={cartItems} />} />
-            <Route path="" element={<NavigationBar   cartItems={cartItems} />} />
-            <Route path="" element={<Categories />} />
+            <Route path="/" element={<Mainpage cartItems={cartItems} />} />
+            <Route path="" element={<NavigationBar cartItems={cartItems} />} />
+            <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
+            <Route
+              path="/Shop/Big/Oilfreecompressor"
+              element={
+                <OilFreeCompressor
+                  fulldatas={fulldatas}
+                  oilfreedata={oilfreedata}
+             
+                />
+              }
+            />
             <Route
               path="/Shop"
               element={
@@ -87,6 +99,7 @@ function App() {
                   handleAddProduct={handleAddProduct}
                   handleAddProductDetails={handleAddProductDetails}
                   cartItems={cartItems}
+                  oilfreedata={oilfreedata}
                 />
               }
             />
@@ -98,11 +111,12 @@ function App() {
                   handleAddProduct={handleAddProduct}
                   handleAddProductDetails={handleAddProductDetails}
                   cartItems={cartItems}
+                  oilfreedata={oilfreedata}
                 />
               }
             />
             <Route path="/Shop/Heavy" element={<Heavy />} />
-          
+
             <Route
               path="/Productdetails"
               element={
@@ -111,7 +125,6 @@ function App() {
                   handleAddProduct={handleAddProduct}
                   productdetails={productdetails}
                   cartItems={cartItems}
-                 
                 />
               }
             />
@@ -121,7 +134,6 @@ function App() {
                 <Products
                   handleAddProductDetails={handleAddProductDetails}
                   fulldatas={fulldatas}
-                  
                 />
               }
             />
