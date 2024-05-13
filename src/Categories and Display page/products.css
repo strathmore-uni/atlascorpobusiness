@@ -1,17 +1,25 @@
-.products_container{
+.products_container {
     position: absolute;
     top: 0rem;
-    
     left: 0rem;
-    height: 50rem;
     width: 100%;
-    
-   
+
+    flex-grow: 1;
 }
-.products_container .productdisplay_container{
-    position: relative;
-    background-color: aqua;
-    top: 0;
-    left: 0;
-    width: 100%;
+
+.productdisplay_container {
+  position: absolute;
+  display: flex;
+  border-radius: 6px;
+  top: 0rem;
+  height: 10rem;
+  left: 15rem;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+
+  transition: width 0.5s ease;
+  height: auto;
 }

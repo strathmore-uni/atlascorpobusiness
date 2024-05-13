@@ -1,6 +1,6 @@
 import React, {useState}from "react";
 import "./products.css";
-import './Categories Pages/big.css';
+
 import ReactPaginate from "react-paginate";
 
 
@@ -14,11 +14,7 @@ export default function Products({ fulldatas }) {
   const pageCount = Math.ceil(fulldatas.length / itemsPerPage);
   return (
     <div className="products_container">
-      <div className="" >
-
-
-      </div>
-   <div className='productdisplay_container' >
+      
 
 <div className={`productdisplay_container ${layoutMode}`}>
      <div className='btn_group' >
@@ -45,6 +41,6 @@ export default function Products({ fulldatas }) {
      </div>
      </div>
     
-    </div>
+    
   );
 }

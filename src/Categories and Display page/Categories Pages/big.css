@@ -2,7 +2,7 @@
   position: absolute;
   top: 0rem;
   width: 100%;
-background-color: #007bff;
+  background-color: #007bff;
   flex-grow: 1;
 }
 
@@ -13,24 +13,20 @@ background-color: #007bff;
   top: 8rem;
   left: 20rem;
   width: 70%;
-
-align-items: center;
+  align-items: center;
   justify-content: center;
- flex-grow: 1;
-
+  flex-grow: 1;
   transition: width 0.5s ease;
-  height:auto;
-  
+  height: auto;
 }
 
 .single_product {
   position: relative;
   top: 1rem;
- 
-left: 1rem;
-width: 50%;
 
- 
+  left: 1rem;
+  width: 50%;
+
   padding: 20px;
 }
 .single_product:hover {
@@ -80,12 +76,10 @@ width: 50%;
 .grid-layout {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  
 }
 
 .normal-layout {
   display: block;
-  
 }
 
 .grid-item {
