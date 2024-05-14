@@ -40,11 +40,11 @@ export default function NavigationBar({cartItems=[]}) {
 <hr className="nav_hr_line" />
       <div
         className="products_li"
-      
+        onMouseEnter={toggleCategoriesAppear}
+        onMouseLeave={toggleCategoriesAppear}
       >
     
-          <small className="p_product"   onMouseEnter={toggleCategoriesAppear}
-        onMouseLeave={toggleCategoriesAppear} >Filters</small>{" "}
+          <small className="p_product">Filters</small>{" "}
        
 
        
@@ -63,9 +63,6 @@ export default function NavigationBar({cartItems=[]}) {
             <li>HEAVY</li>
           </div>
         )}
-         <small className="p_compressor"  onMouseEnter={toggleCategoriesAppear}
-        onMouseLeave={toggleCategoriesAppear} >Products <IoIosArrowDown className="arrow_down_li" />   </small>
-
         
       </div>
 
