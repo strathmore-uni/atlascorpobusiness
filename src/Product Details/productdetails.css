@@ -3,7 +3,7 @@
   width: 100%;
   display: flex;
   flex-grow: 1;
-  height: 200%;
+  height: 100%;
   
 }
 .productview_container {
@@ -22,6 +22,7 @@
 .product_details{
   position: absolute;
 
+width: 100%;
   top: 0rem;
   left: 0rem;
 }
@@ -29,35 +30,91 @@
   position: absolute;
   top: 0rem;
   left: 0rem;
-  font-size: 3rem;
+  width: 20rem;
+  font-size: 2rem;
   color: #0078a1;
   font-family: "Source Sans Pro", helvetica, arial, sans-serif;
 }
 .producttitleabout{
     position: absolute;
-    top: 9rem;
+    top: 12rem;
     left: 0rem;
+    
     font-family: "Source Sans Pro", helvetica, arial, sans-serif;
     color: #0078a1;
 }
 .productdetails_about{
 position: absolute;
-
-top: 13rem;
+top: 16rem;
 left: 0rem;
 
 }
+.pdrtdetails_card{
+  position: absolute;
+
+  height: 25rem;
+  width: 20rem;
+  top: 2.4rem;
+  left: 32rem;
+ 
+}
+.noimage_div{
+  position: relative;
+
+  width: 40%;
+  height: 25rem;
+  top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 8rem;
+  color: rgb(214, 212, 212);
+}
+.productdetails_price{
+  position: absolute;
+font-size: 1.5rem;
+top: 3rem;
+
+left: 0rem;
+
+}
+.productdetails_partnumber{
+  position: absolute;
+ font-size: .8rem;
+  top: 7rem;
+  left: 0rem;
+  color: grey;
+}
+
+.addtocart_btn{ 
+  position: absolute;
+  top: 13rem;
+  left: 0rem;
+  background-color: rgb(155, 191, 231);
+  padding: .6rem;
+  width: 20rem;
+  font-size: 1rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+    
+}
+.addtocart_btn:active{
+  border: 1px solid grey;
+}
+
 .product_details h3{
     position: absolute;
-    top: 11rem;
+    top: 14rem;
     left: 0rem;
 
 
 }
 .product_details .about_specifications{
     position: relative;
-    top: 18rem;
+    top: 20rem;
     left: 0rem;
+    background-color: aqua;
   
 
 

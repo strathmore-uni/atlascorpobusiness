@@ -4,7 +4,7 @@ import Mainpage from "./MainOpeningpage/Mainpage";
 import NavigationBar from "./General Components/NavigationBar";
 import Categories from "./Categories and Display page/Categories";
 import Shop from "./Categories and Display page/Shop";
-import Big from "./Categories and Display page/Categories Pages/Big";
+
 import Heavy from "./Categories and Display page/Categories Pages/Heavy";
 
 import Productdetails from "./Product Details/Productdetails";
@@ -12,6 +12,7 @@ import fulldata from "./Fulldata";
 import Products from "./Categories and Display page/Products";
 import ShoppingCartPage from "./Shopping Cart/ShoppingCartPage";
 import OilFreeCompressor from "./Categories and Display page/Categories Pages/OilFreeCompressor";
+import FilterElement from "./Categories and Display page/Categories Pages/FilterElement";
 
 function App() {
   const fulldatas = fulldata;
@@ -104,9 +105,9 @@ function App() {
               }
             />
             <Route
-              path="/Shop/Big"
+              path="/Shop/Filterelement"
               element={
-                <Big
+                <FilterElement
                   fulldatas={fulldatas}
                   handleAddProduct={handleAddProduct}
                   handleAddProductDetails={handleAddProductDetails}

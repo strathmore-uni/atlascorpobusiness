@@ -1,7 +1,8 @@
 import React from "react";
 import NavigationBar from "../General Components/NavigationBar";
 import "./productdetails.css";
-
+import { GrCart } from "react-icons/gr";
+import { LuCameraOff } from "react-icons/lu";
 export default function ProductDetails({
   productdetails,
   handleAddProduct,
@@ -33,13 +34,22 @@ export default function ProductDetails({
                 {product.title}
               </p>
             </div>
-            <h2 className="productdetails_title">{product.title}</h2>
-            <h2 className="producttitleabout"> About {product.title}</h2>
-            <p className="productdetails_about">{product.about}</p>
+            <div className="noimage_div" ><LuCameraOff  /></div>
+            <div className="pdrtdetails_card">
+                          <h2 className="productdetails_title">{product.title}</h2>
+         
+           <strong><p className="productdetails_price" > USD {product.price}  </p></strong> 
+           <p className="productdetails_partnumber" >Part Number: {product.partnumber}</p>
+           <button className="addtocart_btn"    onClick={() => handleAddProduct(product)}><GrCart /> Add to cart</button>
+              </div>
+
+  {/**        
+   *    <h2 className="producttitleabout"> About {product.title}</h2>
+            <p className="productdetails_about">{product.about}</p> 
             <h3>
               <strong>Choose the right model to suit your needs:</strong>
             </h3>
-
+ 
             <div className="about_specifications">
               {product.features.map((spec) => (
                 <p key={spec.name}>
@@ -109,13 +119,8 @@ export default function ProductDetails({
 
 
 
-            </div>
-            <button
-              className="btn_addtocart"
-              onClick={() => handleAddProduct(product)}
-            >
-              Add to cart
-            </button>
+            </div>*/}
+         
           </div>
         ))}
       </div>

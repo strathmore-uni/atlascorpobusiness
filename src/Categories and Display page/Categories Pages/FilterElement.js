@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import NavigationBar from '../../General Components/NavigationBar';
 import Categories from '../Categories';
-import './big.css';
+import './filterelement.css';
 import { Link } from 'react-router-dom';
+import { LuCameraOff } from "react-icons/lu";
 
-export default function Big({ fulldatas,handleAddProductDetails,cartItems,oilfree }) {
+export default function   FilterElement({ fulldatas,handleAddProductDetails,cartItems,oilfree }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState('grid');
 
@@ -46,13 +47,16 @@ export default function Big({ fulldatas,handleAddProductDetails,cartItems,oilfre
 
         {fulldatas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
           
-          <Link key={product.id} style={{textDecoration:'none',color:'black'}}
+          <Link key={product.id}  className='mylink' 
           // Moving to the product page
           to={`/Productdetails?name=${product.title}?id=${product.id}`} onClick={() => handleAddProductDetails(product)} > 
-          <div key={index} className="single_product">
-       
-            <p style={{fontSize:'1.4rem'}} >{product.title}   </p>
-          </div></Link>
+         
+            <p className='cameraoff_icon'  ><LuCameraOff /></p>
+            <p className='prdt_partnumber'> {product.partnumber}</p>
+            <p  className='prdt_title'  >{product.title}   </p>
+            <p  className='prdt_category'  >{product.category}   </p>
+            <p  className='prdt_price'  >USD {product.price}   </p>
+       </Link>
         ))}
             <ReactPaginate
         previousLabel={'Previous'}

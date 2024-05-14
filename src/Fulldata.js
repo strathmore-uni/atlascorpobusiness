@@ -3,9 +3,11 @@
 const fulldata = [
   {
     id: 1100,
+    partnumber: 3243019756,
+
     image:
       "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/44/655643/1.jpg?9866",
-    title: "LFx oil-free piston compressors",
+    title: "Filter Element",
     about: "The Atlas Copco LFx’s small and compact design offers maximum installation flexibility.",
   
     features: [
@@ -47,14 +49,16 @@ const fulldata = [
   ],
 
 
-    price: 2500,
+    price: 43.45,
     Category:'Oil-free Compressors',
+    category:'Filter' ,
   },
   {
     id: 1200,
+    partnumber: 3243019758,
     image:
       "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/44/655643/1.jpg?9866",
-    title: "G 2-7 – The superior workshop compressor",
+    title: "Filter Element",
     about: `Efficient, productive, quiet and clean – these are just some of the benefits of our G 2-7 range of oil-injected rotary screw compressors. 
     The G 2-7 models are the smallest rotary screw compressors in our portfolio – but they pack a punch in every way. They are the ideal solution for small companies, workshops and operations with an infrequent compressed air demand that are looking to expand.`   ,
   
@@ -95,14 +99,17 @@ const fulldata = [
 
     ],
 
-    price: 2500,
+    price: 44.45,
     Category:'Oil-free Compressors',
+    category:'Filter' ,
+
   },
   {
     id: 1300,
+    partnumber: 3243019760,
     image:
       "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/44/655643/1.jpg?9866",
-    title: "LFx oil-free piston compressors",
+    title: "Filter Element",
     about: "The Atlas Copco LFx’s small and compact design offers maximum installation flexibility.",
   
     features: [
@@ -125,13 +132,15 @@ const fulldata = [
 
     ],
 
-    price: 2500,
+    price: 40.42,
+    category:'Filter' ,
   },
   {
     id: 3,
+    partnumber: 3243019762,
     image:
       "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/44/655643/1.jpg?9866",
-    title: "LFx oil-free piston compressors",
+    title: "Filter Element",
     about: "The Atlas Copco LFx’s small and compact design offers maximum installation flexibility.",
   
     features: [
@@ -154,13 +163,15 @@ const fulldata = [
 
     ],
 
-    price: 2500,
+    price: 35.52,
+    category:'Filter' ,
   },
   {
     id: 4,
+    partnumber: 3243019764,
     image:
       "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/44/655643/1.jpg?9866",
-    title: "LFx oil-free piston compressors",
+    title: "Filter Element",
     about: "The Atlas Copco LFx’s small and compact design offers maximum installation flexibility.",
   
     features: [
@@ -183,7 +194,8 @@ const fulldata = [
 
     ],
 
-    price: 2500,
+    price: 253.07,
+    category:'Filter' ,
   },
   {
     id: 0,
@@ -213,6 +225,7 @@ const fulldata = [
     ],
 
     price: 2500,
+    category:'Filter' ,
   },
   {
     id: 0,
@@ -242,6 +255,7 @@ const fulldata = [
     ],
 
     price: 2500,
+    category:'Filter' ,
   },
   {
     id: 0,
@@ -271,6 +285,7 @@ const fulldata = [
     ],
 
     price: 2500,
+    category:'Filter' ,
   },
   {
     id: 0,

@@ -14,7 +14,7 @@ export default function Categories({ fulldatas}) {
     <div className="Categories_container">
       <div className="listedproducts_categories">
         <Link
-          to="/Shop/Big"
+          to="/Shop/Filterelement"
           style={{ textDecoration: "none", color: "black" }}
           onClick={() => setCompressorDropdown(!compressorDropdown)}
         >

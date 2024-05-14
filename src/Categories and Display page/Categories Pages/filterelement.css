@@ -1,0 +1,150 @@
+.big_container {
+  position: absolute;
+  top: 0rem;
+  width: 100%;
+
+  flex-grow: 1;
+}
+
+.productdisplay_container {
+  position: absolute;
+ 
+  border-radius: 6px;
+  top: 8rem;
+  left: 0rem;
+
+  width: 100%;
+  
+  flex-grow: 1;
+  transition: width 0.5s ease;
+  
+}
+
+
+
+.pagination {
+  position: absolute;
+
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  left: 10rem;
+  border-radius: 5px;
+  position: relative;
+  width: 30rem;
+  bottom: 0rem;
+  list-style-type: none;
+}
+
+.pagination a {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: #ddd;
+}
+
+.pagination .active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.pagination .disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.sub_productdisplay_container {
+  position: relative;
+  display: grid;
+  flex-direction: column;
+  width: 70%;
+  top: 0rem;
+  left: 10rem;
+
+ 
+  grid-template-columns: repeat(3, 290px);
+  grid-gap:8px;
+
+}
+
+.sub_productdisplay_container.normal {
+  display: block;
+}
+
+.btn_group {
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  height: 1rem;
+}
+
+.cameraoff_icon {
+  position: relative;
+  display: flex;
+
+  top: 3rem;
+justify-content: center;
+align-items: center;
+  font-size: 3.5rem;
+  color: grey;
+}
+.prdt_title{
+  position: relative;
+  font-size: 1.4rem;
+  left: 1rem;
+  font-weight: 600;
+
+}
+.prdt_partnumber{
+  position: relative;
+  top: 1.5rem;
+  left: 1rem;
+  font-size: .8rem;
+  font-weight: 600;
+  color: grey;
+}
+.prdt_price{
+  position: relative;
+  top: -1rem;
+  left: 1rem;
+font-size: 1.2rem;
+  font-weight: 600;
+
+}
+.prdt_category{
+  position: relative;
+  top: -1rem;
+  left: 1rem;
+  font-size: .8rem;
+  font-weight: 600;
+  color: grey;
+
+
+  
+}
+
+.mylink {
+  position: relative;
+border: 1px solid grey ;
+border-radius: 6px;
+top: 2rem;
+  left: 1rem;
+  width: 15rem;
+  height: 20rem;
+  color: black;
+  text-decoration: none;
+
+
+
+  
+}
+.mylink:hover{
+  box-shadow: 0px 0px 2px 0px;
+}

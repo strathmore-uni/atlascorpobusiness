@@ -48,7 +48,7 @@ export default function NavigationBar({cartItems=[]}) {
         {categoriesappear && (
           <div className="listedproducts">
           
-            <Link to='/Shop/Big' style={{ textDecoration: "none", color: "black" }}><li>Compressors</li></Link> 
+            <Link to='/Shop/Filterelement' style={{ textDecoration: "none", color: "black" }}><li>Compressors</li></Link> 
             <Link to='/Shop/Heavy'style={{ textDecoration: "none", color: "black" }} ><li>HEAVY</li></Link> 
             <li>BIG</li>
             <li>HEAVY</li>
