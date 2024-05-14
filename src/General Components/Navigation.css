@@ -1,9 +1,8 @@
 .container_NavigationBar{
     position: fixed;
     width: 100%;
-    height: 5rem;
+    height: 10rem;
     top: 0rem;
-
 
     justify-items: center;
 }
@@ -16,18 +15,19 @@
 .products_li{
     position: absolute;
     font-weight: 500;
-    top: 1rem;
+    top: 7rem;
     left: 25rem;
     width: 6rem;
     height: 2.5rem;
     justify-content: center;
     display: flex;
+    font-size: 1.1rem;
 
 }
 .arrow_down_li{
     position: relative;
     left:.5rem ;
-    top: 1.3rem;
+    top: 0rem;
 
 }
 .products_li p{
@@ -36,6 +36,12 @@
 .products_li p:hover  {
     opacity: .6;
 
+}
+.p_compressor{
+    position: absolute;
+    left: 17rem;
+   
+    width: 5rem;
 }
 
 .listedproducts{
@@ -76,19 +82,33 @@ flex-direction: column;
     position: absolute;
     top: 0rem;
 }
-.logo{
+.title_h3{
     position: absolute;
     top: .1rem;
     left: .4rem;
-    max-height: 80%;
-    min-width: 8%;
+   color: black;
 
+}
+.search_input{
+    position: absolute;
+    width: 30rem;
+    top: 1rem;
+    left: 20rem;
+    height: 3rem;
+border: thin 1px black; 
+    color: grey;
 }
 .search_icon_navigation{
     position: absolute;
-    right: 4rem;
+    right: 27rem;
     top: 2rem;
     font-size: 1.2rem;
+}
+.nav_hr_line{
+    position: relative;
+    top: 5rem;
+    
+   border-style: ridge;
 }
 .p_cart{
     position: absolute;

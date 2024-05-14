@@ -33,18 +33,25 @@ export default function NavigationBar({cartItems=[]}) {
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
       <Link to="/">
-        <img src="/logo2.0.jpg" alt="Atlas Copco" className="logo" />
+      <h3 className="title_h3" >Atlas Copco - Kenya Web Shop</h3>
       </Link>
+<input  type="text"  placeholder="Search for Part Numbers or Serial Numbers"  className="search_input" />
 
+<hr className="nav_hr_line" />
       <div
         className="products_li"
-        onMouseEnter={toggleCategoriesAppear}
-        onMouseLeave={toggleCategoriesAppear}
+      
       >
-        <Link to="/Shop" style={{ textDecoration: "none", color: "black" }}>
-          <p className="p_product">Products</p>{" "}
-        </Link>
+    
+          <small className="p_product"   onMouseEnter={toggleCategoriesAppear}
+        onMouseLeave={toggleCategoriesAppear} >Filters</small>{" "}
+       
+
+       
         <IoIosArrowDown className="arrow_down_li" />
+
+      
+      
         {categoriesappear && (
           <div className="listedproducts">
           
@@ -56,8 +63,12 @@ export default function NavigationBar({cartItems=[]}) {
             <li>HEAVY</li>
           </div>
         )}
+         <small className="p_compressor"  onMouseEnter={toggleCategoriesAppear}
+        onMouseLeave={toggleCategoriesAppear} >Products <IoIosArrowDown className="arrow_down_li" />   </small>
+
+        
       </div>
-      <p className="p_navigation_contacts">Contact Us</p>
+
 
      <Link to='/Cart' style={{textDecoration:'none',color:'black'}} ><p className="p_cart" > <GrCart />  </p></Link> 
      <span className="count">
