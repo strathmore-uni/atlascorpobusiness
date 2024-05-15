@@ -65,6 +65,8 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
         <p>Order Summary</p>
         <p className='p_carttotal' >Subtotal:</p>
 <small className='cart_totalitemsprice' >${totalPrice}</small>
+<p>Shipping:</p>
+<p>VAT:</p>
 
 <Link to='/Checkout' ><button className='checkout_btn' >Go to Checkout</button></Link>
       </div>

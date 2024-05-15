@@ -14,6 +14,7 @@ import ShoppingCartPage from "./Shopping Cart/ShoppingCartPage";
 import OilFreeCompressor from "./Categories and Display page/Categories Pages/OilFreeCompressor";
 import FilterElement from "./Categories and Display page/Categories Pages/FilterElement";
 import Checkout from "./Shopping Cart/Checkout";
+import Delivery from "./Shopping Cart/Delivery";
 
 
 function App() {
@@ -89,7 +90,7 @@ function App() {
             <Route path="/" element={<Mainpage cartItems={cartItems} />} />
             <Route path="" element={<NavigationBar cartItems={cartItems} />} />
             <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
-           
+           <Route  path="" element={<Delivery  />} />
 
            <Route  path="/Checkout"  element={<Checkout  totalPrice={totalPrice} />} />
             <Route
