@@ -25,26 +25,29 @@ left: 1rem;
 
 
 }
-.cart_empty{
-    position: relative;
-    background-color: aqua;
-    top: 10rem;
-    left: 10rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.net_cart_itemprice{
+    position: absolute;
+    top: 1.5rem;
+    left:24rem;
+    font-size: .9rem;
 
 }
+
 .cart_itemprice{
     position: absolute;
-    top: 0rem;
+    top: 1.5rem;
     right:2rem;
     
+}
+.lucameraoff_cart{
+    position: relative;
+    font-size: 2.5rem;
 }
 .btngroup_cart{
     position: absolute;
     display: flex;
-    top: 7rem;
+    top: 2rem;
+    left: 35rem;
 
     flex-direction: row;
     width: 6rem;
@@ -55,11 +58,16 @@ left: 1rem;
 }
 .btngroup_cart button{
     position: relative;
-    height:1.5rem ;
+    height:2rem ;
+    width: 2rem;
+    border: 1px solid #0078a1;
+    background-color: white;
+    cursor: pointer;
   
 
 
 }
+
 .increase-item{
     position: relative;
     left: 0rem;
@@ -67,6 +75,9 @@ left: 1rem;
 .decrease-item{
     position: relative;
     left: 2rem;
+}
+.cart_empty{
+    position: absolute;
 }
 
 
@@ -92,7 +103,9 @@ left: 1rem;
 }
 .hr_shoppingcartpage{
     position: relative;
-    top: 0rem;
+    top: 2rem;
+    
+  border-style: ridge;
   
     
 }
@@ -101,10 +114,11 @@ left: 1rem;
    display: flex;
    width: 95%;
    bottom: 0;
+   border-style: ridge;
 }
 .p_serialnumber{
     position: absolute;
-    left: 0rem;
+    left: 4rem;
     top: 2rem;
     font-size: .8rem;
 }
@@ -121,4 +135,37 @@ left: 1rem;
     position: relative;
     left:1rem;
     font-weight: 500;
+}
+.checkout_btn{
+    position: absolute;
+    bottom: 1rem;
+   height: 3rem;
+    width: 15rem;
+    display: flex;
+    left: 2rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #43b02a;
+    border: none;
+    color: white;
+}
+.checkout_btn:hover{
+    background-color: grey;
+}
+.cart_removeitem{
+    position: absolute;
+    bottom: 0rem;
+    right: 2rem;
+    cursor: pointer;
+    width: 5rem;
+    font-size: .9rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    color: red;
+    align-items: center;
+}
+.cart_removeitem:hover{
+    opacity: .8;
+
 }

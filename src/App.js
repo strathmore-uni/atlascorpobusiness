@@ -13,7 +13,8 @@ import Products from "./Categories and Display page/Products";
 import ShoppingCartPage from "./Shopping Cart/ShoppingCartPage";
 import OilFreeCompressor from "./Categories and Display page/Categories Pages/OilFreeCompressor";
 import FilterElement from "./Categories and Display page/Categories Pages/FilterElement";
-import CategoriesHovered from "./General Components/CategoriesHovered";
+import Checkout from "./Shopping Cart/Checkout";
+
 
 function App() {
   const fulldatas = fulldata;
@@ -22,6 +23,11 @@ function App() {
   const oilfreedata = fulldatas ? fulldatas.filter((Category) => Category.Category === 'Oil-free Compressors') : [];
 
   const [productdetails, setproductdetails] = useState([]);
+
+  const totalPrice = cartItems.reduce(
+    (price, item) => price + item.quantity * item.price,
+    0
+  );
 
   const handleAddProductDetails = (productdetailss) => {
     const ProductExistDetail = productdetails.find(
@@ -83,7 +89,9 @@ function App() {
             <Route path="/" element={<Mainpage cartItems={cartItems} />} />
             <Route path="" element={<NavigationBar cartItems={cartItems} />} />
             <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
-            <Route  path="" element={<CategoriesHovered  />} />
+           
+
+           <Route  path="/Checkout"  element={<Checkout  totalPrice={totalPrice} />} />
             <Route
               path="/Shop/Big/Oilfreecompressor"
               element={
@@ -148,6 +156,7 @@ function App() {
                   cartItems={cartItems}
                   handleRemoveProduct={handleRemoveProduct}
                   handleCartClearance={handleCartClearance}
+                  totalPrice={totalPrice}
                 />
               }
             />

@@ -74,8 +74,12 @@
 
 }
 
-.sub_productdisplay_container.normal {
-  display: block;
+.sub_productdisplay_container.normal  {
+  display: flex;
+  position: relative;
+  
+
+  
 }
 
 .btn_group {

@@ -1,0 +1,35 @@
+.checkout_container{
+    position: absolute;
+    
+    width: 100%;
+    
+}
+  h4{
+    position: absolute;
+    left: 2rem;
+    top: 3rem;
+    font-size: 2rem;
+    
+}
+
+form{
+    position: absolute;
+    
+    top: 10rem;
+    left: 2rem;
+    width: 50rem;
+    height: 25rem;
+
+}
+label{
+    position: relative;
+    font-size: .8rem;
+}
+.inputs{
+    position: absolute;
+    display: flex;
+    padding: .8rem;
+    width: 70%;
+    margin-top: 10px;
+
+}

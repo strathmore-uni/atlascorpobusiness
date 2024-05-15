@@ -5,7 +5,7 @@ import Categories from '../Categories';
 import './filterelement.css';
 import { Link } from 'react-router-dom';
 import { LuCameraOff } from "react-icons/lu";
-import CategoriesHovered from '../../General Components/CategoriesHovered';
+
 
 export default function   FilterElement({ fulldatas,handleAddProductDetails,cartItems,oilfree,toggleCategoriesAppear }) {
   const [pageNumber, setPageNumber] = useState(0);
@@ -76,7 +76,7 @@ export default function   FilterElement({ fulldatas,handleAddProductDetails,cart
      
 
      
-      <CategoriesHovered  />
+    
    <Categories fulldatas={fulldatas} oilfree={oilfree}  />
   
       <NavigationBar cartItems={cartItems} />
