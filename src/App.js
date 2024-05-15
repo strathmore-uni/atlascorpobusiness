@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Mainpage from "./MainOpeningpage/Mainpage";
 import NavigationBar from "./General Components/NavigationBar";
@@ -15,9 +15,25 @@ import OilFreeCompressor from "./Categories and Display page/Categories Pages/Oi
 import FilterElement from "./Categories and Display page/Categories Pages/FilterElement";
 import Checkout from "./Shopping Cart/Checkout";
 import Delivery from "./Shopping Cart/Delivery";
-
+import MyComponent from "./Db/MyComponent";
+import axios from 'axios';
 
 function App() {
+
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/api/data')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+   const datas=data;
   const fulldatas = fulldata;
 
   const [cartItems, setCartItems] = useState([]);
@@ -26,7 +42,7 @@ function App() {
   const [productdetails, setproductdetails] = useState([]);
 
   const totalPrice = cartItems.reduce(
-    (price, item) => price + item.quantity * item.price,
+    (Price, item) => Price + item.quantity * item.Price,
     0
   );
 
@@ -91,7 +107,8 @@ function App() {
             <Route path="" element={<NavigationBar cartItems={cartItems} />} />
             <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
            <Route  path="" element={<Delivery  />} />
-
+           
+<Route  path="mycomponent" element={<MyComponent />} />
            <Route  path="/Checkout"  element={<Checkout  totalPrice={totalPrice} />} />
             <Route
               path="/Shop/Big/Oilfreecompressor"
@@ -124,6 +141,7 @@ function App() {
                   handleAddProductDetails={handleAddProductDetails}
                   cartItems={cartItems}
                   oilfreedata={oilfreedata}
+                  datas={datas}
                 />
               }
             />
@@ -137,6 +155,7 @@ function App() {
                   handleAddProduct={handleAddProduct}
                   productdetails={productdetails}
                   cartItems={cartItems}
+                  datas={datas}
                 />
               }
             />
@@ -146,6 +165,7 @@ function App() {
                 <Products
                   handleAddProductDetails={handleAddProductDetails}
                   fulldatas={fulldatas}
+                  datas={datas}
                 />
               }
             />
@@ -158,6 +178,7 @@ function App() {
                   handleRemoveProduct={handleRemoveProduct}
                   handleCartClearance={handleCartClearance}
                   totalPrice={totalPrice}
+                  datas={datas}
                 />
               }
             />

@@ -101,7 +101,8 @@ align-items: center;
 }
 .prdt_title{
   position: relative;
-  font-size: 1.4rem;
+  font-size: 1.15rem;
+  top: .2rem;
   left: 1rem;
   font-weight: 600;
 

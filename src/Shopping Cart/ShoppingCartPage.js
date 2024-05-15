@@ -5,10 +5,8 @@ import { LuCameraOff } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
+
 export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAddProduct,handleCartClearance,totalPrice}) {
-
- 
-
 
 
   return (
@@ -20,12 +18,13 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
         <small  style={{position:'absolute',top:'5rem',right:'3rem',fontWeight:'500'}}>Total</small>
         <small  style={{position:'absolute',top:'5rem',left:'25rem',fontWeight:'500'}}>Net Price</small>
         <small  style={{position:'absolute',top:'5rem',right:'13rem',fontWeight:'500'}}>Qty</small>
- {cartItems.map((item) => (
-        <div key={item.id} className='display_cart' >
-          
+           
         {cartItems.length === 0 && (
           <p className="cart_empty"> No items are added</p>
         )}
+ {cartItems.map((item) => (
+        <div key={item.id} className='display_cart' >
+       
 
         <p className='lucameraoff_cart' ><LuCameraOff /></p>
 
@@ -46,10 +45,10 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
                   -
                 </button>
           </div>
-          <p className='p_serialnumber' >Serial Number:&nbsp;{item.id}</p>
-             <p style={{fontWeight:'bold',position:'absolute',left:'4rem'}}> {item.title}</p>
-             <p className='net_cart_itemprice' >$ {item.price}</p>
-             <p className='cart_itemprice' >$ {item.price}</p>
+          <p className='p_serialnumber' >Serial Number:&nbsp;{item.partnumber}</p>
+             <p style={{fontWeight:'bold',position:'absolute',left:'4rem'}}> {item.Description}</p>
+             <p className='net_cart_itemprice' >$ {item.Price}</p>
+             <p className='cart_itemprice' >$ {item.Price}</p>
 
              <p className='cart_removeitem'  onClick={() => handleRemoveProduct(item) } > <RiDeleteBinLine /></p>
           <hr className='hr_incartdisplay' />

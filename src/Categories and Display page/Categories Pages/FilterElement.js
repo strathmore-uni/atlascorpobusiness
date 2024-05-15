@@ -6,14 +6,14 @@ import './filterelement.css';
 import { Link } from 'react-router-dom';
 import { LuCameraOff } from "react-icons/lu";
 
-
-export default function   FilterElement({ fulldatas,handleAddProductDetails,cartItems,oilfree,toggleCategoriesAppear }) {
+export default function   FilterElement({datas, fulldatas,handleAddProductDetails,cartItems,oilfree,toggleCategoriesAppear }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState('grid');
 
   const itemsPerPage = 12;
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(fulldatas.length / itemsPerPage);
+
 
   return (
     <div className='big_container' key={1}>
@@ -46,17 +46,18 @@ export default function   FilterElement({ fulldatas,handleAddProductDetails,cart
       <button onClick={() => setLayoutMode('normal')}>Normal</button>
 </div>
 
-        {fulldatas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
+        {datas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
           
           <Link key={product.id}  className='mylink' 
           // Moving to the product page
-          to={`/Productdetails?name=${product.title}?id=${product.id}`} onClick={() => handleAddProductDetails(product)} > 
+          to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`} onClick={() => handleAddProductDetails(product)} > 
          
             <p className='cameraoff_icon'  ><LuCameraOff /></p>
-            <p className='prdt_partnumber'> {product.partnumber}</p>
-            <p  className='prdt_title'  >{product.title}   </p>
+          <p className='prdt_partnumber'> {product.partnumber}</p>
+          {/** */}
+            <p  className='prdt_title'  >{product.Description}   </p>
             <p  className='prdt_category'  >{product.category}   </p>
-            <p  className='prdt_price'  >USD {product.price}   </p>
+            <p  className='prdt_price'  >USD {product.Price}   </p>
        </Link>
         ))}
             <ReactPaginate

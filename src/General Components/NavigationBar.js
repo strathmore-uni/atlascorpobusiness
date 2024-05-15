@@ -4,6 +4,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { Link} from "react-router-dom";
 import { GrCart } from "react-icons/gr";
+import axios from 'axios';
 
 export default function NavigationBar({cartItems=[]}) {
   const [compressorsappear, compressorsappearsetAppear] = useState();
@@ -34,13 +35,29 @@ export default function NavigationBar({cartItems=[]}) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/search?term=${searchQuery}`);
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error('Error searching:', error);
+    }
+
+  
+  };
+
  
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
       <Link to="/">
       <h3 className="title_h3" >Atlas Copco - Kenya Web Shop</h3>
       </Link>
-<input  type="text"  placeholder="Search for Part Numbers or Serial Numbers"  className="search_input" />
+<input  type="text"  placeholder="Search for Part Numbers or Serial Numbers"  className="search_input"   value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)} />
 
 <hr className="nav_hr_line" />
       <div
@@ -93,7 +110,13 @@ export default function NavigationBar({cartItems=[]}) {
             {cartItems.length === 0 ? "" : cartItems.length}{" "}
           </span>{" "}
 
-      <IoSearchOutline className="search_icon_navigation" />
+      <IoSearchOutline className="search_icon_navigation" onClick={handleSearch} />
+
+      <ul style={{position:"absolute",top:'10rem'}} >
+        {searchResults.map((result) => (
+          <li key={result.id}>{result.Description}</li>
+        ))}
+      </ul>
     </div>
   );
 }

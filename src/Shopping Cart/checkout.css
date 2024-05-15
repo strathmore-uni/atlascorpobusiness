@@ -13,6 +13,14 @@
     font-size: 2rem;
     
 }
+.shippingdetails{
+    position: absolute;
+    left: 2rem;
+    top: 6.5rem;
+    font-size: 1.5rem;
+    
+
+}
 
 form{
     position: absolute;

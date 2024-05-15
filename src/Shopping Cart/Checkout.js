@@ -12,6 +12,7 @@ export default function Checkout({totalPrice}) {
     <div className='checkout_container'>
         
 <h4>Checkout</h4>
+<p className='shippingdetails' >Shipping Details</p>
         <div className='' >
         <div className='order_summary' >
         <p>Order Summary</p>

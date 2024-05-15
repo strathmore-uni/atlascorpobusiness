@@ -3,15 +3,25 @@ import NavigationBar from "../General Components/NavigationBar";
 import "./productdetails.css";
 import { GrCart } from "react-icons/gr";
 import { LuCameraOff } from "react-icons/lu";
+
+
 export default function ProductDetails({
   productdetails,
   handleAddProduct,
   cartItems,
-}) {
+  datas
+}){ 
+
+
+
+
+
+
+
   return (
     <div className="productdetails_container">
       <div className="productview_container">
-        {productdetails.map((product) => (
+        {datas.map((product) => (
           <div className="product_details" key={product.id}>
       
             <div className="noimage_div" ><LuCameraOff  /></div>
@@ -33,13 +43,13 @@ export default function ProductDetails({
                 &nbsp;Big &nbsp;/
               </a>
               <p style={{ position: "absolute", left: "10rem", top: "-1rem" }}>
-                {product.title}
+                {product.Description}
               </p>
             </div>
             <div className="pdrtdetails_card">
-                          <h2 className="productdetails_title">{product.title}</h2>
+            <p className="productdetails_price" > USD {product.Price}  </p>
+                          <h2 className="productdetails_title">{product.Description}</h2>
          
-           <strong><p className="productdetails_price" > USD {product.price}  </p></strong> 
            <p className="productdetails_partnumber" >Part Number: {product.partnumber}</p>
            <button className="addtocart_btn"    onClick={() => handleAddProduct(product)}><GrCart /> Add to cart</button>
               </div>
