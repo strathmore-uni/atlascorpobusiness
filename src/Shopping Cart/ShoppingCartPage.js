@@ -46,9 +46,17 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
 
       ))}
 
-        <p className='p_carttotal' >Total Price</p>
-<small className='cart_totalitemsprice' >USD {totalPrice}</small>
+    
+
       </div>
+      <div className='order_summary' >
+        <p>Order Summary</p>
+        <p className='p_carttotal' >Subtotal</p>
+<small className='cart_totalitemsprice' >${totalPrice}</small>
+
+
+      </div>
+
      
 
 

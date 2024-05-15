@@ -13,6 +13,8 @@ export default function ProductDetails({
       <div className="productview_container">
         {productdetails.map((product) => (
           <div className="product_details" key={product.id}>
+      
+            <div className="noimage_div" ><LuCameraOff  /></div>
             <div className="productdetails_routes">
               <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
                 {" "}
@@ -34,7 +36,6 @@ export default function ProductDetails({
                 {product.title}
               </p>
             </div>
-            <div className="noimage_div" ><LuCameraOff  /></div>
             <div className="pdrtdetails_card">
                           <h2 className="productdetails_title">{product.title}</h2>
          
@@ -121,8 +122,11 @@ export default function ProductDetails({
 
             </div>*/}
          
+       
           </div>
+          
         ))}
+        
       </div>
       <NavigationBar cartItems={cartItems} />
     </div>

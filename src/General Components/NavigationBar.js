@@ -6,11 +6,16 @@ import { Link} from "react-router-dom";
 import { GrCart } from "react-icons/gr";
 
 export default function NavigationBar({cartItems=[]}) {
+  const [compressorsappear, compressorsappearsetAppear] = useState();
   const [categoriesappear, categoriessetAppear] = useState();
   const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleCategoriesAppear = () => {
     categoriessetAppear(!categoriesappear);
+  };
+
+  const toggleCompressorAppear = () => {
+    compressorsappearsetAppear(!compressorsappear);
   };
 
   useEffect(() => {
@@ -44,16 +49,11 @@ export default function NavigationBar({cartItems=[]}) {
         onMouseLeave={toggleCategoriesAppear}
       >
     
-          <small className="p_product">Filters</small>{" "}
+          <small className="p_product">Filters  <IoIosArrowDown className="arrow_down_li" /></small>{" "}
+          
        
-
-       
-        <IoIosArrowDown className="arrow_down_li" />
-
-      
-      
-        {categoriesappear && (
-          <div className="listedproducts">
+          {categoriesappear && (
+          <div className="listedproducts" >
           
             <Link to='/Shop/Filterelement' style={{ textDecoration: "none", color: "black" }}><li>Compressors</li></Link> 
             <Link to='/Shop/Heavy'style={{ textDecoration: "none", color: "black" }} ><li>HEAVY</li></Link> 
@@ -63,11 +63,31 @@ export default function NavigationBar({cartItems=[]}) {
             <li>HEAVY</li>
           </div>
         )}
-        
+
       </div>
 
+      <div     
+      className="mycompressor"
+      onMouseEnter={toggleCompressorAppear}
+        onMouseLeave={toggleCompressorAppear}>
 
-     <Link to='/Cart' style={{textDecoration:'none',color:'black'}} ><p className="p_cart" > <GrCart />  </p></Link> 
+      <small className="li_compressor" >Compressor  <IoIosArrowDown className="arrow_down_li" /></small>
+
+      {compressorsappear && (
+          <div className="listedproductscompressor" >
+          
+            <Link to='/Shop/Filterelement' style={{ textDecoration: "none", color: "black" }}><li>Compressors</li></Link> 
+            <Link to='/Shop/Heavy'style={{ textDecoration: "none", color: "black" }} ><li>HEAVY</li></Link> 
+            <li>BIG</li>
+            <li>HEAVY</li>
+            <li>BIG</li>
+            <li>HEAVY</li>
+          </div>
+        )}
+      </div>
+   
+
+     <Link to='/Cart' style={{textDecoration:'none',color:'white'}} ><p className="p_cart" > <GrCart />  </p></Link> 
      <span className="count">
             {" "}
             {cartItems.length === 0 ? "" : cartItems.length}{" "}

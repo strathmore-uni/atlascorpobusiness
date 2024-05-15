@@ -9,13 +9,13 @@
 .productview_container {
   position: relative;
   height: 40rem;
-  top: 6rem;
-  left: 15rem;
+  top: 10rem;
+  left: 0rem;
   width: 70%;
   display: flex;
   align-items: center;
   justify-content: center;
- 
+
   flex-grow: 1;
   
 }
@@ -54,8 +54,8 @@ left: 0rem;
 
   height: 25rem;
   width: 20rem;
-  top: 2.4rem;
-  left: 32rem;
+  top: 3rem;
+  left: 50rem;
  
 }
 .noimage_div{
@@ -63,11 +63,13 @@ left: 0rem;
 
   width: 40%;
   height: 25rem;
-  top: 1rem;
+  top: 3rem;
+  left: 15rem;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 8rem;
+  
   color: rgb(214, 212, 212);
 }
 .productdetails_price{
@@ -114,7 +116,7 @@ left: 0rem;
     position: relative;
     top: 20rem;
     left: 0rem;
-    background-color: aqua;
+   
   
 
 
@@ -143,8 +145,8 @@ left: 0rem;
 }
 .productdetails_routes{
   position: relative;
-  top: 0rem;
-  left: 0rem;
+  top: -25rem;
+  left: 1rem;
   display: flex;
   flex-direction: row;
   color: #0078a1;

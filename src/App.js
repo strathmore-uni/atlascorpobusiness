@@ -13,6 +13,7 @@ import Products from "./Categories and Display page/Products";
 import ShoppingCartPage from "./Shopping Cart/ShoppingCartPage";
 import OilFreeCompressor from "./Categories and Display page/Categories Pages/OilFreeCompressor";
 import FilterElement from "./Categories and Display page/Categories Pages/FilterElement";
+import CategoriesHovered from "./General Components/CategoriesHovered";
 
 function App() {
   const fulldatas = fulldata;
@@ -82,6 +83,7 @@ function App() {
             <Route path="/" element={<Mainpage cartItems={cartItems} />} />
             <Route path="" element={<NavigationBar cartItems={cartItems} />} />
             <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
+            <Route  path="" element={<CategoriesHovered  />} />
             <Route
               path="/Shop/Big/Oilfreecompressor"
               element={
