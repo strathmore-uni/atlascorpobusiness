@@ -19,6 +19,7 @@ import MyComponent from "./Db/MyComponent";
 import axios from 'axios';
 import './i18n ';
 import Form from "./Shopping Cart/Form";
+import ReviewOrder from "./Shopping Cart/ReviewOrder";
 
 function App() {
 
@@ -111,6 +112,7 @@ function App() {
             <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
            <Route  path="/delivery" element={<Delivery  cartItems={cartItems} totalPrice={totalPrice}  />} />
            <Route  path="/form" element={<Form cartItems={cartItems} totalPrice={totalPrice} />}  />
+           <Route  path=""  element={<ReviewOrder />} />
            
 <Route  path="mycomponent" element={<MyComponent />} />
            <Route  path="/Checkout"  element={<Checkout  cartItems={cartItems} totalPrice={totalPrice} />} />
