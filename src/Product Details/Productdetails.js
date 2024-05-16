@@ -22,7 +22,7 @@ export default function ProductDetails({
     <div className="productdetails_container" key={1} >
       <div className="productview_container">
         {productdetails.map((product) => (
-          <div className="product_details" key={product.id}>
+          <div className="product_details" key={product.partnumber}>
       
             <div className="noimage_div" ><LuCameraOff  /></div>
             <div className="productdetails_routes">

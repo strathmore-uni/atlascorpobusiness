@@ -28,7 +28,7 @@ export default function Products({ fulldatas,datas,handleAddProductDetails }) {
 
        {datas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
          
-         <Link  key={product.id}  className='mylink' 
+         <Link  key={product.partnumber}  className='mylink' 
          // Moving to the product page
          to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`} onClick={() => handleAddProductDetails(product)} > 
         

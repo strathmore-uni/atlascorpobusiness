@@ -18,6 +18,7 @@ import Delivery from "./Shopping Cart/Delivery";
 import MyComponent from "./Db/MyComponent";
 import axios from 'axios';
 import './i18n ';
+import Form from "./Shopping Cart/Form";
 
 function App() {
 
@@ -108,10 +109,11 @@ function App() {
             <Route path="/" element={<Mainpage cartItems={cartItems} />} />
             <Route path="" element={<NavigationBar cartItems={cartItems} />} />
             <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
-           <Route  path="" element={<Delivery  />} />
+           <Route  path="/delivery" element={<Delivery  cartItems={cartItems} totalPrice={totalPrice}  />} />
+           <Route  path="/form" element={<Form cartItems={cartItems} totalPrice={totalPrice} />}  />
            
 <Route  path="mycomponent" element={<MyComponent />} />
-           <Route  path="/Checkout"  element={<Checkout  totalPrice={totalPrice} />} />
+           <Route  path="/Checkout"  element={<Checkout  cartItems={cartItems} totalPrice={totalPrice} />} />
 
 
             <Route
@@ -119,6 +121,7 @@ function App() {
               element={
                 <OilFreeCompressor
                   fulldatas={fulldatas}
+                  cartItems={cartItems}
                   oilfreedata={oilfreedata}
              handleAddProductDetails={handleAddProductDetails}
                 />
@@ -171,6 +174,7 @@ function App() {
                   handleAddProductDetails={handleAddProductDetails}
                   fulldatas={fulldatas}
                   datas={datas}
+                  cartItems={cartItems}
                 />
               }
             />

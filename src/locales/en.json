@@ -1,7 +1,5 @@
-{
-    "title": "Multi-language app",
-    "label": "Select another language!",
-    "about": "About me",
-    "home": "Home",
-    "user": "My name is: {{name}}"
-  }
+{ 
+  "header":{"message": "Atlas Copco - Kenya Web Shop"},
+  "Search for Part Numbers or Serial Numbers": "Search for Part Numbers or Serial Numbers"
+
+}

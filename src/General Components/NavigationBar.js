@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./Navigation.css";
-import { LANGUAGES } from "../constants";
+
 import { IoSearchOutline } from "react-icons/io5";
 import { Link} from "react-router-dom";
 import { GrCart } from "react-icons/gr";
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { LANGUAGES } from "../constants";
 export default function NavigationBar({cartItems=[]}) {
  
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,11 +41,11 @@ export default function NavigationBar({cartItems=[]}) {
 
   
   };
-  const { t } = useTranslation();
- 
+  const {t } = useTranslation();
+  
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
-       <select defaultValue={"es"}>
+     <select defaultValue={"es"}>
         {LANGUAGES.map(({ code, label }) => (
           <option key={code} value={code}>
             {label}
@@ -53,9 +54,9 @@ export default function NavigationBar({cartItems=[]}) {
       </select>
       <Link to="/">
         <img  src=" public/logo2.0.jpg" alt="" />
-      <h3 className="title_h3" >Atlas Copco - Kenya Web Shop</h3>
+      <h3 className="title_h3" >{t('Atlas Copco - Kenya Web Shop')}</h3>
       </Link>
-<input  type="text"  placeholder="Search for Part Numbers or Serial Numbers"  className="search_input"   value={searchQuery}
+<input  type="text"  placeholder={t("Search for Part Numbers or Serial Numbers" )}    className="search_input"   value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)} />
 
 <hr className="nav_hr_line" />

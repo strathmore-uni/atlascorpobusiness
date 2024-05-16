@@ -171,3 +171,12 @@ label{
 
 }
 
+.h4_deliverymode{
+    position: absolute;
+    top: 10rem;
+}
+.p_deliverymode{
+    position: absolute;
+    top: 15rem;
+    left:2rem
+}

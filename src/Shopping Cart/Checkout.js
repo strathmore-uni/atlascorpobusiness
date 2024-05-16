@@ -4,7 +4,8 @@ import './checkout.css'
 
 import Form from './Form';
 
-export default function Checkout({totalPrice}) {
+
+export default function Checkout({totalPrice,cartItems}) {
    
 
    

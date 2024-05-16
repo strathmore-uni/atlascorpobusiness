@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import { Link } from 'react-router-dom';
 
 
 export default function Form() {
@@ -47,7 +48,7 @@ export default function Form() {
 <label for='phone' className='phonelabel'>Phone</label>
 <input  id='phone' className='phoneinput'  placeholder='+25471234567'  />
 
- <button type='submit'  className='btn_continue'  > Continue</button>
+<Link to='/delivery'><button type='submit'  className='btn_continue'  > Continue</button></Link>
             </form>
            
     </div>
