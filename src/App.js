@@ -48,6 +48,7 @@ function App() {
     (Price, item) => Price + item.quantity * item.Price,
     0
   );
+  
 
   const handleAddProductDetails = (productdetailss) => {
     const ProductExistDetail = productdetails.find(
@@ -112,7 +113,7 @@ function App() {
             <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
            <Route  path="/delivery" element={<Delivery  cartItems={cartItems} totalPrice={totalPrice}  />} />
            <Route  path="/form" element={<Form cartItems={cartItems} totalPrice={totalPrice} />}  />
-           <Route  path=""  element={<ReviewOrder />} />
+           <Route  path="/review-order"  element={<ReviewOrder cartItems={cartItems} totalPrice={totalPrice}  />} />
            
 <Route  path="mycomponent" element={<MyComponent />} />
            <Route  path="/Checkout"  element={<Checkout  cartItems={cartItems} totalPrice={totalPrice} />} />

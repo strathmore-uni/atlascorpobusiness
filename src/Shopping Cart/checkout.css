@@ -180,3 +180,19 @@ label{
     top: 15rem;
     left:2rem
 }
+.review_container{
+    position: absolute;
+    top: 10rem;
+    left: 2rem;
+   
+
+}
+.productsdisplay_shoppingcart_review{
+    position: absolute;
+    border-radius: 6px;
+    width: 70%;
+    height: 100%;
+    top: 40rem;
+    left: 1rem;
+   
+}
