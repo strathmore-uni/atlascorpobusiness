@@ -35,7 +35,7 @@ const ReviewOrder = ({cartItems,totalPrice}) => {
 <p>Shipping:<small style={{position:'absolute',right:'2rem'}} >${shipping_fee}</small></p>
 <p>VAT:<small style={{position:'absolute',right:'2rem'}} >${vat}</small></p>
 <p>Total:<small style={{position:'absolute',right:'2rem'}} >${newPrice}</small>  </p>
-<button className='checkout_btn' >Go to Payment Details</button>
+<button className='checkout_btn' >Place the Order </button>
       </div>
 
         <div  className='productsdisplay_shoppingcart_review' >

@@ -12,6 +12,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'], // Allow only specific headers
   }));
 // MySQL connection
+
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -50,9 +51,9 @@ app.get('/api/servkit', (req, res) => {
 
 
 
-app.get('/search', (req, res) => {
+app.get('/api/search', (req, res) => {
     const { query } = req.query;
-    const sql = `SELECT * FROM products WHERE Description LIKE '%${query}%'`;
+    const sql = `SELECT * FROM servkit WHERE Description LIKE '%${query}%'`;
     connection.query(sql, (err, results) => {
       if (err) throw err;
       res.json(results);
