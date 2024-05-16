@@ -33,7 +33,7 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
                 style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "7rem", top: "-1rem" }}
              
               >
-                &nbsp;Big &nbsp;
+                &nbsp;Filter&nbsp;
               </p>
         </div>
      

@@ -7,7 +7,7 @@ import './shop.css'
 
 
 
-export default function Shop( {fulldatas,cartItems,oilfree} ) {
+export default function Shop( {fulldatas,cartItems,oilfree,datas,data} ) {
 
   return (
     <div>
@@ -28,7 +28,7 @@ export default function Shop( {fulldatas,cartItems,oilfree} ) {
       <div className='shop_product_container' >
    
              
-<Products fulldatas={fulldatas} />
+<Products datas={datas} fulldatas={fulldatas} />
       </div>
     
            

@@ -16,10 +16,10 @@
 .shop_product_container{
  
     position: absolute;
-    top: 8rem;
+    top: 0rem;
  width: 70%;
-    left: 20rem;
-   
+    left: 0rem;
+ 
     display: flex;
     flex-direction: row;
     flex-grow: 1;

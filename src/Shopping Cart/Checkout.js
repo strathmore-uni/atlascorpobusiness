@@ -14,7 +14,7 @@ export default function Checkout({totalPrice}) {
 <h4>Checkout</h4>
 <p className='shippingdetails' >Shipping Details</p>
         <div className='' >
-        <div className='order_summary' >
+        <div className='order_summary_checkout' >
         <p>Order Summary</p>
         <p className='p_carttotal' >Subtotal</p>
 <small className='cart_totalitemsprice' >${totalPrice}</small>

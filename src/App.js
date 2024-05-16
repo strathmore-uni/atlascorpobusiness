@@ -17,6 +17,7 @@ import Checkout from "./Shopping Cart/Checkout";
 import Delivery from "./Shopping Cart/Delivery";
 import MyComponent from "./Db/MyComponent";
 import axios from 'axios';
+import './i18n ';
 
 function App() {
 
@@ -100,6 +101,7 @@ function App() {
 
   return (
     <>
+    
       <BrowserRouter>
         <main>
           <Routes>
@@ -110,13 +112,15 @@ function App() {
            
 <Route  path="mycomponent" element={<MyComponent />} />
            <Route  path="/Checkout"  element={<Checkout  totalPrice={totalPrice} />} />
+
+
             <Route
-              path="/Shop/Big/Oilfreecompressor"
+              path="/Shop/Oilfreecompressor"
               element={
                 <OilFreeCompressor
                   fulldatas={fulldatas}
                   oilfreedata={oilfreedata}
-             
+             handleAddProductDetails={handleAddProductDetails}
                 />
               }
             />
@@ -129,6 +133,7 @@ function App() {
                   handleAddProductDetails={handleAddProductDetails}
                   cartItems={cartItems}
                   oilfreedata={oilfreedata}
+                  datas={datas}
                 />
               }
             />
@@ -140,7 +145,7 @@ function App() {
                   handleAddProduct={handleAddProduct}
                   handleAddProductDetails={handleAddProductDetails}
                   cartItems={cartItems}
-                  oilfreedata={oilfreedata}
+                 
                   datas={datas}
                 />
               }

@@ -11,9 +11,10 @@
 section{
     position: absolute;
     height: 30rem;
-   top: 25rem;
+   top: 20rem;
    left: 7rem;
     width: 90%;
+    
 
 }
  .main_p{
@@ -47,8 +48,14 @@ section{
 }
 .sub_p_sub{
     position: relative;
+    top: 25rem;
     left: 5rem;
-    width: 50%;
+    width: 70%;
+    font-size: 1.5rem;
+    color: #0078a1;
+}
+.sub_p_sub p{
+    font-size: 2rem;
 }
 .img_mainpage{
     position: absolute;
@@ -59,10 +66,11 @@ section{
 }
 .container_media{
     position: absolute;
-    height: 20rem;
+    height: 50rem;
     width: 100%;
     left: 0rem;
-    top: 4rem;
+    top: 10rem;
+    background-image: url('/public/download_image_1715842788931.png');
     
 }
 .image1{
@@ -75,11 +83,12 @@ section{
 }
 .image2{
     position: absolute;
-    top:1rem;
+    top:5rem;
     left: 0rem;
     max-height: 100%;
     min-width:100%;
     width: 100%;
+    visibility: hidden;
 }
 .image3{
     position: absolute;
@@ -112,7 +121,7 @@ font-size: 3rem;
 }
 .shopwithus{
     position: absolute;
-    top: 55rem;
+    top: 90rem;
     background-color: rgb(240, 239, 239) ;
    left: 0;
    right: 0;

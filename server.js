@@ -38,6 +38,18 @@ app.get('/api/data', (req, res) => {
   });
 });
 
+app.get('/api/servkit', (req, res) => {
+  connection.query('SELECT * FROM servkit', (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+
+
 app.get('/search', (req, res) => {
     const { query } = req.query;
     const sql = `SELECT * FROM products WHERE Description LIKE '%${query}%'`;

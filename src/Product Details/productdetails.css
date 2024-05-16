@@ -31,7 +31,7 @@ width: 100%;
   top: 0rem;
   left: 0rem;
   width: 20rem;
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: #0078a1;
   font-family: "Source Sans Pro", helvetica, arial, sans-serif;
 }
@@ -75,7 +75,7 @@ left: 0rem;
 .productdetails_price{
   position: absolute;
 font-size: 1.3rem;
-top: 3rem;
+top: 3.5rem;
 
 left: 0rem;
 

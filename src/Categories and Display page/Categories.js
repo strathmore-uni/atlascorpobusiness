@@ -13,34 +13,29 @@ export default function Categories({ fulldatas}) {
   return (
     <div className="Categories_container">
       <div className="listedproducts_categories">
-        <Link
-          to="/Shop/Filterelement"
-          style={{ textDecoration: "none", color: "black" }}
-          onClick={() => setCompressorDropdown(!compressorDropdown)}
-        >
-          {" "}
-          <li>
-            Compressors{" "}
+
+          <li onClick={() => setCompressorDropdown(!compressorDropdown)}>
+            Filter Element{" "}
             {compressorDropdown ? (
               <IoIosArrowUp  />
             ) : (
               <IoIosArrowDown  />
             )}{" "}
-          </li></Link>
+          </li>
         {compressorDropdown && (
           <ul className="compressor_dropdown">
-            <li style={{width:'13.5rem',padding:'.5rem'}} >Rotary Screw Air Compressors</li>
-            <Link to='/Shop/Big/Oilfreecompressor'  >
+           <Link to='/Shop/Filterelement' >  <li style={{width:'13.5rem',padding:'.5rem',color:''}} >Filter Element</li></Link> 
+            <Link to='/Shop/Oilfreecompressor'  >
               <li  style={{width:'14rem',padding:'.5rem'}} >Oil-free compressors</li> </Link>
             <li  style={{width:'14rem',padding:'.5rem'}}>Piston Compressors</li>
           </ul>
         )}
         <Link
-          to="/Shop/Heavy"
+          to="/Shop/Oilfreecompressor"
           style={{ textDecoration: "none", color: "black" }}
         >
           {" "}
-          <li>Heavy</li>
+          <li>Serv Kit</li>
         </Link>{" "}
         <li>BIG</li>
         <li>HEAVY</li>

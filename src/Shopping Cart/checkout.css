@@ -9,23 +9,37 @@
   h4{
     position: absolute;
     left: 2rem;
-    top: 3rem;
+    top: 6rem;
     font-size: 2rem;
     
 }
 .shippingdetails{
     position: absolute;
     left: 2rem;
-    top: 6.5rem;
+    top: 10rem;
     font-size: 1.5rem;
     
 
+}
+.order_summary_checkout{
+    position: absolute;
+    background-color: #fafafa;
+    right:2rem;
+    width: 19rem;
+    top: 13rem;
+    height: 20rem;
+
+}
+.order_summary_checkout p{
+    position: relative;
+    left:1rem;
+    font-weight: 500;
 }
 
 form{
     position: absolute;
     
-    top: 10rem;
+    top: 15rem;
     left: 2rem;
     width: 50rem;
     height: 25rem;
@@ -157,7 +171,3 @@ label{
 
 }
 
-
-.delivery_container{
-    
-}

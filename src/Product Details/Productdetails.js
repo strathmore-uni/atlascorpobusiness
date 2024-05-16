@@ -9,7 +9,7 @@ export default function ProductDetails({
   productdetails,
   handleAddProduct,
   cartItems,
-  datas
+ 
 }){ 
 
 
@@ -19,9 +19,9 @@ export default function ProductDetails({
 
 
   return (
-    <div className="productdetails_container">
+    <div className="productdetails_container" key={1} >
       <div className="productview_container">
-        {datas.map((product) => (
+        {productdetails.map((product) => (
           <div className="product_details" key={product.id}>
       
             <div className="noimage_div" ><LuCameraOff  /></div>
@@ -37,12 +37,12 @@ export default function ProductDetails({
                 &nbsp;Shop &nbsp;/
               </a>
               <a
-                href="/Shop/Big"
+                href="/Shop/Filterelement"
                 style={{ color: "#0078a1", textDecoration: "none" }}
               >
-                &nbsp;Big &nbsp;/
+                &nbsp;Filter &nbsp;/
               </a>
-              <p style={{ position: "absolute", left: "10rem", top: "-1rem" }}>
+              <p style={{ position: "absolute", left: "11rem", top: "-1rem" }}>
                 {product.Description}
               </p>
             </div>

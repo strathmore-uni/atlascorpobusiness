@@ -17,6 +17,8 @@
   left: 0rem;
   width: 5rem;
   cursor: pointer;
+  color: #0078a1;
+  border: 1px solid grey;
 }
 .products_li {
   position: absolute;
@@ -31,7 +33,7 @@
 }
 .arrow_down_li {
   position: relative;
-  left: 0.5rem;
+  left:0rem;
   top: 0.15rem;
 }
 .products_li p {
@@ -50,7 +52,7 @@
 
 .listedproducts {
   position: absolute;
-  top: 1rem;
+  top: 1.5rem;
   background-color: #fafafa;
   list-style-type: none;
   width: 71rem;
@@ -62,7 +64,7 @@
 }
 .listedproductscompressor {
   position: absolute;
-  top: 1rem;
+  top: 1.5rem;
   background-color: #fafafa;
   list-style-type: none;
   width: 71rem;
@@ -76,11 +78,14 @@
   position: relative;
   top: -2rem;
   left: 2rem;
+  width: 5;
+  color: #0078a1;
+  border: 1px solid grey;
 }
 .mycompressor {
-  position: absolute;
+  position: relative;
   font-weight: 500;
-  top: 8rem;
+  top: 7rem;
   left: 30rem;
   width: 8rem;
   height: 2.5rem;
@@ -116,28 +121,29 @@
 }
 .title_h3 {
   position: absolute;
-  top: 0.1rem;
+  top: 4rem;
   left: 0.4rem;
   color: #0078a1;
+
 }
 .search_input {
   position: absolute;
   width: 30rem;
-  top: 1rem;
-  left: 20rem;
+  top: 4.5rem;
+  left: 23rem;
   height: 3rem;
   border: thin 1px black;
   color: grey;
 }
 .search_icon_navigation {
   position: absolute;
-  right: 27rem;
-  top: 2rem;
+  right: 23rem;
+  top: 5.6rem;
   font-size: 1.2rem;
 }
 .nav_hr_line {
   position: relative;
-  top: 5rem;
+  top: 2rem;
 
   border-style: ridge;
 }
@@ -145,7 +151,7 @@
   position: absolute;
   font-size: 1.2rem;
   right: 3rem;
-  top: 0rem;
+  top: 3rem;
   padding: 1rem;
   width: 2rem;
   background-color: #0078a1;
@@ -153,10 +159,10 @@
 }
 .count {
   position: absolute;
-  right: 4rem;
-  top: 1.3rem;
+  right: .8rem;
+  top: .5rem;
   width: 1rem;
-  height: 1.5rem;
+ font-size: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;

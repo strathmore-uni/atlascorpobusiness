@@ -14,7 +14,7 @@
   left: 0rem;
 
   width: 100%;
-  
+
   flex-grow: 1;
   transition: width 0.5s ease;
   
@@ -66,9 +66,8 @@
   flex-direction: column;
   width: 70%;
   top: 0rem;
-  left: 10rem;
+  left: 21rem;
 
- 
   grid-template-columns: repeat(3, 290px);
   grid-gap:8px;
 
