@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors'); 
 const port = 3001;
 
+
 // Middleware to parse JSON
 app.use(express.json());
 app.use(cors({
@@ -59,6 +60,42 @@ app.get('/api/search', (req, res) => {
       res.json(results);
     });
   });
+
+
+// POST route to place an order
+app.post('/api/order', (req, res) =>  {
+  const { formData } = req.body;
+
+  if (!formData) {
+    return res.status(400).json({ error: 'No form data provided' });
+   
+  }
+
+
+  // Insert data into MySQL database
+  const query = `INSERT INTO place_order (company_name, title, first_name, second_name, address1, address2, city, zip, phone) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  connection.query(query, [
+    formData.companyName,
+    formData.title,
+    formData.firstName,
+    formData.secondName,
+    formData.address1,
+    formData.address2,
+    formData.city,
+    formData.zip,
+    formData.phone
+  ], (err, results) => {
+    if (err) {
+      console.error('Error inserting order:', err);
+      return res.status(500).send(err);
+    } else {
+     
+      
+    }
+  });
+});
+
 
 // Start the server
 app.listen(port, () => {

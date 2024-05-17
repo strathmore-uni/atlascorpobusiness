@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Navigation.css";
-
+import { IoPersonOutline } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import { Link} from "react-router-dom";
 import { GrCart } from "react-icons/gr";
@@ -81,8 +81,9 @@ export default function NavigationBar({cartItems=[]}) {
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
      
+ 
       <Link to="/">
-        <img  src=" public/logo2.0.jpg" alt="" />
+     
       <h3 className="title_h3" >'Atlas Copco - Kenya Web Shop'</h3>
       </Link>
 <input  type="text"  placeholder="Search for Part Numbers or Serial Numbers"     className="search_input"   value={searchQuery}
@@ -96,7 +97,7 @@ export default function NavigationBar({cartItems=[]}) {
             {cartItems.length === 0 ? "" : cartItems.length}{" "}
           </span>{" "}
  </p></Link> 
-
+<IoPersonOutline className="person_icon" />
  <select value={selectedCountry} onChange={handleCountryChange} className="select_country" >
       {countries.map((country) => (
         <option key={country.value} value={country.value}>

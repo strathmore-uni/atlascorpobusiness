@@ -171,10 +171,19 @@
 .select_country{
   position: absolute;
   right: 1rem;
-  top: 1rem;
+  top: .5rem;
   width: 8rem;
   padding: .5rem;
   border: none;
+  color: #0078a1;
+
+}
+
+.person_icon{
+  position: absolute;
+  top: 5.5rem;
+  right: 10rem;
+  font-size: 1.4rem;
   color: #0078a1;
 
 }

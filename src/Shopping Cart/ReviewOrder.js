@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import NavigationBar from '../General Components/NavigationBar';
 import { LuCameraOff } from "react-icons/lu";
+import axios from 'axios';
 
 const ReviewOrder = ({cartItems,totalPrice}) => {
     const location = useLocation();
@@ -10,6 +11,30 @@ const ReviewOrder = ({cartItems,totalPrice}) => {
     let shipping_fee= 40.00;
     let vat = (totalPrice*16/100); 
     let newPrice =vat+totalPrice+shipping_fee;
+
+    
+    const handlePlaceOrder = async () => {
+      try {
+        const response = await axios.post('http://localhost:3001/api/order', {
+          formData,
+          cartItems,
+          totalPrice,
+        shipping_fee,
+        vat,
+        newPrice
+        });
+
+        if (response.data.message === 'Order placed successfully') {
+          
+          // Redirect to a success page or display a success message
+        } else {
+          // Handle error
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+   
   return (
     <div >
         <div className='review_container' >
@@ -35,7 +60,7 @@ const ReviewOrder = ({cartItems,totalPrice}) => {
 <p>Shipping:<small style={{position:'absolute',right:'2rem'}} >${shipping_fee}</small></p>
 <p>VAT:<small style={{position:'absolute',right:'2rem'}} >${vat}</small></p>
 <p>Total:<small style={{position:'absolute',right:'2rem'}} >${newPrice}</small>  </p>
-<button className='checkout_btn' >Place the Order </button>
+<button className='checkout_btn' onClick={handlePlaceOrder}  >Place the Order </button>
       </div>
 
         <div  className='productsdisplay_shoppingcart_review' >
