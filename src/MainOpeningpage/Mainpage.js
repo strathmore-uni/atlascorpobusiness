@@ -4,6 +4,7 @@ import './mainpage.css'
 import { FaArrowRight } from "react-icons/fa";
 
 import { Link } from 'react-router-dom';
+import Footer from '../General Components/Footer';
 
 export default function Mainpage({cartItems}) {
 
@@ -95,7 +96,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 
 </div>
 
-
+<Footer />
 <NavigationBar cartItems={cartItems}/>
 
     </div>

@@ -1,8 +1,8 @@
 .container_footer {
-  position: relative;
+  position: absolute;
   display: flex;
   background-color: grey;
-  bottom: 0;
+  bottom: -110rem;
   height: 10rem;
   left: 0;
   right: 0;

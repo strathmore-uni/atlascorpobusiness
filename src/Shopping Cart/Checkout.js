@@ -3,6 +3,7 @@ import NavigationBar from '../General Components/NavigationBar'
 import './checkout.css'
 
 import Form from './Form';
+import Footer from '../General Components/Footer';
 
 
 export default function Checkout({totalPrice,cartItems}) {
@@ -31,6 +32,7 @@ export default function Checkout({totalPrice,cartItems}) {
 
 
 <NavigationBar   />
+<Footer />
     </div>
   )
 }

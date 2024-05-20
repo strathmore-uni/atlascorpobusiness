@@ -20,6 +20,7 @@ import axios from 'axios';
 import './i18n ';
 import Form from "./Shopping Cart/Form";
 import ReviewOrder from "./Shopping Cart/ReviewOrder";
+import Footer from "./General Components/Footer";
 
 function App() {
 
@@ -110,6 +111,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Mainpage cartItems={cartItems} />} />
             <Route path="" element={<NavigationBar cartItems={cartItems} />} />
+           
             <Route path="" element={<Categories   oilfreedata={oilfreedata} fulldatas={fulldatas} />} />
            <Route  path="/delivery" element={<Delivery  cartItems={cartItems} totalPrice={totalPrice}  />} />
            <Route  path="/form" element={<Form cartItems={cartItems} totalPrice={totalPrice} />}  />
@@ -194,6 +196,7 @@ function App() {
                 />
               }
             />
+             <Route path="" element={<Footer  />}  />
           </Routes>
         </main>
       </BrowserRouter>

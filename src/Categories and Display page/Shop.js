@@ -4,6 +4,7 @@ import Categories from './Categories'
 import Products from './Products'
 
 import './shop.css'
+import Footer from '../General Components/Footer'
 
 
 
@@ -33,10 +34,10 @@ export default function Shop( {handleAddProductDetails,fulldatas,cartItems,oilfr
     
            
     </div>
-
+ 
         <Categories /> 
         <NavigationBar   cartItems={cartItems}/>
-  
+ <Footer />
     </div>
   )
 }
