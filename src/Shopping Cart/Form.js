@@ -12,6 +12,7 @@ export default function Form() {
     city: '',
     zip: '',
     phone: '',
+    emaol:'',
   });
 
   const handleFormDataChange = useCallback((event) => {
@@ -61,6 +62,8 @@ export default function Form() {
         <label for='phone' className='phonelabel'>Phone</label>
         <input  id='phone' className='phoneinput'  placeholder='+25471234567' name='phone' value={formData.phone} onChange={handleFormDataChange} />
 
+        <label for='phone' className='emaillabel'>Email</label>
+        <input  id='email' className='emailinput'  placeholder='1234@gmail.com' name='email' value={formData.email} onChange={handleFormDataChange} />
        <button type='submit'  className='btn_continue'  > Continue</button>
       </form>
     </div>

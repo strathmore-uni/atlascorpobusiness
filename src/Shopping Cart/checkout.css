@@ -159,9 +159,20 @@ label{
     padding: .8rem;
     width: 70%;
 }
+.emaillabel{
+    position: absolute;
+    top: 51rem;
+    left: 0rem;
+}
+.emailinput{
+    position: relative;
+    top: 26rem;
+    padding: .8rem;
+    width: 70%;
+}
 .btn_continue{
     position: absolute;
-    top: 52rem;
+    top: 59rem;
     padding: .8rem;
     left: 0rem;
     width: 40%;
