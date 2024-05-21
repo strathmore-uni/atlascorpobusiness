@@ -1,7 +1,7 @@
 .container_NavigationBar {
-  position: absolute;
+  position: fixed;
   width: 100%;
-  height: 10rem;
+  height: 7.5rem;
   top: 0rem;
 
   justify-items: center;
@@ -121,14 +121,14 @@
 }
 .title_h3 {
   position: absolute;
-  top: 4rem;
+  top: 3rem;
   left: 0.4rem;
   color: #0078a1;
 
 }
 .input {
   position: absolute;
-  top: 5rem;
+  top: 3rem;
   left: 30rem;
 
  width: 25rem;
@@ -154,7 +154,7 @@ input:hover {
 .search_icon_navigation {
   position: absolute;
   right: 23rem;
-  top: 5.8rem;
+  top: 4rem;
   font-size: 1.2rem;
 }
 .nav_hr_line {
@@ -166,17 +166,17 @@ input:hover {
 .p_cart {
   position: absolute;
   font-size: 1.2rem;
-  right: 3rem;
-  top: 3rem;
-  padding: 1rem;
+  right: 2rem;
+  top: 2rem;
+  padding: .7rem;
   width: 2rem;
   background-color: #0078a1;
   border-radius: 6px;
 }
 .count {
   position: absolute;
-  right: .8rem;
-  top: .5rem;
+  right: .4rem;
+  top: .2rem;
   width: 1rem;
  font-size: 1rem;
   display: flex;
@@ -197,8 +197,8 @@ input:hover {
 
 .person_icon{
   position: absolute;
-  top: 5.5rem;
-  right: 10rem;
+  top: 4rem;
+  right: 7rem;
   font-size: 1.4rem;
   color: #0078a1;
 
