@@ -47,6 +47,8 @@ export default function Categories({ fulldatas}) {
       
       <div  className="price_range_container" >
         <h3>Price Range</h3>
+        <div>0-100</div>
+        <div>100-200</div>
 
 
 

@@ -1,0 +1,60 @@
+.searchdisplay_container{
+  position: absolute;
+  top: 0rem;
+  width: 100%;
+  
+
+  flex-grow: 1;
+
+}
+.productdisplay_container_search {
+    position: absolute;
+
+    border-radius: 6px;
+    top: 12rem;
+    left: 0rem;
+  
+    width: 100%;
+  
+    flex-grow: 1;
+    transition: width 0.5s ease;
+    
+  }
+
+  
+  .sub_productdisplay_container_search {
+    position: relative;
+    display: grid;
+    flex-direction: column;
+    width: 70%;
+    top: 0rem;
+    left: 15rem;
+
+    grid-template-columns: repeat(5, 110px);
+    grid-gap:100px;
+    
+  
+  }
+  
+  .sub_productdisplay_container_search.normal  {
+    display: flex;
+    position: relative;
+    
+  
+    
+  }
+  .mylink_search {
+    position: relative;
+  background-color: aqua;
+  width: 10rem;
+  height: 10rem;
+  color: black;
+  text-decoration: none;
+
+  
+  
+    
+  }
+  .mylink_search:hover{
+    box-shadow: 0px 0px 2px 0px;
+  }

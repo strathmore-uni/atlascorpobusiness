@@ -21,6 +21,7 @@ import './i18n ';
 import Form from "./Shopping Cart/Form";
 import ReviewOrder from "./Shopping Cart/ReviewOrder";
 import Footer from "./General Components/Footer";
+import SearchDisplay from "./General Components/SearchDisplay";
 
 
 
@@ -125,7 +126,7 @@ function App() {
            <Route  path="/delivery" element={<Delivery  cartItems={cartItems} totalPrice={totalPrice}  />} />
            <Route  path="/form" element={<Form cartItems={cartItems} totalPrice={totalPrice} />}  />
            <Route  path="/review-order"  element={<ReviewOrder cartItems={cartItems} totalPrice={totalPrice}  />} />
-           
+           <Route  path="/search" element={<SearchDisplay  />}  />
 <Route  path="mycomponent" element={<MyComponent />} />
            <Route  path="/Checkout"  element={<Checkout  cartItems={cartItems} totalPrice={totalPrice} />} />
 

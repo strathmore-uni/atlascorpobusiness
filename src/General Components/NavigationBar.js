@@ -5,9 +5,10 @@ import { IoSearchOutline } from "react-icons/io5";
 import { Link} from "react-router-dom";
 import { GrCart } from "react-icons/gr";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavigationBar({cartItems=[]}) {
- 
+  const navigate = useNavigate();
 
   const countries = [
     { value: 'KE', label: 'Kenya' },
@@ -62,13 +63,13 @@ export default function NavigationBar({cartItems=[]}) {
   }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+
 
   const handleSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/search?term=${searchQuery}`);
-      setSearchResults(response.data);
-      console.log(response.data)
+   
+      navigate('/search', { state: { results: response.data } });
     } catch (error) {
       console.error('Error searching:', error);
     }
@@ -86,8 +87,9 @@ export default function NavigationBar({cartItems=[]}) {
      
       <h3 className="title_h3" >Atlas Copco - Kenya Web Shop</h3>
       </Link>
-<input  type="text"  placeholder="Search for Part Numbers or Serial Numbers"     className="search_input"   value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)} />
+      <input class="input" name="text"  type="search" value={searchQuery} placeholder="Search for Part Numbers or Names "   onChange={(e) => setSearchQuery(e.target.value)}/>
+
+
 
 <hr className="nav_hr_line" />
 
@@ -108,11 +110,6 @@ export default function NavigationBar({cartItems=[]}) {
   
       <IoSearchOutline className="search_icon_navigation" onClick={handleSearch} />
 
-      <ul style={{position:"absolute",top:'10rem'}} >
-        {searchResults.map((result) => (
-          <li key={result.id}>{result.Description}</li>
-        ))}
-      </ul>
     </div>
   );
 }
