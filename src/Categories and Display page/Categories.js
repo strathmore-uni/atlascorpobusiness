@@ -12,6 +12,7 @@ export default function Categories({ fulldatas}) {
 
   return (
     <div className="Categories_container">
+      <h3>Categories</h3>
       <div className="listedproducts_categories">
 
           <li onClick={() => setCompressorDropdown(!compressorDropdown)}>
@@ -41,6 +42,14 @@ export default function Categories({ fulldatas}) {
         <li>HEAVY</li>
         <li>BIG</li>
         <li>HEAVY</li>
+      </div>
+      
+      
+      <div  className="price_range_container" >
+        <h3>Price Range</h3>
+
+
+
       </div>
     
     </div>

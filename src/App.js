@@ -22,6 +22,14 @@ import Form from "./Shopping Cart/Form";
 import ReviewOrder from "./Shopping Cart/ReviewOrder";
 import Footer from "./General Components/Footer";
 
+
+
+const ScrollToTop = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return null;
+};
 function App() {
 
 
@@ -107,6 +115,7 @@ function App() {
     <>
     
       <BrowserRouter>
+      <ScrollToTop />
         <main>
           <Routes>
             <Route path="/" element={<Mainpage cartItems={cartItems} />} />

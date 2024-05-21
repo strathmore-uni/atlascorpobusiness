@@ -84,7 +84,7 @@ export default function NavigationBar({cartItems=[]}) {
  
       <Link to="/">
      
-      <h3 className="title_h3" >'Atlas Copco - Kenya Web Shop'</h3>
+      <h3 className="title_h3" >Atlas Copco - Kenya Web Shop</h3>
       </Link>
 <input  type="text"  placeholder="Search for Part Numbers or Serial Numbers"     className="search_input"   value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)} />

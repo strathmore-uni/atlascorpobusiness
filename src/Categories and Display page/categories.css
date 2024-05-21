@@ -1,6 +1,6 @@
 .Categories_container{
     position: absolute;
-    box-shadow: 0px 0px 5px 0px;
+    box-shadow: 0px 0px 1px 0px;
     top: 14rem;
     left: 1rem;
     height: 30rem;
@@ -12,8 +12,8 @@
     top: 2.5rem;
    
     list-style-type: none;
-    width: 10rem;
-    padding: 2rem;
+   
+    padding: 0rem;
 display: flex;
 flex-direction: column;
 
@@ -22,10 +22,10 @@ flex-direction: column;
 }
 .listedproducts_categories li{
     position: relative;
-    top: -2rem;
-    left: -1.8rem;
-    width: 135%;
-    height: 1.5rem;
+    top: .5rem;
+    left: 1rem;
+    
+    height: 2rem;
     margin-top: .5rem;
     color: black;
     list-style-type: none;
@@ -34,11 +34,16 @@ flex-direction: column;
 
 .listedproducts_categories  li:hover{
     position: relative;
-    opacity: .6;
-    background-color: grey;
+  border-radius: 5px;
+    background-color: rgb(202, 196, 196);
 }
 .arrow_down_categories{
     position: absolute;
     left: 6.2rem;
     top: .8rem;
+}
+  
+.price_range_container{
+    position: absolute;
+    top: 17rem;
 }
