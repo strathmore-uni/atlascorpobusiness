@@ -16,17 +16,11 @@ app.use((req, res, next) => {
 
 const urlDB= `mysql://${process.env.MYSQLUSER}:${process.env.MYSQLPASSWORD}@${process.env.MYSQLHOST}:${process.env.MYSQLPORT}/${process.env.MYSQLDATABASE}) `
 
-const myconnection =mysql.createConnection(urlDB);
+const connection =mysql.createConnection(urlDB);
 
-module.exports = myconnection;
+module.exports = connection;
 // MySQL connection
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  port: process.env.DB_PORT,
-});
+
 {/**
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -142,7 +136,15 @@ app.post('/api/order', (req, res) => {
 });
 
 // Define the port
+
+const PORT = process.env.PORT || 5000;
 const port = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
 
 // Start the server
 app.listen(port, () => {
