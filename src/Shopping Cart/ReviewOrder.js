@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import NavigationBar from '../General Components/NavigationBar';
 import { LuCameraOff } from "react-icons/lu";
 import axios from 'axios';
- // import emailjs from 'emailjs-com';
+import emailjs from 'emailjs-com';
 
 const ReviewOrder = ({ cartItems, totalPrice }) => {
   const location = useLocation();
@@ -36,7 +36,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
       });
 
       if (response.data.message === 'Order placed successfully') {
-        {/**
+      
         const cartItemsDetails = cartItems.map(item => {
           return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price.toFixed(2)}`;
         }).join('\n');
@@ -69,7 +69,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
           alert('Order placed and confirmation email sent.');
         }, (error) => {
           console.error('Email sending failed:', error);
-        }); */}
+        }); 
       } else {
         console.error('Order placement failed:', response.data.message);
       }
