@@ -6,24 +6,19 @@ require('dotenv').config(); // Load environment variables
 
 // Middleware to parse JSON
 app.use(express.json());
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
+app.use(cors({
+  origin: 'http://localhost:3002', // Ensure this matches your frontend's URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '10028mike.',
+  database: 'atlascopco'
+
 });
-
-
-
-
-
-const  connection = new mysql.createConnection ({
-user: process.env.DB_USERNAME,
-password: process.env.DB_PASSWORD,
-database: process.env.DATABASE,
-port: process.env.DB_PORT,
-host:process.env.DB_HOST
-}) 
 
 
 module.exports = connection;
@@ -118,53 +113,69 @@ app.get('/api/search', (req, res) => {
 });
 
 // POST route to place an order
-app.post('/api/order', (req, res) => {
-  const { formData,orderNumber } = req.body;
+app.post('/api/order', async (req, res) => {
+  const { formData, cartItems, orderNumber } = req.body;
 
-  if (!formData) {
-    return res.status(400).json({ error: 'No form data provided' });
+  if (!formData || !cartItems) {
+    return res.status(400).json({ error: 'No form data or cart items provided' });
   }
 
-  // Insert data into MySQL database
-  const query = `INSERT INTO place_order (company_name, title, first_name, second_name, address1, address2, city, zip, phone,email,ordernumber) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)`;
-  connection.query(query, [
-    formData.companyName,
-    formData.title,
-    formData.firstName,
-    formData.secondName,
-    formData.address1,
-    formData.address2,
-    formData.city,
-    formData.zip,
-    formData.phone,
-    formData.email,
-    orderNumber
-  ], (err, results) => {
-    if (err) {
-      console.error('Error inserting order:', err);
-      return res.status(500).send(err);
-    } else {
-      res.status(201).json({ message: 'Order placed successfully', orderId: results.insertId });
+  try {
+    // Start a transaction
+    await connection.promise().query('START TRANSACTION');
+
+    // Insert order data
+    const [orderResult] = await connection.promise().query(
+      `INSERT INTO placing_orders (company_name, title, first_name, second_name, address1, address2, city, zip, phone, email, ordernumber) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        formData.companyName,
+        formData.title,
+        formData.firstName,
+        formData.secondName,
+        formData.address1,
+        formData.address2,
+        formData.city,
+        formData.zip,
+        formData.phone,
+        formData.email,
+        orderNumber
+      ]
+    );
+
+    const orderId = orderResult.insertId;
+
+    // Insert each cart item
+    for (const item of cartItems) {
+      await connection.promise().query(
+        `INSERT INTO order_items (order_id, description, quantity, price) 
+         VALUES (?, ?, ?, ?)`,
+        [orderId, item.Description, item.quantity, item.Price]
+      );
     }
-  });
+
+    // Commit the transaction
+    await connection.promise().query('COMMIT');
+    res.status(201).json({ message: 'Order placed successfully', orderId });
+
+  } catch (error) {
+    // Rollback the transaction in case of error
+    await connection.promise().query('ROLLBACK');
+    console.error('Error placing order:', error);
+    res.status(500).send(error);
+  }
 });
 
 // Define the port
 
 
-const DB_PORT = process.env.PORT ||14765;
-
-app.listen(DB_PORT,  "0.0.0.0",function ()  {
-  console.log(`Server running on port ${DB_PORT}`);
-});
-
-
+const port = process.env.PORT || 3001;
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
 
 // Test route to verify connection
 app.get('/api/test-connection', (req, res) => {
