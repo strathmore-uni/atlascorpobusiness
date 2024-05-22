@@ -138,7 +138,7 @@ app.post('/api/order', (req, res) => {
 // Define the port
 
 
-const port = process.env.PORT ||59802;
+const port = process.env.PORT ||3001;
 
 app.listen(port,  "0.0.0.0",() => {
   console.log(`Server running on port ${port}`);
