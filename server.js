@@ -6,24 +6,23 @@ require('dotenv').config(); // Load environment variables
 
 // Middleware to parse JSON
 app.use(express.json());
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 
 
 
 
-const  connection = new urlDB({
-username: process.env.DB_USERNAME,
+const  connection = new mysql.createConnection ({
+user: process.env.DB_USERNAME,
 password: process.env.DB_PASSWORD,
 database: process.env.DATABASE,
 port: process.env.DB_PORT,
 host:process.env.DB_HOST
-
-
 }) 
 
 
@@ -36,6 +35,13 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '10028mike.',
   database: 'atlascopco'
+
+
+  username: process.env.DB_USERNAME,
+password: process.env.DB_PASSWORD,
+database: process.env.DATABASE,
+port: process.env.DB_PORT,
+host:process.env.DB_HOST
 });
  */}
 connection.connect(err => {
@@ -48,7 +54,7 @@ connection.connect(err => {
 
 // Example route to fetch data
 app.get('/api/data', (req, res) => {
-  connection.query('SELECT * FROM Myproducts', (err, results) => {
+  connection.query('SELECT * FROM products', (err, results) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -147,10 +153,10 @@ app.post('/api/order', (req, res) => {
 // Define the port
 
 
-const port = process.env.PORT ||3001;
+const DB_PORT = process.env.PORT ||14765;
 
-app.listen(port,  "0.0.0.0",() => {
-  console.log(`Server running on port ${port}`);
+app.listen(DB_PORT,  "0.0.0.0",function ()  {
+  console.log(`Server running on port ${DB_PORT}`);
 });
 
 
