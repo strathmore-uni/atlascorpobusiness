@@ -5,6 +5,8 @@ import './Categories Pages/filterelement.css'
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import { LuCameraOff } from "react-icons/lu";
+import { CiGrid41 } from "react-icons/ci";
+import { CiGrid2H } from "react-icons/ci";
 
 export default function Products({ fulldatas,datas,handleAddProductDetails }) {
 
@@ -21,9 +23,12 @@ export default function Products({ fulldatas,datas,handleAddProductDetails }) {
       <div className='productdisplay_container' >
 
 <div className={`sub_productdisplay_container ${layoutMode}`}>
+<small  className='featuredprdts_length' >Featured Products: {datas.length}</small>
      <div className='btn_group' >
-     <button   onClick={() => setLayoutMode('grid')}>Grid</button>
-     <button onClick={() => setLayoutMode('normal')}>Normal</button>
+      <small  >Sort by:</small>
+      <p onClick={() => setLayoutMode('grid')} ><CiGrid41 /></p>
+      <p  onClick={() => setLayoutMode('normal')} > <CiGrid2H /></p>
+
 </div>
 
        {datas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (

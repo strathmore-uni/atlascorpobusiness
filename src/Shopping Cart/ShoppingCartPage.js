@@ -12,6 +12,26 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
   return (
     <div className='shoppingcartpage_container' >
       <div  className='productsdisplay_shoppingcart' >
+      <div >
+              <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
+                {" "}
+                Home &nbsp;/
+              </a>
+              <a
+                href="/Shop"
+                style={{ color: "#0078a1", textDecoration: "none" }}
+              >
+                &nbsp;Shop &nbsp;/
+              </a>
+              <p
+              
+                style={{ position: "absolute", left: "7.5rem", top: "-1rem",color: "#0078a1" }}
+                
+              >
+                &nbsp;Cart &nbsp;
+              </p>
+           
+            </div>
         <h2 style={{ color: '#0078a1'}} >Cart Items</h2>
         <hr  className='hr_shoppingcartpage' />
         <small style={{position:'absolute',top:'5rem',left:'2rem',fontWeight:'500'}} > Description</small>

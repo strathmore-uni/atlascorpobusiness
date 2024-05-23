@@ -11,7 +11,7 @@ import Productdetails from "./Product Details/Productdetails";
 import fulldata from "./Fulldata";
 import Products from "./Categories and Display page/Products";
 import ShoppingCartPage from "./Shopping Cart/ShoppingCartPage";
-import OilFreeCompressor from "./Categories and Display page/Categories Pages/OilFreeCompressor";
+import OilFreeCompressor from "./Categories and Display page/Categories Pages/Servkit";
 import FilterElement from "./Categories and Display page/Categories Pages/FilterElement";
 import Checkout from "./Shopping Cart/Checkout";
 import Delivery from "./Shopping Cart/Delivery";
@@ -22,15 +22,12 @@ import Form from "./Shopping Cart/Form";
 import ReviewOrder from "./Shopping Cart/ReviewOrder";
 import Footer from "./General Components/Footer";
 import SearchDisplay from "./General Components/SearchDisplay";
+import ScrollToTop from "./General Components/ScrollToTop";
+import Servkit from "./Categories and Display page/Categories Pages/Servkit";
 
 
 
-const ScrollToTop = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  return null;
-};
+
 function App() {
 
 
@@ -132,9 +129,9 @@ function App() {
 
 
             <Route
-              path="/Shop/Oilfreecompressor"
+              path="/Shop/Servkit"
               element={
-                <OilFreeCompressor
+                <Servkit
                   fulldatas={fulldatas}
                   cartItems={cartItems}
                   oilfreedata={oilfreedata}

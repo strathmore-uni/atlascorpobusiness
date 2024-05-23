@@ -207,3 +207,14 @@ label{
     left: 1rem;
    
 }
+
+.editinfo{
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    
+    color: black;
+    top: 2rem;
+    right: -30rem;
+    text-decoration: none;
+}

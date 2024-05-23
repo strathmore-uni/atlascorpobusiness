@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import NavigationBar from "../General Components/NavigationBar";
 import "./productdetails.css";
 import { GrCart } from "react-icons/gr";
@@ -12,6 +12,13 @@ export default function ProductDetails({
  
 }){ 
 
+  const [selectedImage, setSelectedImage] = useState();
+
+  // Function to handle click on a smaller image
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
 
 
 
@@ -25,6 +32,40 @@ export default function ProductDetails({
           <div className="product_details" key={product.partnumber}>
       
             <div className="noimage_div" ><LuCameraOff  /></div>
+            <div className="image-gallery">
+                  <div className="big-image">
+                    {selectedImage && <img src={selectedImage} alt="Big" />}
+                  </div>
+
+                  <div className="thumbnails">
+                    <img
+                      src={product.image}
+                      alt="Small 1"
+                      onClick={() => handleImageClick(product.image)}
+                    />
+                    <img
+                      src={product.image2}
+                      alt="Small 2"
+                      onClick={() => handleImageClick(product.image2)}
+                    />
+                    <img
+                      src={product.image3}
+                      alt="Small 3"
+                      onClick={() => handleImageClick(product.image3)}
+                    />
+                    <img
+                      src={product.image4}
+                      alt="Small 3"
+                      onClick={() => handleImageClick(product.image4)}
+                    />
+                    <img
+                      src={product.image5}
+                      alt="Small 3"
+                      onClick={() => handleImageClick(product.image5)}
+                    />
+                    
+                  </div>
+                </div>
             <div className="productdetails_routes">
               <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
                 {" "}
@@ -47,11 +88,16 @@ export default function ProductDetails({
               </p>
             </div>
             <div className="pdrtdetails_card">
+
+
+
+          
             <p className="productdetails_price" > USD {product.Price}  </p>
                           <h2 className="productdetails_title">{product.Description}</h2>
          
            <p className="productdetails_partnumber" >Part Number: {product.partnumber}</p>
            <button className="addtocart_btn"    onClick={() => handleAddProduct(product)}><GrCart /> Add to cart</button>
+          
               </div>
 
   {/**        

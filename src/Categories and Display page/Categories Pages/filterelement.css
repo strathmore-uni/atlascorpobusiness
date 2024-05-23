@@ -28,7 +28,7 @@
   flex-grow: 1;
 
   align-items: center;
-  left: 0rem;
+  left: 18rem;
   border-radius: 5px;
 
   width: 30rem;
@@ -88,9 +88,21 @@
 
 .btn_group {
   position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 7rem;
   top: 0rem;
-  right: 0rem;
+  right: -5rem;
   height: 1rem;
+
+
+}
+.btn_group p:hover{
+  cursor: pointer;
+  color: #0078a1;
+
 }
 
 .cameraoff_icon {
@@ -102,6 +114,17 @@ justify-content: center;
 align-items: center;
   font-size: 3.5rem;
   color: grey;
+}
+.prdt_image{
+  position: relative;
+  display: flex;
+
+  top: 0rem;
+justify-content: center;
+align-items: center;
+  font-size: 3.5rem;
+  color: grey;
+
 }
 .prdt_title{
   position: relative;
@@ -157,4 +180,9 @@ top: 2rem;
 .mylink:hover{
   box-shadow: 0px 0px 10px 1px;
   transition: width 1ms ease;
+}
+.featuredprdts_length{
+  position: absolute;
+  top: 0rem;
+  font-weight: 700;
 }

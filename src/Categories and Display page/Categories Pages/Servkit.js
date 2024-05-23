@@ -6,9 +6,10 @@ import Categories from '../Categories';
 import { Link } from 'react-router-dom';
 import { LuCameraOff } from "react-icons/lu";
 
+import { CiGrid41 } from "react-icons/ci";
+import { CiGrid2H } from "react-icons/ci";
 
-
-export default function OilFreeCompressor({handleAddProductDetails,cartItems }) {
+export default function Servkit({handleAddProductDetails,cartItems }) {
 const [data, setData] = useState([]);
 
 useEffect(() => {
@@ -46,27 +47,24 @@ useEffect(() => {
        >
          &nbsp;Shop &nbsp;/
        </a>
-       <a href='/Shop/Big'
-         style={{ color: "#0078a1", textDecoration: "none"}}
+       <p href='/Shop/Big'
+         style={{ color: "#0078a1", textDecoration: "none",position: "absolute", left: "7.2rem", top: "-1rem", width:'10rem'}}
       
        >
-         &nbsp;Big &nbsp;/
-       </a>
-       <p
-         style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "10rem", top: "-1rem", width:'10rem' }}
-      
-       >
-         &nbsp;Oil Free Compressors &nbsp;
+         &nbsp;Serv Kit &nbsp;
        </p>
+      
  </div>
 
 
  <div className='productdisplay_container' >
 
 <div className={`sub_productdisplay_container ${layoutMode}`}>
+<small  className='featuredprdts_length' >Featured Products: {data.length}</small>
      <div className='btn_group' >
-     <button   onClick={() => setLayoutMode('grid')}>Grid</button>
-     <button onClick={() => setLayoutMode('normal')}>Normal</button>
+     <small  >Sort by:</small>
+      <p onClick={() => setLayoutMode('grid')} ><CiGrid41 /></p>
+      <p  onClick={() => setLayoutMode('normal')} > <CiGrid2H /></p>
 </div>
 
        {data.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (

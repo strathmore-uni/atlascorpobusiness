@@ -24,6 +24,7 @@ const { results } = location.state || { results: [] };
 
 <div className='productdisplay_container_search' >
      <div className={`sub_productdisplay_container_search ${layoutMode}`}>
+    
       <div className='btn_group' >
       <button   onClick={() => setLayoutMode('grid')}>Grid</button>
       <button onClick={() => setLayoutMode('normal')}>Normal</button>
@@ -32,6 +33,7 @@ const { results } = location.state || { results: [] };
       <div>
        
                  {results.slice(pagesVisited, pagesVisited + itemsPerPage).map((item, index) => (
+                  
             <Link key={item.partnumber}  className='mylink_search' 
           // Moving to the product page
           to={`/Productdetails?name=${item.Description}?id=${item.partnumber}`}onClick={() => handleAddProductDetails(item)} > 
@@ -44,7 +46,10 @@ const { results } = location.state || { results: [] };
             <p  className='prdt_category'  >{item.category}   </p>
             <p  className='prdt_price'  >USD {item.Price}   </p>
        </Link>
-       ) )}     <ReactPaginate
+       
+       ) )}   
+        <small  className='featuredprdts_length' >Featured Products: {results.length}</small>
+         <ReactPaginate
        previousLabel={'Previous'}
        nextLabel={'Next'}
        pageCount={pageCount}

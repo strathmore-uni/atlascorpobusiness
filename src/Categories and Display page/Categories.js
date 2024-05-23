@@ -28,7 +28,7 @@ export default function Categories({ fulldatas}) {
 
   return (
     <div className="Categories_container">
-      <h3>Categories</h3>
+      <h3 style={{color: '#0078a1'}} >Categories</h3>
       <div className="listedproducts_categories">
  {data}
           <li onClick={() => setCompressorDropdown(!compressorDropdown)}>
@@ -42,13 +42,13 @@ export default function Categories({ fulldatas}) {
         {compressorDropdown && (
           <ul className="compressor_dropdown">
            <Link to='/Shop/Filterelement' >  <li style={{width:'13.5rem',padding:'.5rem',color:''}} >Filter Element</li></Link> 
-            <Link to='/Shop/Oilfreecompressor'  >
+            <Link to='/Shop/Servkit'  >
               <li  style={{width:'14rem',padding:'.5rem'}} >Oil-free compressors</li> </Link>
             <li  style={{width:'14rem',padding:'.5rem'}}>Piston Compressors</li>
           </ul>
         )}
         <Link
-          to="/Shop/Oilfreecompressor"
+          to="/Shop/Servkit"
           style={{ textDecoration: "none", color: "black" }}
         >
           {" "}
