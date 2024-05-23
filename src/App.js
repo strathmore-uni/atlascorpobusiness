@@ -126,7 +126,7 @@ function App() {
            <Route  path="/delivery" element={<Delivery  cartItems={cartItems} totalPrice={totalPrice}  />} />
            <Route  path="/form" element={<Form cartItems={cartItems} totalPrice={totalPrice} />}  />
            <Route  path="/review-order"  element={<ReviewOrder cartItems={cartItems} totalPrice={totalPrice}  />} />
-           <Route  path="/search" element={<SearchDisplay  />}  />
+           <Route  path="/search" element={<SearchDisplay  handleAddProduct={handleAddProduct} cartItems={cartItems} handleAddProductDetails={handleAddProductDetails} />}  />
 <Route  path="mycomponent" element={<MyComponent />} />
            <Route  path="/Checkout"  element={<Checkout  cartItems={cartItems} totalPrice={totalPrice} />} />
 

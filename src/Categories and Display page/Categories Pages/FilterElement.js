@@ -40,16 +40,18 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
         </div>
      
      
-<div className='productdisplay_container' >
+<div className='productdisplay_container' key={1} >
+
 
  <div className={`sub_productdisplay_container ${layoutMode}`}>
+
       <div className='btn_group' >
       <button   onClick={() => setLayoutMode('grid')}>Grid</button>
       <button onClick={() => setLayoutMode('normal')}>Normal</button>
 </div>
 
         {datas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
-          
+          <>
           <Link key={product.partnumber}  className='mylink' 
           // Moving to the product page
           to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`} onClick={() => handleAddProductDetails(product)} > 
@@ -61,18 +63,20 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
             <p  className='prdt_category'  >{product.category}   </p>
             <p  className='prdt_price'  >USD {product.Price}   </p>
        </Link>
+       <ReactPaginate
+         previousLabel={'Previous'}
+         nextLabel={'Next'}
+         pageCount={pageCount}
+         onPageChange={(e) => setPageNumber(e.selected)}
+         containerClassName={'pagination'}
+         previousLinkClassName={'pagination__link'}
+         nextLinkClassName={'pagination__link'}
+         disabledClassName={'pagination__link--disabled'}
+         activeClassName={'pagination__link--active'}
+       />
+       </>
         ))}
-            <ReactPaginate
-        previousLabel={'Previous'}
-        nextLabel={'Next'}
-        pageCount={pageCount}
-        onPageChange={(e) => setPageNumber(e.selected)}
-        containerClassName={'pagination'}
-        previousLinkClassName={'pagination__link'}
-        nextLinkClassName={'pagination__link'}
-        disabledClassName={'pagination__link--disabled'}
-        activeClassName={'pagination__link--active'}
-      />
+          
 
       </div>
       </div>

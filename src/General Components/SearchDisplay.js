@@ -5,7 +5,7 @@ import './searchdisplay.css'
 
 import { LuCameraOff } from "react-icons/lu";
 import ReactPaginate from 'react-paginate';
-export default function SearchDisplay() {
+export default function SearchDisplay({handleAddProductDetails}) {
   const location = useLocation();
 const { results } = location.state || { results: [] };
     const [layoutMode, setLayoutMode] = useState('grid');
@@ -34,7 +34,7 @@ const { results } = location.state || { results: [] };
                  {results.slice(pagesVisited, pagesVisited + itemsPerPage).map((item, index) => (
             <Link key={item.partnumber}  className='mylink_search' 
           // Moving to the product page
-          to={`/Productdetails?name=${item.Description}?id=${item.partnumber}`} > 
+          to={`/Productdetails?name=${item.Description}?id=${item.partnumber}`}onClick={() => handleAddProductDetails(item)} > 
          
            
          <p className='cameraoff_icon'  ><LuCameraOff /></p>

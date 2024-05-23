@@ -8,15 +8,14 @@
 
 .productdisplay_container {
   position: absolute;
+ display: block;
  
-  border-radius: 6px;
   top: 12rem;
   left: 0rem;
 
-  width: 100%;
+  
 
-  flex-grow: 1;
-  transition: width 0.5s ease;
+
   
 }
 
@@ -27,13 +26,13 @@
 
   display: flex;
   flex-grow: 1;
-  justify-content: space-between;
+
   align-items: center;
   left: 0rem;
   border-radius: 5px;
-  position: relative;
+
   width: 30rem;
-  bottom: 0rem;
+  bottom: -8rem;
   list-style-type: none;
 }
 
@@ -60,11 +59,11 @@
   cursor: not-allowed;
 }
 
-.sub_productdisplay_container {
-  position: relative;
+.sub_productdisplay_container.grid {
+  position: absolute;
   display: grid;
   flex-direction: column;
-  width: 70%;
+
   top: 0rem;
   left: 21rem;
 
@@ -76,6 +75,11 @@
 
 .sub_productdisplay_container.normal  {
   display: flex;
+  flex-direction: column;
+  
+
+  
+  left: 21rem;
   position: relative;
   
 
@@ -119,7 +123,7 @@ align-items: center;
   position: relative;
   top: -4rem;
   left: 1rem;
-font-size: 1.2rem;
+font-size: 1rem;
   font-weight: 600;
 
 }
@@ -151,5 +155,6 @@ top: 2rem;
   
 }
 .mylink:hover{
-  box-shadow: 0px 0px 2px 0px;
+  box-shadow: 0px 0px 10px 1px;
+  transition: width 1ms ease;
 }

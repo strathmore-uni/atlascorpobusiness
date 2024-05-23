@@ -6,6 +6,8 @@ import Categories from '../Categories';
 import { Link } from 'react-router-dom';
 import { LuCameraOff } from "react-icons/lu";
 
+
+
 export default function OilFreeCompressor({handleAddProductDetails,cartItems }) {
 const [data, setData] = useState([]);
 
