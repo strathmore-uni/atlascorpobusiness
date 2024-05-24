@@ -46,8 +46,8 @@ export default function Products({ fulldatas,datas,handleAddProductDetails }) {
       </Link>
        ))}
            <ReactPaginate
-       previousLabel={'Previous'}
-       nextLabel={'Next'}
+       previousLabel={'< Previous'}
+       nextLabel={'Next >'}
        pageCount={pageCount}
        onPageChange={(e) => setPageNumber(e.selected)}
        containerClassName={'pagination'}

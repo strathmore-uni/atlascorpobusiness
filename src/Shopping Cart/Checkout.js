@@ -4,7 +4,8 @@ import './checkout.css'
 
 import Form from './Form';
 import Footer from '../General Components/Footer';
-
+import { Link } from 'react-router-dom';
+import { IoIosArrowBack } from "react-icons/io";
 
 export default function Checkout({totalPrice,cartItems}) {
    
@@ -12,7 +13,7 @@ export default function Checkout({totalPrice,cartItems}) {
    
   return (
     <div className='checkout_container'>
-        
+        <Link to='/Cart' className='arrowbacktocart' ><IoIosArrowBack/>Back to Cart</Link>
 <h4>Checkout</h4>
 <p className='shippingdetails' >Shipping Details</p>
         <div className='' >
@@ -22,7 +23,7 @@ export default function Checkout({totalPrice,cartItems}) {
 <small className='cart_totalitemsprice' >${totalPrice}</small>
 <p>Shipping:</p>
 <p>VAT:</p>
-<button className='checkout_btn' >Go to Payment Details</button>
+
       </div>
       
 

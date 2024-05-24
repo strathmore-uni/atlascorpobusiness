@@ -37,6 +37,7 @@ left: 1rem;
     position: absolute;
     top: 1.5rem;
     right:2rem;
+    font-weight: 700;
     
 }
 .lucameraoff_cart{
@@ -85,6 +86,7 @@ left: 1rem;
     position: relative;
     top: -1rem;
     left: 1rem;
+    font-weight: 700;
 
 }
 .p_carttotal{

@@ -9,14 +9,14 @@
   h4{
     position: absolute;
     left: 2rem;
-    top: 6rem;
+    top: 8rem;
     font-size: 2rem;
     
 }
 .shippingdetails{
     position: absolute;
     left: 2rem;
-    top: 10rem;
+    top: 12rem;
     font-size: 1.5rem;
     
 
@@ -39,7 +39,7 @@
 form{
     position: absolute;
     
-    top: 15rem;
+    top: 17rem;
     left: 2rem;
     width: 50rem;
     height: 25rem;
@@ -217,4 +217,30 @@ label{
     top: 2rem;
     right: -30rem;
     text-decoration: none;
+}
+.editinfo:hover{
+    color: #0078a1
+}
+.backtoform{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: -1rem;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+
+}
+.backtoform:hover{
+    color: #0078a1
+}
+.arrowbacktocart{
+    position: absolute;
+    top:9rem;
+    color: #0078a1;
+    text-decoration: none;
+}
+.arrowbacktocart:hover{
+    opacity: .7;
 }

@@ -5,12 +5,15 @@ import './searchdisplay.css'
 
 import { LuCameraOff } from "react-icons/lu";
 import ReactPaginate from 'react-paginate';
+import { CiGrid41 } from "react-icons/ci";
+import { CiGrid2H } from "react-icons/ci";
+import { IoIosArrowBack } from "react-icons/io";
 export default function SearchDisplay({handleAddProductDetails}) {
   const location = useLocation();
 const { results } = location.state || { results: [] };
     const [layoutMode, setLayoutMode] = useState('grid');
     const [pageNumber, setPageNumber] = useState(0);
-    const itemsPerPage = 5;
+    const itemsPerPage = 10;
     const pagesVisited = pageNumber * itemsPerPage;
     const pageCount = Math.ceil(results.length / itemsPerPage);
   
@@ -21,16 +24,17 @@ const { results } = location.state || { results: [] };
 
   return (
     <div className='searchdisplay_container' >  
-
+<Link to='/Shop' className='arrowbacktocart' ><IoIosArrowBack/>Back to Shopping</Link>
 <div className='productdisplay_container_search' >
      <div className={`sub_productdisplay_container_search ${layoutMode}`}>
     
       <div className='btn_group' >
-      <button   onClick={() => setLayoutMode('grid')}>Grid</button>
-      <button onClick={() => setLayoutMode('normal')}>Normal</button>
+      <small  >Sort by:</small>
+      <p onClick={() => setLayoutMode('grid')} ><CiGrid41 /></p>
+      <p  onClick={() => setLayoutMode('normal')} > <CiGrid2H /></p>
 </div>
     
-      <div>
+     
        
                  {results.slice(pagesVisited, pagesVisited + itemsPerPage).map((item, index) => (
                   
@@ -61,7 +65,7 @@ const { results } = location.state || { results: [] };
        activeClassName={'pagination__link--active'}
      />
         
-      </div>
+    
    
     
 

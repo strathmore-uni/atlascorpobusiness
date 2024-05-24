@@ -5,6 +5,8 @@ import { LuCameraOff } from "react-icons/lu";
 import axios from 'axios';
 import emailjs from 'emailjs-com';
 import { AiTwotoneEdit } from "react-icons/ai";
+import { IoIosArrowBack } from "react-icons/io";
+
 const ReviewOrder = ({ cartItems, totalPrice }) => {
   const location = useLocation();
   const formData = location.state?.formData || {};
@@ -82,6 +84,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
   return (
     <div>
       <div className='review_container'>
+       <Link to='/Checkout' className='backtoform'><p  ><IoIosArrowBack  />Back</p></Link> 
        <Link to='/Checkout' className='editinfo' > <p>Edit Info<AiTwotoneEdit  /></p></Link>
         <h1>Review Order</h1>
         <h3>User Information</h3>
