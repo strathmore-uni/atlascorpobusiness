@@ -53,7 +53,10 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
       <p  onClick={() => setLayoutMode('normal')} > <CiGrid2H /></p>
 </div>
 
-        {datas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
+        { (typeof datas==="undefined") ?(
+  <h1 className='p_loading' >Loading...</h1>
+        ):(
+  datas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
           <>
           <Link key={product.partnumber}  className='mylink' 
           // Moving to the product page
@@ -79,6 +82,10 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
          activeClassName={'pagination__link--active'}
        />
        </>
+
+        )
+      
+      
         ))}
           
 

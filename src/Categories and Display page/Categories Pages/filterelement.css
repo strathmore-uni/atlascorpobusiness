@@ -188,3 +188,8 @@ top: 2rem;
   left: 1rem;
   font-weight: 700;
 }
+
+.p_loading{
+  position: absolute;
+  font-size: 4rem;
+}
