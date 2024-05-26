@@ -1,7 +1,7 @@
 .container_shop{
     position: absolute;
     top: 0rem;
-    
+    height: 100rem;
     width: 100%;  
     flex-grow: 1;
    

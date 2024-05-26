@@ -1,6 +1,6 @@
 .container_footer {
-  position: absolute;
-  display: flex;
+  position:absolute;
+
   background-color: grey;
   bottom: 0rem;
   height: 10rem;

@@ -25,6 +25,7 @@ const { results } = location.state || { results: [] };
   return (
     <div className='searchdisplay_container' >  
 <Link to='/Shop' className='arrowbacktocart' ><IoIosArrowBack/>Back to Shopping</Link>
+
 <div className='productdisplay_container_search' >
      <div className={`sub_productdisplay_container_search ${layoutMode}`}>
     

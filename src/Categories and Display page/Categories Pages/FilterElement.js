@@ -8,6 +8,7 @@ import { LuCameraOff } from "react-icons/lu";
 import Footer from '../../General Components/Footer';
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
+import { useNavigate } from 'react-router-dom';
 export default function   FilterElement({datas, fulldatas,handleAddProductDetails,cartItems,oilfree,toggleCategoriesAppear }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState('grid');
@@ -17,6 +18,12 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
   const pageCount = Math.ceil(fulldatas.length / itemsPerPage);
 
 
+  const navigate = useNavigate();
+
+  const handleProductClick = (product) => {
+    handleAddProductDetails(product);
+    navigate('/Productdetails', { state: { product } });
+  };
 
   return (
     <div className='big_container' key={1}>
@@ -60,7 +67,7 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
           <>
           <Link key={product.partnumber}  className='mylink' 
           // Moving to the product page
-          to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`} onClick={() => handleAddProductDetails(product)} > 
+          to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}onClick={() => handleProductClick(product)} > 
 
             <img className=' prdt_image' src={product.image} alt='' />
             <p className='cameraoff_icon'  ><LuCameraOff /></p>

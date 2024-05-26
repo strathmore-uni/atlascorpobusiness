@@ -36,6 +36,7 @@ export default function Shop( {handleAddProductDetails,fulldatas,cartItems,oilfr
     </div>
  
         <Categories /> 
+        
         <NavigationBar   cartItems={cartItems}/>
 
     </div>
