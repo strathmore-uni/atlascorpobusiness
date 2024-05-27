@@ -4,9 +4,10 @@ import './shoppingcartpage.css'
 import { LuCameraOff } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
+import Footer from '../General Components/Footer';
 
 
-export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAddProduct,handleCartClearance,totalPrice}) {
+export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleRemoveSingleProduct,handleAddProduct,handleCartClearance,totalPrice}) {
 
 
   return (
@@ -33,6 +34,7 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
            
             </div>
         <h2 style={{ color: '#0078a1'}} >Cart Items</h2>
+        <button className='btn_clearcart' onClick={handleCartClearance} >Clear Cart<RiDeleteBinLine /></button>
         <hr  className='hr_shoppingcartpage' />
         <small style={{position:'absolute',top:'5rem',left:'2rem',fontWeight:'500'}} > Description</small>
         <small  style={{position:'absolute',top:'5rem',right:'3rem',fontWeight:'500'}}>Total</small>
@@ -70,7 +72,7 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
              <p className='net_cart_itemprice' >$ {item.Price}</p>
              <p className='cart_itemprice' >$ {item.Price}</p>
 
-             <p className='cart_removeitem'  onClick={() => handleRemoveProduct(item) } > <RiDeleteBinLine /></p>
+             <p className='cart_removeitem'  onClick={() => handleRemoveSingleProduct(item) } > <RiDeleteBinLine /></p>
           <hr className='hr_incartdisplay' />
           </div>
      
@@ -88,10 +90,13 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleAd
 <p>VAT:</p>
 
 <Link to='/Checkout' ><button className='checkout_btn' >Go to Checkout</button></Link>
+
       </div>
 
      
-
+      <div className='filterelement_footer' >
+         <Footer  />
+      </div>
 
         <NavigationBar  cartItems={cartItems}/>
     </div>

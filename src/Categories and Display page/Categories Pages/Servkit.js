@@ -3,7 +3,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import NavigationBar from '../../General Components/NavigationBar';
 import Categories from '../Categories';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LuCameraOff } from "react-icons/lu";
 
 import { CiGrid41 } from "react-icons/ci";
@@ -12,7 +12,7 @@ import Footer from '../../General Components/Footer';
 
 export default function Servkit({handleAddProductDetails,cartItems }) {
 const [data, setData] = useState([]);
-
+const navigate = useNavigate();
 useEffect(() => {
   axios.get('http://localhost:3001/api/servkit')
     .then(response => {

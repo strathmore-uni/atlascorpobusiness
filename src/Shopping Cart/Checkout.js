@@ -33,7 +33,9 @@ export default function Checkout({totalPrice,cartItems}) {
 
 
 <NavigationBar   />
-<Footer />
+<div className='filterelement_footer' >
+         <Footer  />
+      </div>
     </div>
   )
 }

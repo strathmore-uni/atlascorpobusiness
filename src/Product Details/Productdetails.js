@@ -3,6 +3,7 @@ import NavigationBar from "../General Components/NavigationBar";
 import "./productdetails.css";
 import { GrCart } from "react-icons/gr";
 import { LuCameraOff } from "react-icons/lu";
+import Footer from "../General Components/Footer";
 
 
 export default function ProductDetails({
@@ -184,6 +185,10 @@ export default function ProductDetails({
         ))}
         
       </div>
+      <div className='productdetails_footer' >
+         <Footer  />
+      </div>
+
       <NavigationBar cartItems={cartItems} />
     </div>
   );

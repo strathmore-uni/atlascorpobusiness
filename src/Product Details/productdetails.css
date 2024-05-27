@@ -196,5 +196,15 @@ tbody{
 .thumbnails img:hover {
   border: 1px solid grey;
 }
+.productdetails_footer{
+  position:absolute;
 
+  background-color: #373D41;
+  top: 50rem;
+  height: 8rem;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+
+}
 

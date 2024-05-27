@@ -27,7 +27,7 @@ export default function Footer() {
         <Link to='https://www.linkedin.com/company/atlas-copco'><button>
         <svg
         fill="white"
-        class="svgIcon"
+        className="svgIcon"
         xmlns="http://www.w3.org/2000/svg"
         height="1.6em"
         viewBox="0 0 448 512"

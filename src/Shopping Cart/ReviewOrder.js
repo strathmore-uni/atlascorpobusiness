@@ -6,6 +6,7 @@ import axios from 'axios';
 import emailjs from 'emailjs-com';
 import { AiTwotoneEdit } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
+import Footer from '../General Components/Footer';
 
 const ReviewOrder = ({ cartItems, totalPrice }) => {
   const location = useLocation();
@@ -135,7 +136,9 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
           </div>
         ))}
       </div>
-
+      <div className='filterelement_footer' >
+         <Footer  />
+      </div>
       <NavigationBar />
     </div>
   );

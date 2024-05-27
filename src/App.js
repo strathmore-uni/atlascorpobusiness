@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import Mainpage from "./MainOpeningpage/Mainpage";
 import NavigationBar from "./General Components/NavigationBar";
@@ -26,11 +26,26 @@ function App() {
   const [data, setData] = useState([]);
   const [cartItems, setCartItems] = useState(() => {
 
-
-    
     const savedCartItems = localStorage.getItem('cartItems');
     return savedCartItems ? JSON.parse(savedCartItems) : [];
   });
+
+ const location =useLocation;
+
+  const getUserLocation = async () => {
+    const response = await fetch(`https://ipinfo.io/156.0.233.52/json?token=19349ef51244e4`);
+    const data = await response.json();
+    
+    return data.country; // Use the country code or name as needed
+};
+
+getUserLocation().then(location => {
+    
+    // Now you can use location to fetch the price
+}).catch(error => {
+    console.error('Error fetching IP location:', error);
+});
+
   const [productdetails, setProductDetails] = useState([]);
   const fulldatas = fulldata;
   const oilfreedata = fulldatas ? fulldatas.filter((Category) => Category.Category === 'Oil-free Compressors') : [];
@@ -86,10 +101,9 @@ function App() {
   const handleCartClearance = () => {
     setCartItems([]);
   };
-
   const handleAddProduct = (product) => {
     const ProductExist = cartItems.find((item) => item.id === product.id);
-
+  
     if (ProductExist) {
       setCartItems(
         cartItems.map((item) =>
@@ -101,6 +115,9 @@ function App() {
     } else {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
     }
+  };
+  const handleRemoveSingleProduct = (product) => {
+    setCartItems(cartItems.filter((item) => item.id !== product.id));
   };
 
   return (
@@ -115,7 +132,7 @@ function App() {
             <Route path="/" element={<Mainpage cartItems={cartItems}  datas={data} handleAddProductDetails={handleAddProductDetails} handleAddProduct={handleAddProduct} />} />
             <Route path="/shop" element={<Shop fulldatas={fulldatas} handleAddProduct={handleAddProduct} handleAddProductDetails={handleAddProductDetails} cartItems={cartItems} oilfreedata={oilfreedata} datas={data} />} />
             <Route path="/productdetails" element={<Productdetails handleAddProductDetails={handleAddProductDetails} handleAddProduct={handleAddProduct} productdetails={productdetails} cartItems={cartItems} datas={data} />} />
-            <Route path="/cart" element={<ShoppingCartPage handleAddProduct={handleAddProduct} cartItems={cartItems} handleRemoveProduct={handleRemoveProduct} handleCartClearance={handleCartClearance} totalPrice={totalPrice} datas={data} />} />
+            <Route path="/cart" element={<ShoppingCartPage handleAddProduct={handleAddProduct} handleRemoveSingleProduct={handleRemoveSingleProduct} cartItems={cartItems} handleRemoveProduct={handleRemoveProduct} handleCartClearance={handleCartClearance} totalPrice={totalPrice} datas={data} />} />
             <Route path="/delivery" element={<Delivery cartItems={cartItems} totalPrice={totalPrice} />} />
             <Route path="/form" element={<Form cartItems={cartItems} totalPrice={totalPrice} />} />
             <Route path="/review-order" element={<ReviewOrder cartItems={cartItems} totalPrice={totalPrice} />} />

@@ -48,7 +48,7 @@ export default function Categories({ fulldatas}) {
           </ul>
         )}
         <Link
-          to="/Shop/Servkit"
+          to="/shop/servkit/"
           style={{ textDecoration: "none", color: "black" }}
         >
           {" "}

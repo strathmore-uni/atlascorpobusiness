@@ -25,9 +25,10 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
     navigate('/Productdetails', { state: { product } });
   };
 
+
   return (
     <div className='big_container' key={1}>
-           <div className='shop_routes' >
+           <div className='shop_routes'  key={2} >
  <a href="./" style={{ color: "#0078a1", textDecoration: "none" }}>
                 {" "}
                 Home &nbsp;/
@@ -49,7 +50,7 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
      
    
      
-<div className='productdisplay_container' key={1} >
+<div className='productdisplay_container'  >
 
 
  <div className={`sub_productdisplay_container ${layoutMode}`}>
@@ -68,14 +69,15 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
           <Link key={product.partnumber}  className='mylink' 
           
           to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}onClick={() => handleProductClick(product)} > 
-
+<div key={product.partnumber}>
             <img className=' prdt_image' src={product.image} alt='' />
             <p className='cameraoff_icon'  ><LuCameraOff /></p>
           <p className='prdt_partnumber'> {product.partnumber}</p>
-          {/** */}
+        
             <p  className='prdt_title'  >{product.Description}   </p>
             <p  className='prdt_category'  >{product.category}   </p>
             <p  className='prdt_price'  >USD {product.Price}   </p>
+            </div>
        </Link>
        <ReactPaginate
          previousLabel={'Previous'}

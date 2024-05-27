@@ -8,7 +8,7 @@
  position: absolute;
  border-radius: 6px;
  width: 70%;
- height: 100%;
+
  top: 10rem;
  left: 1rem;
 
@@ -79,6 +79,9 @@ left: 1rem;
 }
 .cart_empty{
     position: absolute;
+    font-size: 2rem;
+    top: 13rem;
+    left: 16rem;
 }
 
 
@@ -170,4 +173,13 @@ left: 1rem;
 .cart_removeitem:hover{
     opacity: .8;
 
+}
+.btn_clearcart{
+    position: absolute;
+    top: 3rem;
+    right: 1rem;
+    width: 8rem;
+    height: 2rem;
+    border: none;
+    cursor: pointer;
 }
