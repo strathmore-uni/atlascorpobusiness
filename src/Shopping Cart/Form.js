@@ -47,8 +47,8 @@ export default function Form() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-      {errors.companyName && <div className="error">{errors.companyName}</div>}
-        <label htmlFor='company_name'>Company Name </label>
+
+        <label htmlFor='company_name'>Company Name  {errors.companyName && <div className="error">{errors.companyName}</div>} </label>
         <input
           type='text'
           placeholder='Company Name'
@@ -60,8 +60,8 @@ export default function Form() {
         />
    
 
-        <label htmlFor='title' className='title'>Title</label>
-        {errors.title && <div className="error">{errors.title}</div>}
+        <label htmlFor='title' className='title'>Title    {errors.title && <div className="error">{errors.title}</div>}</label>
+     
         <select
           id="title"
           value={formData.title}
@@ -75,7 +75,7 @@ export default function Form() {
         </select>
       
 
-        <label htmlFor='fname' className='fname'>First Name</label>
+        <label htmlFor='fname' className='fname'>First Name    {errors.firstName && <div className="error">{errors.firstName}</div>}</label>
         <input
           id='fname'
           className='fnameinput'
@@ -84,9 +84,9 @@ export default function Form() {
           value={formData.firstName}
           onChange={handleFormDataChange}
         />
-        {errors.firstName && <div className="error">{errors.firstName}</div>}
+     
 
-        <label htmlFor='sname' className='sname'>Second Name</label>
+        <label htmlFor='sname' className='sname'>Second Name     {errors.secondName && <div className="error">{errors.secondName}</div>}</label>
         <input
           id='sname'
           className='snameinput'
@@ -95,9 +95,8 @@ export default function Form() {
           value={formData.secondName}
           onChange={handleFormDataChange}
         />
-        {errors.secondName && <div className="error">{errors.secondName}</div>}
 
-        <label htmlFor='firstaddress' className='streetaddresslabel'>Address 1</label>
+        <label htmlFor='firstaddress' className='streetaddresslabel'>Address 1         {errors.address1 && <div className="error">{errors.address1}</div>}</label>
         <input
           id='firstaddress'
           className='streetaddressinput'
@@ -106,9 +105,9 @@ export default function Form() {
           value={formData.address1}
           onChange={handleFormDataChange}
         />
-        {errors.address1 && <div className="error">{errors.address1}</div>}
 
-        <label htmlFor='secondaddress' className='streetaddress2label'>Address 2</label>
+
+        <label htmlFor='secondaddress' className='streetaddress2label'>Address 2         {errors.address2 && <div className="error">{errors.address2}</div>}</label>
         <input
           id='secondaddress'
           className='streetaddress2input'
@@ -117,9 +116,9 @@ export default function Form() {
           value={formData.address2}
           onChange={handleFormDataChange}
         />
-        {errors.address2 && <div className="error">{errors.address2}</div>}
 
-        <label htmlFor='city' className='citylabel'>City</label>
+
+        <label htmlFor='city' className='citylabel'>City     {errors.city && <div className="error">{errors.city}</div>}</label>
         <input
           id='city'
           className='cityinput'
@@ -128,9 +127,9 @@ export default function Form() {
           value={formData.city}
           onChange={handleFormDataChange}
         />
-        {errors.city && <div className="error">{errors.city}</div>}
+    
 
-        <label htmlFor='zip' className='ziplabel'>Zip Code</label>
+        <label htmlFor='zip' className='ziplabel'>Zip Code         {errors.zip && <div className="error">{errors.zip}</div>}</label>
         <input
           className='zipinput'
           placeholder='Postal Code/Zip'
@@ -139,9 +138,9 @@ export default function Form() {
           value={formData.zip}
           onChange={handleFormDataChange}
         />
-        {errors.zip && <div className="error">{errors.zip}</div>}
 
-        <label htmlFor='phone' className='phonelabel'>Phone</label>
+
+        <label htmlFor='phone' className='phonelabel'>Phone         {errors.phone && <div className="error">{errors.phone}</div>}</label>
         <input
           type='number'
           id='phone'
@@ -151,9 +150,9 @@ export default function Form() {
           value={formData.phone}
           onChange={handleFormDataChange}
         />
-        {errors.phone && <div className="error">{errors.phone}</div>}
 
-        <label htmlFor='email' className='emaillabel'>Email</label>
+
+        <label htmlFor='email' className='emaillabel'>Emai\ </label>
         <input
           id='email'
           className='emailinput'
@@ -162,7 +161,7 @@ export default function Form() {
           value={formData.email}
           onChange={handleFormDataChange}
         />
-        {errors.email && <div className="error">{errors.email}</div>}
+    
 
         <button type='submit' className='btn_continue'>Continue</button>
       </form>

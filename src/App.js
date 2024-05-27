@@ -120,8 +120,12 @@ getUserLocation().then(location => {
     setCartItems(cartItems.filter((item) => item.id !== product.id));
   };
 
+
+
+  
   return (
     <>
+    
       <BrowserRouter>
         <ScrollToTop />
 

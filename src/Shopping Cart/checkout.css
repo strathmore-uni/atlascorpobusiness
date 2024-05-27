@@ -38,11 +38,11 @@
 
 form{
     position: absolute;
-    
+  
     top: 17rem;
     left: 2rem;
     width: 50rem;
-    height: 25rem;
+    height: 62rem;
 
 }
 input::before{
@@ -53,6 +53,7 @@ border-color: grey;
 label{
     position: relative;
     font-size: .8rem;
+    top: 0rem;
 }
 .inputs{
     position: relative;
@@ -254,7 +255,7 @@ input[type=number] {
 }
 .error{
     position: relative;
-   
+   top: 0rem;
     left: 25rem;
     color: red;
 }
