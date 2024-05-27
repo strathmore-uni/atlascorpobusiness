@@ -2,11 +2,11 @@ import React,{useState,useEffect} from 'react'
 import NavigationBar from '../General Components/NavigationBar'
 import './mainpage.css'
 import { FaArrowRight } from "react-icons/fa";
-
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Footer from '../General Components/Footer';
-
-export default function Mainpage({cartItems}) {
+import { LuCameraOff } from "react-icons/lu";
+export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
   const images = [
     '/images/QAS generator.jpeg',
@@ -19,6 +19,10 @@ export default function Mainpage({cartItems}) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [prevImageIndex, setPrevImageIndex] = useState(images.length - 1);
   const [nextImageIndex, setNextImageIndex] = useState(1);
+
+
+  const navigate = useNavigate();
+
 
   const goToNextImage = () => {
     setCurrentImageIndex(prevIndex =>
@@ -45,10 +49,15 @@ export default function Mainpage({cartItems}) {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(goToNextImage, 3000); // Change the interval time as per your requirement (e.g., 3000ms for 3 seconds)
+    const intervalId = setInterval(goToNextImage, 3000); 
 
-    return () => clearInterval(intervalId); // Cleanup function to clear the interval
+    return () => clearInterval(intervalId); 
   });
+
+  const handleProductClick = (product) => {
+    handleAddProductDetails(product);
+    navigate('/Productdetails', { state: { product } });
+  };
   return (
     <div>
     
@@ -91,14 +100,44 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 
 
 
+
+
 </div></Link>
+
+<div className='featuredproducts_mainpage' >
+<Link to="/Shop" style={{textDecoration:'none'}}><h2>Featured products</h2> </Link>
+<h3>Filter Elements </h3>
+<a  className='linktoviewmore'  href='/Shop' >View more<FaArrowRight  /></a>
+<div  className='mainpage_products'>
+
+{datas.map((product) => (
+
+
+   <Link key={product.partnumber}  className='mylinks_mainpage' 
+          
+          to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}onClick={() => handleProductClick(product)} > 
+
+            <img className=' prdt_image' src={product.image} alt='' />
+            <p className='cameraoff_icon'  ><LuCameraOff /></p>
+          <p className='prdt_partnumber'> {product.partnumber}</p>
+          {/** */}
+            <p  className='prdt_title'  >{product.Description}   </p>
+            <p  className='prdt_category'  >{product.category}   </p>
+            <p  className='prdt_price'  >USD {product.Price}   </p>
+       </Link>
+  
+))}
+  </div>
+</div>
 
 
 </div>
 
 
 <NavigationBar cartItems={cartItems}/>
-
+<div className='mainpage_footer' >
+         <Footer  />
+      </div>
     </div>
   )
 }

@@ -14,7 +14,7 @@ export default function Shop( {handleAddProductDetails,fulldatas,cartItems,oilfr
     <div>
     <div className='container_shop' >
            <div className='shop_routes' >
- <a href="./" style={{ color: "#0078a1", textDecoration: "none" }}>
+ <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
                 {" "}
                 Home &nbsp;/
               </a>
@@ -38,6 +38,9 @@ export default function Shop( {handleAddProductDetails,fulldatas,cartItems,oilfr
         <Categories /> 
         
         <NavigationBar   cartItems={cartItems}/>
+        <div className='filterelement_footer' >
+         <Footer  />
+      </div>
 
     </div>
   )

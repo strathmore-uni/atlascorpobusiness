@@ -8,6 +8,7 @@ import { LuCameraOff } from "react-icons/lu";
 
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
+import Footer from '../../General Components/Footer';
 
 export default function Servkit({handleAddProductDetails,cartItems }) {
 const [data, setData] = useState([]);
@@ -102,7 +103,9 @@ useEffect(() => {
 <Categories  />
 
 <NavigationBar cartItems={cartItems} />
-
+<div className='filterelement_footer' >
+         <Footer  />
+      </div>
 
 </div>
   )

@@ -66,7 +66,7 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
   datas.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
           <>
           <Link key={product.partnumber}  className='mylink' 
-          // Moving to the product page
+          
           to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}onClick={() => handleProductClick(product)} > 
 
             <img className=' prdt_image' src={product.image} alt='' />
@@ -105,7 +105,11 @@ export default function   FilterElement({datas, fulldatas,handleAddProductDetail
    <Categories fulldatas={fulldatas} oilfree={oilfree}  />
   
       <NavigationBar cartItems={cartItems} />
-   <Footer  />
+
+    
+      <div className='filterelement_footer' >
+         <Footer  />
+      </div>
 
     </div>
   );

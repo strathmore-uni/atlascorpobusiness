@@ -107,12 +107,12 @@ function App() {
     <>
       <BrowserRouter>
         <ScrollToTop />
-        <div id="root">
-        <ScrollToTop />
+
+       
         <NavigationBar cartItems={cartItems} />
-        <div className="app-container">
+
           <Routes>
-            <Route path="/" element={<Mainpage cartItems={cartItems} />} />
+            <Route path="/" element={<Mainpage cartItems={cartItems}  datas={data} handleAddProductDetails={handleAddProductDetails} handleAddProduct={handleAddProduct} />} />
             <Route path="/shop" element={<Shop fulldatas={fulldatas} handleAddProduct={handleAddProduct} handleAddProductDetails={handleAddProductDetails} cartItems={cartItems} oilfreedata={oilfreedata} datas={data} />} />
             <Route path="/productdetails" element={<Productdetails handleAddProductDetails={handleAddProductDetails} handleAddProduct={handleAddProduct} productdetails={productdetails} cartItems={cartItems} datas={data} />} />
             <Route path="/cart" element={<ShoppingCartPage handleAddProduct={handleAddProduct} cartItems={cartItems} handleRemoveProduct={handleRemoveProduct} handleCartClearance={handleCartClearance} totalPrice={totalPrice} datas={data} />} />
@@ -128,10 +128,9 @@ function App() {
             <Route path="/shop/heavy" element={<Heavy />} />
             <Route path="/products" element={<Products handleAddProductDetails={handleAddProductDetails} fulldatas={fulldatas} datas={data} cartItems={cartItems} />} />
           </Routes>
-        </div>
-       
-      </div>
-      <Footer />
+    
+    
+     
       </BrowserRouter>
     </>
   );
