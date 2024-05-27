@@ -159,6 +159,14 @@ label{
     padding: .8rem;
     width: 70%;
 }
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .emaillabel{
     position: absolute;
     top: 51rem;
@@ -243,4 +251,10 @@ label{
 }
 .arrowbacktocart:hover{
     opacity: .7;
+}
+.error{
+    position: relative;
+   
+    left: 25rem;
+    color: red;
 }

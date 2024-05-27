@@ -30,9 +30,29 @@ useEffect(() => {
     const pagesVisited = pageNumber * itemsPerPage;
     const pageCount = Math.ceil(data.length / itemsPerPage);
 
-    
 
-
+    const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+     
+      fetchItems();
+    }, []);
+  
+    const fetchItems = async () => {
+      try {
+        
+        const response = await fetch('http://localhost:3001/api/servkit');
+        if (!response.ok) {
+          throw new Error('Failed to fetch items from MySQL');
+        }
+       
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+   
+      }
+    };
   
   return (
     <div className='big_container' key={1}>
@@ -70,17 +90,36 @@ useEffect(() => {
 
        {data.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
          
-         <Link key={product.partnumber}  className='mylink' 
-         // Moving to the product page
-         to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`} onClick={() => handleAddProductDetails(product)} > 
-        
-           <p className='cameraoff_icon'  ><LuCameraOff /></p>
-         <p className='prdt_partnumber'> {product.partnumber}</p>
-         {/** */}
-           <p  className='prdt_title'  >{product.Description}   </p>
-           <p  className='prdt_category'  >{product.category}   </p>
-           <p  className='prdt_price'  >USD {product.Price}   </p>
-      </Link>
+         <Link key={product.partnumber} className='mylink' 
+         to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`} onClick={() => handleAddProductDetails(product)} >
+           
+         <div key={product.partnumber}>
+         {isLoading ? (
+ <div className="loader">
+   <div className="wrapper">
+     <div className="circle"></div>
+     <div className="line-1"></div>
+     <div className="line-2"></div>
+     <div className="line-3"></div>
+     <div className="line-4"></div>
+   </div>
+ </div>
+) : (
+         
+ <>
+ <img className='prdt_image' src={product.image} alt='' />
+ <p className='cameraoff_icon'><LuCameraOff /></p>
+ <p className='prdt_partnumber'>{product.partnumber}</p>
+ <p className='prdt_title'>{product.Description}</p>
+ <p className="prdt_price">${product.Price}</p>
+
+</>
+
+
+
+)}
+         </div>
+       </Link> 
        ))}
            <ReactPaginate
        previousLabel={'Previous'}

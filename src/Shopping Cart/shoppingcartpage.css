@@ -126,6 +126,7 @@ left: 1rem;
     left: 4rem;
     top: 2rem;
     font-size: .8rem;
+    color: grey;
 }
 .order_summary{
     position: absolute;
@@ -163,7 +164,7 @@ left: 1rem;
     right: 2rem;
     cursor: pointer;
     width: 5rem;
-    font-size: .9rem;
+    font-size: 1.2rem;
     height: 2rem;
     display: flex;
     justify-content: center;
@@ -176,10 +177,28 @@ left: 1rem;
 }
 .btn_clearcart{
     position: absolute;
-    top: 3rem;
+    top: 2rem;
     right: 1rem;
-    width: 8rem;
+    width: 6rem;
     height: 2rem;
     border: none;
     cursor: pointer;
+    color:#0078a1;
+    border-radius: 5px;
+}
+.btn_clearcart:hover  {
+
+
+    box-shadow: 0px 0px 2px 0px;
+
+}
+.shoppingcart_footer{
+    position:absolute;
+
+    background-color: #373D41;
+    top: 80rem;
+    height: 8rem;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
 }

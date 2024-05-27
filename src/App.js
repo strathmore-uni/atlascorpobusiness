@@ -143,6 +143,8 @@ getUserLocation().then(location => {
             <Route path="/shop/servkit" element={<Servkit fulldatas={fulldatas} cartItems={cartItems} oilfreedata={oilfreedata} handleAddProductDetails={handleAddProductDetails} />} />
             <Route path="/shop/filterelement" element={<FilterElement fulldatas={fulldatas} handleAddProduct={handleAddProduct} handleAddProductDetails={handleAddProductDetails} cartItems={cartItems} datas={data} />} />
             <Route path="/shop/heavy" element={<Heavy />} />
+              <Route path="" element={<Notification  />}  />
+
             <Route path="/products" element={<Products handleAddProductDetails={handleAddProductDetails} fulldatas={fulldatas} datas={data} cartItems={cartItems} />} />
           </Routes>
     

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import NavigationBar from '../General Components/NavigationBar';
 import { LuCameraOff } from "react-icons/lu";
@@ -7,10 +7,13 @@ import emailjs from 'emailjs-com';
 import { AiTwotoneEdit } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import Footer from '../General Components/Footer';
+import Notification from '../General Components/Notification';
 
 const ReviewOrder = ({ cartItems, totalPrice }) => {
   const location = useLocation();
   const formData = location.state?.formData || {};
+
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   let shipping_fee = 40.00;
   let vat = (totalPrice * 0.16);
@@ -70,7 +73,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
 
         emailjs.send('service_bmvwx28', 'template_zsdszy8',emailData, 'KeePPXIGkpTcoiTBJ')
         .then((result) => {
-          alert('Order placed and confirmation email sent.');
+          setNotificationMessage('Order placed and confirmation email sent.');
         }, (error) => {
           console.error('Email sending failed:', error);
         }); 
@@ -139,6 +142,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
       <div className='filterelement_footer' >
          <Footer  />
       </div>
+      {notificationMessage && <Notification message={notificationMessage} />}
       <NavigationBar />
     </div>
   );

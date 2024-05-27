@@ -34,7 +34,7 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleRe
            
             </div>
         <h2 style={{ color: '#0078a1'}} >Cart Items</h2>
-        <button className='btn_clearcart' onClick={handleCartClearance} >Clear Cart<RiDeleteBinLine /></button>
+        <button className='btn_clearcart' onClick={handleCartClearance} >Clear Cart<RiDeleteBinLine className='deleteicon' /></button>
         <hr  className='hr_shoppingcartpage' />
         <small style={{position:'absolute',top:'5rem',left:'2rem',fontWeight:'500'}} > Description</small>
         <small  style={{position:'absolute',top:'5rem',right:'3rem',fontWeight:'500'}}>Total</small>
@@ -67,7 +67,7 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleRe
                   -
                 </button>
           </div>
-          <p className='p_serialnumber' >Serial Number:&nbsp;{item.partnumber}</p>
+          <p className='p_serialnumber' >Part Number:&nbsp;{item.partnumber}</p>
              <p style={{fontWeight:'bold',position:'absolute',left:'4rem'}}> {item.Description}</p>
              <p className='net_cart_itemprice' >$ {item.Price}</p>
              <p className='cart_itemprice' >$ {item.Price}</p>
@@ -79,7 +79,7 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleRe
 
       ))}
 
-    
+
 
       </div>
       <div className='order_summary' >
@@ -93,10 +93,10 @@ export default function ShoppingCartPage({cartItems,handleRemoveProduct,handleRe
 
       </div>
 
-     
-      <div className='filterelement_footer' >
+      <div className='shoppingcart_footer' >
          <Footer  />
       </div>
+ 
 
         <NavigationBar  cartItems={cartItems}/>
     </div>
