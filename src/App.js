@@ -52,7 +52,7 @@ getUserLocation().then(location => {
   const totalPrice = cartItems.reduce((Price, item) => Price + item.quantity * item.Price, 0);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/data`)
+    axios.get(`34.122.70.186/api/data`)
       .then(response => {
         setData(response.data);
       })
