@@ -42,7 +42,7 @@ export default function Servkit({ handleAddProductDetails, cartItems }) {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("34.122.70.186/api/servkit");
+      const response = await fetch("http://localhost:3001/api/servkit");
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }

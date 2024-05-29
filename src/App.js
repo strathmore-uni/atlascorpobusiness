@@ -20,6 +20,8 @@ import Footer from "./General Components/Footer";
 import SearchDisplay from "./General Components/SearchDisplay";
 import ScrollToTop from "./General Components/ScrollToTop";
 import Servkit from "./Categories and Display page/Categories Pages/Servkit";
+
+
 import './App.css';
 
 function App() {
@@ -52,7 +54,7 @@ getUserLocation().then(location => {
   const totalPrice = cartItems.reduce((Price, item) => Price + item.quantity * item.Price, 0);
 
   useEffect(() => {
-    axios.get(`34.122.70.186/api/data`)
+    axios.get(`http://localhost:3001/api/data`)
       .then(response => {
         setData(response.data);
       })

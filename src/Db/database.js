@@ -1,13 +1,27 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2/promise';
+import {Connector} from '@google-cloud/cloud-sql-connector';
 
-const db = mysql.createPool({
-  host: 'ultra-mediator-423907-a4:us-central1:atlascopco',
+const connector = new Connector();
+const clientOpts = await connector.getOptions({
+  instanceConnectionName: 'ultra-mediator-423907-a4:us-central1:atlascopco',
+  ipType: 'PUBLIC',
+});
+const pool = await mysql.createPool({
+  ...clientOpts,
   user: 'atlascopco_admin',
   password: '10028mike.',
-  database: 'your-database',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+  database: 'AtlasCopco',
 });
+try {
+  const conn = await pool.getConnection();
+  const [result] = await conn.query('SELECT * FROM products');
+  console.table(result);
+} catch (error) {
+  console.error("Error:", error);
+} finally {
+  await pool.end();
+  connector.close();
+}
 
-module.exports = db.promise();
+await pool.end();
+connector.close();
