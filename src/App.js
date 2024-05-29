@@ -32,21 +32,7 @@ function App() {
     return savedCartItems ? JSON.parse(savedCartItems) : [];
   });
 
- const location =useLocation;
 
-  const getUserLocation = async () => {
-    const response = await fetch(`https://ipinfo.io/156.0.233.52/json?token=19349ef51244e4`);
-    const data = await response.json();
-    
-    return data.country; // Use the country code or name as needed
-};
-
-getUserLocation().then(location => {
-    
-    // Now you can use location to fetch the price
-}).catch(error => {
-    console.error('Error fetching IP location:', error);
-});
 
   const [productdetails, setProductDetails] = useState([]);
   const fulldatas = fulldata;
@@ -57,12 +43,13 @@ getUserLocation().then(location => {
     axios.get(`http://localhost:3001/api/data`)
       .then(response => {
         setData(response.data);
+        
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }, []);
-
+ 
   useEffect(() => {
     // Save cart items to local storage whenever cartItems changes
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -122,7 +109,7 @@ getUserLocation().then(location => {
     setCartItems(cartItems.filter((item) => item.id !== product.id));
   };
 
-
+ 
 
   
   return (

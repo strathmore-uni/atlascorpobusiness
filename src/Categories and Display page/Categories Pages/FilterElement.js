@@ -1,44 +1,63 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import ReactPaginate from "react-paginate";
 import NavigationBar from "../../General Components/NavigationBar";
 import Categories from "../Categories";
-import "./filterelement.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LuCameraOff } from "react-icons/lu";
-import Footer from "../../General Components/Footer";
+
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
-import { useNavigate } from "react-router-dom";
+import Footer from "../../General Components/Footer";
 
-export default function FilterElement({
-  datas,
-  fulldatas,
-  handleAddProductDetails,
-  cartItems,
-  oilfree,
-  toggleCategoriesAppear,
-}) {
+
+export default function FilterElement({ handleAddProductDetails, cartItems }) {
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+
+
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/api/fulldata")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState("grid");
 
   const itemsPerPage = 12;
   const pagesVisited = pageNumber * itemsPerPage;
-  const pageCount = Math.ceil(fulldatas.length / itemsPerPage);
-
-  const navigate = useNavigate();
+  const pageCount = Math.ceil(data.length / itemsPerPage);
 
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timeoutId);
+    fetchItems();
   }, []);
+
+  const fetchItems = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/fulldata");
+      if (!response.ok) {
+        throw new Error("Failed to fetch items from MySQL");
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
 
   return (
     <div className="big_container" key={1}>
-      <div className="shop_routes" key={2}>
+      <div className="shop_routes">
         <a href="./" style={{ color: "#0078a1", textDecoration: "none" }}>
           {" "}
           Home &nbsp;/
@@ -47,22 +66,25 @@ export default function FilterElement({
           &nbsp;Shop &nbsp;/
         </a>
         <p
+          href="/Shop/Big"
           style={{
             color: "#0078a1",
             textDecoration: "none",
             position: "absolute",
-            left: "7rem",
+            left: "7.2rem",
             top: "-1rem",
+            width: "10rem",
           }}
         >
-          &nbsp;Filter&nbsp;
+          &nbsp;Serv Kit &nbsp;
         </p>
       </div>
 
       <div className="productdisplay_container">
+  
         <div className={`sub_productdisplay_container ${layoutMode}`}>
           <small className="featuredprdts_length">
-            {isLoading ? "Loading..." : `Featured Products: ${datas.length}`}
+            Featured Products: {data.length}
           </small>
           <div className="btn_group">
             <small>Sort by:</small>
@@ -75,7 +97,7 @@ export default function FilterElement({
             </p>
           </div>
 
-          {datas
+          {data
             .slice(pagesVisited, pagesVisited + itemsPerPage)
             .map((product, index) => (
               <Link
@@ -109,7 +131,6 @@ export default function FilterElement({
                 </div>
               </Link>
             ))}
-
           <ReactPaginate
             previousLabel={"Previous"}
             nextLabel={"Next"}
@@ -124,10 +145,9 @@ export default function FilterElement({
         </div>
       </div>
 
-      <Categories fulldatas={fulldatas} oilfree={oilfree} />
+      <Categories />
 
       <NavigationBar cartItems={cartItems} />
-
       <div className="filterelement_footer">
         <Footer />
       </div>
