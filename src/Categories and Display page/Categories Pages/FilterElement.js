@@ -84,7 +84,7 @@ export default function FilterElement({ handleAddProductDetails, cartItems }) {
   
         <div className={`sub_productdisplay_container ${layoutMode}`}>
           <small className="featuredprdts_length">
-            Featured Products: {data.length}
+          {data.length} Results
           </small>
           <div className="btn_group">
             <small>Sort by:</small>

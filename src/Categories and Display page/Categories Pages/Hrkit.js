@@ -11,7 +11,7 @@ import { CiGrid2H } from "react-icons/ci";
 import Footer from "../../General Components/Footer";
 
 
-export default function Hrkit({ handleAddProductDetails, cartItems }) {
+export default function Hrkit({ handleAddProductDetails, cartItems, productId  }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 

@@ -44,7 +44,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
       if (response.data.message === 'Order placed successfully') {
       
         const cartItemsDetails = cartItems.map(item => {
-          return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price.toFixed(2)}`;
+          return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price}`;
         }).join('\n');
         // Send confirmation email
         const emailData = {

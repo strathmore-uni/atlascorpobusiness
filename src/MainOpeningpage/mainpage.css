@@ -15,12 +15,13 @@ section {
 }
 .main_p {
   position: relative;
-  font-size: 2rem;
+  top: -4rem;
+  font-size: 3rem;
   left: 5rem;
   width: 92%;
   font-weight: bold;
 
-  color: #0078a1;
+  color: white;
   line-height: 1;
   font-family: "Source Sans Pro", helvetica, arial, sans-serif;
   font-weight: 900;
@@ -32,7 +33,7 @@ section {
 .submain_p {
   position: relative;
   color: #0078a1;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-family: "Source Sans Pro", helvetica, arial, sans-serif;
   font-weight: 400;
   left: 5rem;
@@ -43,7 +44,7 @@ section {
 }
 .sub_p_sub {
   position: relative;
-  top: 25rem;
+  top: 10rem;
   left: 5rem;
   width: 70%;
   font-size: 1.5rem;
@@ -52,95 +53,50 @@ section {
 .sub_p_sub p {
   font-size: 2rem;
 }
-.img_mainpage {
-  position: absolute;
-  top: 0rem;
-  left: 0rem;
-  max-width: 70%;
-  min-height: 50%;
-}
 .container_media {
   position: absolute;
   height: 50rem;
   width: 100%;
   left: 0rem;
-  top: 10rem;
-  background-image: url("/public/download_image_1715842788931.png");
+  top: 7rem;
+  background-image: url("/public/images/home-main-hero-banner-bg.png");
 }
-.image1 {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  max-height: 70%;
-  min-width: 8%;
-  display: none;
-}
-.image2 {
-  position: absolute;
-  top: 5rem;
-  left: 0rem;
-  max-height: 100%;
-  min-width: 100%;
-  width: 100%;
-  visibility: hidden;
-}
-.image3 {
-  position: absolute;
-  top: 1rem;
-  left: 50rem;
-  max-height: 80%;
-  min-width: 8%;
-  display: none;
-}
-.arrow_left {
-  position: relative;
-  top: 8rem;
-  left: 0rem;
 
-  width: 1rem;
-  cursor: pointer;
-  color: white;
-  font-size: 3rem;
-}
-.arrow_right {
-  position: relative;
-  top: 5.5rem;
-  width: 1rem;
-  left: 67rem;
-  color: white;
-  font-size: 3rem;
-  cursor: pointer;
-}
 .shopwithus {
   position: absolute;
-  top: 90rem;
-  background-color: rgb(240, 239, 239);
+  top: 84rem;
+  background-color:  #0078a1 ;
   left: 0;
   right: 0;
   font-size: 2rem;
 
-  height: 8rem;
+  height: 18rem;
 }
 .shopwithus h3 {
   position: absolute;
   top: 0rem;
-}
-.shopwithus_arrowright {
-  position: relative;
-  cursor: pointer;
+  left:32rem;
+  color: white;
+ 
 
-  top: 2rem;
-  left: 60rem;
+}
+
+.imageshop_withus{
+  position: relative;
+  top: 0rem;
+  max-width: 40%;
+  left: -2rem;
+  height: 18rem;
 }
 .featuredproducts_mainpage {
   position: absolute;
-  top: 100rem;
+  top: 105rem;
   
   width: 100%;
 }
 .featuredproducts_mainpage h2{
     position: relative;
-    background-color: aliceblue;
+   
     height: 3rem;
     color: black;
     text-decoration: none;
@@ -166,15 +122,7 @@ section {
     color: black;
     text-decoration: none;
 }
-.mainpage_products {
-    position: absolute;
-  display: flex;
-  height: 24rem;
-border:currentColor;
-  overflow-x: auto;
-  flex-direction: row;
-  width: 100%;
-}
+
 .mylinks_mainpage {
   position: relative;
   top: 1rem;
@@ -205,7 +153,45 @@ border:currentColor;
   left: 0;
   right: 0;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
 }
+.mainpage_products {
+  position: absolute;
+display: flex;
+height: 24rem;
+border:currentColor;
+overflow-x: auto;
+flex-direction: row;
+width: 100%;
+
+flex-direction: row;
+}
+.individual_categories{
+  position: relative;
+height: 13rem;
+width: 10rem;
+left: 2rem;
+margin-left: 2rem;
+
+
+}
+.individual_categories p{
+  position: relative;
+  left: 1rem;
+  color:   #0078a1;
+}
+.individual_images{
+  position: relative;
+  height: 10rem;
+  width: 10rem;
+
+}
+
+
+
+
+
 @media (max-width: 45rem) {
   .container_media {
     left: 0rem;

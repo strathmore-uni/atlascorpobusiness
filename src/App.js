@@ -101,6 +101,11 @@ function App() {
     setCartItems(cartItems.filter((item) => item.id !== product.id));
   };
 
+
+
+
+
+
   return (
     <>
       <BrowserRouter>

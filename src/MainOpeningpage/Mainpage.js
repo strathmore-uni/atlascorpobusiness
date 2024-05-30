@@ -1,77 +1,14 @@
-import React,{useState,useEffect} from 'react'
+import React from 'react'
 import NavigationBar from '../General Components/NavigationBar'
 import './mainpage.css'
 import { FaArrowRight } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+
 import { Link } from 'react-router-dom';
 import Footer from '../General Components/Footer';
-import { LuCameraOff } from "react-icons/lu";
-import axios from 'axios';
+
+
 export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
-  const images = [
-    '/images/QAS generator.jpeg',
-    '/images/GA 90.jpeg',
-    '/images/XAS97.jpeg',
-    '/images/Y35 compressor.jpeg',
-    '/images/ZR 132 FF.jpeg'
-  ];
-
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [prevImageIndex, setPrevImageIndex] = useState(images.length - 1);
-  const [nextImageIndex, setNextImageIndex] = useState(1);
-  const [data, setData] = useState([]);
-
-  const navigate = useNavigate();
-
-
-  const goToNextImage = () => {
-    setCurrentImageIndex(prevIndex =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-    setPrevImageIndex(prevIndex =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-    setNextImageIndex(prevIndex =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const goToPrevImage = () => {
-    setCurrentImageIndex(prevIndex =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-    setPrevImageIndex(prevIndex =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-    setNextImageIndex(prevIndex =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
-
-  useEffect(() => {
-    const intervalId = setInterval(goToNextImage, 3000); 
-
-    return () => clearInterval(intervalId); 
-  });
-
-  const handleProductClick = (product) => {
-    handleAddProductDetails(product);
-    navigate('/Productdetails', { state: { product } });
-  };
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/api/silencerkit")
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
-  
 
   return (
     <div>
@@ -81,15 +18,8 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
 
 <div className='container_media' >
-<img src={images[prevImageIndex]} alt='' className='image1' style={{opacity:'.5'}} />
-          <img src={images[currentImageIndex]} alt='' className='image2'   />
-          <img src={images[nextImageIndex]} alt='' className='image3'  style={{opacity:'.5'}} />
-          <div className="arrow_left" onClick={goToPrevImage}>
-            &lt;
-          </div>
-          <div className="arrow_right" onClick={goToNextImage}>
-            &gt;
-          </div>
+
+       
 </div>
 
 
@@ -109,9 +39,10 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 <img className='img_mainpage'  src="./public/R.png" alt='' />
  
  <Link to='/Shop' style={{color:'black'}} > <div className='shopwithus'>
-   <FaArrowRight className='shopwithus_arrowright' />
+  
 
-  <h3>Shop With Us</h3>
+   <img src='/images/fleetLink.jpg' alt='' className='imageshop_withus' />
+  <h3>Shop more than 75.000 original Atlas Copco spare parts now!</h3>
 
 
 
@@ -120,28 +51,44 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 </div></Link>
 
 <div className='featuredproducts_mainpage' >
-<Link to="/Shop" style={{textDecoration:'none'}}><h2>Featured products</h2> </Link>
-<h3>Filter Elements </h3>
+<Link to="/Shop" style={{textDecoration:'none'}}><h2>Popular Categories</h2> </Link>
+
 <a  className='linktoviewmore'  href='/Shop' >View more<FaArrowRight  /></a>
 <div  className='mainpage_products'>
+  <div className='individual_categories'>
+    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <p>Filter Elements</p>
+  </div>
 
-{data.map((product) => (
+
+  <div className='individual_categories'>
+    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <p>Serv Kits</p>
+  </div>
+
+  <div className='individual_categories'>
+    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <p>Bearing Kits</p>
+  </div>
+
+  <div className='individual_categories'>
+    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <p>Over Haul Kits</p>
+  </div>
+
+  <div className='individual_categories'>
+    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <p>Over Haul Kits</p>
+  </div>
+
+  <div className='individual_categories'>
+    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <p>Over Haul Kits</p>
+  </div>
 
 
-   <Link key={product.partnumber}  className='mylinks_mainpage' 
-          
-          to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}onClick={() => handleProductClick(product)} > 
 
-            <img className=' prdt_image' src={product.image} alt='' />
-            <p className='cameraoff_icon'  ><LuCameraOff /></p>
-          <p className='prdt_partnumber'> {product.partnumber}</p>
-          {/** */}
-            <p  className='prdt_title'  >{product.Description}   </p>
-            <p  className='prdt_category'  >{product.category}   </p>
-            <p  className='prdt_price'  >USD {product.Price}   </p>
-       </Link>
-  
-))}
+
   </div>
 </div>
 
