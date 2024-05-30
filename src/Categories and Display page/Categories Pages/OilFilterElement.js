@@ -11,7 +11,7 @@ import { CiGrid2H } from "react-icons/ci";
 import Footer from "../../General Components/Footer";
 
 
-export default function FilterElement({ handleAddProductDetails, cartItems }) {
+export default function OilFilterElement({ handleAddProductDetails, cartItems }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export default function FilterElement({ handleAddProductDetails, cartItems }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/filterelement")
+      .get("http://localhost:3001/api/oilfilterelement")
       .then((response) => {
         setData(response.data);
       })
@@ -76,7 +76,7 @@ export default function FilterElement({ handleAddProductDetails, cartItems }) {
             width: "10rem",
           }}
         >
-          &nbsp;Filter Element &nbsp;
+          &nbsp;Oil Filter Element &nbsp;
         </p>
       </div>
 

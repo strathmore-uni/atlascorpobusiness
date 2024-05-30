@@ -5,12 +5,14 @@
     left: 1rem;
     height: 30rem;
     width: 19rem;
+    display: block;
     
 }
 .listedproducts_categories{
     position: absolute;
     top: 2.5rem;
-   
+   width: 15rem;
+
     list-style-type: none;
    
     padding: 0rem;
@@ -22,10 +24,10 @@ flex-direction: column;
 }
 .listedproducts_categories li{
     position: relative;
-    top: .5rem;
+    top: 0rem;
     left: 1rem;
     
-    height: 2rem;
+    height: 1.2rem;
     margin-top: .5rem;
     color: black;
     list-style-type: none;
@@ -47,3 +49,23 @@ flex-direction: column;
     position: absolute;
     top: 17rem;
 }
+.compressor_dropdown {
+    position: relative;
+    top: -1.3rem;
+    left: 4rem;
+  
+    flex-direction: column;
+    height: 4rem;
+    width: 8rem;
+  }
+  
+  .compressor_dropdown li {
+    position: relative;
+    top: -1rem;
+    left: -3rem;
+    display: flex;
+height: 1.2rem;
+    margin: 0;
+    padding: 0.01rem ; 
+  }
+  
