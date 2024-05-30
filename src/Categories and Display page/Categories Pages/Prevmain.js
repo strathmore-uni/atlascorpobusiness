@@ -11,7 +11,7 @@ import { CiGrid2H } from "react-icons/ci";
 import Footer from "../../General Components/Footer";
 
 
-export default function Autodrainvalve({ handleAddProductDetails, cartItems }) {
+export default function Prevmain({ handleAddProductDetails, cartItems }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export default function Autodrainvalve({ handleAddProductDetails, cartItems }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/autodrainvalve")
+      .get("http://localhost:3001/api/prevmain")
       .then((response) => {
         setData(response.data);
       })
@@ -42,7 +42,7 @@ export default function Autodrainvalve({ handleAddProductDetails, cartItems }) {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/autodrainvalve");
+      const response = await fetch("http://localhost:3001/api/prevmain");
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }
@@ -76,7 +76,7 @@ export default function Autodrainvalve({ handleAddProductDetails, cartItems }) {
             width: "10rem",
           }}
         >
-          &nbsp;Auto Drain Valve&nbsp;
+          &nbsp;Filter Element &nbsp;
         </p>
       </div>
 

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Footer from '../General Components/Footer';
 import { LuCameraOff } from "react-icons/lu";
+import axios from 'axios';
 export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
   const images = [
@@ -19,7 +20,7 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [prevImageIndex, setPrevImageIndex] = useState(images.length - 1);
   const [nextImageIndex, setNextImageIndex] = useState(1);
-
+  const [data, setData] = useState([]);
 
   const navigate = useNavigate();
 
@@ -58,6 +59,20 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
     handleAddProductDetails(product);
     navigate('/Productdetails', { state: { product } });
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/api/silencerkit")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+  
+
   return (
     <div>
     
@@ -110,7 +125,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 <a  className='linktoviewmore'  href='/Shop' >View more<FaArrowRight  /></a>
 <div  className='mainpage_products'>
 
-{datas.map((product) => (
+{data.map((product) => (
 
 
    <Link key={product.partnumber}  className='mylinks_mainpage' 

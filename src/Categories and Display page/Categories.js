@@ -6,22 +6,11 @@ import axios from "axios";
 
 export default function Categories() {
   const [compressorDropdown, setCompressorDropdown] = useState(false);
+  const [prevmaincompressorDropdown, prevmainsetCompressorDropdown] = useState(false);
+  const [overhaulcompressorDropdown, overhaulsetCompressorDropdown] = useState(false);
   const [data] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [priceRange, setPriceRange] = useState("");
 
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get("/api/products", {
-        params: {
-          priceRange,
-        },
-      });
-      setProducts(response.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
+
 
   return (
     <div className="Categories_container">
@@ -76,31 +65,108 @@ export default function Categories() {
         </Link>
       
         <Link 
-          to="/shop/autodrainvalve/"
+          to="/shop/contractor"
           style={{ textDecoration: "none", color: "black" }}
         >
           {" "}
           <li>Contractor</li>
         </Link>
       
-        <li>BIG</li>
-        <li>HEAVY</li>
-      </div>
-
-      <div className="price_range_container">
-        <h3>Price Range</h3>
-        <div onClick={() => setPriceRange("0-100")}>0-100</div>
-        <div onClick={() => setPriceRange("100-200")}>100-200</div>
-
-        <button onClick={fetchProducts}>Search</button>
-      </div>
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>
-            {product.name} - ${product.price}
+       
+         
+          <li  onClick={() => overhaulsetCompressorDropdown(!overhaulcompressorDropdown)}>Over Haul Kit
+          {overhaulcompressorDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
           </li>
-        ))}
-      </ul>
+          
+        {overhaulcompressorDropdown && (
+          <ul className="compressor_dropdown">
+            <Link
+              to="/Shop/overhaulkit"
+              style={{
+                width: "13.5rem",
+                padding: ".5rem",
+                color: "black",
+                textDecoration: "none",
+              }}
+            >
+              {" "}
+              <li>Over Haul Kit</li>
+            </Link>
+            <Link
+              to="/Shop/silencerkit"
+              style={{
+                width: "14rem",
+                padding: ".5rem",
+                textDecoration: "none",
+                color: "black",
+              }}
+            >
+              {" "}
+              <li>Silencer Kit</li>{" "}
+            </Link>
+            <Link
+              to="/Shop/maintenancekit"
+              style={{
+                width: "14rem",
+                padding: ".5rem",
+                textDecoration: "none",
+                color: "black",
+              }}
+            >
+              {" "}
+              <li>Maintenance Kit</li>{" "}
+            </Link>
+          </ul>
+        )}
+     
+        <Link 
+          to="/shop/bearingkits"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          {" "}
+          <li>Bearing Kits</li>
+        </Link>
+        
+        <li  onClick={() => prevmainsetCompressorDropdown(!prevmaincompressorDropdown)}>
+          Prev Main
+          {prevmaincompressorDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}{" "}
+          </li>
+          {prevmaincompressorDropdown && (
+          <ul className="compressor_dropdown">
+            <Link
+              to="/Shop/prevmain"
+              style={{
+                width: "13.5rem",
+                padding: ".5rem",
+                color: "black",
+                textDecoration: "none",
+              }}
+            >
+              {" "}
+              <li>Prev Main</li>
+            </Link>
+            <Link
+              to="/Shop/hrkit"
+              style={{
+                width: "14rem",
+                padding: ".5rem",
+                textDecoration: "none",
+                color: "black",
+              }}
+            >
+              {" "}
+              <li>Hr Kit</li>{" "}
+            </Link>
+        
+          </ul>
+        )}
+
+
+
+
+      </div>
+
+    
     </div>
   );
 }

@@ -21,6 +21,13 @@ import Servkit from "./Categories and Display page/Categories Pages/Servkit";
 import "./App.css";
 import OilFilterElement from "./Categories and Display page/Categories Pages/OilFilterElement";
 import Autodrainvalve from "./Categories and Display page/Categories Pages/Autodrainvalve";
+import Contractor from "./Categories and Display page/Categories Pages/Contractor";
+import Overhaulkit from "./Categories and Display page/Categories Pages/Overhaulkit";
+import Bearingkits from "./Categories and Display page/Categories Pages/Bearingkits";
+import Silencerkit from "./Categories and Display page/Categories Pages/Silencerkit";
+import Maintenancekit from "./Categories and Display page/Categories Pages/Maintenancekit";
+import Prevmain from "./Categories and Display page/Categories Pages/Prevmain";
+import Hrkit from "./Categories and Display page/Categories Pages/Hrkit";
 
 function App() {
   const [cartItems, setCartItems] = useState(() => {
@@ -195,9 +202,16 @@ function App() {
               />
             }
           />
-          <Route path="/shop/autodrainvalve" element={<Autodrainvalve   handleAddProduct={handleAddProduct}
+          <Route
+            path="/shop/autodrainvalve"
+            element={
+              <Autodrainvalve
+                handleAddProduct={handleAddProduct}
                 handleAddProductDetails={handleAddProductDetails}
-                cartItems={cartItems} />} />
+                cartItems={cartItems}
+              />
+            }
+          />
           <Route
             path="/shop/oilfilterelement"
             element={
@@ -209,6 +223,79 @@ function App() {
             }
           />
 
+          <Route
+            path="/shop/contractor"
+            element={
+              <Contractor
+                handleAddProduct={handleAddProduct}
+                handleAddProductDetails={handleAddProductDetails}
+                cartItems={cartItems}
+              />
+            }
+          />
+          <Route
+            path="/shop/bearingkits"
+            element={
+              <Bearingkits
+                handleAddProduct={handleAddProduct}
+                handleAddProductDetails={handleAddProductDetails}
+                cartItems={cartItems}
+              />
+            }
+          />
+
+          <Route
+            path="/shop/overhaulkit"
+            element={
+              <Overhaulkit
+                handleAddProduct={handleAddProduct}
+                handleAddProductDetails={handleAddProductDetails}
+                cartItems={cartItems}
+              />
+            }
+          />
+          <Route
+            path="/shop/silencerkit"
+            element={
+              <Silencerkit
+                handleAddProduct={handleAddProduct}
+                handleAddProductDetails={handleAddProductDetails}
+                cartItems={cartItems}
+              />
+            }
+          />
+          <Route
+            path="/shop/maintenancekit"
+            element={
+              <Maintenancekit
+                handleAddProduct={handleAddProduct}
+                handleAddProductDetails={handleAddProductDetails}
+                cartItems={cartItems}
+              />
+            }
+          />
+          <Route
+            path="/shop/prevmain"
+            element={
+              <Prevmain
+                handleAddProduct={handleAddProduct}
+                handleAddProductDetails={handleAddProductDetails}
+                cartItems={cartItems}
+              />
+            }
+          />
+             <Route
+            path="/shop/hrkit"
+            element={
+              <Hrkit
+                handleAddProduct={handleAddProduct}
+                handleAddProductDetails={handleAddProductDetails}
+                cartItems={cartItems}
+              />
+            }
+          />
+
+
           <Route path="" element={<Notification />} />
 
           <Route
@@ -216,7 +303,6 @@ function App() {
             element={
               <Products
                 handleAddProductDetails={handleAddProductDetails}
-           
                 cartItems={cartItems}
               />
             }
