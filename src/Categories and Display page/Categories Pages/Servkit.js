@@ -58,7 +58,7 @@ export default function Servkit({ handleAddProductDetails, cartItems }) {
   return (
     <div className="big_container" key={1}>
       <div className="shop_routes">
-        <a href="./" style={{ color: "#0078a1", textDecoration: "none" }}>
+        <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
           {" "}
           Home &nbsp;/
         </a>

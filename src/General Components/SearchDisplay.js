@@ -53,7 +53,7 @@ const { results } = location.state || { results: [] };
        </Link>
        
        ) )}   
-        <small  className='featuredprdts_length' >Featured Products: {results.length}</small>
+        <small  className='featuredprdts_length' > {results.length} Results</small>
          <ReactPaginate
        previousLabel={'Previous'}
        nextLabel={'Next'}

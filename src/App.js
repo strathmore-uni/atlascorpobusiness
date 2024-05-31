@@ -101,8 +101,17 @@ function App() {
     setCartItems(cartItems.filter((item) => item.id !== product.id));
   };
 
+ const [countryCode, setCountryCode] = useState("");
 
-
+  useEffect(() => {
+    async function fetchCountryCode() {
+      let url = 'https://ipinfo.io/json?token=19349ef51244e4';
+      let response = await fetch(url);
+      let data = await response.json();
+      setCountryCode(data.country);
+    }
+    fetchCountryCode();
+  }, []);
 
 
 

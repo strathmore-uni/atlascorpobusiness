@@ -14,13 +14,14 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
     <div>
     
 
-<div className='mainpage_container'>
+<div className='mainpage_container'> 
 
 
 <div className='container_media' >
 
        
 </div>
+
 
 
   <section>

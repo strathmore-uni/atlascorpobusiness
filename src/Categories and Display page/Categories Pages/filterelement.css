@@ -66,7 +66,7 @@
   flex-direction: column;
 
   top: 0rem;
-  left: 21rem;
+  left: 20rem;
 
   grid-template-columns: repeat(4, 165px);
   grid-gap:50px;
@@ -129,16 +129,16 @@ align-items: center;
 }
 .prdt_title{
   position: relative;
-  font-size: 1.15rem;
+  font-size: 1.14rem;
   top: -3rem;
-  left: 1rem;
+  left: 0.7rem;
   font-weight: 600;
 
 }
 .prdt_partnumber{
   position: relative;
   top: -2rem;
-  left: 1rem;
+  left: 0.7rem;
   font-size: .8rem;
   font-weight: 600;
   color: grey;
@@ -169,8 +169,8 @@ border: 1px solid grey ;
 border-radius: 6px;
 top: 2rem;
   left: 1rem;
-  width: 12rem;
-  height: 15rem;
+  width: 13rem;
+  height: 17rem;
   color: black;
   text-decoration: none;
 
@@ -208,8 +208,8 @@ top: 2rem;
 }
 .loader {
   position: relative;
-  width: 160px;
-  height: 208px;
+  width: 176px;
+  height: 239px;
   margin-bottom: 10px;
   border: 1px solid #d3d3d3;
   padding: 15px;

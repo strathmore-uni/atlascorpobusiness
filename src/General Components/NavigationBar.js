@@ -78,6 +78,7 @@ export default function NavigationBar({ cartItems = [] }) {
 
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
+     <Link  to="/" ><img src='./images/logo.jpeg' alt='' className='mylogoimage' /> </Link> 
       <Link to="/">
         <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
       </Link>

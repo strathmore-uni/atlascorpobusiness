@@ -49,7 +49,9 @@ input::before{
 border-color: grey;
     border-radius: 3px;
 }
-
+input:focus{
+    border-bottom: 2px solid #5b5fc7;
+}
 label{
     position: relative;
     font-size: .8rem;
@@ -86,6 +88,7 @@ label{
     top: 6rem;
     padding: .8rem;
     width: 70%;
+    border-color: none;
 
 }
 .sname{
