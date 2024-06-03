@@ -2,44 +2,46 @@ import React, { useState, useEffect } from "react";
 import "./Navigation.css";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GrCart } from "react-icons/gr";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 export default function NavigationBar({ cartItems = [] }) {
   const navigate = useNavigate();
 
   const countries = [
     { value: 'KE', label: 'Kenya' },
-    { value: 'AF', label: 'Afghanistan' },
-    { value: 'AU', label: 'Australia' },
-    { value: 'BR', label: 'Brazil' },
-    { value: 'CA', label: 'Canada' },
-    { value: 'CN', label: 'China' },
-    { value: 'EG', label: 'Egypt' },
-    { value: 'FR', label: 'France' },
-    { value: 'DE', label: 'Germany' },
-    { value: 'IN', label: 'India' },
-    { value: 'ID', label: 'Indonesia' },
-    { value: 'IT', label: 'Italy' },
-    { value: 'JP', label: 'Japan' },
-    { value: 'MX', label: 'Mexico' },
-    { value: 'NG', label: 'Nigeria' },
-    { value: 'PK', label: 'Pakistan' },
-    { value: 'RU', label: 'Russia' },
-    { value: 'SA', label: 'Saudi Arabia' },
-    { value: 'ZA', label: 'South Africa' },
-    { value: 'KR', label: 'South Korea' },
-    { value: 'ES', label: 'Spain' },
-    { value: 'US', label: 'United States' }
+    { value: 'US', label: 'United States' },
+    { value: 'UG', label: 'Uganda' },
+    { value: 'TZ', label: 'Tanzania' },
   ];
 
   const [selectedCountry, setSelectedCountry] = useState('');
+  const [products, setProducts] = useState([]);
 
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
-  }
+  const handleCountryChange = async (event) => {
+    const country = event.target.value;
+    setSelectedCountry(country);
+    fetchProducts(country);
+  };
+
+  const fetchProducts = async (country) => {
+    if (!country) return; // Prevent fetching if country is empty
+
+    try {
+      const response = await axios.get(`http://localhost:3001/api/products?country=${country}`);
+      setProducts(response.data);
+      navigate('/mytestingpage', { state: { products: response.data } });
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedCountry) {
+      fetchProducts(selectedCountry);
+    }
+  }, [selectedCountry]);
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -78,7 +80,7 @@ export default function NavigationBar({ cartItems = [] }) {
 
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
-     <Link  to="/" ><img src='./images/logo.jpeg' alt='' className='mylogoimage' /> </Link> 
+      <Link to="/"><img src='./images/OIP.jpg' alt='' className='mylogoimage' /></Link>
       <Link to="/">
         <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
       </Link>
@@ -91,9 +93,7 @@ export default function NavigationBar({ cartItems = [] }) {
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-
       <hr className="nav_hr_line" />
-
       <Link to='/Cart' style={{ textDecoration: 'none', color: 'white' }}>
         <p className="p_cart">
           <GrCart />

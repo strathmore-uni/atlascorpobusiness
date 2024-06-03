@@ -28,6 +28,7 @@ import Silencerkit from "./Categories and Display page/Categories Pages/Silencer
 import Maintenancekit from "./Categories and Display page/Categories Pages/Maintenancekit";
 import Prevmain from "./Categories and Display page/Categories Pages/Prevmain";
 import Hrkit from "./Categories and Display page/Categories Pages/Hrkit";
+import Mytestingpage from "./Categories and Display page/Categories Pages/Mytestingpage";
 
 function App() {
   const [cartItems, setCartItems] = useState(() => {
@@ -309,6 +310,7 @@ function App() {
             }
           />
 
+         <Route path='/mytestingpage' element={<Mytestingpage  />} />
 
           <Route path="" element={<Notification />} />
 

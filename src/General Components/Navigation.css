@@ -8,9 +8,9 @@
 }
 .mylogoimage{
   position: relative;
-  top: 0rem;
+  top: -1rem;
   left: .2rem;
-  height: 2.5rem;
+  height: 4.5rem;
   
 }
 
@@ -166,7 +166,7 @@ input:hover {
 }
 .nav_hr_line {
   position: relative;
-  top: -.5rem;
+  top: -3rem;
 
   border-style: ridge;
 }
