@@ -1,36 +1,21 @@
-import React, { useState, useEffect,useContext } from "react";
-import axios from "axios";
-import ReactPaginate from "react-paginate";
-import NavigationBar from "../../General Components/NavigationBar";
-import Categories from "../Categories";
-import { Link, useNavigate,useLocation } from "react-router-dom";
+import React, { useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { Link } from "react-router-dom";
 import { LuCameraOff } from "react-icons/lu";
-
+import Categories from '../Categories and Display page/Categories';
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
-import Footer from "../../General Components/Footer";
-import { ProductsContext } from "../../MainOpeningpage/ProductsContext";
-
-export default function FilterElement({ handleAddProductDetails, cartItems }) {
-  const { products } = useContext(ProductsContext);
-  const navigate = useNavigate();
+import ReactPaginate from 'react-paginate';
+import NavigationBar from '../General Components/NavigationBar';
+import Footer from '../General Components/Footer';
+const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
+  const [products, setProducts] = useState([]);
+  const { category } = useParams();
 
   const [data, setData] = useState([]);
 
-
-
- 
-useEffect(() => {
-  axios
-    .get("http://localhost:3001/api/products")
-    .then((response) => {
-      setData(response.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
-}, []);
-
+  
 
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState("grid");
@@ -40,27 +25,28 @@ useEffect(() => {
   const pageCount = Math.ceil(data.length / itemsPerPage);
 
   const [isLoading, setIsLoading] = useState(true);
+
+
   useEffect(() => {
-    fetchItems();
-  }, []);
-
-  const fetchItems = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/api/products');
-      if (!response.ok) {
-        throw new Error("Failed to fetch items from MySQL");
+    const fetchProductsByCategory = async () => {
+      try {
+     
+        const response = await axios.get(`http://localhost:3001/api/products/${category}`);
+  
+        setProducts(response.data);
+           setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching products:', error);
       }
-
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
+    };
+ 
+    fetchProductsByCategory();
+  }, [category]);
 
   return (
-    <div className="big_container" key={1}>
+    <div>
+      
+      <div className="big_container" key={1}>
       <div className="shop_routes">
         <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
           {" "}
@@ -129,7 +115,7 @@ useEffect(() => {
                       </p>
                       <p className="prdt_partnumber">{product.partnumber}</p>
                       <p className="prdt_title">{product.Description}</p>
-                      <p className="prdt_price">${product.price}</p>
+                      <p className="prdt_price">${product.Price}</p>
                     </>
                   )}
                 </div>
@@ -156,5 +142,8 @@ useEffect(() => {
         <Footer />
       </div>
     </div>
+    </div>
   );
-}
+};
+
+export default ProductsPage;

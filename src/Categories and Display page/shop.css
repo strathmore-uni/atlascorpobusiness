@@ -32,3 +32,13 @@
     left: 22rem;
  
 }
+.shop_footer{
+    position:absolute;
+
+    background-color: #373D41;
+    top:100rem;
+    height: 8rem;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+}

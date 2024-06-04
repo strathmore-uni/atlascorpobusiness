@@ -38,7 +38,7 @@ export default function Shop( {handleAddProductDetails,fulldatas,cartItems,oilfr
         <Categories /> 
         
         <NavigationBar   cartItems={cartItems}/>
-        <div className='filterelement_footer' >
+        <div className='shop_footer' >
          <Footer  />
       </div>
 

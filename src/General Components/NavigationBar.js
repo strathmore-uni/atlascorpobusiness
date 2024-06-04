@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Navigation.css";
-import { IoPersonOutline } from "react-icons/io5";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoPersonOutline, IoSearchOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { GrCart } from "react-icons/gr";
-import axios from 'axios';
+import axios from "axios";
+import { ProductsContext } from "../MainOpeningpage/ProductsContext";
 
 export default function NavigationBar({ cartItems = [] }) {
   const navigate = useNavigate();
+  const { selectedCountry, setSelectedCountry, fetchProducts } = useContext(ProductsContext);
 
   const countries = [
     { value: 'KE', label: 'Kenya' },
@@ -16,46 +17,18 @@ export default function NavigationBar({ cartItems = [] }) {
     { value: 'TZ', label: 'Tanzania' },
   ];
 
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [products, setProducts] = useState([]);
-
-  const handleCountryChange = async (event) => {
+  const handleCountryChange = (event) => {
     const country = event.target.value;
     setSelectedCountry(country);
-    fetchProducts(country);
+    fetchProducts(''); // Fetch products based on the new selected country
   };
-
-  const fetchProducts = async (country) => {
-    if (!country) return; // Prevent fetching if country is empty
-
-    try {
-      const response = await axios.get(`http://localhost:3001/api/products?country=${country}`);
-      setProducts(response.data);
-      navigate('/mytestingpage', { state: { products: response.data } });
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedCountry) {
-      fetchProducts(selectedCountry);
-    }
-  }, [selectedCountry]);
 
   const [isScrolled, setIsScrolled] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 0);
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
