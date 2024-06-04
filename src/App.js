@@ -20,6 +20,18 @@ import { ProductsProvider } from "./MainOpeningpage/ProductsContext";
 import ProductsPage from "./Products Page/ProductsPage";
 
 function App() {
+
+  const [showCountrySelection, setShowCountrySelection] = useState(true); // Flag to control rendering
+
+  const handleCountrySelected = (country) => {
+    setShowCountrySelection(false);
+    // Store selected country information (optional)
+  };
+
+
+
+
+
   const [cartItems, setCartItems] = useState(() => {
     const savedCartItems = localStorage.getItem("cartItems");
     return savedCartItems ? JSON.parse(savedCartItems) : [];
