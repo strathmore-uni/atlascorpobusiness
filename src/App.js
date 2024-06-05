@@ -18,6 +18,11 @@ import "./App.css";
 import Mytestingpage from "./Categories and Display page/Categories Pages/Mytestingpage";
 import { ProductsProvider } from "./MainOpeningpage/ProductsContext";
 import ProductsPage from "./Products Page/ProductsPage";
+import BackToTopButton from "./General Components/BackToTopButton";
+import SignInPage from "./MainOpeningpage/SignInPage";
+import { AuthProvider } from "./MainOpeningpage/AuthContext";
+import SignOutUser from "./MainOpeningpage/SignOutUser";
+
 
 function App() {
 
@@ -117,6 +122,7 @@ function App() {
 
   return (
     <>
+    <AuthProvider>
       <ProductsProvider>
         <BrowserRouter>
           <ScrollToTop />
@@ -225,9 +231,14 @@ function App() {
                 />
               }
             />
+            <Route path="/signin" element={<SignInPage />}  />
+      
           </Routes>
         </BrowserRouter>
+        <BackToTopButton />
+        <SignOutUser handleCartClearance={handleCartClearance} />
       </ProductsProvider>
+      </AuthProvider>
     </>
   );
 }

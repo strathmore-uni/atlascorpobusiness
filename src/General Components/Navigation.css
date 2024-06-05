@@ -204,13 +204,70 @@ input:hover {
 
 .person_icon{
   position: absolute;
-  top: 4rem;
-  right: 7rem;
+  top: 0rem;
+  right: 11rem;
   font-size: 1.4rem;
   color: #0078a1;
 
 }
 
+/* Dropdown container */
+.user-profile-container {
+  position: absolute;
+  top: 4rem;
+  right: 7rem;
+  font-size: .7rem;
+  color: #0078a1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* User profile icon */
+.user-profile {
+  cursor: pointer;
+  position: relative;
+}
+
+/* Email text */
+.email {
+  margin-right: 10px;
+}
+
+/* Dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 5px;
+  padding: 5px 0;
+}
+
+/* Dropdown button */
+.dropdown-content button {
+  background-color: transparent;
+  border: none;
+  color: #333;
+  padding: 10px 15px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.3s;
+}
+
+/* Dropdown button hover effect */
+.dropdown-content button:hover {
+  background-color: #ddd;
+}
+
+/* Show dropdown content when hovering over user profile icon */
+.user-profile:hover .dropdown-content {
+  display: block;
+}
 
 
 @media (max-width: 45rem) {

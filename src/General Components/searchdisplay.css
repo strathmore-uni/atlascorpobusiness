@@ -110,3 +110,7 @@
       display: flex;
      
     }  
+    .arrowback{
+      position: relative;
+      top: .2rem;
+    }

@@ -5,27 +5,37 @@ import { GrCart } from "react-icons/gr";
 import { LuCameraOff } from "react-icons/lu";
 import Footer from "../General Components/Footer";
 import Notification from "../General Components/Notification";
+import { useAuth } from "../MainOpeningpage/AuthContext";
+import {  useNavigate } from 'react-router-dom';
 
 export default function ProductDetails({
   productdetails,
   handleAddProduct,
   cartItems,
 }) {
+  const { currentUser } = useAuth(); 
   const [selectedImage, setSelectedImage] = useState();
   const [notificationMessage, setNotificationMessage] = useState('');
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
 
-  // Function to handle adding product to the cart and setting the notification message
+ 
   const handleAddToCart = (product) => {
+    if (!currentUser) {
+      navigate('/signin'); // Redirect to sign-in page if not authenticated
+      return;
+    }
     handleAddProduct(product);
     setNotificationMessage(`${product.Description} has been added to the cart.`);
     setTimeout(() => {
       setNotificationMessage('');
-    }, 3000); 
-  };
+    }, 300
+);
+};
 
   return (
     <div className="productdetails_container" key={1}>

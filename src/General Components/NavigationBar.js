@@ -5,11 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { GrCart } from "react-icons/gr";
 import axios from "axios";
 import { ProductsContext } from "../MainOpeningpage/ProductsContext";
+import { useAuth } from '../MainOpeningpage/AuthContext'; 
+
+import { IoIosArrowDown } from "react-icons/io";
+import signOutUser from "../MainOpeningpage/SignOutUser";
 
 export default function NavigationBar({ cartItems = [] }) {
   const navigate = useNavigate();
   const { selectedCountry, setSelectedCountry, fetchProducts } = useContext(ProductsContext);
-
+  const { currentUser, signOut } = useAuth();
   const countries = [
     { value: 'KE', label: 'Kenya' },
     { value: 'US', label: 'United States' },
@@ -35,7 +39,7 @@ export default function NavigationBar({ cartItems = [] }) {
   }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
-
+  
   const handleSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/search?term=${searchQuery}`);
@@ -51,6 +55,10 @@ export default function NavigationBar({ cartItems = [] }) {
     }
   };
 
+    const handleSignOut = () => {
+      signOutUser();
+    };
+  
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
       <Link to="/"><img src='./images/OIP.jpg' alt='' className='mylogoimage' /></Link>
@@ -75,7 +83,19 @@ export default function NavigationBar({ cartItems = [] }) {
           </span>
         </p>
       </Link>
-      <IoPersonOutline className="person_icon" />
+      <div className="user-profile-container">
+        <div className="user-profile">
+          <IoPersonOutline className="person_icon" />
+          {currentUser &&
+            <div className="dropdown">
+              <span className="email">{currentUser.email}</span><IoIosArrowDown />
+              <div className="dropdown-content">
+                <p  onClick={handleSignOut}>Log Out</p> 
+              </div>
+            </div>
+          }
+        </div>
+      </div>
       <select value={selectedCountry} onChange={handleCountryChange} className="select_country">
         {countries.map((country) => (
           <option key={country.value} value={country.value}>

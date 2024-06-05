@@ -147,7 +147,7 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
           </div>
         </div>
 
-        <Categories />
+       {/** <Categories />*/} 
 
         <NavigationBar cartItems={cartItems} />
         <div className="filterelement_footer">

@@ -21,7 +21,7 @@ export default function SearchDisplay({ handleAddProductDetails }) {
 
   return (
     <div className='searchdisplay_container'>
-      <Link to='/Shop' className='arrowbacktocart'><IoIosArrowBack />Back to Shopping</Link>
+      <Link to='/Shop' className='arrowbacktocart'><IoIosArrowBack  className='arrowback'/>Back to Shopping</Link>
       <div className='search_display_wrapper'>
   
         <div className='productdisplay_container_search'>
