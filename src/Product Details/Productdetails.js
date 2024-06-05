@@ -26,7 +26,7 @@ export default function ProductDetails({
  
   const handleAddToCart = (product) => {
     if (!currentUser) {
-      navigate('/signin'); // Redirect to sign-in page if not authenticated
+      navigate('/signin'); 
       return;
     }
     handleAddProduct(product);

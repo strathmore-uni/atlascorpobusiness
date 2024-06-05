@@ -21,10 +21,11 @@ import ProductsPage from "./Products Page/ProductsPage";
 import BackToTopButton from "./General Components/BackToTopButton";
 import SignInPage from "./MainOpeningpage/SignInPage";
 import { AuthProvider } from "./MainOpeningpage/AuthContext";
-import SignOutUser from "./MainOpeningpage/SignOutUser";
+
 
 
 function App() {
+  const [guestEmail, setGuestEmail] = useState('');
 
   const [showCountrySelection, setShowCountrySelection] = useState(true); // Flag to control rendering
 
@@ -127,7 +128,7 @@ function App() {
         <BrowserRouter>
           <ScrollToTop />
 
-          <NavigationBar cartItems={cartItems} />
+          <NavigationBar cartItems={cartItems}  guestEmail={guestEmail}/>
 
           <Routes>
             <Route
@@ -231,12 +232,12 @@ function App() {
                 />
               }
             />
-            <Route path="/signin" element={<SignInPage />}  />
+            <Route path="/signin" element={<SignInPage setGuestEmail={setGuestEmail} />}  />
       
           </Routes>
         </BrowserRouter>
         <BackToTopButton />
-        <SignOutUser handleCartClearance={handleCartClearance} />
+       
       </ProductsProvider>
       </AuthProvider>
     </>

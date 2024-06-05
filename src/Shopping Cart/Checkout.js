@@ -13,7 +13,7 @@ export default function Checkout({totalPrice,cartItems}) {
    
   return (
     <div className='checkout_container'>
-        <Link to='/Cart' className='arrowbacktocart' ><IoIosArrowBack/>Back to Cart</Link>
+        <Link to='/Cart' className='arrowbacktocart' ><IoIosArrowBack  className='arrowbackCheckout'  />Back to Cart</Link>
 <h4>Checkout</h4>
 <p className='shippingdetails' >Shipping Details</p>
         <div className='' >

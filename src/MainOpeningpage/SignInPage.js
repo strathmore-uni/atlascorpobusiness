@@ -4,8 +4,9 @@ import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext'; // Adjust the import path as necessary
 import './SignInPage.css';
+import { signInAnonymously } from 'firebase/auth';
 
-const SignInPage = () => {
+const SignInPage = ({setGuestEmail}) => {
   const [email, setEmail] = useState('');
   const { currentUser, loading } = useAuth(); // Get the current user and loading state from the AuthContext
   const navigate = useNavigate();
@@ -22,8 +23,9 @@ const SignInPage = () => {
 
   const handleEmailSignIn = (e) => {
     e.preventDefault();
-    // Implement email sign-in logic here
-    console.log('Email:', email);
+    localStorage.setItem('guestEmail', email);
+    setGuestEmail(email);
+  
   };
 
   const handleGoogleSignIn = () => {
@@ -35,6 +37,16 @@ const SignInPage = () => {
     .catch((error) => {
     console.error('Error during Google Sign-In:', error);
     });
+    };
+    const handleGuestSignIn = async () => {
+      try {
+        await signInAnonymously(auth);
+
+        navigate('/productdetails');
+      } catch (error) {
+        console.error('Error signing in as guest:', error);
+        // Handle error
+      }
     };
     
     // If still loading, show a loading spinner or some placeholder
@@ -55,9 +67,9 @@ const SignInPage = () => {
         <form class="form"  onSubmit={handleEmailSignIn}>
     
           <input type="email" class="input-email" placeholder="Email"  onChange={handleEmailChange} />
-          <button class="form-btn">Continue As Guest</button>
+          <button class="form-btn" onClick={handleGuestSignIn}>Continue As Guest</button>
         </form>
-       
+        
         <div class="buttons-container">
      
           <div class="google-login-button" onClick={handleGoogleSignIn} >

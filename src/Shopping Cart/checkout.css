@@ -13,6 +13,10 @@
     font-size: 2rem;
     
 }
+.arrowbackCheckout{
+    position: relative;
+    top: .19rem;
+}
 .shippingdetails{
     position: absolute;
     left: 2rem;
@@ -65,7 +69,7 @@ label{
     margin-top: 10px;
 
 }
-.title{
+.titleForm{
     position: absolute;
     top: 6rem;
     left: 0rem;

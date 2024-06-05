@@ -6,11 +6,12 @@ import { GrCart } from "react-icons/gr";
 import axios from "axios";
 import { ProductsContext } from "../MainOpeningpage/ProductsContext";
 import { useAuth } from '../MainOpeningpage/AuthContext'; 
-
+import { auth } from "../Firebase";
 import { IoIosArrowDown } from "react-icons/io";
-import signOutUser from "../MainOpeningpage/SignOutUser";
+import { LuUser } from "react-icons/lu";
 
-export default function NavigationBar({ cartItems = [] }) {
+
+export default function NavigationBar({ cartItems = [], guestEmail }) {
   const navigate = useNavigate();
   const { selectedCountry, setSelectedCountry, fetchProducts } = useContext(ProductsContext);
   const { currentUser, signOut } = useAuth();
@@ -55,9 +56,30 @@ export default function NavigationBar({ cartItems = [] }) {
     }
   };
 
-    const handleSignOut = () => {
-      signOutUser();
-    };
+
+  const SignOutUser = () => {
+    auth.signOut()
+      .then(() => {
+        // Sign-out successful.
+        console.log('User signed out successfully.');
+        localStorage.removeItem('guestEmail');
+        navigate('/signin'); // Redirect to sign-in page
+      })
+      .catch((error) => {
+        // An error happened.
+        console.error('Error signing out:', error);
+      });
+  
+  };
+  
+  const handleSignOut = () => {
+    SignOutUser();
+  };
+
+  const getEmail = () => {
+    return currentUser ? currentUser.email : guestEmail;
+  };
+
   
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
@@ -85,15 +107,15 @@ export default function NavigationBar({ cartItems = [] }) {
       </Link>
       <div className="user-profile-container">
         <div className="user-profile">
-          <IoPersonOutline className="person_icon" />
-          {currentUser &&
+          <LuUser className="person_icon" />
+          {(currentUser || guestEmail) && (
             <div className="dropdown">
-              <span className="email">{currentUser.email}</span><IoIosArrowDown />
+              <span className="email">{currentUser ? currentUser.email : guestEmail}</span><IoIosArrowDown />
               <div className="dropdown-content">
-                <p  onClick={handleSignOut}>Log Out</p> 
+                <p onClick={handleSignOut}>Log Out</p>
               </div>
             </div>
-          }
+          )}
         </div>
       </div>
       <select value={selectedCountry} onChange={handleCountryChange} className="select_country">

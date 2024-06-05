@@ -60,10 +60,10 @@ export default function Form() {
         />
    
 
-        <label htmlFor='title' className='title'>Title    {errors.title && <div className="error">{errors.title}</div>}</label>
+        <label htmlFor='title' className='titleForm'>Title    {errors.title && <div className="error">{errors.title}</div>}</label>
      
         <select
-          id="title"
+          id="titleForm"
           value={formData.title}
           name='title'
           onChange={handleFormDataChange}
@@ -72,6 +72,7 @@ export default function Form() {
           <option value="">Title</option>
           <option value="Mr">Mr</option>
           <option value="Mrs">Mrs</option>
+          <option value="Ms">Ms</option>
         </select>
       
 
@@ -152,7 +153,7 @@ export default function Form() {
         />
 
 
-        <label htmlFor='email' className='emaillabel'>Emai\ </label>
+        <label htmlFor='email' className='emaillabel'>Email </label>
         <input
           id='email'
           className='emailinput'
