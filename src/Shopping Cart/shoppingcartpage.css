@@ -202,3 +202,8 @@ left: 1rem;
     right: 0;
     box-sizing: border-box;
 }
+.deleteicon{
+    position: relative;
+    top: .1rem;
+    left: .2rem;
+}

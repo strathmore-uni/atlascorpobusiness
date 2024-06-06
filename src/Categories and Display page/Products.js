@@ -112,7 +112,7 @@ export default function Products({ handleAddProductDetails, cartItems }) {
                     </div>
                   ) : (
                     <>
-                      <img className="prdt_image" src={product.image} alt="" />
+                      <img className="prdt_image" src={product.Image} alt="" />
                       <p className="cameraoff_icon">
                         <LuCameraOff />
                       </p>
