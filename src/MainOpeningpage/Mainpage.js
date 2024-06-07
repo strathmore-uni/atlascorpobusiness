@@ -19,7 +19,7 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
 <div className='container_media' >
 
-       
+<div className='overlay'></div>
 </div>
 
 
@@ -27,7 +27,7 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
   <section>
 <p className='main_p' ><b style={{fontSize:'3rem'}} >Atlas Copco Kenya</b> Home of Industrial ideas</p>
     
-    <p className='submain_p' ><b style={{fontSize:'2rem'}} >Atlas Copco</b> is a world leading provider of industrial productivity solutions, serving customers in Kenya for  88 years.. </p>
+    <p className='submain_p' ><b style={{fontSize:'3rem',color:"white"}} >Atlas Copco</b> is a world leading provider of industrial productivity solutions, serving customers in Kenya for  88 years.. </p>
   
   <p className='sub_p_sub'><p   >
     Why Us?

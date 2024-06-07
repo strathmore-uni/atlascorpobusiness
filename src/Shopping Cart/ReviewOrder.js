@@ -88,7 +88,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
   return (
     <div>
       <div className='review_container'>
-       <Link to='/Checkout' className='backtoform'><p  ><IoIosArrowBack  />Back</p></Link> 
+       <Link to='/Checkout' className='backtoform'><p  ><IoIosArrowBack className='arrowbackReview' />Back</p></Link> 
        <Link to='/Checkout' className='editinfo' > <p>Edit Info<AiTwotoneEdit  /></p></Link>
         <h1>Review Order</h1>
         <h3>User Information</h3>

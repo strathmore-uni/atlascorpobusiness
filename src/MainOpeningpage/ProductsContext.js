@@ -5,19 +5,17 @@ export const ProductsContext = createContext();
 
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('KE'); // Default country
-
-  const fetchProducts = async (searchTerm = '') => {
+  const [selectedCountry, setSelectedCountry] = useState('KE'); 
+  const fetchProducts = async ( minPrice = 0, maxPrice = 10000) => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/products`, {
-        params: { searchTerm, country: selectedCountry }
+      const response = await axios.get('/api/products', {
+        params: { country: selectedCountry, minPrice, maxPrice },
       });
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
-
   useEffect(() => {
     fetchProducts();
   }, [selectedCountry]);
@@ -28,9 +26,7 @@ export const ProductsProvider = ({ children }) => {
       fetchProducts, 
       selectedCountry, 
       setSelectedCountry,
-    
     }}>
-        
       {children}
     </ProductsContext.Provider>
   );

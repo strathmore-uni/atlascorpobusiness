@@ -21,11 +21,10 @@ import ProductsPage from "./Products Page/ProductsPage";
 import BackToTopButton from "./General Components/BackToTopButton";
 import SignInPage from "./MainOpeningpage/SignInPage";
 import { AuthProvider } from "./MainOpeningpage/AuthContext";
-
-
+import ProductCategories from "./Products Page/ProductCategories";
 
 function App() {
-  const [guestEmail, setGuestEmail] = useState('');
+  const [guestEmail, setGuestEmail] = useState("");
 
   const [showCountrySelection, setShowCountrySelection] = useState(true); // Flag to control rendering
 
@@ -33,10 +32,6 @@ function App() {
     setShowCountrySelection(false);
     // Store selected country information (optional)
   };
-
-
-
-
 
   const [cartItems, setCartItems] = useState(() => {
     const savedCartItems = localStorage.getItem("cartItems");
@@ -123,122 +118,124 @@ function App() {
 
   return (
     <>
-    <AuthProvider>
-      <ProductsProvider>
-        <BrowserRouter>
-          <ScrollToTop />
+      <AuthProvider>
+        <ProductsProvider>
+          <BrowserRouter>
+            <ScrollToTop />
 
-          <NavigationBar cartItems={cartItems}  guestEmail={guestEmail}/>
+            <NavigationBar cartItems={cartItems} guestEmail={guestEmail} />
 
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Mainpage
-                  cartItems={cartItems}
-                  handleAddProductDetails={handleAddProductDetails}
-                  handleAddProduct={handleAddProduct}
-                />
-              }
-            />
-            <Route
-              path="/shop"
-              element={
-                <Shop
-                  handleAddProduct={handleAddProduct}
-                  handleAddProductDetails={handleAddProductDetails}
-                  cartItems={cartItems}
-                />
-              }
-            />
-            <Route
-              path="/productdetails"
-              element={
-                <Productdetails
-                  handleAddProductDetails={handleAddProductDetails}
-                  handleAddProduct={handleAddProduct}
-                  productdetails={productdetails}
-                  cartItems={cartItems}
-                />
-              }
-            />
-            <Route
-              path="/cart"
-              element={
-                <ShoppingCartPage
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveSingleProduct={handleRemoveSingleProduct}
-                  cartItems={cartItems}
-                  handleRemoveProduct={handleRemoveProduct}
-                  handleCartClearance={handleCartClearance}
-                  totalPrice={totalPrice}
-                />
-              }
-            />
-            <Route
-              path="/delivery"
-              element={
-                <Delivery cartItems={cartItems} totalPrice={totalPrice} />
-              }
-            />
-            <Route
-              path="/form"
-              element={<Form cartItems={cartItems} totalPrice={totalPrice} />}
-            />
-            <Route
-              path="/review-order"
-              element={
-                <ReviewOrder cartItems={cartItems} totalPrice={totalPrice} />
-              }
-            />
-            <Route
-              path="/search"
-              element={
-                <SearchDisplay
-                  handleAddProduct={handleAddProduct}
-                  cartItems={cartItems}
-                  handleAddProductDetails={handleAddProductDetails}
-                />
-              }
-            />
-            <Route
-              path="/checkout"
-              element={
-                <Checkout cartItems={cartItems} totalPrice={totalPrice} />
-              }
-            />
-            <Route path="/mycomponent" element={<MyComponent />} />
-            <Route path="/categories" element={<Categories />} />
-         
-            <Route path="/mytestingpage" element={<Mytestingpage />} />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Mainpage
+                    cartItems={cartItems}
+                    handleAddProductDetails={handleAddProductDetails}
+                    handleAddProduct={handleAddProduct}
+                  />
+                }
+              />
+              <Route
+                path="/shop"
+                element={
+                  <Shop
+                    handleAddProduct={handleAddProduct}
+                    handleAddProductDetails={handleAddProductDetails}
+                    cartItems={cartItems}
+                  />
+                }
+              />
+              <Route
+                path="/productdetails"
+                element={
+                  <Productdetails
+                    handleAddProductDetails={handleAddProductDetails}
+                    handleAddProduct={handleAddProduct}
+                    productdetails={productdetails}
+                    cartItems={cartItems}
+                  />
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <ShoppingCartPage
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveSingleProduct={handleRemoveSingleProduct}
+                    cartItems={cartItems}
+                    handleRemoveProduct={handleRemoveProduct}
+                    handleCartClearance={handleCartClearance}
+                    totalPrice={totalPrice}
+                  />
+                }
+              />
+              <Route
+                path="/delivery"
+                element={
+                  <Delivery cartItems={cartItems} totalPrice={totalPrice} />
+                }
+              />
+              <Route
+                path="/form"
+                element={<Form cartItems={cartItems} totalPrice={totalPrice} />}
+              />
+              <Route
+                path="/review-order"
+                element={
+                  <ReviewOrder cartItems={cartItems} totalPrice={totalPrice} />
+                }
+              />
+              <Route
+                path="/search"
+                element={
+                  <SearchDisplay
+                    handleAddProduct={handleAddProduct}
+                    cartItems={cartItems}
+                    handleAddProductDetails={handleAddProductDetails}
+                  />
+                }
+              />
+              <Route
+                path="/checkout"
+                element={
+                  <Checkout cartItems={cartItems} totalPrice={totalPrice} />
+                }
+              />
+              <Route path="/mycomponent" element={<MyComponent />} />
+              <Route path="/categories" element={<Categories />} />
 
-            <Route path="" element={<Notification />} />
+              <Route path="/mytestingpage" element={<Mytestingpage />} />
 
-            <Route
-              path="/products"
-              element={
-                <Products
-                  handleAddProductDetails={handleAddProductDetails}
-                  cartItems={cartItems}
-                />
-              }
-            />
-            <Route
-              path="/products/:category"
-              element={
-                <ProductsPage
-                  handleAddProductDetails={handleAddProductDetails}
-                  cartItems={cartItems}
-                />
-              }
-            />
-            <Route path="/signin" element={<SignInPage setGuestEmail={setGuestEmail} />}  />
-      
-          </Routes>
-        </BrowserRouter>
-        <BackToTopButton />
-       
-      </ProductsProvider>
+              <Route path="" element={<Notification />} />
+
+              <Route
+                path="/products"
+                element={
+                  <Products
+                    handleAddProductDetails={handleAddProductDetails}
+                    cartItems={cartItems}
+                  />
+                }
+              />
+              <Route
+                path="/products/:category"
+                element={
+                  <ProductsPage
+                    handleAddProductDetails={handleAddProductDetails}
+                    cartItems={cartItems}
+                  />
+                }
+              />
+              <Route
+                path="/signin"
+                element={<SignInPage setGuestEmail={setGuestEmail} />}
+              />
+              <Route  path="" element={<ProductCategories />} />
+            </Routes>
+          </BrowserRouter>
+          <BackToTopButton />
+        </ProductsProvider>
       </AuthProvider>
     </>
   );

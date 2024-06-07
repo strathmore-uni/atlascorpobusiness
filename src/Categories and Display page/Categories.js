@@ -7,6 +7,20 @@ export default function Categories() {
   const [compressorDropdown, setCompressorDropdown] = useState(false);
   const [prevmaincompressorDropdown, prevmainsetCompressorDropdown] = useState(false);
   const [overhaulcompressorDropdown, overhaulsetCompressorDropdown] = useState(false);
+
+  const categories = [
+    "Filterelement",
+    "Oilfilterelement",
+    "Servkit",
+    "Autodrainvalve",
+    "Contractor",
+    "Overhaulkit",
+    "Silencerkit",
+    "Maintenancekit",
+    "Bearingkits",
+    "Prevmain",
+    "Hrkit"
+  ];
   const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {

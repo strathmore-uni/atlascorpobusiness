@@ -10,7 +10,6 @@ import { auth } from "../Firebase";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuUser } from "react-icons/lu";
 
-
 export default function NavigationBar({ cartItems = [], guestEmail }) {
   const navigate = useNavigate();
   const { selectedCountry, setSelectedCountry, fetchProducts } = useContext(ProductsContext);
@@ -56,7 +55,6 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     }
   };
 
-
   const SignOutUser = () => {
     auth.signOut()
       .then(() => {
@@ -69,7 +67,6 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
         // An error happened.
         console.error('Error signing out:', error);
       });
-  
   };
   
   const handleSignOut = () => {
@@ -80,7 +77,6 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     return currentUser ? currentUser.email : guestEmail;
   };
 
-  
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
       <Link to="/"><img src='./images/OIP.jpg' alt='' className='mylogoimage' /></Link>
@@ -108,13 +104,15 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
       <div className="user-profile-container">
         <div className="user-profile">
           <LuUser className="person_icon" />
-          {(currentUser || guestEmail) && (
+          {(currentUser || guestEmail) ? (
             <div className="dropdown">
-              <span className="email">{currentUser ? currentUser.email : guestEmail}</span><IoIosArrowDown />
+              <span className="email">{getEmail()}</span><IoIosArrowDown />
               <div className="dropdown-content">
                 <p onClick={handleSignOut}>Log Out</p>
               </div>
             </div>
+          ) : (
+            <button onClick={() => navigate('/signin')} className="sign-in-button">Sign In</button>
           )}
         </div>
       </div>

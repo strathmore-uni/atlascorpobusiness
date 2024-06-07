@@ -17,7 +17,7 @@ export default function Products({ handleAddProductDetails, cartItems }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/fulldata")
+      .get("http://localhost:3001/api/stockproducts")
       .then((response) => {
         setData(response.data);
       })
@@ -40,7 +40,7 @@ export default function Products({ handleAddProductDetails, cartItems }) {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/fulldata");
+      const response = await fetch("http://localhost:3001/api/stockproducts");
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }
@@ -119,6 +119,10 @@ export default function Products({ handleAddProductDetails, cartItems }) {
                       <p className="prdt_partnumber">{product.partnumber}</p>
                       <p className="prdt_title">{product.Description}</p>
                       <p className="prdt_price">${product.Price}</p>
+                      <div className="stock_status">
+                  <div className={`status_indicator ${product.quantity > 0 ? 'in_stock' : 'out_of_stock'}`}></div>
+                  <div className="in_out_stock" >{product.quantity > 0 ? 'In Stock' : 'Out of Stock'}</div>
+                </div>
                     </>
                   )}
                 </div>

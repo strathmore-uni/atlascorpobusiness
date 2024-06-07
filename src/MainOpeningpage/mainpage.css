@@ -16,7 +16,7 @@ section {
 }
 .main_p {
   position: relative;
-  top: -4rem;
+  top: -7rem;
   font-size: 3rem;
   left: 5rem;
   width: 92%;
@@ -24,48 +24,58 @@ section {
 
   color: white;
   line-height: 1;
-  font-family: "Source Sans Pro", helvetica, arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 900;
   font-style: normal;
 }
 .p_atlas_copco {
   font-weight: bold;
+  
 }
 .submain_p {
   position: relative;
   color: #0078a1;
   font-size: 2.5rem;
   font-family: "Source Sans Pro", helvetica, arial, sans-serif;
-  font-weight: 400;
+  font-weight: 800;
   left: 5rem;
   font-style: normal;
-  width: 50%;
-
+  width: 90%;
+top: -4rem;
   line-height: 1.1;
 }
 .sub_p_sub {
   position: relative;
-  top: 10rem;
+  top: -3rem;
   left: 5rem;
   width: 70%;
+  font-weight: 800;
   font-size: 1.5rem;
   color: #0078a1;
 }
 .sub_p_sub p {
   font-size: 2rem;
+  font-weight: 800;
 }
+.main_p, .submain_p{
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); /* Dark shadow for better contrast */
+}
+
 .container_media {
   position: absolute;
-  height: 50rem;
+  height: 32rem;
+ 
   width: 100%;
   left: 0rem;
   top: 7rem;
+  background-size: cover;
+  background-position: center;
   background-image: url("/public/images/home-main-hero-banner-bg.png");
 }
 
 .shopwithus {
   position: absolute;
-  top: 84rem;
+  top: 70rem;
   background-color:  #0078a1 ;
   left: 0;
   right: 0;
@@ -78,7 +88,7 @@ section {
   top: 0rem;
   left:32rem;
   color: white;
- 
+  font-weight: bolder;
 
 }
 
@@ -91,7 +101,7 @@ section {
 }
 .featuredproducts_mainpage {
   position: absolute;
-  top: 105rem;
+  top: 90rem;
   
   width: 100%;
 }
@@ -149,7 +159,7 @@ section {
 .mainpage_footer {
   position: absolute;
   background-color: #373D41;
-  top: 160rem;
+  top: 120rem;
   height: 8rem;
   left: 0;
   right: 0;

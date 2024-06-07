@@ -9,6 +9,7 @@ import ReactPaginate from 'react-paginate';
 import NavigationBar from '../General Components/NavigationBar';
 import Footer from '../General Components/Footer';
 import { ProductsContext } from '../MainOpeningpage/ProductsContext';
+import ProductCategories from './ProductCategories';
 
 const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   const { category } = useParams();
@@ -24,6 +25,25 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
 
 
 {/**
+
+  useEffect(() => {
+    const fetchProductsByCategory = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/products`, {
+          params: { category, country: selectedCountry }
+        });
+        setProducts(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProductsByCategory();
+  }, [category, selectedCountry]);
+*/}
+
+
   useEffect(() => {
     const fetchProductsByCategory = async () => {
       try {
@@ -41,24 +61,7 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   }, [category]);
 
 
-*/}
 
-
-  useEffect(() => {
-    const fetchProductsByCategory = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/api/products`, {
-          params: { category, country: selectedCountry }
-        });
-        setProducts(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
-
-    fetchProductsByCategory();
-  }, [category, selectedCountry]);
 
   return (
     <div>
@@ -80,7 +83,7 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
               width: "10rem",
             }}
           >
-            &nbsp;Filter Element &nbsp;
+            &nbsp;{category}&nbsp;
           </p>
         </div>
 
@@ -125,9 +128,13 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
                         <p className="cameraoff_icon">
                           <LuCameraOff />
                         </p>
-                        <p className="prdt_partnumber">{product.name}</p>
-                        <p className="prdt_title">{product.description}</p>
-                        <p className="prdt_price">${product.price}</p>
+                        <p className="prdt_partnumber">{product.partnumber}</p>
+                        <p className="prdt_title">{product.Description}</p>
+                        <p className="prdt_price">${product.Price}</p>
+                        <div className="stock_status">
+                  <div className={`status_indicator ${product.quantity > 0 ? 'in_stock' : 'out_of_stock'}`}></div>
+                  <div className="in_out_stock" >{product.quantity > 0 ? 'In Stock' : 'Out of Stock'}</div>
+                </div>
                       </>
                     )}
                   </div>
@@ -149,6 +156,7 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
 
        {/** <Categories />*/} 
 
+<ProductCategories />
         <NavigationBar cartItems={cartItems} />
         <div className="filterelement_footer">
           <Footer />
