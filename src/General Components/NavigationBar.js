@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./Navigation.css";
 import { IoPersonOutline, IoSearchOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { GrCart } from "react-icons/gr";
@@ -9,6 +8,7 @@ import { useAuth } from '../MainOpeningpage/AuthContext';
 import { auth } from "../Firebase";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuUser } from "react-icons/lu";
+import "./Navigation.css";
 
 export default function NavigationBar({ cartItems = [], guestEmail }) {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const handleCountryChange = (event) => {
     const country = event.target.value;
     setSelectedCountry(country);
-    fetchProducts(''); // Fetch products based on the new selected country
+    fetchProducts(''); 
   };
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,7 +43,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const handleSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/search?term=${searchQuery}`);
-      navigate('/search', { state: { results: response.data } });
+      navigate(`/search?term=${searchQuery}`, { state: { results: response.data } });
     } catch (error) {
       console.error('Error searching:', error);
     }
@@ -58,13 +58,11 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const SignOutUser = () => {
     auth.signOut()
       .then(() => {
-        // Sign-out successful.
         console.log('User signed out successfully.');
         localStorage.removeItem('guestEmail');
-        navigate('/signin'); // Redirect to sign-in page
+        navigate('/signin'); 
       })
       .catch((error) => {
-        // An error happened.
         console.error('Error signing out:', error);
       });
   };
@@ -83,6 +81,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
       <Link to="/">
         <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
       </Link>
+    {/**  {currentUser && <li><Link to="/orderhistory">Order History</Link></li>} */}
       <input
         className="input"
         name="text"
@@ -108,6 +107,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
             <div className="dropdown">
               <span className="email">{getEmail()}</span><IoIosArrowDown />
               <div className="dropdown-content">
+                <p>User Profile</p>
                 <p onClick={handleSignOut}>Log Out</p>
               </div>
             </div>

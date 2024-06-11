@@ -22,6 +22,7 @@ import BackToTopButton from "./General Components/BackToTopButton";
 import SignInPage from "./MainOpeningpage/SignInPage";
 import { AuthProvider } from "./MainOpeningpage/AuthContext";
 import ProductCategories from "./Products Page/ProductCategories";
+import OrderHistory from "./Shopping Cart/OrderHistory";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -232,6 +233,7 @@ function App() {
                 element={<SignInPage setGuestEmail={setGuestEmail} />}
               />
               <Route  path="" element={<ProductCategories />} />
+              <Route path="/orderhistory" element={<OrderHistory />} />
             </Routes>
           </BrowserRouter>
           <BackToTopButton />

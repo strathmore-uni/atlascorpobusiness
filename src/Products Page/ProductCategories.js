@@ -10,21 +10,7 @@ export default function ProductCategories() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const fetchProductsByPrice = async (min, max) => {
-    try {
-      const response = await axios.get('/api/products', {
-        params: {
-          country: selectedCountry,
-          minPrice: min,
-          maxPrice: max,
-        },
-      });
-      setProducts(response.data);
-      navigate('/products', { state: { products: response.data } });
-    } catch (error) {
-      console.error('Error fetching products by price:', error);
-    }
-  };
+
 
   const handlePriceRangeChange = (range) => {
     setPriceRange(range);
