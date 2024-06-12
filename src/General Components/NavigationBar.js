@@ -24,7 +24,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const handleCountryChange = (event) => {
     const country = event.target.value;
     setSelectedCountry(country);
-    fetchProducts(''); 
+    fetchProducts(''); // Fetch products based on the new selected country
   };
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -81,7 +81,6 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
       <Link to="/">
         <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
       </Link>
-    {/**  {currentUser && <li><Link to="/orderhistory">Order History</Link></li>} */}
       <input
         className="input"
         name="text"
@@ -112,7 +111,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
               </div>
             </div>
           ) : (
-            <button onClick={() => navigate('/signin')} className="sign-in-button">Sign In</button>
+            <p onClick={() => navigate('/signin')} className="sign-in-button">Sign In to Shop</p>
           )}
         </div>
       </div>

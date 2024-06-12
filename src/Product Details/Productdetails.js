@@ -83,9 +83,9 @@ export default function ProductDetails({
                 &nbsp;Shop &nbsp;/
               </a>
               <a href="/Shop/Filterelement" style={{ color: "#0078a1", textDecoration: "none" }}>
-                &nbsp;Filter &nbsp;/
+                &nbsp;Products &nbsp;/
               </a>
-              <p style={{ position: "absolute", left: "11rem", top: "-1rem" }}>
+              <p style={{ position: "absolute", left: "12.5rem", top: "-1rem" }}>
                 {product.Description}
               </p>
             </div>

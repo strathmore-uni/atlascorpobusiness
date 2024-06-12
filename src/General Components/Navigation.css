@@ -229,12 +229,11 @@ input:hover {
   position: relative;
 }
 
-/* Email text */
+
 .email {
   margin-right: 10px;
 }
 
-/* Dropdown content */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -247,7 +246,7 @@ input:hover {
 
 }
 
-/* Dropdown button */
+
 .dropdown-content button {
   background-color: transparent;
   border: none;
@@ -264,18 +263,21 @@ input:hover {
   transition: background-color 0.3s;
 }
 
-/* Dropdown button hover effect */
+
 .dropdown-content button:hover {
   background-color: #ddd;
 }
 
-/* Show dropdown content when hovering over user profile icon */
+
 .user-profile:hover .dropdown-content {
   display: block;
 }
 .sign-in-button {
-  background-color: #0078a1;
-  color: white;
+ position: relative;
+ top: -1rem;
+ right: 2rem;
+  border: none;
+  color: #005f7f;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
@@ -284,7 +286,7 @@ input:hover {
 }
 
 .sign-in-button:hover {
-  background-color: #005f7f;
+  background-color: rgb(185, 183, 183);
 }
 
 

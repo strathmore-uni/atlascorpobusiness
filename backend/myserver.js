@@ -30,7 +30,29 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '10028mike.',
   database: 'atlascopco'
+$env:GOOGLE_APPLICATION_CREDENTIALS="ultra-mediator-423907-a4-3a645025be76.json"
+$env:INSTANCE_HOST="127.0.0.1"
+$env:DB_PORT="3306"
+$env:DB_NAME="AtlasCopco"
+$env:DB_USER="atlascopco_admin"
+$env:DB_PASS="10028mike." 
+"C:\Users\mikek\Downloads\ultra-mediator-423907-a4-523c11e2af2f.json"
 
+
+
+INSTANCE_HOST="127.0.0.1"
+DB_USERNAME='atlascopco_admin'
+DB_PASSWORD='10028mike.'
+DATABASE='AtlasCopco'
+DB_PORT=8080
+
+
+
+  host: '127.0.0.1',
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DATABASE,
+  port: process.env.DB_PORT,
 
   username: process.env.DB_USERNAME,
 password: process.env.DB_PASSWORD,
