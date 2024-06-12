@@ -7,25 +7,27 @@ export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('KE');
 
-  useEffect(() => {
-    fetchProducts(selectedCountry);
-  }, [selectedCountry]);
-
   const fetchProducts = async (country) => {
+    console.log('Fetching products for country:', country); 
     try {
-      const response = await axios.get(`http://localhost:3001/api/products?country=${country}`);
+      const response = await axios.get(`http://localhost:3001/api/productsCountry/${country}`);
+       
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
 
+  useEffect(() => {
+    fetchProducts(selectedCountry);
+  }, [selectedCountry]);
+
   return (
     <ProductsContext.Provider value={{ 
       products, 
       selectedCountry, 
       setSelectedCountry,
-      fetchProducts, // Include fetchProducts in the context
+      fetchProducts, 
     }}>
       {children}
     </ProductsContext.Provider>

@@ -1,4 +1,4 @@
-import React, {useState,useEffect}from "react";
+import React, {useState,useEffect,useContext}from "react";
 import "./products.css";
 import './Categories Pages/filterelement.css'
 
@@ -8,6 +8,7 @@ import { LuCameraOff } from "react-icons/lu";
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
 import axios from "axios";
+import { ProductsContext } from "../MainOpeningpage/ProductsContext";
 
 export default function Products({ handleAddProductDetails, cartItems }) {
   const [data, setData] = useState([]);
@@ -17,7 +18,7 @@ export default function Products({ handleAddProductDetails, cartItems }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/stockproducts")
+      .get("http://localhost:3001/api/products")
       .then((response) => {
         setData(response.data);
       })
@@ -40,7 +41,7 @@ export default function Products({ handleAddProductDetails, cartItems }) {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/stockproducts");
+      const response = await fetch("http://localhost:3001/api/productsCountry");
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }
@@ -52,6 +53,12 @@ export default function Products({ handleAddProductDetails, cartItems }) {
       console.error("Error fetching items:", error);
     }
   };
+
+  const { products } = useContext(ProductsContext);
+
+  useEffect(() => {
+     
+  }, [products]);
 
   return (
     <div className="big_container" key={1}>

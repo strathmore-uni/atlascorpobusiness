@@ -24,7 +24,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const handleCountryChange = (event) => {
     const country = event.target.value;
     setSelectedCountry(country);
-    fetchProducts(''); // Fetch products based on the new selected country
+    fetchProducts(country); // Fetch products based on the new selected country
   };
 
   const [isScrolled, setIsScrolled] = useState(false);
