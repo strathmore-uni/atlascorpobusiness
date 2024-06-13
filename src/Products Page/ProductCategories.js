@@ -4,20 +4,19 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ProductsContext } from '../MainOpeningpage/ProductsContext';
 
-export default function ProductCategories() {
-  const { selectedCountry, setProducts } = useContext(ProductsContext);
-  const [priceRange, setPriceRange] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
-
-
-
-  const handlePriceRangeChange = (range) => {
-    setPriceRange(range);
+export default function ProductCategories({setProducts}) {
+  const handlePriceRangeChange = async (range) => {
     const [min, max] = range.split('-').map(Number);
-    fetchProductsByPrice(min, max);
+    const category = 'servkit'; // Replace with actual category or dynamically set
+    
+    try {
+      const response = await axios.get(`http://localhost:3001/api/products/range/${category}/${min}/${max}`);
+      setProducts(response.data);
+    } catch (error) {
+      console.error('Error fetching products by price range and category:', error);
+    }
   };
-
+  
   return (
     <div className='container_productcategories'>
       <h3>Product Categories</h3>

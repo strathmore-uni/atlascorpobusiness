@@ -132,7 +132,7 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   </div>
 </div>
 
-        <ProductCategories />
+        <ProductCategories setProducts={setProducts}/>
         <NavigationBar cartItems={cartItems} />
         <div className="filterelement_footer">
           <Footer />
