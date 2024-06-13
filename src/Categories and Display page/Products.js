@@ -41,7 +41,7 @@ export default function Products({ handleAddProductDetails, cartItems }) {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/productsCountry");
+      const response = await fetch("http://localhost:3001/api/Countryproducts");
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }

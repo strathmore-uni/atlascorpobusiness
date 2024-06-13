@@ -8,19 +8,7 @@ export default function Categories() {
   const [prevmaincompressorDropdown, prevmainsetCompressorDropdown] = useState(false);
   const [overhaulcompressorDropdown, overhaulsetCompressorDropdown] = useState(false);
 
-  const categories = [
-    "Filterelement",
-    "Oilfilterelement",
-    "Servkit",
-    "Autodrainvalve",
-    "Contractor",
-    "Overhaulkit",
-    "Silencerkit",
-    "Maintenancekit",
-    "Bearingkits",
-    "Prevmain",
-    "Hrkit"
-  ];
+
   const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
@@ -38,9 +26,12 @@ export default function Categories() {
           {compressorDropdown ? <IoIosArrowUp className="arrowup" /> : <IoIosArrowDown className="arrowup"  />}{" "}
         </li>
         {compressorDropdown && (
-          <ul className="compressor_dropdown">
+          <ul className="compressor_dropdown_filter">
             <li onClick={() => handleCategoryClick('Filterelement')}>Filter Element</li>
             <li onClick={() => handleCategoryClick('Oilfilterelement')}>Oil Filter Element</li>
+            <li onClick={() => handleCategoryClick('kitfilterdd')}>Kit Filter DD</li>
+            <li onClick={() => handleCategoryClick('kitfilterpd')}>Kit Filter PD</li>
+            <li onClick={() => handleCategoryClick('kitfilterddp')}>Kit Filter DDp</li>
           </ul>
         )}
         <li onClick={() => handleCategoryClick('Servkit')}>Serv Kit</li>

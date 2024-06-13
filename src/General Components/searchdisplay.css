@@ -114,3 +114,26 @@
       position: relative;
       top: .2rem;
     }
+    .sidebar{
+      position: relative;
+      top:12rem ;
+     
+      width: 15rem;
+      left: 1rem;
+      
+
+    }
+    .sidebar ul{
+      list-style-type: none;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      top: 0rem;
+      right: 2rem;
+    
+     
+      
+    }
+  .sidebar li{
+    height: 2.5rem;
+  }

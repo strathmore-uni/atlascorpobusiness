@@ -8,9 +8,9 @@ export const ProductsProvider = ({ children }) => {
   const [selectedCountry, setSelectedCountry] = useState('KE');
 
   const fetchProducts = async (country) => {
-    console.log('Fetching products for country:', country); 
+    
     try {
-      const response = await axios.get(`http://localhost:3001/api/productsCountry/${country}`);
+      const response = await axios.get(`http://localhost:3001/api/Countryproducts/${country}`);
        
       setProducts(response.data);
     } catch (error) {

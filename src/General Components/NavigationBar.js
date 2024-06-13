@@ -39,15 +39,43 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
-  
+  const [results, setResults] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/search?term=${searchQuery}`);
+        setResults(response.data);
+        // Extract categories from results
+        const uniqueCategories = [...new Set(response.data.map(item => item.category))];
+        setCategories(uniqueCategories);
+      } catch (error) {
+        console.error('Error searching:', error);
+      }
+    };
+
+    if (searchQuery.trim() !== '') {
+      fetchSearchResults();
+    } else {
+      setResults([]);
+      setCategories([]);
+    }
+  }, [searchQuery]);
+
   const handleSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/search?term=${searchQuery}`);
+      setResults(response.data);
+      // Extract categories from results
+      const uniqueCategories = [...new Set(response.data.map(item => item.category))];
+      setCategories(uniqueCategories);
       navigate(`/search?term=${searchQuery}`, { state: { results: response.data } });
     } catch (error) {
       console.error('Error searching:', error);
     }
   };
+
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -77,6 +105,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
 
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
+    
       <Link to="/"><img src='./images/OIP.jpg' alt='' className='mylogoimage' /></Link>
       <Link to="/">
         <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
@@ -86,7 +115,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
         name="text"
         type="search"
         value={searchQuery}
-        placeholder="Search for Part Numbers or Names"
+        placeholder="Search for Part Numbers or Names or Category"
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyDown={handleKeyDown}
       />
