@@ -20,6 +20,11 @@
       transition: width 0.5s ease;
       
     }
+    .searchdisplay_container h2{
+      position: relative;
+      left: 17rem;
+      top: 7.5rem;
+    }
   
     
     .sub_productdisplay_container_search {
@@ -116,8 +121,9 @@
     }
     .sidebar{
       position: relative;
-      top:12rem ;
-     
+      top:8rem ;
+      height: 25rem;
+     overflow-y: auto;
       width: 15rem;
       left: 1rem;
       
@@ -135,5 +141,12 @@
       
     }
   .sidebar li{
-    height: 2.5rem;
+    height: 3rem;
+ 
+    cursor: pointer;
+  }
+  .sidebar li:hover{
+    border-radius: 6px;
+    padding: 5px 3px;
+    border-bottom: 2px solid #5b5fc7;
   }
