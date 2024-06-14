@@ -23,7 +23,9 @@
     .searchdisplay_container h2{
       position: relative;
       left: 17rem;
-      top: 7.5rem;
+      top: 8rem;
+      font-size: 1rem;
+      width: 10rem;
     }
   
     
@@ -31,12 +33,12 @@
       position: relative;
       display: grid;
       flex-direction: column;
-      width: 70%;
+      width: 90%;
       top: 0rem;
-      left: 15rem;
+      left: 12rem;
   
       grid-template-columns: repeat(4, 150px);
-      grid-gap:80px;
+      grid-gap:95px;
       
     
     }
@@ -50,12 +52,14 @@
     }
     .mylink_search {
       position: relative;
-  top: 3rem;
-    width: 13rem;
-    height: 15rem;
-    color: black;
-    text-decoration: none;
-  
+      border: 1px solid grey ;
+      border-radius: 6px;
+      top: 2rem;
+        left: 1rem;
+        width: 14rem;
+        height: 19rem;
+        color: black;
+        text-decoration: none;
     
     
       
@@ -124,7 +128,7 @@
       top:8rem ;
       height: 25rem;
      overflow-y: auto;
-      width: 15rem;
+      width: 12rem;
       left: 1rem;
       
 
@@ -149,4 +153,24 @@
     border-radius: 6px;
     padding: 5px 3px;
     border-bottom: 2px solid #5b5fc7;
+  }
+  .get_quote-search{
+    position: relative;
+    top: -.5rem;
+    background-color: #007bff;
+    width: 5.8rem;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: .5rem;
+    font-size: 1rem;
+   
+      height: 35px;
+      border-radius: 1000px;
+  
+  }
+  .get_quote-search p{
+    font-size: .8rem;
+    font-weight: 600;
   }

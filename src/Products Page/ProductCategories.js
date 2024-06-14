@@ -19,7 +19,7 @@ export default function ProductCategories({setProducts}) {
   
   return (
     <div className='container_productcategories'>
-      <h3>Product Categories</h3>
+      <h3>Price Categories</h3>
       <div className='price-filters'>
         <button onClick={() => handlePriceRangeChange('1-100')}>$1 - $100</button>
         <button onClick={() => handlePriceRangeChange('100-200')}>$100 - $200</button>

@@ -129,6 +129,11 @@ export default function Products({ handleAddProductDetails, cartItems }) {
                       <div className="stock_status">
                   <div className={`status_indicator ${product.quantity > 0 ? 'in_stock' : 'out_of_stock'}`}></div>
                   <div className="in_out_stock" >{product.quantity > 0 ? 'In Stock' : 'Out of Stock'}</div>
+                  {product.quantity <= 0 && (
+                    <div className="get_quote">
+                     <p> Get a Quote</p>
+                    </div>
+                  )}
                 </div>
                     </>
                   )}

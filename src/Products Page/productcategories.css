@@ -1,24 +1,28 @@
 .container_productcategories{
     position: relative;
-    top: 14rem;
+    top: 9rem;
     height: 20rem;
-    width: 15rem;
-    background-color: aqua;
+    width: 10rem;
+   
 }
 
   
   .price-filters {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-top: 20px;
   }
   
   .price-filters button {
-    background-color: #0078a1;
-    color: white;
+    position: relative;
+   
+    
     border: none;
     padding: 10px 20px;
     cursor: pointer;
+    left: 1rem;
+    width: 8rem;
     border-radius: 4px;
     font-size: 14px;
   }

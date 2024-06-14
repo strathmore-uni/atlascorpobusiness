@@ -72,8 +72,17 @@ export default function SearchDisplay({ handleAddProductDetails }) {
                 <p className='cameraoff_icon'><LuCameraOff /></p>
                 <p className='prdt_partnumber'>{item.partnumber}</p>
                 <p className='prdt_title'>{item.Description}</p>
-                
                 <p className='prdt_price'>USD {item.Price}</p>
+                <div className="stock_status">
+            <div className={`status_indicator ${item.quantity > 0 ? 'in_stock' : 'out_of_stock'}`}></div>
+            <div className="in_out_stock" >{item.quantity > 0 ? 'In Stock' : 'Out of Stock'}</div>
+            {item.quantity <= 0 && (
+                    <div className="get_quote-search">
+                      <p>Get a Quote</p>
+                    </div>
+                  )}
+          </div>
+                
               </Link>
             ))}
             <small className='featuredprdts_length'>{results.length} Results</small>
