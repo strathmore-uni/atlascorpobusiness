@@ -104,12 +104,12 @@ function App() {
     setQuotationItems([]);
   };
   const handleAddProduct = (product) => {
-    const ProductExist = cartItems.find((item) => item.id === product.id);
+    const ProductExist = cartItems.find((item) => item.partnumber === product.partnumber);
 
     if (ProductExist) {
       setCartItems(
         cartItems.map((item) =>
-          item.id === product.id
+          item.partnumber === product.partnumber
             ? { ...ProductExist, quantity: ProductExist.quantity + 1 }
             : item
         )

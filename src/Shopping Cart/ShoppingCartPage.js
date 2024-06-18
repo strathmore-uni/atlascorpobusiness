@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { LuCameraOff } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -15,6 +16,33 @@ export default function ShoppingCartPage({
   handleCartClearance,
   totalPrice,
 }) {
+  const [quickOrderCode, setQuickOrderCode] = useState('');
+  const [quickOrderQty, setQuickOrderQty] = useState(1);
+
+
+  const handleQuickOrderSubmit = async () => {
+    if (!quickOrderCode || quickOrderQty <= 0) {
+      alert('Please enter a valid product code and quantity.');
+      return;
+    }
+
+    try {
+      const response = await axios.get(`http://localhost:3001/api/products/partnumber/${quickOrderCode}`);
+      const product = response.data;
+
+      if (product) {
+        handleAddProduct({ ...product, quantity: quickOrderQty });
+        setQuickOrderCode('');
+        setQuickOrderQty(1);
+      } else {
+        alert('Product not found.');
+      }
+    } catch (error) {
+      console.error('Error fetching product:', error);
+      alert('Error fetching product. Please try again.');
+    }
+  };
+
   return (
     <div className="shoppingcartpage_container">
       <div className="productsdisplay_shoppingcart">
@@ -89,7 +117,7 @@ export default function ShoppingCartPage({
           <p className="cart_empty"> No items are added</p>
         )}
         {cartItems.map((item) => (
-          <div key={item.id} className="display_cart">
+          <div key={item.partnumber} className="display_cart">
             <p className="lucameraoff_cart">
               <LuCameraOff />
             </p>
@@ -136,7 +164,7 @@ export default function ShoppingCartPage({
           <div className="quotation_items">
             <h2>Quotation Items</h2>
             {quotationItems.map((item) => (
-              <div key={item.id} className="display_cart">
+              <div key={item.partnumber} className="display_cart">
                 <p className="lucameraoff_cart">
                   <LuCameraOff />
                 </p>
@@ -196,6 +224,37 @@ export default function ShoppingCartPage({
         <Link to="/Checkout">
           <button className="checkout_btn">Go to Checkout</button>
         </Link>
+      </div>
+
+      <div className="quick_search">
+        <h2>Quick Order</h2>
+        <label className="code_label">Product code</label>
+        <input
+          type="text"
+          placeholder="Product Code"
+          className="quick_input"
+          value={quickOrderCode}
+          onChange={(e) => setQuickOrderCode(e.target.value)}
+        />
+
+        <label className="qty_label">Qty</label>
+        <input
+          type="number"
+          placeholder="Quantity"
+          className="quick_qty"
+          value={quickOrderQty}
+          onChange={(e) => setQuickOrderQty(parseInt(e.target.value))}
+        />
+
+        <button className="quick_addtocart" onClick={handleQuickOrderSubmit}>
+          Add to cart
+        </button>
+      </div>
+      <div className="cantfind" >
+<h3>Can’t find what you are looking for?</h3>
+<p>Missing a product on the webshop? Contact our customer center.</p>
+<p>Email:</p>
+<a href="power.technique.uk@atlascopco.com" >power.technique.uk@atlascopco.com</a>
       </div>
 
       <div className="shoppingcart_footer">
