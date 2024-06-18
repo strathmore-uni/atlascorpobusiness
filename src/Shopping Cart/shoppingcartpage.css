@@ -80,7 +80,7 @@ left: 1rem;
 .cart_empty{
     position: absolute;
     font-size: 2rem;
-    top: 13rem;
+    top: 8rem;
     left: 16rem;
 }
 
@@ -206,4 +206,13 @@ left: 1rem;
     position: relative;
     top: .1rem;
     left: .2rem;
+}
+.quotation_items{
+   position: relative;
+   top:10rem;
+  
+    
+}
+.quotation_items h2{
+    color:#0078a1;
 }

@@ -10,9 +10,10 @@ import { CiGrid2H } from "react-icons/ci";
 import axios from "axios";
 import { ProductsContext } from "../MainOpeningpage/ProductsContext";
 
-export default function Products({ handleAddProductDetails, cartItems }) {
+export default function Products({ handleAddProductDetails, handleAddQuotationProduct }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  
 
 
 
@@ -60,6 +61,7 @@ export default function Products({ handleAddProductDetails, cartItems }) {
      
   }, [products]);
 
+
   return (
     <div className="big_container" key={1}>
       <div className="shop_routes">
@@ -101,11 +103,14 @@ export default function Products({ handleAddProductDetails, cartItems }) {
             .slice(pagesVisited, pagesVisited + itemsPerPage)
             .map((product, index) => (
               <Link
-                key={product.partnumber}
-                className="mylink"
-                to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-                onClick={() => !isLoading && handleAddProductDetails(product)}
-              >
+              key={product.partnumber}
+              className="mylink"
+     
+              onClick={() => !isLoading && handleAddProductDetails(product)}
+            >
+                
+
+
                 <div key={product.partnumber}>
                   {isLoading ? (
                     <div className="loader">
@@ -125,13 +130,19 @@ export default function Products({ handleAddProductDetails, cartItems }) {
                         <LuCameraOff />
                       </p>
                       <p className="prdt_partnumber">{product.partnumber}</p>
+                      <Link key={product.partnumber}
+              
+              to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+              onClick={() => !isLoading && handleAddProductDetails(product)}   style={{color:"black",textDecoration:'none'}}  >
                       <p className="prdt_title">{product.Description}</p>
+                      </Link>
+                      
                       <p className="prdt_price">${product.Price}</p>
                       <div className="stock_status">
                   <div className={`status_indicator ${product.quantity > 0 ? 'in_stock' : 'out_of_stock'}`}></div>
                   <div className="in_out_stock" >{product.quantity > 0 ? 'In Stock' : 'Out of Stock'}</div>
                   {product.quantity <= 0 && (
-                    <div className="get_quote">
+                    <div className="get_quote"  onClick={() => handleAddQuotationProduct(product)}  >
                      <p> Get a Quote</p>
                     </div>
                   )}

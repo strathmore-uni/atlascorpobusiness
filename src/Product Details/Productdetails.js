@@ -82,7 +82,7 @@ export default function ProductDetails({
               <a href="/Shop" style={{ color: "#0078a1", textDecoration: "none" }}>
                 &nbsp;Shop &nbsp;/
               </a>
-              <a href="/Shop/Filterelement" style={{ color: "#0078a1", textDecoration: "none" }}>
+              <a href="/Shop/products" style={{ color: "#0078a1", textDecoration: "none" }}>
                 &nbsp;Products &nbsp;/
               </a>
               <p style={{ position: "absolute", left: "12.5rem", top: "-1rem" }}>

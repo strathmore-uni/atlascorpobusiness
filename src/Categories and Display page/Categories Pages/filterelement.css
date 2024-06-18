@@ -10,6 +10,8 @@
   position: absolute;
  display: block;
  
+ flex-grow: 1;
+ height: 20rem;
   top: 12rem;
   left: 0rem;
 
@@ -185,14 +187,14 @@ top: 2rem;
   font-size: 4rem;
 }
 .filterelement_footer{
-  position:absolute;
-
-  background-color: #373D41;
-  top:90rem;
-  height: 8rem;
-  left: 0;
-  right: 0;
+  position: relative;
+  background-color: #373d41;
+height: 8rem;
   box-sizing: border-box;
+  clear: both;
+  top: 30rem;
+  right: 30rem;
+  width: 758%;
 
 
 

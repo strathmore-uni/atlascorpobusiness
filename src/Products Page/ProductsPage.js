@@ -135,14 +135,18 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
       disabledClassName={"pagination__link--disabled"}
       activeClassName={"pagination__link--active"}
     />
+ 
+ <div className="filterelement_footer">
+          <Footer />
+        </div>
+ 
+ 
   </div>
 </div>
 
         <ProductCategories setProducts={setProducts}/>
         <NavigationBar cartItems={cartItems} />
-        <div className="filterelement_footer">
-          <Footer />
-        </div>
+      
       </div>
     </div>
   );

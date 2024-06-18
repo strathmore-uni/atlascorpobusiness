@@ -8,7 +8,7 @@ import Footer from '../General Components/Footer'
 
 
 
-export default function Shop( {handleAddProductDetails,fulldatas,cartItems,oilfree,datas,data} ) {
+export default function Shop( {handleAddProductDetails,fulldatas,cartItems,datas,handleAddQuotationProduct} ) {
 
   return (
     <div>
@@ -29,7 +29,7 @@ export default function Shop( {handleAddProductDetails,fulldatas,cartItems,oilfr
       <div className='shop_product_container' >
    
              
-<Products datas={datas} handleAddProductDetails={handleAddProductDetails} fulldatas={fulldatas} />
+<Products datas={datas} handleAddProductDetails={handleAddProductDetails} handleAddQuotationProduct={handleAddQuotationProduct} fulldatas={fulldatas} />
       </div>
     
            

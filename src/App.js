@@ -26,6 +26,7 @@ import OrderHistory from "./Shopping Cart/OrderHistory";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
+  const [quotationItems, setQuotationItems] = useState([]);
 
   const [showCountrySelection, setShowCountrySelection] = useState(true); // Flag to control rendering
 
@@ -66,6 +67,21 @@ function App() {
       setProductDetails([{ ...productdetailss }]);
     }
   };
+  const handleAddQuotationProduct = (productquotation) => {
+    const ProductExistQuotation = quotationItems.find((itemquotation) => itemquotation.id === productquotation.id);
+
+    if (ProductExistQuotation) {
+      setCartItems(
+        quotationItems.map((item) =>
+          item.id === productquotation.id
+            ? { ...ProductExistQuotation, quantity: ProductExistQuotation.quantity + 1 }
+            : item
+        )
+      );
+    } else {
+      setQuotationItems([...quotationItems, { ...productquotation, quantity: 1 }]);
+    }
+  }
 
   const handleRemoveProduct = (product) => {
     const ProductExist = cartItems.find((item) => item.id === product.id);
@@ -85,6 +101,7 @@ function App() {
 
   const handleCartClearance = () => {
     setCartItems([]);
+    setQuotationItems([]);
   };
   const handleAddProduct = (product) => {
     const ProductExist = cartItems.find((item) => item.id === product.id);
@@ -104,6 +121,7 @@ function App() {
   const handleRemoveSingleProduct = (product) => {
     setCartItems(cartItems.filter((item) => item.id !== product.id));
   };
+
 
   const [countryCode, setCountryCode] = useState("");
 
@@ -134,6 +152,8 @@ function App() {
                     cartItems={cartItems}
                     handleAddProductDetails={handleAddProductDetails}
                     handleAddProduct={handleAddProduct}
+                    quotationItems={quotationItems}
+                    handleAddQuotationProduct={handleAddQuotationProduct}
                   />
                 }
               />
@@ -144,6 +164,8 @@ function App() {
                     handleAddProduct={handleAddProduct}
                     handleAddProductDetails={handleAddProductDetails}
                     cartItems={cartItems}
+                    quotationItems={quotationItems}
+                    handleAddQuotationProduct={handleAddQuotationProduct}
                   />
                 }
               />
@@ -155,20 +177,26 @@ function App() {
                     handleAddProduct={handleAddProduct}
                     productdetails={productdetails}
                     cartItems={cartItems}
+                   
                   />
                 }
               />
               <Route
                 path="/cart"
                 element={
+                  <>
                   <ShoppingCartPage
                     handleAddProduct={handleAddProduct}
                     handleRemoveSingleProduct={handleRemoveSingleProduct}
                     cartItems={cartItems}
+                       quotationItems={quotationItems}
+                    handleAddQuotationProduct={handleAddQuotationProduct}
                     handleRemoveProduct={handleRemoveProduct}
                     handleCartClearance={handleCartClearance}
                     totalPrice={totalPrice}
                   />
+                 
+                </>
                 }
               />
               <Route
@@ -216,6 +244,8 @@ function App() {
                   <Products
                     handleAddProductDetails={handleAddProductDetails}
                     cartItems={cartItems}
+                    quotationItems={quotationItems}
+                    handleAddQuotationProduct={handleAddQuotationProduct}
                   />
                 }
               />
@@ -225,6 +255,7 @@ function App() {
                   <ProductsPage
                     handleAddProductDetails={handleAddProductDetails}
                     cartItems={cartItems}
+                    
                   />
                 }
               />
