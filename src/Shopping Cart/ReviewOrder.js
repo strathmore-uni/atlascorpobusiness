@@ -139,8 +139,8 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
           </div>
         ))}
       </div>
-      <div className='filterelement_footer' >
-         <Footer  />
+      <div className="shoppingcart_footer">
+        <Footer />
       </div>
       {notificationMessage && <Notification message={notificationMessage} />}
       <NavigationBar />

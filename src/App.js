@@ -71,7 +71,7 @@ function App() {
     const ProductExistQuotation = quotationItems.find((itemquotation) => itemquotation.id === productquotation.id);
 
     if (ProductExistQuotation) {
-      setCartItems(
+      setQuotationItems(
         quotationItems.map((item) =>
           item.id === productquotation.id
             ? { ...ProductExistQuotation, quantity: ProductExistQuotation.quantity + 1 }
@@ -82,6 +82,28 @@ function App() {
       setQuotationItems([...quotationItems, { ...productquotation, quantity: 1 }]);
     }
   }
+
+  const handleRemoveQuotationProduct = (productquotation) => {
+    const ProductExistQuotation = quotationItems.find((itemquotation) => itemquotation.id === productquotation.id);
+
+    if (ProductExistQuotation.quantity === 1) {
+      setQuotationItems(quotationItems.filter((item) => item.id !== productquotation.id));
+    } else {
+      setQuotationItems(
+        quotationItems.map((item) =>
+          item.id === productquotation.id
+            ? { ...ProductExistQuotation, quantity: ProductExistQuotation.quantity - 1 }
+            : item
+        )
+      );
+    }
+  };
+  const handleRemoveSingleQuotationProduct = (product) => {
+    setQuotationItems(quotationItems.filter((item) => item.id !== product.id));
+  };
+
+
+
 
   const handleRemoveProduct = (product) => {
     const ProductExist = cartItems.find((item) => item.id === product.id);
@@ -194,6 +216,8 @@ function App() {
                     handleRemoveProduct={handleRemoveProduct}
                     handleCartClearance={handleCartClearance}
                     totalPrice={totalPrice}
+                    handleRemoveQuotationProduct={handleRemoveQuotationProduct}
+                    handleRemoveSingleQuotationProduct={handleRemoveSingleQuotationProduct}
                   />
                  
                 </>

@@ -14,7 +14,10 @@ export default function ShoppingCartPage({
   handleRemoveSingleProduct,
   handleAddProduct,
   handleCartClearance,
+  handleAddQuotationProduct,
+  handleRemoveQuotationProduct,
   totalPrice,
+  handleRemoveSingleQuotationProduct,
 }) {
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
@@ -172,14 +175,14 @@ export default function ShoppingCartPage({
                 <div className="btngroup_cart">
                   <button
                     className="increase-item"
-                    onClick={() => handleAddProduct(item)}
+                    onClick={() => handleAddQuotationProduct(item)}
                   >
                     +
                   </button>
                   <p className="cart_quantity">{item.quantity}</p>
                   <button
                     className="decrease-item"
-                    onClick={() => handleRemoveProduct(item)}
+                    onClick={() => handleRemoveQuotationProduct(item)}
                   >
                     -
                   </button>
@@ -202,7 +205,7 @@ export default function ShoppingCartPage({
 
                 <p
                   className="cart_removeitem"
-                  onClick={() => handleRemoveSingleProduct(item)}
+                  onClick={() => handleRemoveSingleQuotationProduct(item)}
                 >
                   {" "}
                   <RiDeleteBinLine />

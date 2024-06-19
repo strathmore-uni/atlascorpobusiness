@@ -5,6 +5,44 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <div className='container_footer'>
+
+<div  className='top_container'>
+<p className='contact_p_header' > Contact us</p>
+
+<div className='contact_quicklinks'>
+<p>Spare Parts enquiries</p>
+<a href='ptsuk.support@atlascopco.com' target='blank' > PTSUK.support@atlascopco.com  </a>
+
+<p>Other enquiries</p>
+<a href='power.technique.uk@atlascopco.com'  target='blank'>power.technique.uk@atlascopco.com </a>
+
+<p>Website</p>
+<a href='https://www.atlascopco.com/en-uk/construction-equipment'>Construction Equipment UK</a>
+
+
+
+</div>
+<div className='footerline' ></div>
+<div className='contact_description' >
+<p>Atlas Copco Ltd T/A Atlas Copco Power Technique</p>
+<p>Registered office: Swallowdale Lane,</p>
+<p>Hemel Hempstead,</p>
+<p>Hertfordshire, HP2 7EA United Kingdom</p>
+<p>VAT Reg No: GB 207546371</p>
+<p>Company reg. no. 00159809</p>
+<p>Telephone:</p>
+<a href='tel:01442 222 350'>01442 222 350</a>
+
+<p>Opening Times:</p>
+<p>Monday - Friday 8:30am - 5:00pm</p>
+
+</div>
+
+
+
+</div>
+
+
       <div className="container">
         
         <Link to='https://www.facebook.com/atlascopco/'><button>
@@ -43,6 +81,8 @@ export default function Footer() {
 
 
       </div>
+
+
       <div  className='legalandcopy_footer' >
 <a href='https://www.atlascopco.com/en-us/legal-notice' className='' style={{textDecoration:'none',color:'white'}} >Legal Notice and Cookies</a> 
 <a href='/' className='copy_footer' style={{textDecoration:'none',color:'white'}} >&copy;2024 Atlas Copco </a>
