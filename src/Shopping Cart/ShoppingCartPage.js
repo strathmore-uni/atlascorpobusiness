@@ -54,7 +54,7 @@ export default function ShoppingCartPage({
             {" "}
             Home &nbsp;/
           </a>
-          <a href="/Shop" style={{ color: "#0078a1", textDecoration: "none" }}>
+          <a href="/shop" style={{ color: "#0078a1", textDecoration: "none" }}>
             &nbsp;Shop &nbsp;/
           </a>
           <p

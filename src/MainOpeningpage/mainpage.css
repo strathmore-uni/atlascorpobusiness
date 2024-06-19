@@ -17,11 +17,11 @@ section {
 .main_p {
   position: relative;
   top: -7rem;
-  font-size: 3rem;
-  left: 5rem;
+  font-size: 2rem;
+  
   width: 92%;
   font-weight: bold;
-
+text-align: center;
   color: white;
   line-height: 1;
   font-family: "Poppins", sans-serif;
@@ -34,11 +34,12 @@ section {
 }
 .submain_p {
   position: relative;
-  color: #0078a1;
-  font-size: 2.5rem;
+  color: white;
+  font-size: 2rem;
   font-family: "Source Sans Pro", helvetica, arial, sans-serif;
   font-weight: 800;
-  left: 5rem;
+  text-align: center;
+  
   font-style: normal;
   width: 90%;
 top: -4rem;
@@ -70,7 +71,7 @@ top: -4rem;
   top: 7rem;
   background-size: cover;
   background-position: center;
-  background-image: url("/public/images/home-main-hero-banner-bg.png");
+  background-image: url("/public/images/Group 2.png");
 }
 
 .shopwithus {
@@ -157,15 +158,14 @@ top: -4rem;
 }
 
 .mainpage_footer {
-  position: absolute;
+  position:absolute;
   background-color: #373D41;
-  top: 120rem;
-  height: 8rem;
+  top:120rem;
+  height: 30rem;
   left: 0;
   right: 0;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
+
 }
 .mainpage_products {
   position: absolute;
