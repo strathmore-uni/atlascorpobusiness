@@ -10,7 +10,7 @@
     "emailjs": "^4.0.3",
     "emailjs-com": "^3.2.0",
     "firebase": "^10.12.2",
-    "google-auth-library": "^9.10.0",
+    "google-auth-library": "^9.11.0",
     "i18next": "^23.11.4",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.5.1",
