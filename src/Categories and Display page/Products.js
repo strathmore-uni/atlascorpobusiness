@@ -40,20 +40,21 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     fetchItems();
   }, []);
 
-  const fetchItems = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/api/Countryproducts");
-      if (!response.ok) {
-        throw new Error("Failed to fetch items from MySQL");
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching items:", error);
+ const fetchItems = async () => {
+  try {
+    const response = await fetch("http://192.168.27.75:3001/api/Countryproducts"); 
+    if (!response.ok) {
+      throw new Error("Failed to fetch items from MySQL");
     }
-  };
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    setIsLoading(false);
+  } catch (error) {
+    console.error("Error fetching items:", error);
+  }
+};
+
 
   const { products } = useContext(ProductsContext);
 
