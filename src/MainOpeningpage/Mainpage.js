@@ -25,8 +25,8 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
 
   <section>
-<p className='main_p' ><b style={{fontSize:'3rem'}} >Atlas Copco Kenya</b> </p>
-<p>Home of Industrial ideas </p>
+<p className='main_p' ><b style={{fontSize:'4rem'}} >Atlas Copco Kenya</b> </p>
+<p className='main_sub_P' >Home of Industrial ideas </p>
     
     <p className='submain_p' >Atlas Copco is a world leading provider of industrial productivity solutions, serving customers in Kenya for  88 years.. </p>
   

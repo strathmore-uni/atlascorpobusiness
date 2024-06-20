@@ -17,8 +17,20 @@ section {
 .main_p {
   position: relative;
   top: -7rem;
+
+  width: 92%;
+  font-weight: bold;
+text-align: center;
+  color: white;
+  line-height: 1;
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+.main_sub_P{
   font-size: 2rem;
-  
+  position: relative;
+  top: -7rem;
   width: 92%;
   font-weight: bold;
 text-align: center;
@@ -47,7 +59,7 @@ top: -4rem;
 }
 .sub_p_sub {
   position: relative;
-  top: -3rem;
+  top: 1rem;
   left: 5rem;
   width: 70%;
   font-weight: 800;
