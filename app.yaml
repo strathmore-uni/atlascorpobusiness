@@ -8,3 +8,6 @@ env_variables:
   DATABASE: "AtlasCopco"
   DB_PORT: "3306"
   
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 7
