@@ -27,7 +27,7 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
     const fetchProductsByCategory = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`http://192.168.27.75/api/products/${category}`);
+        const response = await axios.get(`http://192.168.27.75:3001/api/products/${category}`);
         setProducts(response.data);
         setIsLoading(false);
       } catch (error) {

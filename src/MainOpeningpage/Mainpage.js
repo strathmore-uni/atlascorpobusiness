@@ -40,7 +40,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 
 <img className='img_mainpage'  src="./public/R.png" alt='' />
  
- <Link to='/Shop' style={{color:'black'}} > <div className='shopwithus'>
+ <Link to='/shop' style={{color:'black'}} > <div className='shopwithus'>
   
 
    <img src='/images/fleetLink.jpg' alt='' className='imageshop_withus' />
@@ -55,7 +55,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 <div className='featuredproducts_mainpage' >
 <Link to="/shop" style={{textDecoration:'none'}}><h2>Popular Categories</h2> </Link>
 
-<a  className='linktoviewmore'  href='/Shop' >View more<FaArrowRight  /></a>
+<a  className='linktoviewmore'  href='/shop' >View more<FaArrowRight  /></a>
 <div  className='mainpage_products'>
   <div className='individual_categories'>
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
