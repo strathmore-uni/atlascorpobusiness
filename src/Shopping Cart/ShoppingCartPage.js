@@ -30,7 +30,7 @@ export default function ShoppingCartPage({
     }
 
     try {
-      const response = await axios.get(`http://localhost:3001/api/products/partnumber/${quickOrderCode}`);
+      const response = await axios.get(`http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com/api/products/partnumber/${quickOrderCode}`);
       const product = response.data;
 
       if (product) {

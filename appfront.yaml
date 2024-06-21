@@ -1,5 +1,6 @@
 runtime: python39
 env: standard
+service: frontend
 
 handlers:
 - url: /

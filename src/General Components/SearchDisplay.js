@@ -33,7 +33,7 @@ export default function SearchDisplay({ handleAddProductDetails }) {
 
   const handleCategoryClick = async (category) => {
     try {
-      const response = await axios.get(`http://192.168.27.75:3001/api/search`, {
+      const response = await axios.get(`http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com/api/search`, {
         params: {
           term: searchTerm,
           category

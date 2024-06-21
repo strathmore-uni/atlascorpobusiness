@@ -31,7 +31,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
   const handlePlaceOrder = async () => {
     const orderNumber = generateOrderNumber();
     try {
-      const response = await axios.post('http://localhost:3001/api/order', {
+      const response = await axios.post('http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com/api/order', {
         formData,
         cartItems,
         totalPrice,

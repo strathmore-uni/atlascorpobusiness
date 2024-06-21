@@ -27,7 +27,7 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
     const fetchProductsByCategory = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`http://localhost:3001/api/products/${category}`);
+        const response = await axios.get(`http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com/api/products/${category}`);
         setProducts(response.data);
         setIsLoading(false);
       } catch (error) {
