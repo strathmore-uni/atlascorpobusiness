@@ -17,10 +17,12 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
 
 
   const  REACT_API_ADDRESS= "http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com"
+  const local= "http://localhost:3001"
+  const engine= "http://104.154.57.31:3001"
 
   useEffect(() => {
     axios
-      .get(REACT_API_ADDRESS + "/api/products")
+      .get(engine + "/api/products")
       .then((response) => {
         setData(response.data);
       })
@@ -44,7 +46,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   const fetchItems = async () => {
     
     try {
-      const response = await fetch(REACT_API_ADDRESS +  "/api/Countryproducts");
+      const response = await fetch(engine + "/api/Countryproducts");
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }

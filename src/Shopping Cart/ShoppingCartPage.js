@@ -22,7 +22,7 @@ export default function ShoppingCartPage({
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
 
-
+ const engine= "http://104.154.57.31:3001"
   const handleQuickOrderSubmit = async () => {
     if (!quickOrderCode || quickOrderQty <= 0) {
       alert('Please enter a valid product code and quantity.');
@@ -30,7 +30,7 @@ export default function ShoppingCartPage({
     }
 
     try {
-      const response = await axios.get(`http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com/api/products/partnumber/${quickOrderCode}`);
+      const response = await axios.get(`${engine}/api/products/partnumber/${quickOrderCode}`);
       const product = response.data;
 
       if (product) {

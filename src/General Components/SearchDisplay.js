@@ -31,20 +31,21 @@ export default function SearchDisplay({ handleAddProductDetails }) {
     }
   }, [initialResults]);
 
-  const handleCategoryClick = async (category) => {
-    try {
-      const response = await axios.get(`http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com/api/search`, {
-        params: {
-          term: searchTerm,
-          category
-        }
-      });
-      setResults(response.data);
-      setPageNumber(0); // Reset to first page
-    } catch (error) {
-      console.error('Error fetching category results:', error);
-    }
-  };
+    const engine= "http://104.154.57.31:3001"
+    const handleCategoryClick = async (category) => {
+      try {
+        const response = await axios.get(`${engine}/api/search`, {
+          params: {
+            term: searchTerm,  // Assuming searchTerm is defined elsewhere in your component
+            category
+          }
+        });
+        setResults(response.data);
+        setPageNumber(0); // Reset to first page
+      } catch (error) {
+        console.error('Error fetching category results:', error);
+      }
+    };
 
   return (
     <div className='searchdisplay_container'>

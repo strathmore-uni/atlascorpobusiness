@@ -41,11 +41,11 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
   const [categories, setCategories] = useState([]);
-
+ const engine= "http://104.154.57.31:3001"
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/search?term=${searchQuery}`);
+        const response = await axios.get(`${engine}/api/search?term=${searchQuery}`);
         setResults(response.data);
         // Extract categories from results
         const uniqueCategories = [...new Set(response.data.map(item => item.category))];
@@ -63,9 +63,10 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     }
   }, [searchQuery]);
 
+ 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com/api/search?term=${searchQuery}`);
+      const response = await axios.get(`${engine}/api/search?term=${searchQuery}`);
       setResults(response.data);
       // Extract categories from results
       const uniqueCategories = [...new Set(response.data.map(item => item.category))];

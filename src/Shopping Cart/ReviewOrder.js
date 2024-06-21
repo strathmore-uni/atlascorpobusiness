@@ -27,11 +27,12 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
     }
     return orderNumber + Date.now();
   };
-
+  const engine= "http://104.154.57.31:3001"
+  
   const handlePlaceOrder = async () => {
     const orderNumber = generateOrderNumber();
     try {
-      const response = await axios.post('http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com/api/order', {
+      const response = await axios.post(engine +  '/api/order', {
         formData,
         cartItems,
         totalPrice,
