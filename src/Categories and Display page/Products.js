@@ -22,7 +22,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
 
   useEffect(() => {
     axios
-      .get(engine + "/api/products")
+      .get("http://104.154.57.31:3001/api/products")
       .then((response) => {
         setData(response.data);
       })
@@ -46,7 +46,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   const fetchItems = async () => {
     
     try {
-      const response = await fetch(engine + "/api/Countryproducts");
+      const response = await fetch("http://104.154.57.31:3001/api/Countryproducts");
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }
