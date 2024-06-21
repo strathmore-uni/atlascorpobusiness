@@ -44,20 +44,38 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   }, []);
 
   const fetchItems = async () => {
-    
     try {
-      const response = await fetch("http://104.154.57.31:3001/api/Countryproducts");
+      // Set loading state to true before making the request
+      setIsLoading(true);
+  
+      const response = await fetch("http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com");
+  
       if (!response.ok) {
-        throw new Error("Failed to fetch items from MySQL");
+        throw new Error(`Failed to fetch items from MySQL: ${response.status} ${response.statusText}`);
       }
-
+  
+      // Simulate network delay
       await new Promise((resolve) => setTimeout(resolve, 3000));
-
+  
+      // Process the response data (if needed)
+      const data = await response.json();
+  
+      // Do something with the data, e.g., set state
+      console.log(data);
+  
+      // Set loading state to false after data is fetched successfully
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching items:", error);
+  
+      // Set loading state to false if an error occurs
+      setIsLoading(false);
+  
+      // Optionally, set an error state to display the error message to the user
+      setError(error.message);
     }
   };
+  
 
   const { products } = useContext(ProductsContext);
 
