@@ -22,7 +22,7 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(products.length / itemsPerPage);
   const [isLoading, setIsLoading] = useState(true);
- const engine= "http://104.154.57.31:3001"
+ const engine= "https://104.154.57.31:3001"
 
  useEffect(() => {
   const fetchProductsByCategory = async () => {
