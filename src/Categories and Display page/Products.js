@@ -1,30 +1,32 @@
-import React, {useState,useEffect,useContext}from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./products.css";
-import './Categories Pages/filterelement.css'
+import "./Categories Pages/filterelement.css";
 
 import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import { LuCameraOff } from "react-icons/lu";
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
-import axios from "axios";
 import { ProductsContext } from "../MainOpeningpage/ProductsContext";
 
 export default function Products({ handleAddProductDetails, handleAddQuotationProduct }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-  
 
-
-  const  REACT_API_ADDRESS= "http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com"
-  const local= "http://localhost:3001"
-  const engine= "http://104.154.57.31:3001"
+  const REACT_API_ADDRESS = "http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com";
+  const local = "http://localhost:3001";
+  const engine = "http://104.154.57.31:3001";
 
   useEffect(() => {
-    axios
-      .get("http://104.154.57.31:3001/api/products")
+    fetch("http://104.154.57.31:3001/api/products")
       .then((response) => {
-        setData(response.data);
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -43,46 +45,25 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     fetchItems();
   }, []);
 
+  
   const fetchItems = async () => {
     try {
-      // Set loading state to true before making the request
-      setIsLoading(true);
-  
-      const response = await fetch("http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com");
-  
+      const response = await fetch("http://104.154.57.31:3001/api/Countryproducts");
       if (!response.ok) {
-        throw new Error(`Failed to fetch items from MySQL: ${response.status} ${response.statusText}`);
+        throw new Error("Failed to fetch items from MySQL");
       }
-  
-      // Simulate network delay
+
       await new Promise((resolve) => setTimeout(resolve, 3000));
-  
-      // Process the response data (if needed)
-      const data = await response.json();
-  
-      // Do something with the data, e.g., set state
-      console.log(data);
-  
-      // Set loading state to false after data is fetched successfully
+
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching items:", error);
-  
-      // Set loading state to false if an error occurs
-      setIsLoading(false);
-  
-      // Optionally, set an error state to display the error message to the user
-      setError(error.message);
     }
   };
-  
 
   const { products } = useContext(ProductsContext);
 
-  useEffect(() => {
-     
-  }, [products]);
-
+  useEffect(() => {}, [products]);
 
   return (
     <div className="big_container" key={1}>
@@ -91,21 +72,20 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
           {" "}
           Home &nbsp;/
         </a>
-        <p href="/Shop"  style={{
+        <p
+          href="/Shop"
+          style={{
             color: "#0078a1",
             textDecoration: "none",
             position: "absolute",
             left: "7.2rem",
             top: "-1rem",
             width: "10rem",
-          }}>
-  
-        </p>
-      
+          }}
+        ></p>
       </div>
 
       <div className="productdisplay_container">
-  
         <div className={`sub_productdisplay_container ${layoutMode}`}>
           <small className="featuredprdts_length">
             Featured Products: {data.length}
@@ -125,14 +105,10 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
             .slice(pagesVisited, pagesVisited + itemsPerPage)
             .map((product, index) => (
               <Link
-              key={product.partnumber}
-              className="mylink"
-     
-              onClick={() => !isLoading && handleAddProductDetails(product)}
-            >
-                
-
-
+                key={product.partnumber}
+                className="mylink"
+                onClick={() => !isLoading && handleAddProductDetails(product)}
+              >
                 <div key={product.partnumber}>
                   {isLoading ? (
                     <div className="loader">
@@ -147,28 +123,34 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
                   ) : (
                     <>
                       <img className="prdt_image" src={product.image} alt="" />
-                      
+
                       <p className="cameraoff_icon">
                         <LuCameraOff />
                       </p>
                       <p className="prdt_partnumber">{product.partnumber}</p>
-                      <Link key={product.partnumber}
-              
-              to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-              onClick={() => !isLoading && handleAddProductDetails(product)}   style={{color:"black",textDecoration:'none'}}  >
-                      <p className="prdt_title">{product.Description}</p>
+                      <Link
+                        key={product.partnumber}
+                        to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+                        onClick={() => !isLoading && handleAddProductDetails(product)}
+                        style={{ color: "black", textDecoration: "none" }}
+                      >
+                        <p className="prdt_title">{product.Description}</p>
                       </Link>
-                      
+
                       <p className="prdt_price">${product.Price}</p>
                       <div className="stock_status">
-                  <div className={`status_indicator ${product.quantity > 0 ? 'in_stock' : 'out_of_stock'}`}></div>
-                  <div className="in_out_stock" >{product.quantity > 0 ? 'In Stock' : 'Out of Stock'}</div>
-                  {product.quantity <= 0 && (
-                    <div className="get_quote"  onClick={() => handleAddQuotationProduct(product)}  >
-                     <p> Get a Quote</p>
-                    </div>
-                  )}
-                </div>
+                        <div
+                          className={`status_indicator ${product.quantity > 0 ? "in_stock" : "out_of_stock"}`}
+                        ></div>
+                        <div className="in_out_stock">
+                          {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+                        </div>
+                        {product.quantity <= 0 && (
+                          <div className="get_quote" onClick={() => handleAddQuotationProduct(product)}>
+                            <p> Get a Quote</p>
+                          </div>
+                        )}
+                      </div>
                     </>
                   )}
                 </div>
@@ -187,10 +169,6 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
           />
         </div>
       </div>
-
-
-
-      
     </div>
   );
 }

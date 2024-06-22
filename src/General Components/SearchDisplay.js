@@ -31,7 +31,7 @@ export default function SearchDisplay({ handleAddProductDetails }) {
     }
   }, [initialResults]);
 
-    const engine= "http://104.154.57.31:3001"
+    const engine= "https://104.154.57.31:3001"
     const handleCategoryClick = async (category) => {
       try {
         const response = await axios.get(`${engine}/api/search`, {

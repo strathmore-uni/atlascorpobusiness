@@ -22,7 +22,7 @@ export default function ShoppingCartPage({
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
 
- const engine= "http://104.154.57.31:3001"
+ const engine= "https://104.154.57.31:3001"
   const handleQuickOrderSubmit = async () => {
     if (!quickOrderCode || quickOrderQty <= 0) {
       alert('Please enter a valid product code and quantity.');

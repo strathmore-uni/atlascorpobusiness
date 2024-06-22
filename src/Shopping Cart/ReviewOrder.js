@@ -27,7 +27,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
     }
     return orderNumber + Date.now();
   };
-  const engine= "http://104.154.57.31:3001"
+  const engine= "https://104.154.57.31:3001"
   
   const handlePlaceOrder = async () => {
     const orderNumber = generateOrderNumber();

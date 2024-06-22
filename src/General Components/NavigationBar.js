@@ -41,7 +41,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
   const [categories, setCategories] = useState([]);
- const engine= "http://104.154.57.31:3001"
+ const engine= "https://104.154.57.31:3001"
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {

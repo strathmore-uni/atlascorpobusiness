@@ -28,11 +28,15 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   const fetchProductsByCategory = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${engine}/api/products/${category}`);
-      setProducts(response.data);
+      const response = await fetch(`${engine}/api/products/${category}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch products by category");
+      }
+      const data = await response.json();
+      setProducts(data);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
       setIsLoading(false);
     }
   };
