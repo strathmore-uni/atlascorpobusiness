@@ -19,7 +19,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   
 
   useEffect(() => {
-    fetch("http://104.154.57.31:3001/api/products")
+    fetch("https://104.154.57.31:3001/api/products")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -49,7 +49,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://104.154.57.31:3001/api/Countryproducts");
+      const response = await fetch("https://104.154.57.31:3001/api/Countryproducts");
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }
