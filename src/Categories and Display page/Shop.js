@@ -13,6 +13,7 @@ export default function Shop( {handleAddProductDetails,fulldatas,cartItems,datas
   return (
     <div>
     <div className='container_shop' >
+    
            <div className='shop_routes' >
  <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
                 {" "}

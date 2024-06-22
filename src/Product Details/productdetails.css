@@ -208,3 +208,24 @@ tbody{
 
 }
 
+@media (max-width: 45rem) {
+ .productview_container{
+  left: 0rem;
+ }
+ .productdetails_routes{
+  left: 12rem;
+ }
+ .product_details{
+  left: -10rem;
+  
+ }
+ .pdrtdetails_card{
+  position: relative;
+  top: 0rem;
+  left: 15rem;
+ }
+ .productdetails_footer{
+  top: 60rem;
+ }
+ 
+}

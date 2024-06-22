@@ -128,3 +128,34 @@ position: absolute;
     position: relative;
     left: 3rem;
   }
+  @media (max-width: 45rem) {
+    .container{
+      position: relative;
+      left: 0rem;
+    }
+  .legalandcopy_footer{
+    position: relative;
+    left:0rem;
+    top: 2rem;
+  }
+  .contact_quicklinks{
+    
+    width: 10rem;
+    height: 15rem;
+    left: 0rem;
+    font-size: 1rem;
+
+
+  }
+  .footerline{
+    left: 13.8rem;
+  }
+  .contact_description{
+    position: absolute;
+    left: 14rem;   
+    width: 12.5rem;
+    
+    
+  }
+  
+  }

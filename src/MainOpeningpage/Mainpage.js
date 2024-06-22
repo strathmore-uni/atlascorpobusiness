@@ -25,7 +25,7 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
 
   <section>
-<p className='main_p' ><b style={{fontSize:'4rem'}} >Atlas Copco Kenya</b> </p>
+<p className='main_p' >Atlas Copco Kenya </p>
 <p className='main_sub_P' >Home of Industrial ideas </p>
     
     <p className='submain_p' >Atlas Copco is a world leading provider of industrial productivity solutions, serving customers in Kenya for  88 years.. </p>
@@ -55,7 +55,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 <div className='featuredproducts_mainpage' >
 <Link to="/shop" style={{textDecoration:'none'}}><h2>Popular Categories</h2> </Link>
 
-<a  className='linktoviewmore'  href='/shop' >View more<FaArrowRight  /></a>
+<Link  className='linktoviewmore'  to='/shop' >Continue to Shop<FaArrowRight  /></Link>
 <div  className='mainpage_products'>
   <div className='individual_categories'>
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />

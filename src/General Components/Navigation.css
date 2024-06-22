@@ -294,7 +294,7 @@ input:hover {
   .container_NavigationBar {
     position: absolute;
     width: 100%;
-    height: 5rem;
+    height: 8rem;
     background-color: grey;
     justify-items: center;
   }
@@ -304,5 +304,38 @@ input:hover {
 
   .p_navigation_contacts {
     left: 19rem;
+  }
+  .title_h3{
+    position: relative;
+    top: 0rem;
+    font-size: .8rem;
+  }
+  .nav_hr_line{
+    display: none;
+  }
+  .input{
+    position: relative;
+    top: 0rem;
+    left:1rem ;
+    width: 20rem;
+  }
+  .mylogoimage{
+    display: none;
+  }
+  .sign-in-button{
+    
+  }
+  .user-profile-container{
+    top: 1rem;
+    left: 15rem;
+    width: 11rem;
+
+    font-size: .7rem;
+  }
+  .person_icon{
+    left:-1rem;
+  }
+  .p_cart{
+    
   }
 }

@@ -32,6 +32,12 @@ left: 1rem;
     font-size: .9rem;
 
 }
+.cart_item_title{
+    font-weight: bold;
+     position: absolute; 
+     left: 4rem;
+     font-size: .89rem;
+}
 
 .cart_itemprice{
     position: absolute;
@@ -284,4 +290,79 @@ input[type=number] {
 }
 .cantfind a{
     color:#0078a1;
+}
+.netprice_cart{
+    position: absolute;
+    top: 5rem;
+    left: 25rem;
+    font-weight: 500;
+}
+.table_description{
+    position: absolute;
+    top: 5rem;
+    left: 2rem;
+    font-weight:500;
+}
+.qty_cart{
+    position: absolute;
+    top: 5rem;
+    right: 13rem;
+    font-weight: 500;
+}
+@media (max-width: 45rem) {
+    .order_summary{
+        top: 70rem;
+        left: 1rem;
+        width: 100%;
+    }
+    .quick_search{
+        top: 90rem;
+        left: 1rem; 
+        width: 100%;
+    }
+    .cantfind{
+        top: 110rem;
+        left: 1rem; 
+        width: 100%;
+    }
+    .shoppingcart_footer{
+        top: 130rem;
+    }
+
+    .btngroup_cart{
+        left: 4rem;
+        top: 6rem;
+
+    }
+    .cart_item_title{
+
+    }
+    .cart_itemprice{
+        left: 15rem;
+        width: 5rem;
+        display: none;
+    }
+    .net_cart_itemprice{
+        left: 20rem;
+        width: 5rem;
+    }
+    .netprice_cart{
+        left: 21rem;
+        width: 5rem;
+    }
+
+    .total_cart_table{
+        display: none;
+    }
+    .table_description{
+        display: none;
+        left: 8rem;
+    }
+    .qty_cart{
+      display:none;
+    }
+    .btn_clearcart{
+        left: 19rem;
+    }
+  
 }

@@ -39,156 +39,68 @@
     left:1rem;
     font-weight: 500;
 }
-
-form{
-    position: absolute;
-  
+form {
+    position: relative;
     top: 17rem;
     left: 2rem;
-    width: 50rem;
-    height: 62rem;
-
-}
-input::before{
-border-color: grey;
-    border-radius: 3px;
-}
-input:focus{
-    border-bottom: 2px solid #5b5fc7;
-}
-label{
-    position: relative;
-    font-size: .8rem;
-    top: 0rem;
-}
-.inputs{
-    position: relative;
-    display: flex;
-    padding: .8rem;
-    width: 70%;
-    margin-top: 10px;
-
-}
-.titleForm{
-    position: absolute;
-    top: 6rem;
-    left: 0rem;
-}
-.input_title{
-    position: relative;
-    top: 3rem;
-    padding: .8rem;
-    width: 74%;
+    width: 45rem;
+    margin: auto;
+    padding: 20px;
    
-    
-}
-.fname{
-    position: absolute;
-    top: 12rem;
-    left: 0rem;
-}
-.fnameinput{
-    position: relative;
-    top: 6rem;
-    padding: .8rem;
-    width: 70%;
-    border-color: none;
+    border-radius: 8px;
+   
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  input:focus, select:focus {
+    border-color: #5b9bd5;
+    outline: none;
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+  }
+  
 
-}
-.sname{
-    position: absolute;
-    top: 18rem;
-    left: 0rem;
-}
-.snameinput{
-    position: relative;
-    top: 9rem;
-    padding: .8rem;
-    width: 70%;
+  
+  .titleForm {
+    margin-top: 8px;
+  }
+  
+  .inputs {
+    margin-top: 8px;
+  }
+  
+  .fname, .sname, .streetaddresslabel, .streetaddress2label, .citylabel, .ziplabel, .phonelabel, .emaillabel {
+    margin-top: 8px;
+  }
+  
+  .fnameinput, .snameinput, .streetaddressinput, .streetaddress2input, .cityinput, .zipinput, .phoneinput, .emailinput, .input_title {
+    margin-top: 8px;
+  }
+  
 
-}
-.streetaddresslabel{
-    position: absolute;
-    top: 23rem;
-    left: 0rem;
-}
-.streetaddressinput{
-    
-    position: relative;
-    top: 12rem;
-    padding: .8rem;
-    width: 70%;
-}
-
-.streetaddress2label{
-    position: absolute;
-    top: 29rem;
-    left: 0rem;
-}
-.streetaddress2input{
-    
-    position: relative;
-    top: 15rem;
-    padding: .8rem;
-    width: 70%;
-}
-.citylabel{
-     position: absolute;
-    top: 35rem;
-    left: 0rem;
-
-}
-.cityinput{
-    position: relative;
-    top: 18rem;
-    padding: .8rem;
-    width: 70%;
-    
-}
-.ziplabel{
-    position: absolute;
-    top: 41rem;
-    left: 0rem;
-}
-.zipinput{
-    position: relative;
-    top: 21rem;
-    padding: .8rem;
-    width: 70%;
-}
-.phonelabel{
-    position: absolute;
-    top: 46rem;
-    left: 0rem;
-}
-.phoneinput{
-    position: relative;
-    top: 23rem;
-    padding: .8rem;
-    width: 70%;
-}
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-.emaillabel{
-    position: absolute;
-    top: 51rem;
-    left: 0rem;
-}
-.emailinput{
-    position: relative;
-    top: 26rem;
-    padding: .8rem;
-    width: 70%;
-}
 .btn_continue{
     position: absolute;
-    top: 59rem;
+    top: 65rem;
     padding: .8rem;
     left: 0rem;
     width: 40%;
@@ -270,4 +182,61 @@ input[type=number] {
 .arrowbackReview{
     position: relative;
     top: .16rem;
+}
+.cart_quantity_review{
+    position: relative;
+    top: -1rem;
+    left: 12rem;
+    font-weight: 700;
+
+}
+.cart_itemprice_revieworder{
+    position: absolute;
+    top: 1.5rem;
+    right:2rem;
+    font-weight: 700;
+}
+.net_cart_itemprice_revieworder{
+    position: absolute;
+    top: 1.5rem;
+    left:24rem;
+    font-size: .9rem;
+}
+@media (max-width: 45rem) {
+
+   form{
+    left: 0rem;
+    width: 23rem;
+   }
+   input{
+width: 24rem;
+   }
+   select{
+    width: 25rem;
+   }
+    .order_summary_checkout{
+        top: 85rem;
+        left: 0rem;
+        width: 100%;
+    }
+    .shoppingcart_footer{
+        top: 105rem;
+    }
+    .editinfo{
+        width: 5rem;
+        left: 20rem;
+    }
+    .tbl_description, .tbl_total, .tbl_net, .tbl_qty{
+        display: none;
+    }
+    .cart_quantity_review{
+        top:-4.5rem;
+      
+    }
+    .cart_itemprice_revieworder{
+display: none;
+    }
+    .net_cart_itemprice_revieworder{
+        left: 20rem;
+    }
 }

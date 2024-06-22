@@ -341,3 +341,46 @@ font-size: .8rem;
   font-size: .8rem;
   font-weight: 600;
 }
+.fabars_categories{
+  
+  position: relative;
+  top: 0rem;
+  left: 0rem;
+}
+
+@media (max-width: 45rem) {
+  .big_container{
+    left: -12rem;
+  }
+ 
+ .productdisplay_container{
+  background-color: #007bff;
+  left: 11rem;
+ }
+.shop_routes{
+  position: relative;
+  left: 1rem;
+}
+.sub_productdisplay_container.grid{
+  left: .3rem;
+  grid-template-columns: repeat(2, 190px);
+  grid-gap:25px;
+}
+.prdt_title{
+  width: 10rem;
+}
+.mylink{
+  width: 12.5rem;
+  height: 20rem;
+}
+.pagination{
+  left: 0rem;
+  width: 100%;
+}
+.fabars_categories{
+left: 0rem;
+top: -10rem;
+  
+
+}
+}

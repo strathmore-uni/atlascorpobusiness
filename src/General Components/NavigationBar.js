@@ -145,13 +145,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
           )}
         </div>
       </div>
-      <select value={selectedCountry} onChange={handleCountryChange} className="select_country">
-        {countries.map((country) => (
-          <option key={country.value} value={country.value}>
-            {country.label}
-          </option>
-        ))}
-      </select>
+    
       <IoSearchOutline className="search_icon_navigation" onClick={handleSearch} />
     </div>
   );

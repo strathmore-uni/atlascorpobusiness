@@ -8,11 +8,12 @@ import { LuCameraOff } from "react-icons/lu";
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
 import { ProductsContext } from "../MainOpeningpage/ProductsContext";
-
+import { FaBars } from "react-icons/fa6";
+import Categories from "./Categories";
 export default function Products({ handleAddProductDetails, handleAddQuotationProduct }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-
+  const [isCategoriesVisible, setIsCategoriesVisible] = useState(false); 
   const REACT_API_ADDRESS = "http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com";
   const local = "http://localhost:3001";
   const engine = "https://104.154.57.31:3001";
@@ -66,27 +67,18 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
 
   useEffect(() => {}, [products]);
 
+  const toggleCategories = () => {
+    setIsCategoriesVisible(!isCategoriesVisible);
+  };
+
+
   return (
     <div className="big_container" key={1}>
-      <div className="shop_routes">
-        <a href="./" style={{ color: "#0078a1", textDecoration: "none" }}>
-          {" "}
-          Home &nbsp;/
-        </a>
-        <p
-          href="/Shop"
-          style={{
-            color: "#0078a1",
-            textDecoration: "none",
-            position: "absolute",
-            left: "7.2rem",
-            top: "-1rem",
-            width: "10rem",
-          }}
-        ></p>
+      <div className={`categories_sidebar ${isCategoriesVisible ? 'visible' : ''}`}>
+        <Categories />
       </div>
-
       <div className="productdisplay_container">
+           <FaBars className="fabars_categories" onClick={toggleCategories}  />
         <div className={`sub_productdisplay_container ${layoutMode}`}>
           <small className="featuredprdts_length">
             Featured Products: {data.length}

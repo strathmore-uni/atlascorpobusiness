@@ -75,17 +75,14 @@ export default function ShoppingCartPage({
         </button>
         <hr className="hr_shoppingcartpage" />
         <small
-          style={{
-            position: "absolute",
-            top: "5rem",
-            left: "2rem",
-            fontWeight: "500",
-          }}
+        className="table_description"
+        
         >
           {" "}
           Description
         </small>
         <small
+        className="total_cart_table"
           style={{
             position: "absolute",
             top: "5rem",
@@ -96,22 +93,14 @@ export default function ShoppingCartPage({
           Total
         </small>
         <small
-          style={{
-            position: "absolute",
-            top: "5rem",
-            left: "25rem",
-            fontWeight: "500",
-          }}
+        className="netprice_cart"
+    
         >
           Net Price
         </small>
         <small
-          style={{
-            position: "absolute",
-            top: "5rem",
-            right: "13rem",
-            fontWeight: "500",
-          }}
+        className="qty_cart"
+         
         >
           Qty
         </small>
@@ -143,8 +132,8 @@ export default function ShoppingCartPage({
             <p className="p_serialnumber">
               Part Number:&nbsp;{item.partnumber}
             </p>
-            <p
-              style={{ fontWeight: "bold", position: "absolute", left: "4rem" }}
+            <p className="cart_item_title"
+             
             >
               {" "}
               {item.Description}

@@ -102,7 +102,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
         <p>City: {formData.city}</p>
         <p>Zip Code: {formData.zip}</p>
         <p>Phone: {formData.phone}</p>
-        <p>Eami: {formData.email}</p>
+        <p>Email: {formData.email}</p>
       </div>
 
       <div className='order_summary_checkout'>
@@ -118,10 +118,10 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
       <div className='productsdisplay_shoppingcart_review'>
         <h2 style={{ color: '#0078a1' }}>Cart Items</h2>
         <hr className='hr_shoppingcartpage' />
-        <small style={{ position: 'absolute', top: '5rem', left: '2rem', fontWeight: '500' }}>Description</small>
-        <small style={{ position: 'absolute', top: '5rem', right: '3rem', fontWeight: '500' }}>Total</small>
-        <small style={{ position: 'absolute', top: '5rem', left: '25rem', fontWeight: '500' }}>Net Price</small>
-        <small style={{ position: 'absolute', top: '5rem', right: '13rem', fontWeight: '500' }}>Qty</small>
+        <small className='tbl_description'  style={{ position: 'absolute', top: '5rem', left: '2rem', fontWeight: '500' }}>Description</small>
+        <small className='tbl_total' style={{ position: 'absolute', top: '5rem', right: '3rem', fontWeight: '500' }}>Total</small>
+        <small className='tbl_net' style={{ position: 'absolute', top: '5rem', left: '25rem', fontWeight: '500' }}>Net Price</small>
+        <small className='tbl_qty' style={{ position: 'absolute', top: '5rem', right: '13rem', fontWeight: '500' }}>Qty</small>
 
         {cartItems.length === 0 && (
           <p className="cart_empty">No items are added</p>
@@ -130,12 +130,12 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
           <div key={item.id} className='display_cart'>
             <p className='lucameraoff_cart'><LuCameraOff /></p>
             <div className='btngroup_cart'>
-              <p className='cart_quantity'>{item.quantity}</p>
+              <p className='cart_quantity_review'>{item.quantity}</p>
             </div>
             <p className='p_serialnumber'>Serial Number:&nbsp;{item.partnumber}</p>
             <p style={{ fontWeight: 'bold', position: 'absolute', left: '4rem' }}>{item.Description}</p>
-            <p className='net_cart_itemprice'>${item.Price}</p>
-            <p className='cart_itemprice'>${item.Price}</p>
+            <p className='net_cart_itemprice_revieworder'>${item.Price}</p>
+            <p className='cart_itemprice_revieworder'>${item.Price}</p>
             <hr className='hr_incartdisplay' />
           </div>
         ))}

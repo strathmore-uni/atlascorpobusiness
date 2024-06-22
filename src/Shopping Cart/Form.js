@@ -76,7 +76,7 @@ export default function Form() {
         </select>
       
 
-        <label htmlFor='fname' className='fname'>First Name    {errors.firstName && <div className="error">{errors.firstName}</div>}</label>
+        <label htmlFor='fname' className='fname'>First Name {errors.firstName && <div className="error">{errors.firstName}</div>}</label>
         <input
           id='fname'
           className='fnameinput'

@@ -94,3 +94,9 @@ border-radius: 0px;
 border-bottom: 2px solid #5b5fc7;
    
   }
+  @media (max-width: 45rem) {
+    .Categories_container{
+      display: none;
+    }
+
+  }

@@ -61,3 +61,20 @@
     font-size: .8rem;
     font-weight: 600;
   }
+  .fabars_categories{
+    position: relative;
+    left: 1.5rem;
+    top: -1.5rem;
+      
+    
+    }
+ 
+  @media (max-width: 45rem) {
+  .shop_routes{
+    left: 3em;
+  }
+  .shop_footer{
+    top: 195rem;
+  }
+ 
+}
