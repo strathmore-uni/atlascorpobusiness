@@ -75,9 +75,7 @@ export default function Form() {
 
     try {
       const response = await axios.post('https://104.154.57.31:3001/api/register', formData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+       
       });
 
       console.log('Registration successful:', response.data);
