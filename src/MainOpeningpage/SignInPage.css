@@ -2,8 +2,8 @@
   position: relative;
   top: 10rem;
   left: 25rem;
-  width: 350px;
-  height: 400px;
+  width: 400px;
+  height: 450px;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 10px;
@@ -34,7 +34,7 @@
 
 .form {
   position: absolute;
-  top: 14rem;
+  top: 4rem;
   left: 0rem;
   width: 100%;
   display: flex;
@@ -55,10 +55,27 @@
   padding: 12px 15px;
   width: 90%;
 }
-
+.input-password{
+  position: relative;
+  top: 0rem;
+  left: 1rem;
+  border-radius: 20px;
+  border: 1px solid #c0c0c0;
+  outline: 0 !important;
+  box-sizing: border-box;
+  padding: 12px 15px;
+  width: 90%;
+}
+.lbl_signin{
+  position: relative;
+  left: 2vh;
+  color: grey;
+  font-size: .8rem;
+}
 .form-btn {
   position: relative;
   width: 90%;
+  top: 0rem;
   left: 1rem;
   padding: 10px 15px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
@@ -96,7 +113,7 @@
 
 .buttons-container {
   position: relative;
-  top: -3rem;
+  top: 10rem;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -108,7 +125,7 @@
 
     .google-login-button {
       position: relative;
-      top: 0rem;
+      top: 7rem;
   border-radius: 20px;
   box-sizing: border-box;
   padding: 15px 15px;
@@ -132,7 +149,7 @@
 /* Style for the line */
 .line-container {
   position: relative;
-  top: 6rem;
+  top: 17rem;
   display: flex;
   align-items: center;
   margin: 20px 0;

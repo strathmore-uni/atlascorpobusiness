@@ -39,55 +39,56 @@
     left:1rem;
     font-weight: 500;
 }
-form {
+
+.form-container-registration {
     position: relative;
-    top: 17rem;
+    top: 16rem;
+    width: 50rem;
     left: 2rem;
-    width: 45rem;
-    margin: auto;
-    padding: 20px;
-   
-    border-radius: 8px;
-   
+    margin: 0 auto;
+    
+    
+    border-radius: 5px;
+    
   }
   
-  label {
+  .form-group {
+    position: relative;
+    
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
     display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
+    margin-bottom: 5px;
   }
   
-  input, select {
+  .form-group input,
+  .form-group select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 16px;
-    border: 1px solid #ddd;
+    padding: 13px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
   }
   
-  input:focus, select:focus {
-    border-color: #5b9bd5;
-    outline: none;
-  }
-  
-  .error {
-    color: red;
+  .form-group .error {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 5px;
+    border: 1px solid #d8000c;
+    border-radius: 4px;
+    margin-top: 5px;
     font-size: 12px;
-    margin-top: -12px;
-    margin-bottom: 12px;
+    box-sizing: border-box;
+    z-index: 1;
   }
   
 
-  
-  .titleForm {
-    margin-top: 8px;
-  }
-  
-  .inputs {
-    margin-top: 8px;
-  }
   
   .fname, .sname, .streetaddresslabel, .streetaddress2label, .citylabel, .ziplabel, .phonelabel, .emaillabel {
     margin-top: 8px;
@@ -100,9 +101,9 @@ form {
 
 .btn_continue{
     position: absolute;
-    top: 65rem;
+   
     padding: .8rem;
-    left: 0rem;
+    left: 1rem;
     width: 40%;
     background-color: #0078a1;
     border: none;
@@ -172,13 +173,7 @@ form {
 .arrowbacktocart:hover{
     opacity: .7;
 }
-.error{
-    position: relative;
-   top: 0rem;
-    left: 25rem;
-    width: 10rem;
-    color: red;
-}
+
 .arrowbackReview{
     position: relative;
     top: .16rem;

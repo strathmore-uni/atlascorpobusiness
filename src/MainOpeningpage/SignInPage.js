@@ -63,11 +63,14 @@ const SignInPage = ({setGuestEmail}) => {
         <div className="line"></div>
       </div>
         <p class="title">Login</p>
-        <p class="sub-title">Proceed As Guest</p>
+        
         <form class="form"  onSubmit={handleEmailSignIn}>
-    
+    <label className='lbl_signin' >Email</label>
           <input type="email" class="input-email" placeholder="Email"  onChange={handleEmailChange} />
-          <button class="form-btn" onClick={handleGuestSignIn}>Continue As Guest</button>
+          <label className='lbl_signin'>Password</label>
+          <input type='password' className='input-password' placeholder='Password'  />
+          <button class="form-btn" onClick={handleGuestSignIn}>Sign in</button>
+       
         </form>
         
         <div class="buttons-container">
