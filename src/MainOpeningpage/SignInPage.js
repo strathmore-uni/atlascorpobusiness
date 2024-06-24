@@ -5,11 +5,23 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext'; // Adjust the import path as necessary
 import './SignInPage.css';
 import { signInAnonymously } from 'firebase/auth';
+import axios from 'axios';
 
 const SignInPage = ({setGuestEmail}) => {
-  const [email, setEmail] = useState('');
+
+  const[email,setEmail] =useState('');
+  const[password,setPassword] =useState('');
+  const [error, setError] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [values,setValues] = useState({
+    email:'',
+    password:''
+  })
+
   const { currentUser, loading } = useAuth(); // Get the current user and loading state from the AuthContext
   const navigate = useNavigate();
+
+
 
   useEffect(() => {
     if (!loading && currentUser) {
@@ -17,16 +29,7 @@ const SignInPage = ({setGuestEmail}) => {
     }
   }, [currentUser, loading, navigate]);
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
 
-  const handleEmailSignIn = (e) => {
-    e.preventDefault();
-    localStorage.setItem('guestEmail', email);
-    setGuestEmail(email);
-  
-  };
 
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
@@ -38,25 +41,47 @@ const SignInPage = ({setGuestEmail}) => {
     console.error('Error during Google Sign-In:', error);
     });
     };
-    const handleGuestSignIn = async () => {
-      try {
-        await signInAnonymously(auth);
 
-        navigate('/productdetails');
-      } catch (error) {
-        console.error('Error signing in as guest:', error);
-        // Handle error
-      }
-    };
-    
-    // If still loading, show a loading spinner or some placeholder
     if (loading) {
     return <div>Loading...</div>;
     }
+ 
+
+    const handleEmailSignIn = async (event) => {
+      event.preventDefault();
+  
+      if (!email || !password) {
+        setError('Email and password are required.');
+        return;
+      }
+  
+      try {
+        const response = await axios.post('https://localhost:3001/login', { email, password });
+        if (response.data === 'Login Successfull') {
+          setLoggedInUser(response.data.email);
+          navigate('/'); // Navigate to '/' (home page) on successful login
+        } else {
+          setError('Login failed. Please check your credentials and try again.');
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setError('Account does not exist. Please check your email.');
+        } else {
+          console.error(error);
+          setError('Login failed. Please check your credentials and try again.');
+        }
+        console.error(error);
+        setError('Login failed. Please check your credentials and try again.');
+      }
+    };
+  
     
+
+  
     return (
 
         <div class="form-container">
+           {error && <p className='error_login'  >{error}</p>}
                <div className="line-container">
         <div className="line"></div>
         <div className="or">or</div>
@@ -64,14 +89,13 @@ const SignInPage = ({setGuestEmail}) => {
       </div>
         <p class="title">Login</p>
         
-        <form class="form"  onSubmit={handleEmailSignIn}>
-    <label className='lbl_signin' >Email</label>
-          <input type="email" class="input-email" placeholder="Email"  onChange={handleEmailChange} />
-          <label className='lbl_signin'>Password</label>
-          <input type='password' className='input-password' placeholder='Password'  />
-          <button class="form-btn" onClick={handleGuestSignIn}>Sign in</button>
-       
-        </form>
+        <form className="form" onSubmit={handleEmailSignIn} action="/login" method="post" >
+        <label className='lbl_signin'>Email</label>
+        <input type="email" className="input-email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+        <label className='lbl_signin'>Password</label>
+        <input type='password' className='input-password' placeholder='Password' onChange={e => setPassword(e.target.value)} />
+        <button type="submit" className="form-btn">Sign in</button>
+      </form>
         
         <div class="buttons-container">
      

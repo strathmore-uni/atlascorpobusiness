@@ -3,12 +3,18 @@ import NavigationBar from '../General Components/NavigationBar'
 import './mainpage.css'
 import { FaArrowRight } from "react-icons/fa";
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../General Components/Footer';
 
 
 export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (category) => {
+ 
+    navigate(`/products/${category}`);
+  };
 
   return (
     <div>
@@ -57,35 +63,35 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 
 <Link  className='linktoviewmore'  to='/shop' >Continue to Shop<FaArrowRight  /></Link>
 <div  className='mainpage_products'>
-  <div className='individual_categories'>
+  <div className='individual_categories'  onClick={() => handleCategoryClick('Filterelement')}  >
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
     <p>Filter Elements</p>
   </div>
 
 
-  <div className='individual_categories'>
+  <div className='individual_categories'  onClick={() => handleCategoryClick('Servkit')}  >
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
     <p>Serv Kits</p>
   </div>
 
-  <div className='individual_categories'>
+  <div className='individual_categories' onClick={() => handleCategoryClick('Bearingkits')} >
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
     <p>Bearing Kits</p>
   </div>
 
-  <div className='individual_categories'>
+  <div className='individual_categories' onClick={() => handleCategoryClick('Overhaulkit')} >
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
     <p>Over Haul Kits</p>
   </div>
 
-  <div className='individual_categories'>
+  <div className='individual_categories' onClick={() => handleCategoryClick('Oilfilterelement')} >
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
-    <p>Over Haul Kits</p>
+    <p>Oil filterelement</p>
   </div>
 
-  <div className='individual_categories'>
+  <div className='individual_categories'  onClick={() => handleCategoryClick('Autodrainvalve')} >
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
-    <p>Over Haul Kits</p>
+    <p>Autodrain valve</p>
   </div>
 
 

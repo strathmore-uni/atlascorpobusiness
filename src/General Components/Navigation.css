@@ -227,11 +227,14 @@ input:hover {
 .user-profile {
   cursor: pointer;
   position: relative;
+
 }
 
 
 .email {
-  margin-right: 10px;
+  inline-size: 150px;
+  overflow: hidden;
+  
 }
 
 .dropdown-content {
@@ -243,6 +246,7 @@ input:hover {
   z-index: 1;
   border-radius: 5px;
   padding: 5px 0;
+  
 
 }
 

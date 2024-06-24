@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Form.css'
 import axios from 'axios';
+import Notification from '../General Components/Notification';
 
 export default function Form() {
   const [formData, setFormData] = useState({
@@ -21,6 +22,10 @@ export default function Form() {
   });
 
   const [errors, setErrors] = useState({});
+
+  const [notificationMessage, setNotificationMessage] = useState('');
+
+  const [failurenotification, setFailurenotification] = useState('') 
 
   const handleFormDataChange = useCallback((event) => {
     const { name, value } = event.target;
@@ -74,15 +79,14 @@ export default function Form() {
     // navigate('/review-order', { state: { formData } });
 
     try {
-      const response = await axios.post('https://104.154.57.31:3001/api/register', formData, {
+      const response = await axios.post('https://localhost:3001/api/register', formData, {
        
       });
 
-      console.log('Registration successful:', response.data);
-      // Handle success, e.g., show a success message to the user
+      setNotificationMessage('Registration was Successful.');
     } catch (error) {
       console.error('Error registering user:', error);
-      // Handle error, e.g., show an error message to the user
+      setFailurenotification('Registration was Unsuccessful.');
     }
   
   }, [formData, navigate]);
@@ -305,6 +309,9 @@ export default function Form() {
 
         <button type='submit' className='btn_continue'>Continue</button>
       </form>
+      {notificationMessage && <Notification message={notificationMessage}  />}
+      {failurenotification && <Notification failure_message={failurenotification} />}
     </div>
+    
   );
 }

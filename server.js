@@ -57,6 +57,37 @@ app.get('/api/data', (req, res) => {
   });
 });
 
+
+{/** 
+app.get('/api/fulldata', async (req, res) => {
+  try {
+    const [results] = await pool.query('SELECT * FROM fulldata');
+    res.json(results);
+  } catch (err) {
+    console.error('Error executing query:', err);
+    res.status(500).send(err);
+  }
+});
+
+*/}
+{/** 
+app.get('/api/stockproducts', async (req, res) => {
+  const query = `
+   SELECT p.id, p.partnumber, p.Description, p.Price, s.quantity
+    FROM fulldata p
+    JOIN stock s ON p.id = s.product_id
+  `;
+  try {
+    const [results] = await pool.query(query);
+    res.json(results);
+  } catch (err) {
+    console.error('Error executing query:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+*/}
+
+
 app.get('api/products', (req, res) => {
   const { minPrice, maxPrice } = req.query;
 
