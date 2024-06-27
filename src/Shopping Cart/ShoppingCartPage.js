@@ -22,29 +22,36 @@ export default function ShoppingCartPage({
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
 
- const engine= "https://104.154.57.31:3001"
+ 
   const handleQuickOrderSubmit = async () => {
     if (!quickOrderCode || quickOrderQty <= 0) {
-      alert('Please enter a valid product code and quantity.');
+      alert("Please enter a valid product code and quantity.");
       return;
     }
-
+  
+    const userEmail = localStorage.getItem("userEmail");
+  
     try {
-      const response = await axios.get(`${engine}/api/products/partnumber/${quickOrderCode}`);
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/products/partnumber/${quickOrderCode}`, {
+        params: {
+          email: userEmail,
+        },
+      });
       const product = response.data;
-
+  
       if (product) {
         handleAddProduct({ ...product, quantity: quickOrderQty });
-        setQuickOrderCode('');
+        setQuickOrderCode("");
         setQuickOrderQty(1);
       } else {
-        alert('Product not found.');
+        alert("Product not found.");
       }
     } catch (error) {
-      console.error('Error fetching product:', error);
-      alert('Error fetching product. Please try again.');
+      console.error("Error fetching product:", error);
+      alert("Error fetching product. Please try again.");
     }
   };
+  
 
   return (
     <div className="shoppingcartpage_container">
@@ -213,7 +220,7 @@ export default function ShoppingCartPage({
         <p>Shipping:</p>
         <p>VAT:</p>
 
-        <Link to="/Checkout">
+        <Link to="/review-order">
           <button className="checkout_btn">Go to Checkout</button>
         </Link>
       </div>

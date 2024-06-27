@@ -1,10 +1,11 @@
 module.exports = {
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'https://atlascopcoserver-production.up.railway.app',
-        changeOrigin: true,
-      },
+  //... other configurations...
+  resolve: {
+    fallback: {
+      buffer: require.resolve("buffer/"),
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+      util: require.resolve("util/"),
     },
   },
 };

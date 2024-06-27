@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import NavigationBar from '../General Components/NavigationBar';
 import { LuCameraOff } from "react-icons/lu";
 import axios from 'axios';
@@ -10,10 +10,25 @@ import Footer from '../General Components/Footer';
 import Notification from '../General Components/Notification';
 
 const ReviewOrder = ({ cartItems, totalPrice }) => {
-  const location = useLocation();
-  const formData = location.state?.formData || {};
-
+  const [userData, setUserData] = useState({});
   const [notificationMessage, setNotificationMessage] = useState('');
+
+  const userEmail = localStorage.getItem('userEmail');
+  console.log('User Email:', userEmail);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/?email=${userEmail}`);
+        setUserData(response.data);
+        console.log(userData)
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [userEmail]);
 
   let shipping_fee = 40.00;
   let vat = (totalPrice * 0.16);
@@ -27,13 +42,12 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
     }
     return orderNumber + Date.now();
   };
-  const engine= "https://104.154.57.31:3001"
-  
+
   const handlePlaceOrder = async () => {
     const orderNumber = generateOrderNumber();
     try {
-      const response = await axios.post(engine +  '/api/order', {
-        formData,
+      const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/order`, {
+        formData: userData,
         cartItems,
         totalPrice,
         shipping_fee,
@@ -43,17 +57,17 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
       });
 
       if (response.data.message === 'Order placed successfully') {
-      
         const cartItemsDetails = cartItems.map(item => {
           return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price}`;
         }).join('\n');
+
         // Send confirmation email
         const emailData = {
-          to_email: formData.email,
-          to_name:  formData.firstName,
+          to_email: userData.email,
+          to_name: userData.firstName,
           subject: `Order Confirmation - ${orderNumber}`,
           message: `
-            Dear ${formData.firstName},
+            Dear ${userData.firstName},
             
             Thank you for your order. Here are the details:
             
@@ -65,19 +79,19 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
             Total Amount: $${newPrice.toFixed(2)}
             
             Shipping Address:
-            ${formData.address1}, ${formData.address2}, ${formData.city}, ${formData.zip}
+            ${userData.address1}, ${userData.address2}, ${userData.city}, ${userData.zip}
             
             Best regards,
             Your Company Name
           `
         };
 
-        emailjs.send('service_bmvwx28', 'template_zsdszy8',emailData, 'KeePPXIGkpTcoiTBJ')
-        .then((result) => {
-          setNotificationMessage('Order placed and confirmation email sent.');
-        }, (error) => {
-          console.error('Email sending failed:', error);
-        }); 
+        emailjs.send('service_bmvwx28', 'template_zsdszy8', emailData, 'KeePPXIGkpTcoiTBJ')
+          .then((result) => {
+            setNotificationMessage('Order placed and confirmation email sent.');
+          }, (error) => {
+            console.error('Email sending failed:', error);
+          });
       } else {
         console.error('Order placement failed:', response.data.message);
       }
@@ -89,20 +103,25 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
   return (
     <div>
       <div className='review_container'>
-       <Link to='/Checkout' className='backtoform'><p  ><IoIosArrowBack className='arrowbackReview' />Back</p></Link> 
-       <Link to='/Checkout' className='editinfo' > <p>Edit Info<AiTwotoneEdit  /></p></Link>
+        <Link to='/Checkout' className='backtoform'>
+          <p><IoIosArrowBack className='arrowbackReview' />Back</p>
+        </Link>
+        <Link to='/Checkout' className='editinfo'>
+          <p>Edit Info<AiTwotoneEdit /></p>
+        </Link>
+        
         <h1>Review Order</h1>
         <h3>User Information</h3>
-        <p>Company Name: {formData.companyName}</p>
-        <p>Title: {formData.title}</p>
-        <p>First Name: {formData.firstName}</p>
-        <p>Second Name: {formData.secondName}</p>
-        <p>Address 1: {formData.address1}</p>
-        <p>Address 2: {formData.address2}</p>
-        <p>City: {formData.city}</p>
-        <p>Zip Code: {formData.zip}</p>
-        <p>Phone: {formData.phone}</p>
-        <p>Email: {formData.email}</p>
+        <p>Company Name: {userData.companyName}</p>
+        <p>Title: {userData.title}</p>
+        <p>First Name: {userData.firstName}</p>
+        <p>Second Name: {userData.secondName}</p>
+        <p>Address 1: {userData.address1}</p>
+        <p>Address 2: {userData.address2}</p>
+        <p>City: {userData.city}</p>
+        <p>Zip Code: {userData.zip}</p>
+        <p>Phone: {userData.phone}</p>
+        <p>Email: {userData.email}</p>
       </div>
 
       <div className='order_summary_checkout'>
@@ -118,7 +137,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
       <div className='productsdisplay_shoppingcart_review'>
         <h2 style={{ color: '#0078a1' }}>Cart Items</h2>
         <hr className='hr_shoppingcartpage' />
-        <small className='tbl_description'  style={{ position: 'absolute', top: '5rem', left: '2rem', fontWeight: '500' }}>Description</small>
+        <small className='tbl_description' style={{ position: 'absolute', top: '5rem', left: '2rem', fontWeight: '500' }}>Description</small>
         <small className='tbl_total' style={{ position: 'absolute', top: '5rem', right: '3rem', fontWeight: '500' }}>Total</small>
         <small className='tbl_net' style={{ position: 'absolute', top: '5rem', left: '25rem', fontWeight: '500' }}>Net Price</small>
         <small className='tbl_qty' style={{ position: 'absolute', top: '5rem', right: '13rem', fontWeight: '500' }}>Qty</small>

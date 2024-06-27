@@ -22,13 +22,22 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(products.length / itemsPerPage);
   const [isLoading, setIsLoading] = useState(true);
- const engine= "https://104.154.57.31:3001"
+  const [error, setError] = useState(null);
+
+ const engine= "https://localhost.31:3001" 
 
  useEffect(() => {
   const fetchProductsByCategory = async () => {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) {
+      setError('No user email provided');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
-      const response = await fetch(`${engine}/api/products/${category}`);
+      const response = await fetch(`${process.env.REACT_APP_LOCAL}/api/products/${category}?email=${userEmail}`);
       if (!response.ok) {
         throw new Error("Failed to fetch products by category");
       }
@@ -37,12 +46,14 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setError(error.message);
       setIsLoading(false);
     }
   };
 
   fetchProductsByCategory();
 }, [category]);
+
 
   return (
     <div>

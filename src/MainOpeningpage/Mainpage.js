@@ -1,19 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavigationBar from '../General Components/NavigationBar'
 import './mainpage.css'
 import { FaArrowRight } from "react-icons/fa";
 
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../General Components/Footer';
+import { useAuth } from './AuthContext';
 
 
 export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
+  const userEmail = localStorage.getItem('userEmail');
+  const { IsAuthenticated } = useAuth();
+
+  useEffect(() => {
+    console.log(`IsAuthenticated: ${IsAuthenticated}`);
+  }, [IsAuthenticated]);
 
   const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
  
     navigate(`/products/${category}`);
+  };
+
+  const handleContinueToShop = () => {
+    if (!IsAuthenticated) {
+      navigate('/signin', { state: { redirectTo: '/shop' } }); // Redirect to sign-in page with redirect state
+    } else {
+      navigate('/shop'); // Navigate to shop page if authenticated
+    }
   };
 
   return (
@@ -46,7 +61,7 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 
 <img className='img_mainpage'  src="./public/R.png" alt='' />
  
- <Link to='/shop' style={{color:'black'}} > <div className='shopwithus'>
+ <Link style={{color:'black'}} > <div className='shopwithus'>
   
 
    <img src='/images/fleetLink.jpg' alt='' className='imageshop_withus' />
@@ -59,9 +74,10 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 </div></Link>
 
 <div className='featuredproducts_mainpage' >
-<Link to="/shop" style={{textDecoration:'none'}}><h2>Popular Categories</h2> </Link>
+<Link to="#" onClick={handleContinueToShop} style={{textDecoration:'none'}}><h2>Popular Categories</h2> </Link>
+<button onClick={handleContinueToShop}>Continue to Shop</button>
 
-<Link  className='linktoviewmore'  to='/shop' >Continue to Shop<FaArrowRight  /></Link>
+<Link  className='linktoviewmore'  to="#" onClick={handleContinueToShop} >Continue to Shop<FaArrowRight  /></Link>
 <div  className='mainpage_products'>
   <div className='individual_categories'  onClick={() => handleCategoryClick('Filterelement')}  >
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />

@@ -1,16 +1,18 @@
-
 import { auth } from '../Firebase';
-export default function SignOutUsers() {
-    auth.signOut()
+import { useNavigate } from 'react-router-dom';
+
+const SignOutUsers = () => {
+  const navigate = useNavigate();
+
+  auth.signOut()
     .then(() => {
-      // Sign-out successful.
+      localStorage.removeItem('userEmail'); // Remove user email from local storage
+      navigate('/signin'); // Navigate to the sign-in page or another appropriate page
       console.log('User signed out successfully.');
     })
     .catch((error) => {
-      // An error happened.
       console.error('Error signing out:', error);
     });
+};
 
-    
-
-}
+export default SignOutUsers;

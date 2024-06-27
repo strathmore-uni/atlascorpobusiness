@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { auth, googleProvider } from '../Firebase'; // Adjust the import path as necessary
 import { signInWithPopup } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext'; // Adjust the import path as necessary
 import './SignInPage.css';
-import { signInAnonymously } from 'firebase/auth';
+import { decodeToken } from 'react-jwt';
 import axios from 'axios';
 
 const SignInPage = ({setGuestEmail}) => {
-
+  const[userEmail,setUserEmail] =useState(null);
   const[email,setEmail] =useState('');
   const[password,setPassword] =useState('');
   const [error, setError] = useState('');
   const [loggedInUser, setLoggedInUser] = useState(null);
+  
   const [values,setValues] = useState({
     email:'',
     password:''
   })
 
-  const { currentUser, loading } = useAuth(); // Get the current user and loading state from the AuthContext
+  const {setCurrentUser, currentUser, loading } = useAuth(); // Get the current user and loading state from the AuthContext
   const navigate = useNavigate();
 
 
 
   useEffect(() => {
     if (!loading && currentUser) {
-      navigate('/productdetails'); // Redirect if already signed in and not loading
+      navigate('/shop'); // Redirect if already signed in and not loading
     }
   }, [currentUser, loading, navigate]);
 
@@ -46,6 +47,14 @@ const SignInPage = ({setGuestEmail}) => {
     return <div>Loading...</div>;
     }
  
+    useEffect(() => {
+      const storedUserEmail = localStorage.getItem('userEmail');
+      console.log('Stored user email:', storedUserEmail);
+      if (storedUserEmail) {
+        setUserEmail(storedUserEmail);
+        console.log('Updated user email state:', userEmail);
+      }
+    }, []);
 
     const handleEmailSignIn = async (event) => {
       event.preventDefault();
@@ -56,9 +65,14 @@ const SignInPage = ({setGuestEmail}) => {
       }
   
       try {
-        const response = await axios.post('https://localhost:3001/login', { email, password });
+        const response = await axios.post(`${process.env.REACT_APP_LOCAL}/login`, { email, password });
         if (response.data === 'Login Successfull') {
-          setLoggedInUser(response.data.email);
+          console.log('Email Sign-In successful:', email); // Log the email of the user who logged in
+          const { token } = response.data;
+          localStorage.setItem('authToken', token);
+          localStorage.setItem('userEmail', email);
+    
+      setCurrentUser({ email });
           navigate('/'); // Navigate to '/' (home page) on successful login
         } else {
           setError('Login failed. Please check your credentials and try again.');
@@ -112,8 +126,12 @@ const SignInPage = ({setGuestEmail}) => {
       c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
             </svg>
             <span>Sign up with Google</span>
+            
           </div>
+          <p className='signup_link' >Dont have an Account?<Link to="/Checkout" className='link' >Sign Up</Link></p>
         </div>
+
+       
       </div>
 
     

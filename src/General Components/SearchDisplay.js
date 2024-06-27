@@ -31,21 +31,30 @@ export default function SearchDisplay({ handleAddProductDetails }) {
     }
   }, [initialResults]);
 
-    const engine= "https://104.154.57.31:3001"
-    const handleCategoryClick = async (category) => {
-      try {
-        const response = await axios.get(`${engine}/api/search`, {
-          params: {
-            term: searchTerm,  // Assuming searchTerm is defined elsewhere in your component
-            category
-          }
-        });
-        setResults(response.data);
-        setPageNumber(0); // Reset to first page
-      } catch (error) {
-        console.error('Error fetching category results:', error);
+  const userEmail = localStorage.getItem('userEmail'); // Retrieve email from localStorage
+  
+  const handleCategoryClick = async (category) => {
+    try {
+      if (!userEmail) {
+        console.error('No user email provided');
+        return;
       }
-    };
+  
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/search`, {
+        params: {
+          term: searchTerm,  // Assuming searchTerm is defined elsewhere in your component
+          category,
+          email: userEmail  // Include the user's email in the request
+        }
+      });
+  
+      setResults(response.data);
+      setPageNumber(0); // Reset to first page
+    } catch (error) {
+      console.error('Error fetching category results:', error);
+    }
+  };
+  
 
   return (
     <div className='searchdisplay_container'>

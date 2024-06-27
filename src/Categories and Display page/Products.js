@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import "./products.css";
 import "./Categories Pages/filterelement.css";
-
 import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import { LuCameraOff } from "react-icons/lu";
@@ -10,58 +9,50 @@ import { CiGrid2H } from "react-icons/ci";
 import { ProductsContext } from "../MainOpeningpage/ProductsContext";
 import { FaBars } from "react-icons/fa6";
 import Categories from "./Categories";
+
 export default function Products({ handleAddProductDetails, handleAddQuotationProduct }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-  const [isCategoriesVisible, setIsCategoriesVisible] = useState(false); 
-  const REACT_API_ADDRESS = "http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com";
+  const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
+  const REACT_API = "http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com";
   const local = "http://localhost:3001";
-  const engine = "https://104.154.57.31:3001";
-  
-
-  useEffect(() => {
-    fetch("https://localhost:3001/api/myproducts")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+  const REACT_API_ADDRESS = "https://104.154.57.31:3001";
+  const [error, setError] = useState(null);
 
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState("grid");
-
   const itemsPerPage = 16;
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(data.length / itemsPerPage);
 
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    fetchItems();
-  }, []);
+  const [loading, setLoading] = useState(false);
 
-  
-  const fetchItems = async () => {
-    try {
-      const response = await fetch("https://localhost:3001/api/myproducts");
-      if (!response.ok) {
-        throw new Error("Failed to fetch items from MySQL");
-      }
+  // Fetch user email from local storage
+  const userEmail = localStorage.getItem('userEmail');
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching items:", error);
+  const fetchProducts = useCallback(async () => {
+    if (!userEmail) {
+      setError('No user email provided');
+      return;
     }
-  };
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_LOCAL}/api/myproducts?email=${userEmail}`);
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [userEmail]);
+
+  useEffect(() => {
+    if (!loading) {
+      setLoading(true);
+      fetchProducts();
+    }
+  }, []);
 
   const { products } = useContext(ProductsContext);
 
@@ -71,14 +62,13 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     setIsCategoriesVisible(!isCategoriesVisible);
   };
 
-
   return (
     <div className="big_container" key={1}>
       <div className={`categories_sidebar ${isCategoriesVisible ? 'visible' : ''}`}>
         <Categories />
       </div>
       <div className="productdisplay_container">
-           <FaBars className="fabars_categories" onClick={toggleCategories}  />
+        <FaBars className="fabars_categories" onClick={toggleCategories} />
         <div className={`sub_productdisplay_container ${layoutMode}`}>
           <small className="featuredprdts_length">
             Featured Products: {data.length}
@@ -89,7 +79,6 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
               <CiGrid41 />
             </p>
             <p onClick={() => setLayoutMode("normal")}>
-              {" "}
               <CiGrid2H />
             </p>
           </div>
@@ -100,10 +89,10 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
               <Link
                 key={product.partnumber}
                 className="mylink"
-                onClick={() => !isLoading && handleAddProductDetails(product)}
+                onClick={() => !loading && handleAddProductDetails(product)}
               >
                 <div key={product.partnumber}>
-                  {isLoading ? (
+                  {loading ? (
                     <div className="loader">
                       <div className="wrapper">
                         <div className="circle"></div>
@@ -116,7 +105,6 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
                   ) : (
                     <>
                       <img className="prdt_image" src={product.image} alt="" />
-
                       <p className="cameraoff_icon">
                         <LuCameraOff />
                       </p>
@@ -124,12 +112,11 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
                       <Link
                         key={product.partnumber}
                         to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-                        onClick={() => !isLoading && handleAddProductDetails(product)}
+                        onClick={() => !loading && handleAddProductDetails(product)}
                         style={{ color: "black", textDecoration: "none" }}
                       >
                         <p className="prdt_title">{product.Description}</p>
                       </Link>
-
                       <p className="prdt_price">${product.Price}</p>
                       <div className="stock_status">
                         <div

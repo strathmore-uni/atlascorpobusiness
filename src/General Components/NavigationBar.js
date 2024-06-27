@@ -12,20 +12,8 @@ import "./Navigation.css";
 
 export default function NavigationBar({ cartItems = [], guestEmail }) {
   const navigate = useNavigate();
-  const { selectedCountry, setSelectedCountry, fetchProducts } = useContext(ProductsContext);
-  const { currentUser, signOut } = useAuth();
-  const countries = [
-    { value: 'KE', label: 'Kenya' },
-    { value: 'US', label: 'United States' },
-    { value: 'UG', label: 'Uganda' },
-    { value: 'TZ', label: 'Tanzania' },
-  ];
 
-  const handleCountryChange = (event) => {
-    const country = event.target.value;
-    setSelectedCountry(country);
-    fetchProducts(country); // Fetch products based on the new selected country
-  };
+  const { currentUser, signOut } = useAuth();
 
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
@@ -41,12 +29,26 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
   const [categories, setCategories] = useState([]);
- const engine= "https://104.154.57.31:3001"
+  
+  const [userEmail, setUserEmail] = useState(null); // Retrieve email from localStorage
+  
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.get(`${engine}/api/search?term=${searchQuery}`);
+        if (!userEmail) {
+          console.error('No user email provided');
+          return;
+        }
+  
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/search`, {
+          params: {
+            term: searchQuery,
+            email: userEmail
+          }
+        });
+  
         setResults(response.data);
+  
         // Extract categories from results
         const uniqueCategories = [...new Set(response.data.map(item => item.category))];
         setCategories(uniqueCategories);
@@ -54,28 +56,43 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
         console.error('Error searching:', error);
       }
     };
-
+  
     if (searchQuery.trim() !== '') {
       fetchSearchResults();
     } else {
       setResults([]);
       setCategories([]);
     }
-  }, [searchQuery]);
+  }, [searchQuery, userEmail]);
+  
 
  
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`${engine}/api/search?term=${searchQuery}`);
+      if (!userEmail) {
+        console.error('No user email provided');
+        return;
+      }
+  
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/search`, {
+        params: {
+          term: searchQuery,
+          email: userEmail
+        }
+      });
+  
       setResults(response.data);
+  
       // Extract categories from results
       const uniqueCategories = [...new Set(response.data.map(item => item.category))];
       setCategories(uniqueCategories);
+  
       navigate(`/search?term=${searchQuery}`, { state: { results: response.data } });
     } catch (error) {
       console.error('Error searching:', error);
     }
   };
+  
 
 
   const handleKeyDown = (event) => {
@@ -88,7 +105,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     auth.signOut()
       .then(() => {
         console.log('User signed out successfully.');
-        localStorage.removeItem('guestEmail');
+        localStorage.removeItem('userEmail');
         navigate('/signin'); 
       })
       .catch((error) => {
@@ -98,11 +115,23 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   
   const handleSignOut = () => {
     SignOutUser();
+    console.log('User signed out successfully.');
+    navigate('/signin');
+    localStorage.removeItem('userEmail');
+   
   };
 
   const getEmail = () => {
     return currentUser ? currentUser.email : guestEmail;
   };
+
+  
+  useEffect(() => {
+    const storedUserEmail = localStorage.getItem('userEmail');
+    if (storedUserEmail) {
+      setUserEmail(storedUserEmail);
+    }
+  }, []);
 
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
@@ -136,7 +165,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
             <div className="dropdown">
               <span className="email">{getEmail()}</span><IoIosArrowDown />
               <div className="dropdown-content">
-                <p>User Profile</p>
+                <Link to='./userprofile' ><p>User Profile</p></Link>
                 <p onClick={handleSignOut}>Log Out</p>
               </div>
             </div>

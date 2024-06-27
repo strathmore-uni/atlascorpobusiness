@@ -76,7 +76,7 @@ export default function Form() {
       return;
     }
 
-    // navigate('/review-order', { state: { formData } });
+    navigate('/signin', { state: { formData } });
 
     try {
       const response = await axios.post('https://localhost:3001/api/register', formData, {
@@ -144,12 +144,12 @@ export default function Form() {
             className='country'
           >
             <option value="">Country</option>
-            <option value="Kenya">Kenya</option>
-            <option value="Uganda">Uganda</option>
-            <option value="Tanzania">Tanzania</option>
-            <option value="Usa">United States of America</option>
-            <option value="Uk">United Kingdom</option>
-            <option value="China">China</option>
+            <option value="KE">Kenya</option>
+            <option value="UG">Uganda</option>
+            <option value="TZ">Tanzania</option>
+            <option value="USA">United States of America</option>
+            <option value="UK">United Kingdom</option>
+            <option value="CH">China</option>
           </select>
           {errors.country && <div className="error">{errors.country}</div>}
         </div>

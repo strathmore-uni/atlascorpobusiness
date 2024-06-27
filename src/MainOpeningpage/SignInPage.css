@@ -151,3 +151,17 @@ background-color: #777;
   top: 16rem;
   left: 1rem;
 }
+.signup_link{
+  position: relative;
+  top: 17rem;
+  color: grey;
+}
+.signup_link .link{
+  position: relative;
+  left: .3rem;
+  color: black;
+  text-decoration: none;
+}
+.signup_link .link:hover{
+  color: #0078a1;
+}
