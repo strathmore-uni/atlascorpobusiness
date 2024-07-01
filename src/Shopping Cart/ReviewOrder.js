@@ -106,7 +106,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
         <Link to='/shop' className='backtoform'>
           <p><IoIosArrowBack className='arrowbackReview' />Back</p>
         </Link>
-        <Link to='/Checkout' className='editinfo'>
+        <Link to='/userprofile' className='editinfo'>
           <p>Edit Info<AiTwotoneEdit /></p>
         </Link>
         

@@ -17,8 +17,8 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [userEmail, setUserEmail] = useState(null);
-
+  
+  const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail') || guestEmail);
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -103,6 +103,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     return currentUser ? currentUser.email : guestEmail;
   };
 
+
   useEffect(() => {
     const storedUserEmail = localStorage.getItem('userEmail');
     if (storedUserEmail) {
@@ -138,11 +139,11 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
       <div className="user-profile-container">
         <div className="user-profile">
           <LuUser className="person_icon" />
-          {(currentUser || guestEmail) ? (
+          {(userEmail || currentUser ) ? (
             <div className="dropdown">
               <span className="email">
                 {getEmail()}
-                {(currentUser || guestEmail) && <IoIosArrowDown className="nav_arrowdown" />}
+                {(userEmail || currentUser ) && <IoIosArrowDown className="nav_arrowdown" />}
               </span>
               <div className="dropdown-content">
                 <Link to='/userprofile'><p>User Profile</p></Link>

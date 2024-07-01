@@ -31,6 +31,9 @@ export default function Categories() {
             <li onClick={() => handleCategoryClick('Oilfilterelement')}>Oil Filter Element</li>
 
           </ul>
+
+
+
         )}
         <li onClick={() => handleCategoryClick('Servkit')}>Serv Kit</li>
         <li onClick={() => handleCategoryClick('Autodrainvalve')}>Auto Drain Valve</li>
