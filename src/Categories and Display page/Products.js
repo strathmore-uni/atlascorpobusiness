@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LuCameraOff } from "react-icons/lu";
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
-import { ProductsContext } from "../MainOpeningpage/ProductsContext";
+
 import { FaBars } from "react-icons/fa6";
 import Categories from "./Categories";
 
@@ -14,14 +14,12 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
-  const REACT_API = "http://indexserver-dot-ultra-mediator-423907-a4.uc.r.appspot.com";
-  const local = "http://localhost:3001";
-  const REACT_API_ADDRESS = "https://104.154.57.31:3001";
+
   const [error, setError] = useState(null);
 
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState("grid");
-  const itemsPerPage = 16;
+  const itemsPerPage = 20;
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(data.length / itemsPerPage);
 
@@ -54,9 +52,9 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     }
   }, []);
 
-  const { products } = useContext(ProductsContext);
+ 
 
-  useEffect(() => {}, [products]);
+ 
 
   const toggleCategories = () => {
     setIsCategoriesVisible(!isCategoriesVisible);

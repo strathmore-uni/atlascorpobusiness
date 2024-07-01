@@ -6,14 +6,14 @@ import { CiGrid41, CiGrid2H } from 'react-icons/ci';
 import ReactPaginate from 'react-paginate';
 import NavigationBar from '../General Components/NavigationBar';
 import Footer from '../General Components/Footer';
-import { ProductsContext } from '../MainOpeningpage/ProductsContext';
+
 import ProductCategories from './ProductCategories';
 import '../Categories and Display page/products.css';
 import '../Categories and Display page/Categories Pages/filterelement.css';
 
 const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   const { category } = useParams();
-  const { selectedCountry } = useContext(ProductsContext);
+ 
 
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);

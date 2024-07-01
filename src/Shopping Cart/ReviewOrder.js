@@ -14,14 +14,14 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
   const [notificationMessage, setNotificationMessage] = useState('');
 
   const userEmail = localStorage.getItem('userEmail');
-  console.log('User Email:', userEmail);
+ 
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/?email=${userEmail}`);
         setUserData(response.data);
-        console.log(userData)
+       
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -103,7 +103,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
   return (
     <div>
       <div className='review_container'>
-        <Link to='/Checkout' className='backtoform'>
+        <Link to='/shop' className='backtoform'>
           <p><IoIosArrowBack className='arrowbackReview' />Back</p>
         </Link>
         <Link to='/Checkout' className='editinfo'>

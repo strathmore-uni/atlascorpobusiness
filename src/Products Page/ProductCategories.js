@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import './productcategories.css';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ProductsContext } from '../MainOpeningpage/ProductsContext';
+
 
 export default function ProductCategories({setProducts}) {
   const handlePriceRangeChange = async (range) => {

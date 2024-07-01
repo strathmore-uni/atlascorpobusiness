@@ -16,14 +16,14 @@
   import ScrollToTop from "./General Components/ScrollToTop";
   import "./App.css";
   import Mytestingpage from "./Categories and Display page/Categories Pages/Mytestingpage";
-  import { ProductsProvider } from "./MainOpeningpage/ProductsContext";
+
   import ProductsPage from "./Products Page/ProductsPage";
   import BackToTopButton from "./General Components/BackToTopButton";
   import SignInPage from "./MainOpeningpage/SignInPage";
   import { AuthProvider, useAuth } from "./MainOpeningpage/AuthContext";
-  import ProductCategories from "./Products Page/ProductCategories";
+
   import OrderHistory from "./Shopping Cart/OrderHistory";
-import Userprofie from "./Products Page/Userprofile";
+
 import Userprofile from "./Products Page/Userprofile";
 
   function App() {
@@ -171,11 +171,11 @@ import Userprofile from "./Products Page/Userprofile";
     return (
       <>
         <AuthProvider>
-          <ProductsProvider>
+         
             <BrowserRouter>
               <ScrollToTop />
 
-              <NavigationBar cartItems={cartItems} guestEmail={guestEmail} />
+             
 
               <Routes>
                 <Route
@@ -300,12 +300,14 @@ import Userprofile from "./Products Page/Userprofile";
                 />
                 
                 <Route path="/userprofile" element={<Userprofile />}  />
-                <Route  path="" element={<ProductCategories />} />
+                
                 <Route path="/orderhistory" element={<OrderHistory />} />
+                
               </Routes>
+              <NavigationBar cartItems={cartItems} guestEmail={guestEmail} />
             </BrowserRouter>
             <BackToTopButton />
-          </ProductsProvider>
+          
         </AuthProvider>
       </>
     );

@@ -27,10 +27,34 @@ export const AuthProvider = ({ children }) => {
   const signOut = async () => {
     await firebaseSignOut(auth);
     setCurrentUser(null);
+
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('userEmail');
+  };
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (storedUser) {
+      setCurrentUser(storedUser);
+    }
+    setLoading(false);
+  }, []);
+
+  const signIn = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
   };
 
+
+
+  const value = {
+    currentUser,
+    signIn,
+    signOut,
+  };
+
+
   return (
-    <AuthContext.Provider value={{ currentUser, loading, setCurrentUser, signOut, IsAuthenticated }}>
+    <AuthContext.Provider value={{ value,currentUser, loading, setCurrentUser, signOut, IsAuthenticated }}>
     {!loading && children}
   </AuthContext.Provider>
   );

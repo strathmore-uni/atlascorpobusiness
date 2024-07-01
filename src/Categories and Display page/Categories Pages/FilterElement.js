@@ -9,10 +9,10 @@ import { LuCameraOff } from "react-icons/lu";
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
 import Footer from "../../General Components/Footer";
-import { ProductsContext } from "../../MainOpeningpage/ProductsContext";
+
 
 export default function FilterElement({ handleAddProductDetails, cartItems }) {
-  const { products } = useContext(ProductsContext);
+
   const navigate = useNavigate();
 
   const [data, setData] = useState([]);

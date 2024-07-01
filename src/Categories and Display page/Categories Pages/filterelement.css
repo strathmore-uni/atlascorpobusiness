@@ -128,6 +128,24 @@ align-items: center;
   width: 14rem;
 
 }
+.prdt_title::after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color:#0078a1;
+  visibility: hidden;
+  transform: all 0.3s ease-in-out;
+}
+.prdt_title:hover{
+ color: #0078a1;
+}
+.prdt_title:hover::after {
+  visibility: visible;
+  transform: scaleX(1);
+}
 .prdt_partnumber{
   position: relative;
   top: -3rem;

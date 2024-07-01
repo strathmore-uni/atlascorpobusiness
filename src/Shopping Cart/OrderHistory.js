@@ -1,49 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '../MainOpeningpage/AuthContext';
+import './orderhistory.css'; // Import your CSS file
+import { IoIosArrowBack } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
-  const { currentUser } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const userEmail = localStorage.getItem('userEmail');
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchOrderHistory = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3001/api/orders', { params: { userId: currentUser } });
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/orders/history?email=${userEmail}`);
         setOrders(response.data);
       } catch (error) {
-        console.error('Error fetching orders:', error);
+        setError('Error fetching order history');
+        console.error('Error fetching order history:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (currentUser) {
-      fetchOrders();
+    if (userEmail) {
+      fetchOrderHistory();
     }
-  }, [currentUser]);
+  }, [userEmail]);
 
   return (
-    <div>
+    <div className="order-history-container">
       <h1>Order History</h1>
-      {orders.length === 0 ? (
+      <Link to='/shop' className='backtoform'>
+          <p><IoIosArrowBack className='arrowbackReview' />Back</p>
+        </Link>
+      {loading ? (
+        <p className="loading">Loading...</p>
+      ) : error ? (
+        <p className="error">{error}</p>
+      ) : orders.length === 0 ? (
         <p>No past orders found</p>
       ) : (
         <div>
-          {orders.map(order => (
-            <div key={order.id}>
-              <h2>Order Number: {order.orderNumber}</h2>
-              <p>Order Date: {new Date(order.orderDate).toLocaleDateString()}</p>
-              <p>Total: ${order.newPrice.toFixed(2)}</p>
-              <h3>Items:</h3>
-              <ul>
-                {JSON.parse(order.cartItems).map(item => (
-                  <li key={item.id}>
-                    {item.Description} - {item.quantity} x ${item.Price}
-                  </li>
-                ))}
-              </ul>
-              <hr />
-            </div>
-          ))}
+        {orders.map(order => (
+  <div key={order.id} className="order-card">
+    <h2 className="order-number">Order Number: {order.ordernumber}</h2>
+    <p className="order-date">Order Date: {new Date(order.created_at).toLocaleDateString()}</p>
+    <p className="order-total">Total: ${order.total}</p>
+    <h3>Items:</h3>
+    <ul className="items-list">
+      {order.items.map(item => (
+        <li key={item.id} className="item">
+          <span className="item-description">{item.description}</span> -{' '}
+          <span className="item-quantity">{item.quantity} x ${item.price?.toFixed(2)}</span>
+        </li>
+      ))}
+    </ul>
+    <hr className="hr" />
+  </div>
+))}
+
         </div>
       )}
     </div>

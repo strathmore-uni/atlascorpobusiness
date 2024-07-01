@@ -6,136 +6,29 @@
 
   justify-items: center;
 }
-.mylogoimage{
-  position: relative;
-  top: -1rem;
-  left: .2rem;
-  height: 4.5rem;
-  
-}
+
 
 .scrolled {
   box-shadow: 0px 0px 10px 0px;
   background-color: rgb(243, 243, 243);
 }
-.p_product {
-  position: relative;
-  top: -1rem;
-  left: 0rem;
-  width: 5rem;
-  cursor: pointer;
-  color: #0078a1;
-  border: 1px solid grey;
-}
-.products_li {
-  position: absolute;
-  font-weight: 500;
-  top: 7rem;
-  left: 25rem;
-  width: 6rem;
-  height: 2.5rem;
-  justify-content: center;
-  display: flex;
-  font-size: 1.1rem;
-}
-.arrow_down_li {
-  position: relative;
-  left:0rem;
-  top: 0.15rem;
-}
-.products_li p {
-  text-decoration: none !important;
-}
-.products_li p:hover {
-  opacity: 0.6;
-}
-.p_compressor {
-  position: absolute;
-  left: 37rem;
-  top: 7rem;
-  width: 6rem;
-  font-size: 1rem;
-}
 
-.listedproducts {
-  position: absolute;
-  top: 1.5rem;
-  background-color: #fafafa;
-  list-style-type: none;
-  width: 71rem;
-  left: -24.9rem;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  border: grey solid 1px;
-}
-.listedproductscompressor {
-  position: absolute;
-  top: 1.5rem;
-  background-color: #fafafa;
-  list-style-type: none;
-  width: 71rem;
-  left: -29.7rem;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  border: grey solid 1px;
-}
-.li_compressor {
-  position: relative;
-  top: -2rem;
-  left: 2rem;
-  width: 5;
-  color: #0078a1;
-  border: 1px solid grey;
-}
-.mycompressor {
-  position: relative;
-  font-weight: 500;
-  top: 7rem;
-  left: 30rem;
-  width: 8rem;
-  height: 2.5rem;
-  justify-content: center;
-  display: flex;
-  font-size: 1.1rem;
-}
 
-.listedproducts li {
-  position: relative;
-  top: -2rem;
-  left: -1.8rem;
-  width: 135%;
-  height: 1.5rem;
-  margin-top: 0.5rem;
-  color: black;
-  list-style-type: none;
-  text-decoration: none;
-}
-.listedproducts li:hover {
-  position: relative;
-  opacity: 0.6;
-  background-color: grey;
-}
-.p_navigation_contacts {
-  position: absolute;
-  left: 34rem;
-  top: 1rem;
-}
 .imglogo {
   position: absolute;
   top: 0rem;
 }
 .title_h3 {
   position: absolute;
-  top: 3rem;
+  text-align: center;
+  top: 1rem;
   left: 0.4rem;
   color: #0078a1;
 
 }
 .input {
   position: absolute;
-  top: 3rem;
+  top: 2rem;
   left: 25rem;
 
  width: 25rem;
@@ -161,20 +54,15 @@ input:hover {
 .search_icon_navigation {
   position: absolute;
   right: 28rem;
-  top: 4rem;
+  top: 3rem;
   font-size: 1.2rem;
 }
-.nav_hr_line {
-  position: relative;
-  top: -3rem;
 
-  border-style: ridge;
-}
 .p_cart {
   position: absolute;
   font-size: 1.2rem;
   right: 1rem;
-  top: 2rem;
+  top: .5rem;
   padding: .7rem;
   width: 2rem;
   background-color: #0078a1;
@@ -191,21 +79,12 @@ input:hover {
   align-items: center;
   color: white;
 }
-.select_country{
-  position: absolute;
-  right: 1rem;
-  top: .5rem;
-  width: 8rem;
-  padding: .5rem;
-  border: none;
-  color: #0078a1;
 
-}
 
 .person_icon{
   position: absolute;
   top: 0rem;
-  right: 12.5rem;
+   left:-2.5rem;
   font-size: 1rem;
   color: #0078a1;
 
@@ -214,7 +93,7 @@ input:hover {
 /* Dropdown container */
 .user-profile-container {
   position: absolute;
-  top: 4rem;
+  top: 3rem;
   right: 6rem;
   font-size: .8rem;
   color: #0078a1;
@@ -233,7 +112,7 @@ input:hover {
 
 .email {
   inline-size: 150px;
-  overflow: hidden;
+  overflow: hidden; 
   
 }
 
@@ -323,9 +202,7 @@ input:hover {
     left:1rem ;
     width: 20rem;
   }
-  .mylogoimage{
-    display: none;
-  }
+  
   .sign-in-button{
     
   }

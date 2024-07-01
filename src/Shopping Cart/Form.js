@@ -79,7 +79,7 @@ export default function Form() {
     navigate('/signin', { state: { formData } });
 
     try {
-      const response = await axios.post('https://localhost:3001/api/register', formData, {
+      const response = await axios.post( `${process.env.REACT_APP_LOCAL}/api/register`, formData, {
        
       });
 

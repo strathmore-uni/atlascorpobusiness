@@ -1,102 +1,54 @@
-.Categories_container{
-    position: absolute;
 
-    top: 9.3rem;
-    left: 1rem;
-    height: 30rem;
-    width: 10rem;
-    display: block;
- 
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-
-
-    
-}
-.Categories_container h3{
+.Categories_container {
   position: relative;
-  top: -.5rem;
-}
-.listedproducts_categories{
-    position: absolute;
-    top: 3rem;
-   width: 10rem;
-
-    list-style-type: none;
-   
-    
-display: flex;
-flex-direction: column;
-
-
-
-}
-.listedproducts_categories li{
-    position: relative;
-    top: 0rem;
-    left: 0rem;
-    
-    height: 3rem;
-   
-    color: black;
-    list-style-type: none;
-    text-decoration: none;
+  top: 7rem;
+  margin: 10px;
 }
 
-.listedproducts_categories  li:hover{
-    position: relative;
+h3 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+}
+
+.listedproducts_categories {
+  position: relative;
+  list-style-type: none;
+  padding: 0;
+  
  
-  border-bottom: 2px solid #5b5fc7;
+}
+.listeditems{}
+
+.listedproducts_categories li {
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+  height: 2.5rem;
+  font-size: 1.1em;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.compressor_dropdown, .compressor_dropdown_filter {
+  list-style-type: none;
+  padding-left: 20px;
+  padding-top: 5px;
 }
 
 
-  .arrowup{
-    position: relative;
-    top: .1rem;
-    left: .3rem;
-  }
-.price_range_container{
-    position: absolute;
-    top: 17rem;
+
+.arrowup {
+  font-size: 1.2em;
+  margin-left: 10px;
 }
-.compressor_dropdown {
-    position: relative;
-    top: -1.2rem;
-    left: 4rem;
-  
-    flex-direction: column;
-    height: 6rem;
-    width: 8rem;
-  }
-  .compressor_dropdown_filter{
-    position: relative;
-    top: -1.2rem;
-    left: 0rem;
-  
-    flex-direction: column;
-    height: 4rem;
-    width: 8rem;
-  }
-  
-  .compressor_dropdown li {
-    position: relative;
-   
-    left: -3rem;
-    display: flex;
-height: 2.5rem;
-    margin: 0;
-    padding: 0.01rem ; 
-  }
-  .compressor_dropdown li:hover{
-border-radius: 0px;
 
-border-bottom: 2px solid #5b5fc7;
-   
-  }
-  @media (max-width: 45rem) {
-    .Categories_container{
-      display: none;
-    }
+.arrowup:hover {
+  color: #0078a1;
+}
 
-  }
+li:hover {
+  background-color: #f0f0f0;
+}

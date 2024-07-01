@@ -16,7 +16,7 @@ export default function SearchDisplay({ handleAddProductDetails }) {
   const [categories, setCategories] = useState({});
   const [layoutMode, setLayoutMode] = useState('grid');
   const [pageNumber, setPageNumber] = useState(0);
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(results.length / itemsPerPage);
   const [searchTerm, setSearchTerm] = useState(initialTerm || '');
@@ -58,7 +58,7 @@ export default function SearchDisplay({ handleAddProductDetails }) {
 
   return (
     <div className='searchdisplay_container'>
-      <NavigationBar />
+      
       <Link to='/Shop' className='arrowbacktocart'><IoIosArrowBack className='arrowback' />Back to Shopping</Link>
       <h2>Search Results for: {searchTerm}</h2>
       <div className='search_display_wrapper'>
@@ -115,7 +115,7 @@ export default function SearchDisplay({ handleAddProductDetails }) {
           </ul>
         </div>
       </div>
-   
+      <NavigationBar />
       
     </div>
   );
