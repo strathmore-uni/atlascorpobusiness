@@ -25,6 +25,8 @@
   import OrderHistory from "./Shopping Cart/OrderHistory";
 
 import Userprofile from "./Products Page/Userprofile";
+import ForgotPasswordForm from "./ForgotPassword/ForgotFormPassword";
+import ResetPasswordPage from "./ForgotPassword/ResetPasswordPage";
 
   function App() {
     const [guestEmail, setGuestEmail] = useState("");
@@ -300,7 +302,8 @@ import Userprofile from "./Products Page/Userprofile";
                 />
                 
                 <Route path="/userprofile" element={<Userprofile />}  />
-                
+                <Route path="/forgot-password" element={<ForgotPasswordForm />}  />
+                <Route path="/reset-password" element={<ResetPasswordPage />}  />
                 <Route path="/orderhistory" element={<OrderHistory />} />
                 
               </Routes>

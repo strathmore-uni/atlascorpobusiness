@@ -1,6 +1,7 @@
 import React from 'react';
 import './footer.css';
 import { Link } from 'react-router-dom';
+import FooterLinks from './Footer links/FooterLinks';
 
 export default function Footer() {
   return (
@@ -37,7 +38,7 @@ export default function Footer() {
 <p>Monday - Friday 8:30am - 5:00pm</p>
 
 </div>
-
+<FooterLinks  />
 
 
 </div>

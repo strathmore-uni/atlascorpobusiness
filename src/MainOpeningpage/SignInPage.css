@@ -1,6 +1,6 @@
 .form-container {
   position: relative;
-  top: 10rem;
+  top: 7rem;
   left: 25rem;
   width: 400px;
   height: 500px;
@@ -128,7 +128,7 @@ background-color: #777;
 /* Style for the line */
 .line-container {
   position: relative;
-  top: 17rem;
+  top: 18rem;
   display: flex;
   align-items: center;
   margin: 20px 0;
@@ -153,7 +153,7 @@ background-color: #777;
 }
 .signup_link{
   position: relative;
-  top: 17rem;
+  top: 18rem;
   color: grey;
 }
 .signup_link .link{
@@ -164,4 +164,16 @@ background-color: #777;
 }
 .signup_link .link:hover{
   color: #0078a1;
+}
+.forgotbtn{
+  position: relative;
+  top: 7.5rem;
+  background: none;
+  border: none;
+  color: grey;
+  cursor: pointer;
+
+}
+.forgotbtn:hover{
+  color: #0078a1
 }

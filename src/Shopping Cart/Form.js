@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Form.css'
 import axios from 'axios';
@@ -56,6 +56,7 @@ export default function Form() {
 
     const newErrors = {};
 
+    // Validate form data
     Object.keys(formData).forEach((key) => {
       if (!formData[key]) {
         newErrors[key] = `${key} is required`;
@@ -75,21 +76,34 @@ export default function Form() {
       setErrors(newErrors);
       return;
     }
-
-    navigate('/signin', { state: { formData } });
-
+    navigate('/signin');
     try {
-      const response = await axios.post( `${process.env.REACT_APP_LOCAL}/api/register`, formData, {
-       
-      });
+      const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
+      console.log('Response:', response); // Log the response to debug
 
-      setNotificationMessage('Registration was Successful.');
+      if (response.status === 200) {
+        setNotificationMessage('Registration was Successful.');
+        setTimeout(() => {
+         
+        }, 3000); // Delay for the notification message to show
+      } else {
+        console.error('Unexpected response status:', response.status);
+        setFailurenotification('Registration was Unsuccessful.');
+      }
     } catch (error) {
       console.error('Error registering user:', error);
       setFailurenotification('Registration was Unsuccessful.');
+    } finally {
+      console.log('Request completed');
     }
-  
   }, [formData, navigate]);
+
+  useEffect(() => {
+    console.log('Notification message:', notificationMessage);
+  }, [notificationMessage]);
+
+  
+  
  
   
 

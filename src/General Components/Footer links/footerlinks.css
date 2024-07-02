@@ -1,0 +1,44 @@
+/* footerLinks.css */
+.footer-links-container {
+    
+    top: -26rem;
+    left: 40rem;
+    position: relative;
+    padding: 20px;
+    width: 10rem;
+    
+  }
+  .footer-links-container h4{
+    position: relative;
+    top: 3rem;
+    width: 15rem;
+    font-size: 1.1rem;
+    left: 0rem;
+    color: #0078a1;
+  }
+  
+  .footer-links {
+    list-style-type: none;
+    position: relative;
+    top: 1.5rem;
+    padding: 0;
+    margin: 0;
+    font-size: .9rem;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(90px, 1fr));
+    gap: 10px;
+  }
+  
+  .footer-links li {
+    margin: 10px 0;
+  }
+  
+  .footer-links a {
+    color: #0078a1;
+    text-decoration: none;
+  }
+  
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+  
