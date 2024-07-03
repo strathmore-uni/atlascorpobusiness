@@ -152,7 +152,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
               <p className='cart_quantity_review'>{item.quantity}</p>
             </div>
             <p className='p_serialnumber'>Serial Number:&nbsp;{item.partnumber}</p>
-            <p style={{ fontWeight: 'bold', position: 'absolute', left: '4rem' }}>{item.Description}</p>
+            <p className='p_description'>{item.Description}</p>
             <p className='net_cart_itemprice_revieworder'>${item.Price}</p>
             <p className='cart_itemprice_revieworder'>${item.Price}</p>
             <hr className='hr_incartdisplay' />

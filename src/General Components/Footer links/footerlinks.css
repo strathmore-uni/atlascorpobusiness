@@ -42,3 +42,25 @@
     text-decoration: underline;
   }
   
+  @media (max-width: 45rem) {
+    .footer-links-container{
+      left: 0rem;
+      top:3rem;
+      width: 24rem;
+      position: relative;
+height: 22rem;
+      
+    }
+    .footer-links{
+     
+      top: -3rem;
+      width: 25rem;
+     
+      grid-template-columns: repeat(4, minmax(70px, 1fr));
+    gap: 10px;
+    }
+    .footer-links-container h4{
+      position: relative;
+      top: -2rem;
+    }
+  }

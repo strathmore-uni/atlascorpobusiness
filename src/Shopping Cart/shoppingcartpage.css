@@ -309,6 +309,13 @@ input[type=number] {
     right: 13rem;
     font-weight: 500;
 }
+.p_description{
+    font-weight: bold; 
+    font-size: .9rem;
+    position: 'absolute'; 
+    width: 10rem;
+    left: '4rem';
+}
 @media (max-width: 45rem) {
     .order_summary{
         top: 70rem;
@@ -326,12 +333,12 @@ input[type=number] {
         width: 100%;
     }
     .shoppingcart_footer{
-        top: 130rem;
+        top: 140rem;
     }
 
     .btngroup_cart{
         left: 4rem;
-        top: 6rem;
+        top: 3rem;
 
     }
     .cart_item_title{
@@ -364,5 +371,18 @@ input[type=number] {
     .btn_clearcart{
         left: 19rem;
     }
+    .p_serialnumber{
+        position: relative;
+        top: 5rem;
+        left: 1.5rem;
+    }
+    .p_description{
+        position: relative;
+        top: 1rem;
+        left: -6.5rem;
+    }
+  .cart_removeitem{
+    left: 20rem;
+  }
   
 }

@@ -30,4 +30,10 @@
   .price-filters button:hover {
     background-color: #005f7f;
   }
+  @media (max-width: 45rem) {
+  .container_productcategories{
+    display: none;
+  }
+  
+  }
   

@@ -30,7 +30,8 @@ const Notification = ({ message,failure_message }) => {
 
         {message}
       </div>
-      <div className={`failure_notification ${isVisiblefailure ? 'show' : ''}`} >
+      
+      <div className={`failure_notification ${isVisiblefailure ? 'showfailure' : ''}`} >
         {failure_message}
       </div>
       

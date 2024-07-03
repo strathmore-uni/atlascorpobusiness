@@ -2,13 +2,13 @@
     position: fixed;
     top: 20px;
     right: 0px;
-    background-color: #4caf50; /* Green background */
+    background-color: #4caf50; 
     color: white;
     padding: 16px;
     border-radius: 5px;
     transition: transform 0.5s ease-in-out;
     transform: translateX(100%);
-    z-index: 999; /* Ensure it appears above other content */
+    z-index: 999; 
   }
   
   .notification.show {
@@ -17,17 +17,17 @@
   
   .failure_notification{
     position: fixed;
-    top: 20px;
+    top: 100px;
     right: 0px;
-    background-color: red; /* Green background */
+    background-color: red; 
     color: white;
     padding: 16px;
     border-radius: 5px;
     transition: transform 0.5s ease-in-out;
     transform: translateX(100%);
-    z-index: 999; /* Ensure it appears above other content */
+    z-index: 999; 
 
   }
-  .failure_notification.show {
+  .failure_notification.showfailure {
     transform: translateX(0);
   }

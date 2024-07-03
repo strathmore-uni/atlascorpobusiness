@@ -139,6 +139,11 @@ position: absolute;
     left:0rem;
     top: 2rem;
   }
+  .top_container{
+    position: relative;
+    height: 45rem;
+
+  }
   .contact_quicklinks{
     
     width: 10rem;

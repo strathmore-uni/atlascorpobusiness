@@ -177,3 +177,13 @@ background-color: #777;
 .forgotbtn:hover{
   color: #0078a1
 }
+@media (max-width: 45rem) {
+
+  .form-container{
+    position: relative;
+    left: 0rem;
+    top: 13rem;
+  } 
+  
+
+}

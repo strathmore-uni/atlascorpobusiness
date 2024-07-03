@@ -51,63 +51,60 @@ export default function Form() {
     );
   };
 
-  const handleSubmit = useCallback(async (event) => {
-    event.preventDefault();
-
-    const newErrors = {};
-
-    // Validate form data
+  const validateFormData = (formData) => {
+    const errors = {};
+  
     Object.keys(formData).forEach((key) => {
       if (!formData[key]) {
-        newErrors[key] = `${key} is required`;
+        errors[key] = `${key} is required`;
       }
     });
-
+  
     if (!validatePassword(formData.password)) {
-      newErrors.password =
-        'Password must be at least 6 characters long and include upper and lower case letters, a number, and a special character';
+      errors.password = 'Password must be at least 6 characters long and include upper and lower case letters, a number, and a special character';
     }
-
+  
     if (formData.password !== formData.confpassword) {
-      newErrors.confpassword = 'Passwords do not match';
+      errors.confpassword = 'Passwords do not match';
     }
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+  
+    return errors;
+  };
+  
+  const handleSubmit = useCallback(async (event) => {
+    event.preventDefault();
+  
+    const errors = validateFormData(formData);
+  
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
       return;
     }
-    navigate('/signin');
+    navigate('/');
     try {
       const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
-      console.log('Response:', response); // Log the response to debug
-
+      console.log('Response:', response);
+  
       if (response.status === 200) {
-        setNotificationMessage('Registration was Successful.');
-        setTimeout(() => {
-         
-        }, 3000); // Delay for the notification message to show
+        setNotificationMessage('Registration successful.');
       } else {
-        console.error('Unexpected response status:', response.status);
         setFailurenotification('Registration was Unsuccessful.');
       }
+  
+      setTimeout(() => {
+        
+      }, 3000); // Navigate to the root route after 3 seconds
     } catch (error) {
       console.error('Error registering user:', error);
       setFailurenotification('Registration was Unsuccessful.');
+  
+      setTimeout(() => {
+        navigate('/');
+      }, 3000); // Navigate to the root route after 3 seconds
     } finally {
       console.log('Request completed');
     }
   }, [formData, navigate]);
-
-  useEffect(() => {
-    console.log('Notification message:', notificationMessage);
-  }, [notificationMessage]);
-
-  
-  
- 
-  
-
-
   return (
     <div>
       <form onSubmit={handleSubmit} className="form-container-registration">

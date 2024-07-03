@@ -3,30 +3,46 @@
   position: relative;
   top: 8rem;
   padding: 20px;
-  width: 10rem;
+}
+
+.categories-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+.close-button{
+  display: none;
+}
+
+.categories-list {
+  display: block;
+}
+
+.categories-list.visible {
+  display: block;
 }
 
 .listedproducts-categories {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  width: 10rem;
-
-
+  width: 100%;
 }
 
 .listedproducts-categories > li {
   position: relative;
   height: 3rem;
   margin: 10px 0;
-
-  width: 21vh;
   cursor: pointer;
-  position: relative;
 }
-.listedproducts-categories > li:hover{
-  color:#0078a1 ;
+
+.listedproducts-categories > li:hover {
+  color: #0078a1;
 }
+
 .arrow {
   margin-left: 10px;
 }
@@ -35,7 +51,7 @@
   list-style-type: none;
   padding: 10px;
   margin: 0;
-  position: absolute;
+  position: relative;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -49,4 +65,51 @@
 
 .dropdown-menu li:hover {
   background-color: #f0f0f0;
+}
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+@media (max-width: 45rem) {
+  .categories-container {
+    width: 100%;
+    padding: 10px;
+    background-color: aqua;
+  }
+
+  .categories-toggle {
+    display: block;
+    position: relative;
+    top: 9rem;
+    right: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .categories-list {
+    display: none;
+  }
+
+  .categories-list.visible {
+    display: block;
+    position: absolute;
+    background: #fff;
+    top: 8rem;
+    left: 2rem;
+    width: 80%;
+    border: 1px solid #ddd;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+
+  .listedproducts-categories > li {
+    width: 100%;
+  }
 }

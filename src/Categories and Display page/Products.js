@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LuCameraOff } from "react-icons/lu";
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
-
+import { useAuth } from "../MainOpeningpage/AuthContext";
 import { FaBars } from "react-icons/fa6";
 import Categories from "./Categories";
 
@@ -14,7 +14,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
-
+  const { currentUser } = useAuth();
   const [error, setError] = useState(null);
 
   const [pageNumber, setPageNumber] = useState(0);

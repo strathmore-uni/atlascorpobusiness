@@ -101,13 +101,17 @@
 
 .btn_continue{
     position: absolute;
-   
+   cursor: pointer;
     padding: .8rem;
     left: 1rem;
     width: 40%;
     background-color: #0078a1;
     border: none;
     color: white;
+
+}
+.btn_continue:hover{
+    background-color: grey;
 
 }
 
@@ -226,6 +230,7 @@ width: 24rem;
     }
     .cart_quantity_review{
         top:-4.5rem;
+        left:10rem;
       
     }
     .cart_itemprice_revieworder{

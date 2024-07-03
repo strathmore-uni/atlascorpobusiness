@@ -27,13 +27,13 @@ const ResetPasswordPage = () => {
         email,
         newPassword
       });
-
+console.log("mike")
       if (response.status === 200) {
-        
-        console.log("Password reset successfully")
+        navigate('/')
+        console.log('SUCCESS!', response.status, response.text);
         setMessage('Password reset successfully');
         setError('');
-       navigate('/signin');
+       
       }
     } catch (error) {
       console.error('Error resetting password:', error);

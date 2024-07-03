@@ -368,16 +368,19 @@ font-size: .8rem;
 
 @media (max-width: 45rem) {
   .big_container{
-    left: -12rem;
+    left: 0rem;
+    
   }
  
  .productdisplay_container{
   background-color: #007bff;
-  left: 11rem;
+  left: 0rem;
  }
 .shop_routes{
   position: relative;
   left: 1rem;
+ 
+
 }
 .sub_productdisplay_container.grid{
   left: .3rem;
@@ -398,7 +401,12 @@ font-size: .8rem;
 .fabars_categories{
 left: 0rem;
 top: -10rem;
-  
+
+}
+.filterelement_footer{
+  position: relative;
+  left: 0rem;
+  top: 84rem;
 
 }
 }

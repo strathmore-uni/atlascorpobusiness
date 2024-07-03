@@ -25,9 +25,9 @@ export default function Mainpage({cartItems,datas,handleAddProductDetails}) {
 
   const handleContinueToShop = () => {
     if (!IsAuthenticated) {
-      navigate('/signin', { state: { redirectTo: '/shop' } }); // Redirect to sign-in page with redirect state
+      navigate('/signin', { state: { redirectTo: '/shop' } }); 
     } else {
-      navigate('/shop'); // Navigate to shop page if authenticated
+      navigate('/shop'); 
     }
   };
 
@@ -61,23 +61,18 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 
 <img className='img_mainpage'  src="./public/R.png" alt='' />
  
- <Link style={{color:'black'}} > <div className='shopwithus'>
-  
-
+ <div className='shopwithus'>
    <img src='/images/fleetLink.jpg' alt='' className='imageshop_withus' />
   <h3>Shop more than 75.000 original Atlas Copco spare parts now!</h3>
-
-
-
-
-
-</div></Link>
+  
+</div>
 
 <div className='featuredproducts_mainpage' >
 <Link to="#" onClick={handleContinueToShop} style={{textDecoration:'none'}}><h2>Popular Categories</h2> </Link>
-<button onClick={handleContinueToShop}>Continue to Shop</button>
+<button onClick={handleContinueToShop} className='btn_toShop'  >Continue to Shop <FaArrowRight /></button>
 
-<Link  className='linktoviewmore'  to="#" onClick={handleContinueToShop} >Continue to Shop<FaArrowRight  /></Link>
+
+
 <div  className='mainpage_products'>
   <div className='individual_categories'  onClick={() => handleCategoryClick('Filterelement')}  >
     <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
@@ -86,22 +81,21 @@ Atlas Copco in Kenya handles sales and service of industrial gas and air compres
 
 
   <div className='individual_categories'  onClick={() => handleCategoryClick('Servkit')}  >
-    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <img src='/images/servkit.jpeg' alt='' className='individual_images'  />
     <p>Serv Kits</p>
-  </div>
-
+  </div> 
   <div className='individual_categories' onClick={() => handleCategoryClick('Bearingkits')} >
-    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <img src='/images/bearingkit.jpeg' alt='' className='individual_images'  />
     <p>Bearing Kits</p>
   </div>
 
   <div className='individual_categories' onClick={() => handleCategoryClick('Overhaulkit')} >
-    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <img src='/images/kitoverhaul.jpeg' alt='' className='individual_images'  />
     <p>Over Haul Kits</p>
   </div>
 
   <div className='individual_categories' onClick={() => handleCategoryClick('Oilfilterelement')} >
-    <img src='/images/cq5dam.web.600.600.jpeg' alt='' className='individual_images'  />
+    <img src='/images/filterkitdd_ddp.jpeg' alt='' className='individual_images'  />
     <p>Oil filterelement</p>
   </div>
 

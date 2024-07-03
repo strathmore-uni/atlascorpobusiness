@@ -113,8 +113,8 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
 
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
-      <Link to="/">
-        <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
+      <Link style={{textDecoration:'none'}} to="/">
+        <h3  className="title_h3">Atlas Copco - Kenya Web Shop</h3>
       </Link>
       <div className="div_search">
         <input
@@ -126,15 +126,15 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        <IoSearchOutline className="search_icon_navigation" onClick={handleSearch} />
+        
       </div>
-      <Link to='/Cart' style={{ textDecoration: 'none', color: 'white' }}>
-        <p className="p_cart">
-          <GrCart />
+      <Link to='/Cart' className="p_cart" style={{ textDecoration: 'none', color: 'white' }}>
+        
+          <GrCart className="icon_cart" />
           <span className="count">
             {cartItems.length === 0 ? "" : cartItems.length}
           </span>
-        </p>
+        
       </Link>
       <div className="user-profile-container">
         <div className="user-profile">

@@ -7,7 +7,8 @@ import './SignInPage.css';
 import { decodeToken } from 'react-jwt';
 import axios from 'axios';
 
-const SignInPage = ({setGuestEmail}) => {
+const SignInPage = () => {
+    const {setCurrentUser, currentUser, loading} = useAuth(); 
   const[userEmail,setUserEmail] =useState(null);
   const[email,setEmail] =useState('');
   const[password,setPassword] =useState('');
@@ -19,16 +20,16 @@ const SignInPage = ({setGuestEmail}) => {
     password:''
   })
 
-  const {setCurrentUser, currentUser, loading } = useAuth(); // Get the current user and loading state from the AuthContext
+// Get the current user and loading state from the AuthContext
   const navigate = useNavigate();
 
 
 
   useEffect(() => {
-    if (!loading && currentUser) {
-      navigate('/shop'); // Redirect if already signed in and not loading
+    if (currentUser) {
+      navigate('/shop'); // Redirect if already signed in
     }
-  }, [currentUser, loading, navigate]);
+  }, [currentUser, navigate]);
 
 
 
@@ -73,7 +74,7 @@ const SignInPage = ({setGuestEmail}) => {
           localStorage.setItem('userEmail', email);
     
       setCurrentUser({ email });
-          navigate('/shop'); // Navigate to '/' (home page) on successful login
+          navigate('/shop'); 
         } else {
           setError('Login failed. Please check your credentials and try again.');
         }

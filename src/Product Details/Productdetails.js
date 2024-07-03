@@ -33,7 +33,7 @@ export default function ProductDetails({
     setNotificationMessage(`${product.Description} has been added to the cart.`);
     setTimeout(() => {
       setNotificationMessage('');
-    }, 300
+    }, 3000
 );
 };
 
