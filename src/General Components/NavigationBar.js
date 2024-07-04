@@ -17,8 +17,13 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
   const [categories, setCategories] = useState([]);
-  
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail') || guestEmail);
+
+  const toggleDropdownVisibility = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -103,7 +108,6 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     return currentUser ? currentUser.email : guestEmail;
   };
 
-
   useEffect(() => {
     const storedUserEmail = localStorage.getItem('userEmail');
     if (storedUserEmail) {
@@ -113,8 +117,8 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
 
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
-      <Link style={{textDecoration:'none'}} to="/">
-        <h3  className="title_h3">Atlas Copco - Kenya Web Shop</h3>
+      <Link style={{ textDecoration: 'none' }} to="/">
+        <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
       </Link>
       <div className="div_search">
         <input
@@ -126,34 +130,35 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        
+        <button className="search-button" onClick={handleSearch}>
+          Search
+        </button>
       </div>
-      <Link to='/Cart' className="p_cart" style={{ textDecoration: 'none', color: 'white' }}>
-        
+      <div className="mycart">
+        <Link to='/Cart' className="p_cart" style={{ textDecoration: 'none' }}>
           <GrCart className="icon_cart" />
           <span className="count">
             {cartItems.length === 0 ? "" : cartItems.length}
           </span>
-        
-      </Link>
-      <div className="user-profile-container">
+          <small>Cart</small>
+        </Link>
+      </div>
+      <div className="user-profile-container" onClick={toggleDropdownVisibility}>
         <div className="user-profile">
           <LuUser className="person_icon" />
-          {(userEmail || currentUser ) ? (
-            <div className="dropdown">
-              <span className="email">
-                {getEmail()}
-                {(userEmail || currentUser ) && <IoIosArrowDown className="nav_arrowdown" />}
-              </span>
+          <div className="dropdown">
+            <span className="email">
+              Account
+              <IoIosArrowDown className="nav_arrowdown" />
+            </span>
+            {isDropdownVisible && (
               <div className="dropdown-content">
                 <Link to='/userprofile'><p>User Profile</p></Link>
-                <Link to='/orderhistory' ><p>Order History</p></Link>
+                <Link to='/orderhistory'><p>Order History</p></Link>
                 <p onClick={handleSignOut}>Log Out</p>
               </div>
-            </div>
-          ) : (
-            <p onClick={() => navigate('/signin')} className="sign-in-button">Sign In to Shop</p>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

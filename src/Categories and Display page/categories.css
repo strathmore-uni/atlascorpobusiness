@@ -1,8 +1,9 @@
 /* categories.css */
 .categories-container {
   position: relative;
-  top: 8rem;
+  top: 4.5rem;
   padding: 20px;
+  width: 10rem;
 }
 
 .categories-toggle {
@@ -19,6 +20,8 @@
 
 .categories-list {
   display: block;
+  width: 10rem;
+  
 }
 
 .categories-list.visible {

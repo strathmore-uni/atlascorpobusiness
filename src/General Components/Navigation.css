@@ -1,7 +1,7 @@
 .container_NavigationBar {
   position: fixed;
   width: 100%;
-  height: 7rem;
+  height: 5rem;
   top: 0rem;
   display: flex;
   justify-content: space-between;
@@ -44,6 +44,23 @@
   border: none;
   box-shadow: 0 10px 20px -18px;
 }
+.search-button{
+  position: relative;
+  min-height: 50px;
+  max-width: 400px;
+  border-radius: 4px;
+  box-shadow: 0 10px 20px -18px;
+  padding: 0.5rem 1rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+  background-color:  #0078a1;
+  left: 7.3rem;
+  width: 5rem;
+}
+.search-button:hover{
+  background-color:  #076483;
+}
 
 .input:focus {
   border-bottom: 2px solid #5b5fc7;
@@ -53,35 +70,60 @@
 .input:hover {
   outline: 1px solid lightgrey;
 }
+.mycart{
+  position: relative;
+  left: 5rem;
+}
+.mycart:hover{
+ color: grey;
+}
 
 .p_cart {
   position: relative;
   font-size: 1.2rem;
-  right: -7rem;
-  background-color: #0078a1;
+  right: 0rem;
+ 
   border-radius: 6px;
  height: 3rem;
  width: 3rem;
   display: flex;
   align-items: center;
-  color: white;
+  color:  #0078a1;
+}
+.p_cart:hover{
+  color: grey;
+}
+.p_cart small{
+  position: relative;
+  left: .5rem;
+  top: .1rem;
+  font-size: .9rem;
+}
+
+.icon_cart{
+  font-size: 1rem;
+  color:  #0078a1;
 }
 
 .count {
   position: absolute;
-  right: -.1rem;
+  right: 1rem;
   top: 0rem;
   
   border-radius: 50%;
+  
   width: 1.5rem;
   height: 1.5rem;
   display: flex;
+  font-size: .8rem;
   justify-content: center;
   align-items: center;
-  color: white;
+  color:  #0078a1;
 }
 
-
+.count:hover{
+  color: grey;
+}
 
 
 .user-profile-container {

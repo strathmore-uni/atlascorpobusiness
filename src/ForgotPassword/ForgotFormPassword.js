@@ -16,10 +16,10 @@ const ForgotPasswordPage = () => {
     };
 
     emailjs.send(
-      'service_bmvwx28', // Replace with your EmailJS service ID
-      'template_ye9c297', // Replace with your EmailJS template ID
+      'service_bmvwx28', 
+      'template_ye9c297', 
       templateParams,
-      'KeePPXIGkpTcoiTBJ' // Replace with your EmailJS user ID
+      'KeePPXIGkpTcoiTBJ' 
     )
     .then((response) => {
       console.log('SUCCESS!', response.status, response.text);

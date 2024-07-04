@@ -3,6 +3,8 @@ import axios from 'axios';
 import './userprofile.css';
 import '../Shopping Cart/checkout.css'
 import Notification from '../General Components/Notification';
+import { Link } from 'react-router-dom';
+import { IoIosArrowBack } from 'react-icons/io';
 export default function Userprofile() {
   const [userData, setUserData] = useState({});
   const [editing, setEditing] = useState(false);
@@ -104,6 +106,9 @@ export default function Userprofile() {
 
   return (
     <div className='userprofile_container'>
+           <Link to='/shop' className='backtoform'>
+          <p><IoIosArrowBack className='arrowbackReview' />Back</p>
+        </Link>
        {loading ? (
         <p>Loading...</p>
       ) : editing ? (
