@@ -77,11 +77,11 @@ top: 0rem;
 
 .container_media {
   position: absolute;
-  height: 32rem;
+  height: 35rem;
  
   width: 100%;
   left: 0rem;
-  top: 7rem;
+  top: 5rem;
   background-size: cover;
   background-position: center;
   background-image: url("/public/images/Group 2.png");

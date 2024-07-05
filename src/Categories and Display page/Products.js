@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./products.css";
 import "./Categories Pages/filterelement.css";
 import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import { LuCameraOff } from "react-icons/lu";
-import { CiGrid41 } from "react-icons/ci";
-import { CiGrid2H } from "react-icons/ci";
+import { CiGrid41, CiGrid2H } from "react-icons/ci";
 import { useAuth } from "../MainOpeningpage/AuthContext";
 import { FaBars } from "react-icons/fa6";
 import Categories from "./Categories";
@@ -35,26 +34,20 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     }
 
     try {
+      setLoading(true); // Set loading to true before fetching
       const response = await fetch(`${process.env.REACT_APP_LOCAL}/api/myproducts?email=${userEmail}`);
       const data = await response.json();
       setData(data);
     } catch (error) {
       setError(error.message);
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading to false after fetching
     }
   }, [userEmail]);
 
   useEffect(() => {
-    if (!loading) {
-      setLoading(true);
-      fetchProducts();
-    }
-  }, []);
-
- 
-
- 
+    fetchProducts();
+  }, [fetchProducts]);
 
   const toggleCategories = () => {
     setIsCategoriesVisible(!isCategoriesVisible);
@@ -71,15 +64,6 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
           <small className="featuredprdts_length">
             Featured Products: {data.length}
           </small>
-          <div className="btn_group">
-            <small>Sort by:</small>
-            <p onClick={() => setLayoutMode("grid")}>
-              <CiGrid41 />
-            </p>
-            <p onClick={() => setLayoutMode("normal")}>
-              <CiGrid2H />
-            </p>
-          </div>
 
           {data
             .slice(pagesVisited, pagesVisited + itemsPerPage)
@@ -102,10 +86,13 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
                     </div>
                   ) : (
                     <>
-                      <img className="prdt_image" src={product.image} alt="" />
-                      <p className="cameraoff_icon">
-                        <LuCameraOff />
-                      </p>
+                      {product.image ? (
+            <img className="prdt_image" src={product.image} alt="" />
+          ) : (
+            <p className="cameraoff_icon">
+              <LuCameraOff />
+            </p>
+          )}
                       <p className="prdt_partnumber">{product.partnumber}</p>
                       <Link
                         key={product.partnumber}

@@ -59,20 +59,22 @@ export default function SearchDisplay({ handleAddProductDetails }) {
   return (
     <div className='searchdisplay_container'>
       
-      <Link to='/Shop' className='arrowbacktocart'><IoIosArrowBack className='arrowback' />Back to Shopping</Link>
+      <Link to='/Shop' className='arrowbacktocart_search'><IoIosArrowBack className='arrowback' />Back to Shopping</Link>
       <h2>Search Results for: {searchTerm}</h2>
       <div className='search_display_wrapper'>
         <div className='productdisplay_container_search'>
           <div className={`sub_productdisplay_container_search ${layoutMode}`}>
-            <div className='btn_group'>
-              <small>Sort by:</small>
-              <p onClick={() => setLayoutMode('grid')}><CiGrid41 /></p>
-              <p onClick={() => setLayoutMode('normal')}><CiGrid2H /></p>
-            </div>
+         
             {results.slice(pagesVisited, pagesVisited + itemsPerPage).map((item, index) => (
               <Link key={item.partnumber} className='mylink_search'
                 to={`/Productdetails?name=${item.Description}&id=${item.partnumber}`} onClick={() => handleAddProductDetails(item)}>
-                <p className='cameraoff_icon'><LuCameraOff /></p>
+                   {item.image ? (
+            <img className="prdt_image" src={item.image} alt="" />
+          ) : (
+            <p className="cameraoff_icon">
+              <LuCameraOff />
+            </p>
+          )}
                 <p className='prdt_partnumber'>{item.partnumber}</p>
                 <p className='prdt_title'>{item.Description}</p>
                 <p className='prdt_price'>USD {item.Price}</p>

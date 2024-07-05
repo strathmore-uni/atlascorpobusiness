@@ -117,9 +117,13 @@ export default function ShoppingCartPage({
         )}
         {cartItems.map((item) => (
           <div key={item.partnumber} className="display_cart">
-            <p className="lucameraoff_cart">
+            {item.image ? (
+            <img className="prdt_image_shopping" src={item.image} alt="" />
+          ) : (
+            <p className="cameraoff_icon">
               <LuCameraOff />
             </p>
+          )}
 
             <div className="btngroup_cart">
               <button

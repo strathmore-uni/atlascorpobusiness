@@ -316,6 +316,18 @@ input[type=number] {
     width: 10rem;
     left: '4rem';
 }
+.prdt_image_shopping{
+    position: relative;
+    top: 1rem;
+    left: -1.5rem;
+    max-height: 5rem;
+    max-width: 5rem;
+  justify-content: center;
+  align-items: center;
+    font-size: 3.5rem;
+    color: grey;
+  
+  }
 @media (max-width: 45rem) {
     .order_summary{
         top: 70rem;

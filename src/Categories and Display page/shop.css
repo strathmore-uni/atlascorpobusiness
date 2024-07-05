@@ -35,7 +35,7 @@
 .shop_footer{
     position:absolute;
     background-color: #373D41;
-    top:140rem;
+    top:153rem;
     height: 30rem;
     left: 0;
     right: 0;
@@ -53,7 +53,7 @@
     top: -.5rem;
     background-color: #007bff;
     width: 5.8rem;
-    
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
