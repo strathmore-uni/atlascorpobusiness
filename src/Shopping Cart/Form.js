@@ -26,14 +26,14 @@ export default function Form() {
   const [notificationMessage, setNotificationMessage] = useState('');
 
   const [failurenotification, setFailurenotification] = useState('') 
-
+  const navigate = useNavigate();
   const handleFormDataChange = useCallback((event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
   }, []);
 
-  const navigate = useNavigate();
+
 
   const validatePassword = (password) => {
     const minLength = /.{6,}/;
@@ -87,20 +87,22 @@ export default function Form() {
   
       if (response.status === 200) {
         setNotificationMessage('Registration successful.');
+        
       } else {
         setFailurenotification('Registration was Unsuccessful.');
       }
   
       setTimeout(() => {
         
-      }, 3000); // Navigate to the root route after 3 seconds
+      }, 3000); 
+     
     } catch (error) {
       console.error('Error registering user:', error);
       setFailurenotification('Registration was Unsuccessful.');
   
       setTimeout(() => {
         navigate('/');
-      }, 3000); // Navigate to the root route after 3 seconds
+      }, 3000); 
     } finally {
       console.log('Request completed');
     }

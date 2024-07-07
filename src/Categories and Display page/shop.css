@@ -45,7 +45,7 @@
 
   left: 0;
   right: 0;
-  bottom: 0; /* Stick to the bottom of the viewport */
+  bottom: 0; 
   box-sizing: border-box;
 }
 .get_quote{
@@ -63,6 +63,37 @@
       height: 35px;
       border-radius: 1000px;
   
+  }
+  .productdisplay_container_shop.grid {
+    position: absolute;
+    display: grid;
+    flex-direction: column;
+    top: 0rem;
+    left: 10rem;
+    grid-template-columns: repeat(4, 165px);
+    grid-gap:90px;
+  }
+  .mylink_shop {
+    position: relative;
+    border: 1px solid grey;
+    border-radius: 6px;
+    top: 2rem;
+    left: 1rem;
+    width: 15rem;
+    height: 22rem;
+    color: black;
+    text-decoration: none;
+  }
+  .prdt_image_shop{
+    position: relative;
+    top: 0.5rem;
+    left: .5rem;
+    max-height: 9rem;
+    max-width: 15rem;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5rem;
+    color: grey;
   }
   .get_quote p{
     font-size: .8rem;

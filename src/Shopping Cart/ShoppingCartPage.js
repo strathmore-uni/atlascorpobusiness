@@ -156,6 +156,7 @@ export default function ShoppingCartPage({
               className="cart_removeitem"
               onClick={() => handleRemoveSingleProduct(item)}
             >
+              Remove
               {" "}
               <RiDeleteBinLine />
             </p>

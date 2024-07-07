@@ -60,7 +60,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
       </div>
       <div className="productdisplay_container">
         <FaBars className="fabars_categories" onClick={toggleCategories} />
-        <div className={`sub_productdisplay_container ${layoutMode}`}>
+        <div className={`productdisplay_container_shop ${layoutMode}`}>
           <small className="featuredprdts_length">
             Featured Products: {data.length}
           </small>
@@ -70,7 +70,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
             .map((product, index) => (
               <Link
                 key={product.partnumber}
-                className="mylink"
+                className="mylink_shop"
                 onClick={() => !loading && handleAddProductDetails(product)}
               >
                 <div key={product.partnumber}>
@@ -87,7 +87,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
                   ) : (
                     <>
                       {product.image ? (
-            <img className="prdt_image" src={product.image} alt="" />
+            <img className="prdt_image_shop" src={product.image} alt="" />
           ) : (
             <p className="cameraoff_icon">
               <LuCameraOff />

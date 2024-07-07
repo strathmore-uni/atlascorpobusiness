@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { LuCameraOff } from 'react-icons/lu';
-import { CiGrid41, CiGrid2H } from 'react-icons/ci';
 import ReactPaginate from 'react-paginate';
 import NavigationBar from '../General Components/NavigationBar';
 import Footer from '../General Components/Footer';
-import ProductCategories from './ProductCategories';
+
 import '../Categories and Display page/products.css';
 import '../Categories and Display page/Categories Pages/filterelement.css';
 
@@ -21,6 +20,30 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const categoryDescriptions = {
+    Filterelement: `Our genuine Air Filters trap particles down to 3 microns, preventing 99.9% of contaminants from reaching your compressor elements. These filters were developed on the most important parameters for compressor applications: maximum dust holding capacity, high separation efficiency and minimized restriction.
+
+Their air filter sealing is unique, as is the special filtration paper: this was designed with special indentations that trap foreign materials without impeding incoming air flow, maximizing your process efficiency!`,
+    Oilfilterelement: "Oil filter elements are crucial for maintaining the purity of oil in your systems, preventing damage and ensuring smooth operation.",
+    Servkit: "Service kits contain essential components for maintaining and servicing your equipment, ensuring reliability and performance.",
+    Autodrainvalve: "Auto drain valves automatically remove accumulated water and other liquids from your system, preventing corrosion and damage.",
+    Contractor: "Contractors are robust and reliable components used in various applications to ensure seamless and efficient operations.",
+    Overhaulkit: "Overhaul kits include all necessary parts for a complete overhaul of your equipment, restoring it to optimal condition.",
+    Silencerkit: "Silencer kits are designed to reduce noise levels in your machinery, providing a quieter and more comfortable working environment.",
+    Maintenancekit: "Maintenance kits contain all the necessary components for routine maintenance, ensuring your equipment runs smoothly and efficiently.",
+    Bearingkits: "Bearing kits include bearings and related components for various applications, ensuring smooth and reliable operation.",
+    Kitpm8k: "KIT PM8K RS is a comprehensive kit for the PM8K RS system, including all necessary parts for maintenance and repair.",
+    Energyrecovery: "Energy recovery systems capture and reuse energy that would otherwise be lost, improving efficiency and reducing costs.",
+    Blowerpowerckt: "Blower power circuits are essential for powering blowers, ensuring efficient and reliable operation in various applications.",
+    Blowerbearkingkit: "Blower bearing kits include all necessary bearings and components for maintaining and repairing blower systems.",
+    Prevmain: "Preventive maintenance kits include all necessary components for regular maintenance, ensuring the longevity and reliability of your equipment.",
+    Hrkit: "HR kits contain all necessary parts for maintaining and repairing HR systems, ensuring optimal performance and longevity.",
+    Kitfilterdd: "Kit Filter DD includes all necessary filter elements and components for maintaining DD filter systems.",
+    Kitfilterpd: "Kit Filter PD includes all necessary filter elements and components for maintaining PD filter systems.",
+    Kitfilterddp: "Kit Filter DDP includes all necessary filter elements and components for maintaining DDP filter systems.",
+    Kitfilterud: "Kit Filter UD includes all necessary filter elements and components for maintaining UD filter systems.",
+  };
+
   useEffect(() => {
     const fetchProductsByCategory = async () => {
       const userEmail = localStorage.getItem('userEmail');
@@ -32,12 +55,10 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
 
       try {
         setIsLoading(true);
-        const response = await fetch(`${process.env.REACT_APP_LOCAL}/api/products/${category}?email=${userEmail}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch products by category");
-        }
-        const data = await response.json();
-        setProducts(data);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/products/${category}`, {
+          params: { email: userEmail },
+        });
+        setProducts(response.data);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -52,86 +73,94 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   return (
     <div className="big_container">
       <NavigationBar cartItems={cartItems} />
-    
-        <div className="shop_routes">
-          <Link to="/" style={{ color: "#0078a1", textDecoration: "none" }}>
-            Home &nbsp;/
-          </Link>
-          <Link to="/Shop" style={{ color: "#0078a1", textDecoration: "none" }}>
-            &nbsp;Shop &nbsp;/
-          </Link>
-          <p
-            style={{
-              color: "#0078a1",
-              textDecoration: "none",
-              position: "absolute",
-              left: "7.2rem",
-              top: "-1rem",
-              width: "10rem",
-            }}
-          >
-            &nbsp;{category}&nbsp;
-          </p>
-        </div>
 
-        <div className="productdisplay_container">
-          <div className={`sub_productdisplay_container ${layoutMode}`}>
-            <small className="featuredprdts_length">
-              Featured Products: {products.length}
-            </small>
+      <div className="products_routes">
+        <Link to="/" style={{ color: "#0078a1", textDecoration: "none" }}>
+          Home &nbsp;/
+        </Link>
+        <Link to="/Shop" style={{ color: "#0078a1", textDecoration: "none" }}>
+          &nbsp;Shop &nbsp;/
+        </Link>
+        <p
+          style={{
+            color: "#0078a1",
+            textDecoration: "none",
+            position: "absolute",
+            left: "7.2rem",
+            top: "-1rem",
+            width: "10rem",
+          }}
+        >
+          &nbsp;{category}&nbsp;
+        </p>
+      </div>
 
-            {products.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
-              <Link
-                key={product.partnumber}
-                className="mylink"
-                to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-                onClick={() => !isLoading && handleAddProductDetails(product)}
-              >
-                <div key={product.partnumber}>
-                  {isLoading ? (
-                    <div className="loader">
-                      <div className="wrapper">
-                        <div className="circle"></div>
-                        <div className="line-1"></div>
-                        <div className="line-2"></div>
-                        <div className="line-3"></div>
-                        <div className="line-4"></div>
+      <div className="productdisplay_container">
+      <p
+          style={{
+            color: "black",
+            textDecoration: "none",
+            position: "absolute",
+            fontSize:'3rem',
+            left: "0rem",
+            top: "-3rem",
+            width: "10rem",
+          }}
+        >
+          &nbsp;{category}&nbsp;
+        </p>
+        {isLoading ? (
+          <div className="loader">
+            <div className="spinner"></div>
+          </div>
+        ) : (
+          <>
+            <p className="category-description">
+              {categoryDescriptions[category] || "Browse our selection of products."}
+            </p>
+            <div className={`sub_productdisplay_container ${layoutMode}`}>
+              <small className="featuredprdts_length">
+                Results {products.length}
+              </small>
+
+              {products.slice(pagesVisited, pagesVisited + itemsPerPage).map((product, index) => (
+                <Link
+                  key={product.partnumber}
+                  className="mylink"
+                  to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+                  onClick={() => !isLoading && handleAddProductDetails(product)}
+                >
+                  <div key={product.partnumber}>
+                    {product.image ? (
+                      <img className="prdt_image" src={product.image} alt="" />
+                    ) : (
+                      <p className="cameraoff_icon">
+                        <LuCameraOff />
+                      </p>
+                    )}
+                    <p className="prdt_partnumber">{product.partnumber}</p>
+                    <p className="prdt_title">{product.Description}</p>
+                    <p className="prdt_price">${product.Price}</p>
+                    <div className="stock_status">
+                      <div
+                        className={`status_indicator ${
+                          product.quantity > 0 ? "in_stock" : "out_of_stock"
+                        }`}
+                      ></div>
+                      <div className="in_out_stock">
+                        {product.quantity > 0 ? "In Stock" : "Out of Stock"}
                       </div>
-                    </div>
-                  ) : (
-                    <>
-                      {product.image ? (
-                        <img className="prdt_image" src={product.image} alt="" />
-                      ) : (
-                        <p className="cameraoff_icon">
-                          <LuCameraOff />
-                        </p>
-                      )}
-                      <p className="prdt_partnumber">{product.partnumber}</p>
-                      <p className="prdt_title">{product.Description}</p>
-                      <p className="prdt_price">${product.Price}</p>
-                      <div className="stock_status">
-                        <div
-                          className={`status_indicator ${
-                            product.quantity > 0 ? "in_stock" : "out_of_stock"
-                          }`}
-                        ></div>
-                        <div className="in_out_stock">
-                          {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+                      {product.quantity <= 0 && (
+                        <div className="get_quote_productpage">
+                          <p>Get a Quote</p>
                         </div>
-                        {product.quantity <= 0 && (
-                          <div className="get_quote_productpage">
-                            <p>Get a Quote</p>
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  )}
-                </div>
-              </Link>
-            ))}
-            
-            <ReactPaginate
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+
+<ReactPaginate
               previousLabel={"Previous"}
               nextLabel={"Next"}
               pageCount={pageCount}
@@ -142,16 +171,16 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
               disabledClassName={"pagination__link--disabled"}
               activeClassName={"pagination__link--active"}
             />
-        
-          </div>
-          <div className='filterelement_footer'>
-      <Footer />
-      </div>
-        </div>
+            </div>
 
-        <ProductCategories setProducts={setProducts} />
-      
-      
+        
+          </>
+        )}
+        <div className='filterelement_footer'>
+          <Footer />
+        </div>
+        
+      </div>
     </div>
   );
 };
