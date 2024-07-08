@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { auth, googleProvider } from '../Firebase'; // Adjust the import path as necessary
+import { auth, googleProvider } from '../Firebase'; 
 import { signInWithPopup } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext'; // Adjust the import path as necessary
+import { useAuth } from './AuthContext'; 
 import './SignInPage.css';
 import { decodeToken } from 'react-jwt';
 import axios from 'axios';
@@ -20,14 +20,14 @@ const SignInPage = () => {
     password:''
   })
 
-// Get the current user and loading state from the AuthContext
+
   const navigate = useNavigate();
 
 
 
   useEffect(() => {
     if (currentUser) {
-      navigate('/shop'); // Redirect if already signed in
+      navigate('/shop'); 
     }
   }, [currentUser, navigate]);
 
@@ -72,6 +72,7 @@ const SignInPage = () => {
           const { token } = response.data;
           localStorage.setItem('authToken', token);
           localStorage.setItem('userEmail', email);
+        
     
       setCurrentUser({ email });
           navigate('/shop'); 

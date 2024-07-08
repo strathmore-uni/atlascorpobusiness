@@ -61,7 +61,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
           return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price}`;
         }).join('\n');
 
-        // Send confirmation email
+        
         const emailData = {
           to_email: userData.email,
           to_name: userData.firstName,

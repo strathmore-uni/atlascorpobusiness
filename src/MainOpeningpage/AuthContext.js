@@ -9,28 +9,29 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [IsAuthenticated, setIsAuthenticated] = useState(false); // Add this state
+  const [IsAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
-        setIsAuthenticated(true); // Update IsAuthenticated state
+        setIsAuthenticated(true);
       } else {
         setCurrentUser(null);
-        setIsAuthenticated(false); // Update IsAuthenticated state
+        setIsAuthenticated(false);
       }
       setLoading(false);
     });
     return unsubscribe;
   }, []);
+
   const signOut = async () => {
     await firebaseSignOut(auth);
     setCurrentUser(null);
-
     localStorage.removeItem('currentUser');
     localStorage.removeItem('userEmail');
   };
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('currentUser'));
     if (storedUser) {
@@ -44,18 +45,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('currentUser', JSON.stringify(user));
   };
 
-
-
-  const value = {
-    currentUser,
-    signIn,
-    signOut,
-  };
-
-
   return (
-    <AuthContext.Provider value={{ value,currentUser, loading, setCurrentUser, signOut, IsAuthenticated }}>
-    {!loading && children}
-  </AuthContext.Provider>
+    <AuthContext.Provider value={{ currentUser, signIn, signOut, loading, IsAuthenticated, setCurrentUser }}>
+      {!loading && children}
+    </AuthContext.Provider>
   );
 };

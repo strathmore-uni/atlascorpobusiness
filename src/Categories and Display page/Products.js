@@ -24,7 +24,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
 
   const [loading, setLoading] = useState(false);
 
-  // Fetch user email from local storage
+ 
   const userEmail = localStorage.getItem('userEmail');
 
   const fetchProducts = useCallback(async () => {
@@ -34,14 +34,14 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     }
 
     try {
-      setLoading(true); // Set loading to true before fetching
+      setLoading(true); 
       const response = await fetch(`${process.env.REACT_APP_LOCAL}/api/myproducts?email=${userEmail}`);
       const data = await response.json();
       setData(data);
     } catch (error) {
       setError(error.message);
     } finally {
-      setLoading(false); // Set loading to false after fetching
+      setLoading(false); 
     }
   }, [userEmail]);
 
@@ -52,7 +52,10 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   const toggleCategories = () => {
     setIsCategoriesVisible(!isCategoriesVisible);
   };
-
+  const handlePageChange = (e) => {
+    setPageNumber(e.selected);
+    window.scrollTo(0, 0); 
+  };
   return (
     <div className="big_container" key={1}>
       <div className={`categories_sidebar ${isCategoriesVisible ? 'visible' : ''}`}>
@@ -121,17 +124,19 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
                 </div>
               </Link>
             ))}
-          <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            pageCount={pageCount}
-            onPageChange={(e) => setPageNumber(e.selected)}
-            containerClassName={"pagination"}
-            previousLinkClassName={"pagination__link"}
-            nextLinkClassName={"pagination__link"}
-            disabledClassName={"pagination__link--disabled"}
-            activeClassName={"pagination__link--active"}
-          />
+          {data.length > 0 && (
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              pageCount={pageCount}
+              onPageChange={handlePageChange}
+              containerClassName={"pagination"}
+              previousLinkClassName={"pagination__link"}
+              nextLinkClassName={"pagination__link"}
+              disabledClassName={"pagination__link--disabled"}
+              activeClassName={"pagination__link--active"}
+            />
+          )}
         </div>
       </div>
     </div>

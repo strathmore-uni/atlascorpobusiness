@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Form.css'
 import axios from 'axios';
 import Notification from '../General Components/Notification';
+import emailjs from 'emailjs-com';
 
 export default function Form() {
   const [formData, setFormData] = useState({
@@ -70,6 +71,27 @@ export default function Form() {
   
     return errors;
   };
+  const sendEmailConfirmation = async (formData) => {
+    try {
+      const templateParams = {
+        from_name: formData.firstName,
+        to_email: formData.email,
+        message: 'Thank you for registering with us!',
+        reply_to: 'support@example.com',
+      };
+  
+      await emailjs.send(
+        'service_ie3g4m5', // Your EmailJS service ID
+        'template_9ecqaoc', // Your EmailJS template ID
+        templateParams,
+        'HSw7Ydql4N9nzAoVn' // Your EmailJS user ID (public key)
+      );
+  
+      console.log('Email sent successfully!');
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
   
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
@@ -80,11 +102,13 @@ export default function Form() {
       setErrors(errors);
       return;
     }
-    navigate('/');
+    
+    sendEmailConfirmation(formData);
     try {
       const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
       console.log('Response:', response);
-  
+      
+     
       if (response.status === 200) {
         setNotificationMessage('Registration successful.');
         
@@ -107,6 +131,8 @@ export default function Form() {
       console.log('Request completed');
     }
   }, [formData, navigate]);
+
+ 
   return (
     <div>
       <form onSubmit={handleSubmit} className="form-container-registration">

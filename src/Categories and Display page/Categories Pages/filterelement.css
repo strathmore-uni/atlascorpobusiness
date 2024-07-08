@@ -179,11 +179,11 @@
 }
 .filterelement_footer {
   position: relative;
-  background-color: #373d41;
+  background-color: #373D41;
   height: 8rem;
   left: 0rem;
-
-  top: 90rem;
+  
+  top: 40rem;
   width: 100%;
   box-sizing: border-box;
 }

@@ -36,11 +36,7 @@
     position:absolute;
     background-color: #373D41;
     top:153rem;
-    height: 30rem;
-    left: 0;
-    right: 0;
-    box-sizing: border-box;
-
+   
     
 
   left: 0;
@@ -70,8 +66,8 @@
     flex-direction: column;
     top: 0rem;
     left: 10rem;
-    grid-template-columns: repeat(4, 165px);
-    grid-gap:90px;
+    grid-template-columns: repeat(4, 210px);
+    grid-gap:50px;
   }
   .mylink_shop {
     position: relative;
@@ -80,7 +76,7 @@
     top: 2rem;
     left: 1rem;
     width: 15rem;
-    height: 22rem;
+    height: 23rem;
     color: black;
     text-decoration: none;
   }

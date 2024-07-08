@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./categories.css";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { FaBars } from "react-icons/fa";
-import { FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
+
 export default function Categories() {
   const [dropdowns, setDropdowns] = useState({
     filterElement: false,
@@ -30,6 +30,7 @@ export default function Categories() {
   const closeDropdown = () => {
     setIsCategoriesVisible(false);
   };
+
   return (
     <div className="categories-container">
       <button className="categories-toggle" onClick={toggleCategoriesVisibility}>
@@ -38,54 +39,50 @@ export default function Categories() {
       <div className={`categories-list ${isCategoriesVisible ? 'visible' : ''}`}>
         <h3 style={{ color: "#0078a1" }}>Categories</h3>
         <ul className="listedproducts-categories">
-        <li key="filterElement">
-            <span onClick={() => toggleDropdown("filterElement")}>
-              Filter Element{" "}
-              {dropdowns.filterElement ? (
-                <IoIosArrowUp className="arrow" />
-              ) : (
-                <IoIosArrowDown className="arrow" />
-              )}
-            </span>
-            {dropdowns.filterElement && (
-              <ul className="dropdown-menu">
-                <li key="Filterelement" onClick={() => handleCategoryClick("Filterelement")}>
-                  Filter Element
-                </li>
-                <li key="Oilfilterelement" onClick={() => handleCategoryClick("Oilfilterelement")}>
-                  Oil Filter Element
-                </li>
-              </ul>
+          <li onClick={() => toggleDropdown("filterElement")}>
+            Filter Element{" "}
+            {dropdowns.filterElement ? (
+              <IoIosArrowUp className="arrow" />
+            ) : (
+              <IoIosArrowDown className="arrow" />
             )}
           </li>
+          {dropdowns.filterElement && (
+            <ul className="dropdown-menu">
+              <li onClick={() => handleCategoryClick("Filterelement")}>
+                Filter Element
+              </li>
+              <li onClick={() => handleCategoryClick("Oilfilterelement")}>
+                Oil Filter Element
+              </li>
+            </ul>
+          )}
           <li onClick={() => handleCategoryClick("Servkit")}>Serv Kit</li>
           <li onClick={() => handleCategoryClick("Autodrainvalve")}>
             Auto Drain Valve
           </li>
           <li onClick={() => handleCategoryClick("Contractor")}>Contractor</li>
-          <li key="overhaulKit">
-            <span onClick={() => toggleDropdown("overhaulKit")}>
-              Over Haul Kit{" "}
-              {dropdowns.overhaulKit ? (
-                <IoIosArrowUp className="arrow" />
-              ) : (
-                <IoIosArrowDown className="arrow" />
-              )}
-            </span>
-            {dropdowns.overhaulKit && (
-              <ul className="dropdown-menu">
-                <li key="Overhaulkit" onClick={() => handleCategoryClick("Overhaulkit")}>
-                  Over Haul Kit
-                </li>
-                <li key="Silencerkit" onClick={() => handleCategoryClick("Silencerkit")}>
-                  Silencer Kit
-                </li>
-                <li key="Maintenancekit" onClick={() => handleCategoryClick("Maintenancekit")}>
-                  Maintenance Kit
-                </li>
-              </ul>
+          <li onClick={() => toggleDropdown("overhaulKit")}>
+            Over Haul Kit{" "}
+            {dropdowns.overhaulKit ? (
+              <IoIosArrowUp className="arrow" />
+            ) : (
+              <IoIosArrowDown className="arrow" />
             )}
           </li>
+          {dropdowns.overhaulKit && (
+            <ul className="dropdown-menu">
+              <li onClick={() => handleCategoryClick("Overhaulkit")}>
+                Over Haul Kit
+              </li>
+              <li onClick={() => handleCategoryClick("Silencerkit")}>
+                Silencer Kit
+              </li>
+              <li onClick={() => handleCategoryClick("Maintenancekit")}>
+                Maintenance Kit
+              </li>
+            </ul>
+          )}
           <li onClick={() => handleCategoryClick("Bearingkits")}>
             Bearing Kits
           </li>
@@ -99,15 +96,13 @@ export default function Categories() {
           <li onClick={() => handleCategoryClick("blowerbearkingkit")}>
             Blower Bearing Kit
           </li>
-          <li key="prevMain">
-          <span onClick={() => toggleDropdown("prevMain")}>
-              Prev Main{" "}
-              {dropdowns.prevMain ? (
-                <IoIosArrowUp className="arrow" />
-              ) : (
-                <IoIosArrowDown className="arrow" />
-              )}
-            </span>
+          <li onClick={() => toggleDropdown("prevMain")}>
+            Prev Main{" "}
+            {dropdowns.prevMain ? (
+              <IoIosArrowUp className="arrow" />
+            ) : (
+              <IoIosArrowDown className="arrow" />
+            )}
           </li>
           {dropdowns.prevMain && (
             <ul className="dropdown-menu">
@@ -115,15 +110,13 @@ export default function Categories() {
               <li onClick={() => handleCategoryClick("Hrkit")}>Hr Kit</li>
             </ul>
           )}
-          <li key="kitFilter">
-          <span onClick={() => toggleDropdown("kitFilter")}>
-              Kit Filter{" "}
-              {dropdowns.kitFilter ? (
-                <IoIosArrowUp className="arrow" />
-              ) : (
-                <IoIosArrowDown className="arrow" />
-              )}
-            </span>
+          <li onClick={() => toggleDropdown("kitFilter")}>
+            Kit Filter{" "}
+            {dropdowns.kitFilter ? (
+              <IoIosArrowUp className="arrow" />
+            ) : (
+              <IoIosArrowDown className="arrow" />
+            )}
           </li>
           {dropdowns.kitFilter && (
             <ul className="dropdown-menu">
@@ -141,7 +134,9 @@ export default function Categories() {
               </li>
             </ul>
           )}
-          <p onClick={closeDropdown} className="close-button" ><FaTimes /></p>
+          <p onClick={closeDropdown} className="close-button">
+            <FaTimes />
+          </p>
         </ul>
       </div>
     </div>
