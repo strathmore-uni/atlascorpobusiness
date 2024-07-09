@@ -27,6 +27,11 @@
 import Userprofile from "./Products Page/Userprofile";
 import ForgotPasswordForm from "./ForgotPassword/ForgotFormPassword";
 import ResetPasswordPage from "./ForgotPassword/ResetPasswordPage";
+import VerifyEmail from "./MainOpeningpage/EmailVerification";
+
+
+import EmailConfirmation from "./MainOpeningpage/Emailconfirmation";
+
 
   function App() {
     const [guestEmail, setGuestEmail] = useState("");
@@ -35,12 +40,7 @@ import ResetPasswordPage from "./ForgotPassword/ResetPasswordPage";
     
     const { currentUser } = useAuth();
 
-    const [showCountrySelection, setShowCountrySelection] = useState(true); // Flag to control rendering
-
-    const handleCountrySelected = (country) => {
-      setShowCountrySelection(false);
-      // Store selected country information (optional)
-    };
+   
 
     const [cartItems, setCartItems] = useState(() => {
       const savedCartItems = localStorage.getItem("cartItems");
@@ -236,6 +236,7 @@ import ResetPasswordPage from "./ForgotPassword/ResetPasswordPage";
                   </>
                   }
                 />
+                
                 <Route
                   path="/delivery"
                   element={
@@ -270,9 +271,11 @@ import ResetPasswordPage from "./ForgotPassword/ResetPasswordPage";
                 />
                 <Route path="/mycomponent" element={<MyComponent />} />
                 <Route path="/categories" element={<Categories />} />
-
+               
                 <Route path="/mytestingpage" element={<Mytestingpage />} />
-
+                <Route path="/verify-email" element={<VerifyEmail />} />
+                <Route path="/emailconfirmation" element={<EmailConfirmation />}  />
+               
                 <Route path="" element={<Notification />} />
 
                 <Route

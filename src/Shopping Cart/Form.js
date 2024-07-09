@@ -71,13 +71,15 @@ export default function Form() {
   
     return errors;
   };
-  const sendEmailConfirmation = async (formData) => {
+  const sendEmailConfirmation = async (formData, returnUrl) => {
     try {
+      const verificationLink = `https://localhost:3001/verify-email?email=${encodeURIComponent(formData.email)}&returnUrl=${encodeURIComponent(returnUrl)}`;
       const templateParams = {
         from_name: formData.firstName,
         to_email: formData.email,
         message: 'Thank you for registering with us!',
         reply_to: 'support@example.com',
+        verification_link: verificationLink
       };
   
       await emailjs.send(
@@ -93,45 +95,49 @@ export default function Form() {
     }
   };
   
-  const handleSubmit = useCallback(async (event) => {
-    event.preventDefault();
-  
-    const errors = validateFormData(formData);
-  
-    if (Object.keys(errors).length > 0) {
-      setErrors(errors);
-      return;
-    }
-    
-    sendEmailConfirmation(formData);
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
-      console.log('Response:', response);
-      
-     
-      if (response.status === 200) {
-        setNotificationMessage('Registration successful.');
-        
-      } else {
-        setFailurenotification('Registration was Unsuccessful.');
-      }
-  
-      setTimeout(() => {
-        
-      }, 3000); 
-     
-    } catch (error) {
-      console.error('Error registering user:', error);
-      setFailurenotification('Registration was Unsuccessful.');
-  
-      setTimeout(() => {
-        navigate('/');
-      }, 3000); 
-    } finally {
-      console.log('Request completed');
-    }
-  }, [formData, navigate]);
+ 
+// Update the handleSubmit function to correctly set the returnUrl and call sendEmailConfirmation
+const handleSubmit = useCallback(async (event) => {
+  event.preventDefault();
 
+  const errors = validateFormData(formData);
+
+  if (Object.keys(errors).length > 0) {
+    setErrors(errors);
+    return;
+  }
+
+  // Set the returnUrl to the current page URL
+  const returnUrl = window.location.href;
+  await sendEmailConfirmation(formData, returnUrl);
+
+  try {
+    const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
+    console.log('Response:', response);
+
+    if (response.status === 200) {
+      setNotificationMessage('Registration successful.');
+    } else {
+      setFailurenotification('Registration was Unsuccessful.');
+    }
+
+    setTimeout(() => {}, 3000); 
+  } catch (error) {
+    console.error('Error registering user:', error);
+    setFailurenotification('Registration was Unsuccessful.');
+
+    setTimeout(() => {
+      navigate('/');
+    }, 3000); 
+  } finally {
+    console.log('Request completed');
+  }
+}, [formData, navigate]);
+
+
+
+
+  
  
   return (
     <div>
