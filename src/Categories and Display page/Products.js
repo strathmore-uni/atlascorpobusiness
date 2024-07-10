@@ -8,14 +8,15 @@ import { CiGrid41, CiGrid2H } from "react-icons/ci";
 import { useAuth } from "../MainOpeningpage/AuthContext";
 import { FaBars } from "react-icons/fa6";
 import Categories from "./Categories";
+import "../Categories and Display page/products.css";
 
-export default function Products({ handleAddProductDetails, handleAddQuotationProduct }) {
+export default function Products({ handleAddProductDetails, handleAddQuotationProduct,handleSavedItemsProduct }) {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
   const { currentUser } = useAuth();
   const [error, setError] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(true)
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState("grid");
   const itemsPerPage = 20;
@@ -34,14 +35,14 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     }
 
     try {
-      setLoading(true); 
+      setIsLoading(true); 
       const response = await fetch(`${process.env.REACT_APP_LOCAL}/api/myproducts?email=${userEmail}`);
       const data = await response.json();
       setData(data);
     } catch (error) {
       setError(error.message);
     } finally {
-      setLoading(false); 
+      setIsLoading(false); 
     }
   }, [userEmail]);
 
@@ -61,12 +62,22 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
       <div className={`categories_sidebar ${isCategoriesVisible ? 'visible' : ''}`}>
         <Categories />
       </div>
+      {isLoading ? (
+          <div className="product_loader">
+            <div className="spinner"></div>
+          </div>
+        ) : (
+          <>
       <div className="productdisplay_container">
+      
         <FaBars className="fabars_categories" onClick={toggleCategories} />
+      
+         
         <div className={`productdisplay_container_shop ${layoutMode}`}>
           <small className="featuredprdts_length">
             Featured Products: {data.length}
           </small>
+        
 
           {data
             .slice(pagesVisited, pagesVisited + itemsPerPage)
@@ -137,8 +148,13 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
               activeClassName={"pagination__link--active"}
             />
           )}
+         
         </div>
+       
       </div>
+      </>
+        )}
     </div>
+
   );
 }

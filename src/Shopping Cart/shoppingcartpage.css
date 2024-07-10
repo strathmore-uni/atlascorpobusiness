@@ -9,7 +9,7 @@
  border-radius: 6px;
  width: 70%;
 
- top: 10rem;
+ top: 6rem;
  left: 1rem;
 
     
@@ -215,13 +215,52 @@ left: 1rem;
 }
 .quotation_items{
    position: relative;
-   top:10rem;
-  
+   left: 10rem;
+   top:5rem;
+   width: 70%;
+
+
     
+}
+.quotation_items h2{
+    position: relative;
+    top: 1.5rem;
 }
 .quotation_items h2{
     color:#0078a1;
 }
+.addtocart_btn_saveditem{
+    position: absolute;
+    top: 7rem;
+    left: -2rem;
+    background-color: rgb(155, 191, 231);
+    padding: .6rem;
+    width: 20rem;
+    font-size: 1rem;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.stock_status_saved {
+    position: relative;
+    left: 15rem;
+    top: 2.5rem;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8rem;
+  }
+  .status_indicator_saved {
+    position: absolute;
+    top: .2rem;
+    left: -1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
 .quick_search{
     position: absolute;
     background-color: #fafafa;

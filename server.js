@@ -64,7 +64,68 @@ if (process.env.NODE_ENV === 'production') {
   pool.host = process.env.INSTANCE_HOST;
  
 }
+app.post('/api/register', (req, res) => {
+  const {
+    companyName,
+    title,
+    firstName,
+    secondName,
+    address1,
+    address2,
+    city,
+    zip,
+    phone,
+    email,
+    password,
+    country
+  } = req.body;
 
+ // Check if the email already exists in the database
+ const checkEmailQuery = 'SELECT email FROM registration WHERE LOWER(email) = LOWER(?)';
+
+ pool.query(checkEmailQuery, [email], (err, results) => {
+   if (err) {
+     console.error('Error querying data from MySQL:', err);
+     return res.status(500).send('Server error');
+   }
+
+   if (results.length > 0) {
+     console.log('Email already exists:', email);
+     return res.status(400).send('Email already exists');
+   }
+
+    const insertQuery = `
+      INSERT INTO registration (
+        companyName, title, firstName, secondName, address1, address2, city, zip, phone, email, password, country
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+    `;
+    const values = [
+      companyName,
+      title,
+      firstName,
+      secondName,
+      address1,
+      address2,
+      city,
+      zip,
+      phone,
+      email,
+      password,
+      country
+    ];
+
+    pool.query(insertQuery, values, async (err, results) => {
+      if (err) {
+        console.error('Error inserting data into MySQL:', err);
+        return res.status(500).send('Server error');
+      }
+
+      const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      await sendVerificationEmail(email, firstName, verificationToken);
+    });
+  });
+});
   app.post('/api/register', (req, res) => {
     const query = `
       INSERT INTO registration (

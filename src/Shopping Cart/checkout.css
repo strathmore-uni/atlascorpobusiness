@@ -201,6 +201,45 @@
     left:24rem;
     font-size: .9rem;
 }
+/* Define keyframes for slide-in animation */
+@keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Style for the message div */
+  .message {
+    position: relative;
+    top: 19rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    animation: slideInFromRight 0.5s ease-out;
+    max-width: 300px;
+    word-wrap: break-word;
+  }
+  
+  /* Additional styles for success and error messages */
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
 @media (max-width: 45rem) {
 
    form{

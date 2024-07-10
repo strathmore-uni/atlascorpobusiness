@@ -164,58 +164,7 @@ export default function ShoppingCartPage({
           </div>
         ))}
 
-        {quotationItems.length > 0 && (
-          <div className="quotation_items">
-            <h2>Quotation Items</h2>
-            {quotationItems.map((item) => (
-              <div key={item.partnumber} className="display_cart">
-                <p className="lucameraoff_cart">
-                  <LuCameraOff />
-                </p>
-
-                <div className="btngroup_cart">
-                  <button
-                    className="increase-item"
-                    onClick={() => handleAddQuotationProduct(item)}
-                  >
-                    +
-                  </button>
-                  <p className="cart_quantity">{item.quantity}</p>
-                  <button
-                    className="decrease-item"
-                    onClick={() => handleRemoveQuotationProduct(item)}
-                  >
-                    -
-                  </button>
-                </div>
-                <p className="p_serialnumber">
-                  Part Number:&nbsp;{item.partnumber}
-                </p>
-                <p
-                  style={{
-                    fontWeight: "bold",
-                    position: "absolute",
-                    left: "4rem",
-                  }}
-                >
-                  {" "}
-                  {item.Description}
-                </p>
-                <p className="net_cart_itemprice">$ {item.Price}</p>
-                <p className="cart_itemprice">$ {item.Price}</p>
-
-                <p
-                  className="cart_removeitem"
-                  onClick={() => handleRemoveSingleQuotationProduct(item)}
-                >
-                  {" "}
-                  <RiDeleteBinLine />
-                </p>
-                <hr className="hr_incartdisplay" />
-              </div>
-            ))}
-          </div>
-        )}
+       
       </div>
 
       <div className="order_summary">
@@ -261,10 +210,7 @@ export default function ShoppingCartPage({
 <a href="power.technique.uk@atlascopco.com" >power.technique.uk@atlascopco.com</a>
       </div>
 
-      <div className="shoppingcart_footer">
-        <Footer />
-      </div>
-
+     
       <NavigationBar cartItems={cartItems} />
     </div>
   );

@@ -340,7 +340,16 @@
   top: 0rem;
   left: 0rem;
 }
-
+.product_loader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: none;
+  position: relative;
+  top: -30rem;
+  left: 10rem;
+}
 .loader {
   display: flex;
   justify-content: center;

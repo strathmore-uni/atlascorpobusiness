@@ -18,11 +18,12 @@ export default function Form() {
     phone: '',
     email: '',
     password: '',
-    confpassword: '',
     country: '',
   });
 
   const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('')
 
   const [notificationMessage, setNotificationMessage] = useState('');
 
@@ -71,6 +72,7 @@ export default function Form() {
   
     return errors;
   };
+
   const sendEmailConfirmation = async (formData, returnUrl) => {
     try {
       const verificationLink = `https://localhost:3001/verify-email?email=${encodeURIComponent(formData.email)}&returnUrl=${encodeURIComponent(returnUrl)}`;
@@ -99,6 +101,8 @@ export default function Form() {
 // Update the handleSubmit function to correctly set the returnUrl and call sendEmailConfirmation
 const handleSubmit = useCallback(async (event) => {
   event.preventDefault();
+  setErrorMessage('');
+  setSuccessMessage('');
 
   const errors = validateFormData(formData);
 
@@ -113,24 +117,13 @@ const handleSubmit = useCallback(async (event) => {
 
   try {
     const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
-    console.log('Response:', response);
-
-    if (response.status === 200) {
-      setNotificationMessage('Registration successful.');
-    } else {
-      setFailurenotification('Registration was Unsuccessful.');
-    }
-
-    setTimeout(() => {}, 3000); 
+    setSuccessMessage(response.data.message);
   } catch (error) {
-    console.error('Error registering user:', error);
-    setFailurenotification('Registration was Unsuccessful.');
-
-    setTimeout(() => {
-      navigate('/');
-    }, 3000); 
-  } finally {
-    console.log('Request completed');
+    if (error.response && error.response.data && error.response.data.error) {
+      setErrorMessage(error.response.data.error);
+    } else {
+      setErrorMessage('An unexpected error occurred.');
+    }
   }
 }, [formData, navigate]);
 
@@ -354,6 +347,8 @@ const handleSubmit = useCallback(async (event) => {
 
         <button type='submit' className='btn_continue'>Continue</button>
       </form>
+      {errorMessage && <div className='message error'>{errorMessage}</div>}
+      {successMessage && <div className='message success'>{successMessage}</div>}
       {notificationMessage && <Notification message={notificationMessage}  />}
       {failurenotification && <Notification failure_message={failurenotification} />}
     </div>

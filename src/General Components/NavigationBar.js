@@ -155,6 +155,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
               <div className="dropdown-content">
                 <Link to='/userprofile'><p>User Profile</p></Link>
                 <Link to='/orderhistory'><p>Order History</p></Link>
+                <Link to='/saveditems'><p>Saved Items</p></Link>
                 <p onClick={handleSignOut}>Log Out</p>
               </div>
             )}
