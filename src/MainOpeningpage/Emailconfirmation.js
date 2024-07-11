@@ -12,6 +12,7 @@ const EmailConfirmation = () => {
 
   const handleVerifyEmail = async () => {
     setLoading(true); // Start loading state
+    navigate('/signin');
     try {
       console.log('Verifying email:', email); // Debugging statement
       const response = await axios.get(`https://localhost:3001/verify-email?email=${email}`);
@@ -19,7 +20,7 @@ const EmailConfirmation = () => {
       if (response.status === 200 && response.data.message === 'Email verified successfully') {
         setMessage('Email verified successfully. Redirecting to sign in...');
         setTimeout(() => {
-          navigate('/signin');
+        
         }, 3000);
       } else {
         setMessage('There was an error verifying your email.');

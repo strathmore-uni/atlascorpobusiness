@@ -45,7 +45,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/search`, {
           params: {
             term: searchQuery,
-            email: userEmail
+            email:  currentUser.email
           }
         });
 
@@ -64,11 +64,11 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
       setResults([]);
       setCategories([]);
     }
-  }, [searchQuery, userEmail]);
+  }, [searchQuery, currentUser]);
 
   const handleSearch = async () => {
     try {
-      if (!userEmail) {
+      if (!currentUser) {
         console.error('No user email provided');
         return;
       }
@@ -76,7 +76,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
       const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/search`, {
         params: {
           term: searchQuery,
-          email: userEmail
+          email:  currentUser.email
         }
       });
 
@@ -104,16 +104,9 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     localStorage.removeItem('userEmail');
   };
 
-  const getEmail = () => {
-    return currentUser ? currentUser.email : guestEmail;
-  };
 
-  useEffect(() => {
-    const storedUserEmail = localStorage.getItem('userEmail');
-    if (storedUserEmail) {
-      setUserEmail(storedUserEmail);
-    }
-  }, []);
+
+  
 
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>

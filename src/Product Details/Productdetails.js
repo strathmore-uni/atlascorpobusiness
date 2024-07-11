@@ -16,7 +16,7 @@ export default function ProductDetails({
   const { currentUser } = useAuth();
   const [selectedImage, setSelectedImage] = useState(productdetails[0]?.image);
   const [notificationMessage, setNotificationMessage] = useState('');
-  const [activeTab, setActiveTab] = useState('description'); // State to manage active tab
+  const [activeTab, setActiveTab] = useState('description'); 
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 

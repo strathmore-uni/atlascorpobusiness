@@ -110,21 +110,25 @@ const handleSubmit = useCallback(async (event) => {
     setErrors(errors);
     return;
   }
-
-  // Set the returnUrl to the current page URL
   const returnUrl = window.location.href;
-  await sendEmailConfirmation(formData, returnUrl);
-
+    await sendEmailConfirmation(formData, returnUrl);
   try {
     const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
+    console.log('Registration Response:', response); // Check registration response
     setSuccessMessage(response.data.message);
+  
+  
+    console.log('Email Confirmation Sent'); // Log confirmation that email was sent
   } catch (error) {
+    console.error('Error during registration:', error); // Check for any registration errors
     if (error.response && error.response.data && error.response.data.error) {
       setErrorMessage(error.response.data.error);
     } else {
       setErrorMessage('An unexpected error occurred.');
     }
   }
+  
+  
 }, [formData, navigate]);
 
 

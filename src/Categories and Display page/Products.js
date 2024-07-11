@@ -19,24 +19,24 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   const [isLoading, setIsLoading] = useState(true)
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState("grid");
-  const itemsPerPage = 20;
+  const itemsPerPage = 32;
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(data.length / itemsPerPage);
 
   const [loading, setLoading] = useState(false);
 
  
-  const userEmail = localStorage.getItem('userEmail');
+ 
 
   const fetchProducts = useCallback(async () => {
-    if (!userEmail) {
+    if (!currentUser || !currentUser.email) {
       setError('No user email provided');
       return;
     }
 
     try {
       setIsLoading(true); 
-      const response = await fetch(`${process.env.REACT_APP_LOCAL}/api/myproducts?email=${userEmail}`);
+      const response = await fetch(`${process.env.REACT_APP_LOCAL}/api/myproducts?email=${currentUser.email}`);
       const data = await response.json();
       setData(data);
     } catch (error) {
@@ -44,7 +44,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     } finally {
       setIsLoading(false); 
     }
-  }, [userEmail]);
+  }, [currentUser]);
 
   useEffect(() => {
     fetchProducts();
@@ -59,9 +59,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
   };
   return (
     <div className="big_container" key={1}>
-      <div className={`categories_sidebar ${isCategoriesVisible ? 'visible' : ''}`}>
-        <Categories />
-      </div>
+      
       {isLoading ? (
           <div className="product_loader">
             <div className="spinner"></div>
@@ -154,6 +152,9 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
       </div>
       </>
         )}
+        <div className={`categories_sidebar ${isCategoriesVisible ? 'visible' : ''}`}>
+        <Categories />
+      </div>
     </div>
 
   );

@@ -8,18 +8,19 @@ import { AiTwotoneEdit } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import Footer from '../General Components/Footer';
 import Notification from '../General Components/Notification';
+import { useAuth } from '../MainOpeningpage/AuthContext';
 
 const ReviewOrder = ({ cartItems, totalPrice }) => {
   const [userData, setUserData] = useState({});
   const [notificationMessage, setNotificationMessage] = useState('');
+  const { currentUser } = useAuth();
 
-  const userEmail = localStorage.getItem('userEmail');
- 
+
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/?email=${userEmail}`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/?email=${currentUser.email}`);
         setUserData(response.data);
        
       } catch (error) {
@@ -28,7 +29,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
     };
 
     fetchUserData();
-  }, [userEmail]);
+  }, [currentUser]);
 
   let shipping_fee = 40.00;
   let vat = (totalPrice * 0.16);

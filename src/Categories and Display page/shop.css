@@ -26,7 +26,7 @@
 }
 .shop_routes{
     position: absolute;
-    
+    font-size: .8rem;
     width: 10rem;
     top: 7rem;
     left: 12rem;
@@ -35,7 +35,7 @@
 .shop_footer{
     position:absolute;
     background-color: #373D41;
-    top:153rem;
+    top:250rem;
    
     
 
@@ -76,10 +76,16 @@
     top: 2rem;
     left: 1rem;
     width: 15rem;
-    height: 23rem;
+    height: 25rem;
     color: black;
     text-decoration: none;
   }
+  .mylink_shop:hover {
+    padding: 0.1rem;
+    box-shadow: 0px 0px 5px 0px;
+    transition: background-color 0.3s ease;
+  }
+
   .prdt_image_shop{
     position: relative;
     top: 0.5rem;

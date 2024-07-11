@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mysql = require('mysql2/promise');
 const app = express();
@@ -8,9 +7,10 @@ const path = require('path')
 const https = require('https');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-
-
+const nodemailer = require('nodemailer');
+const mailgun =require('mailgun-js')
+const sendEmail = require('./sendEmail');
+const Joi = require('joi');
 require('dotenv').config();
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -24,6 +24,13 @@ app.use(function(req, res, next) {
   next();
 });
 
+const sslOptions = {
+  key: fs.readFileSync(path.join(__dirname, 'cert', 'client-key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert', 'client-cert.pem')),
+  ca: fs.readFileSync(path.join(__dirname, 'cert', 'server-ca.pem')),
+};
+salt=10;
+
 let pool;
 
 try {
@@ -33,7 +40,8 @@ try {
     password: process.env.DB_PASSWORD,
     database: process.env.DATABASE,
     port: process.env.DB_PORT,
-    socketPath: process.env.DB_SOCKET_PATH,
+    ssl: sslOptions,
+    
     waitForConnections: true,
     connectionLimit: 10,
     connectTimeout: 20000,
@@ -56,7 +64,11 @@ socketPath: process.env.DB_SOCKET_PATH,
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
-;
+const httpsServer = https.createServer({
+  ...sslOptions,
+  // Set the hostname to your domain name (e.g., example.com)
+  servername: 'https://localhost:3001',
+}, app);
 
 if (process.env.NODE_ENV === 'production') {
   pool.socketPath = process.env.DB_SOCKET_PATH;
@@ -64,7 +76,33 @@ if (process.env.NODE_ENV === 'production') {
   pool.host = process.env.INSTANCE_HOST;
  
 }
-app.post('/api/register', (req, res) => {
+
+const validateInput = (req, res, next) => {
+  const schema = Joi.object({
+    companyName: Joi.string().required(),
+    title: Joi.string().required(),
+    firstName: Joi.string().required(),
+    secondName: Joi.string().required(),
+    address1: Joi.string().required(),
+    address2: Joi.string().optional(),
+    city: Joi.string().required(),
+    zip: Joi.string().required(),
+    phone: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+    confpassword: Joi.string().valid(Joi.ref('password')).required(), // Added for validation
+    country: Joi.string().required(),
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    console.error('Validation error:', error.details);
+    return res.status(400).json({ error: error.details });
+  }
+  next();
+};
+
+app.post('/api/register', validateInput, async (req, res) => {
   const {
     companyName,
     title,
@@ -80,19 +118,16 @@ app.post('/api/register', (req, res) => {
     country
   } = req.body;
 
- // Check if the email already exists in the database
- const checkEmailQuery = 'SELECT email FROM registration WHERE LOWER(email) = LOWER(?)';
+  const normalizedEmail = email.toLowerCase(); // Normalize the email address to lowercase
 
- pool.query(checkEmailQuery, [email], (err, results) => {
-   if (err) {
-     console.error('Error querying data from MySQL:', err);
-     return res.status(500).send('Server error');
-   }
+  try {
+    const checkEmailQuery = 'SELECT email FROM registration WHERE LOWER(email) = LOWER(?)';
+    const [result] = await pool.query(checkEmailQuery, [normalizedEmail]);
 
-   if (results.length > 0) {
-     console.log('Email already exists:', email);
-     return res.status(400).send('Email already exists');
-   }
+    if (result.length > 0) {
+      console.error('Email already exists:', normalizedEmail);
+      return res.status(400).json({ error: 'Email already exists' });
+    }
 
     const insertQuery = `
       INSERT INTO registration (
@@ -109,90 +144,86 @@ app.post('/api/register', (req, res) => {
       city,
       zip,
       phone,
-      email,
+      normalizedEmail,
       password,
       country
     ];
 
-    pool.query(insertQuery, values, async (err, results) => {
-      if (err) {
-        console.error('Error inserting data into MySQL:', err);
-        return res.status(500).send('Server error');
-      }
+    await pool.query(insertQuery, values);
 
-      const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+   
+  } catch (err) {
+    console.error('Server error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
-      await sendVerificationEmail(email, firstName, verificationToken);
-    });
+//const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+//await sendVerificationEmail(email, firstName, verificationToken);
+
+app.get('/verify-email', (req, res) => {
+  const email = req.query.email;
+
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+
+  const query = 'UPDATE registration SET is_verified = 1 WHERE email = ?';
+
+  pool.query(query, [email], (err, result) => {
+    if (err) {
+      console.error('Error updating email verification:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Email not found' });
+    }
+
+    return res.status(200).json({ message: 'Email verified successfully' });
   });
 });
-  app.post('/api/register', (req, res) => {
-    const query = `
-      INSERT INTO registration (
-        companyName, title, firstName, secondName, address1, address2, city, zip, phone, email, password, country
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-  
-    // Destructure the request body to get the registration details
-    const {
-      companyName,
-      title,
-      firstName,
-      secondName,
-      address1,
-      address2,
-      city,
-      zip,
-      phone,
-      email,
-      password, // Assuming password is already hashed before sending
-      country
-    } = req.body;
-  
-    const values = [
-      companyName,
-      title,
-      firstName,
-      secondName,
-      address1,
-      address2,
-      city,
-      zip,
-      phone,
-      email,
-      password, // Use the pre-hashed password
-      country
-    ];
-  
-    pool.query(query, values, (err, results) => {
-      if (err) {
-        console.error('Error inserting data into MySQL:', err);
-        return res.status(500).send('Server error');
-      }
-      res.status(200).send('User registered successfully');
-    });
-  });
-  
 
-  
-  app.post('/login', (req, res) => {
+
+
+
+const secretKey = 'waweru';
+
+app.post('/login', (req, res) => {
     const sql = "SELECT * FROM registration WHERE email = ? AND password = ?";
-     pool.query(sql, [req.body.email, req.body.password])
-      .then(([users]) => {
-        if (users.length > 0) {
-          return res.json("Login Successfull");
+    pool.query(sql, [req.body.email, req.body.password])
+        .then(([users]) => {
+            if (users.length > 0) {
+                const user = users[0];
+                const token = jwt.sign({ email: user.email }, secretKey, { expiresIn: '1h' });
+                return res.json({ message: "Login Successful", token });
+            } else {
+                return res.status(401).json({ message: "Login Failed" });
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            return res.status(500).json({ message: "Internal Server Error" });
+        });
+});
+
+app.post('/verifyToken', (req, res) => {
+    const token = req.body.token;
+    if (!token) {
+        return res.status(401).json({ message: "Token required" });
+    }
+
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: "Invalid token" });
         }
-        const user = users[0];
-  
-      })
-      .catch(err => {
-        console.error(err);
-        return res.json("Login Failed");
-      });
-  });
+        res.json({ email: decoded.email });
+    });
+});
   
 
-  app.get('/api/myproducts', async (req, res) => {
+app.get('/api/myproducts', async (req, res) => {
     const userEmail = req.query.email;
   
     if (!userEmail) {
@@ -201,7 +232,7 @@ app.post('/api/register', (req, res) => {
     }
   
     try {
-      // Fetch the country code based on user's email from the registration table
+     
       const countryCodeQuery = 'SELECT country FROM registration WHERE email =?';
       const [countryCodeResult] = await pool.query(countryCodeQuery, [userEmail]);
   
@@ -213,9 +244,9 @@ app.post('/api/register', (req, res) => {
       const userCountryCode = countryCodeResult[0].country;
       console.log(`User country code: ${userCountryCode}`);
   
-      // Query to fetch products with prices based on user's country code
+     
       const productsQuery = `
-        SELECT p.id, p.partnumber, p.Description, pp.price AS Price, s.quantity
+        SELECT p.id, p.partnumber, p.Description, p.image,p.thumb1,p.thumb2, pp.price AS Price, s.quantity
         FROM fulldata p
         JOIN stock s ON p.id = s.product_id
         JOIN atlascopcoproduct_prices pp ON p.id = pp.product_id
@@ -232,8 +263,7 @@ app.post('/api/register', (req, res) => {
     }
   });
 
-
-  app.get('/api/user', async (req, res) => {
+app.get('/api/user', async (req, res) => {
     const userEmail = req.query.email;
   
     if (!userEmail) {
@@ -277,13 +307,13 @@ app.post('/api/register', (req, res) => {
   app.put('/api/user/update', async (req, res) => {
     const { email, companyName, title, firstName, secondName, address1, address2, city, zip, phone, country } = req.body;
   
-    // Validate input
+   
     if (!email) {
       return res.status(400).json({ error: 'Email is required' });
     }
   
     try {
-      // SQL query to update user details
+      
       const query = `
         UPDATE registration
         SET companyName = ?, title = ?, firstName = ?, secondName = ?, address1 = ?,
@@ -292,10 +322,10 @@ app.post('/api/register', (req, res) => {
       `;
       const values = [companyName, title, firstName, secondName, address1, address2, city, zip, phone, country, email];
   
-      // Execute the query
+      
       const [result] = await pool.query(query, values);
   
-      // Check if update was successful
+      
       if (result.affectedRows > 0) {
         res.json({ message: 'User details updated successfully' });
       } else {
@@ -319,7 +349,7 @@ app.post('/api/register', (req, res) => {
     }
   
     try {
-      // Fetch the country code based on user's email from the registration table
+      
       const countryCodeQuery = 'SELECT country FROM registration WHERE email =?';
       const [countryCodeResult] = await pool.query(countryCodeQuery, [userEmail]);
   
@@ -336,7 +366,7 @@ app.post('/api/register', (req, res) => {
   
       if (category) {
         query = `
-          SELECT p.id, p.partnumber, p.Description, pp.price AS Price, s.quantity
+          SELECT p.id, p.partnumber, p.Description, p.image,p.thumb1,p.thumb2, pp.price AS Price, s.quantity
           FROM fulldata p
           JOIN stock s ON p.id = s.product_id
           JOIN atlascopcoproduct_prices pp ON p.id = pp.product_id
@@ -345,7 +375,7 @@ app.post('/api/register', (req, res) => {
         queryParams = [category, category, userCountryCode];
       } else {
         query = `
-          SELECT p.id, p.partnumber, p.Description, pp.price AS Price, s.quantity
+          SELECT p.id, p.partnumber, p.Description, p.image,p.thumb1,p.thumb2, pp.price AS Price, s.quantity
           FROM fulldata p
           JOIN stock s ON p.id = s.product_id
           JOIN atlascopcoproduct_prices pp ON p.id = pp.product_id
@@ -483,7 +513,7 @@ app.get('/api/search', async (req, res) => {
     console.log(`User country code: ${userCountryCode}`);
 
     let query = `
-      SELECT p.id, p.partnumber, p.Description, pp.price AS Price, s.quantity, p.subCategory AS category
+      SELECT p.id, p.partnumber, p.Description, p.image,p.thumb1,p.thumb2, pp.price AS Price, s.quantity, p.subCategory AS category
       FROM fulldata p
       JOIN stock s ON p.id = s.product_id
       JOIN atlascopcoproduct_prices pp ON p.id = pp.product_id
@@ -544,7 +574,7 @@ app.get('/api/products/partnumber/:partnumber', async (req, res) => {
 
     // Fetch product details along with price for the user's country
     const query = `
-      SELECT p.partnumber, p.Description, pp.price AS Price
+      SELECT p.partnumber, p.Description,p.image, pp.price AS Price
       FROM fulldata p
       JOIN atlascopcoproduct_prices pp ON p.id = pp.product_id
       JOIN registration r ON pp.country_code = r.country
@@ -567,10 +597,9 @@ app.get('/api/products/partnumber/:partnumber', async (req, res) => {
 
 
 const port = process.env.PORT || 3001;
-app.listen(port, () => {
+httpsServer.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
 
 app.get('/api/test-connection', async (req, res) => {
   try {
@@ -581,3 +610,4 @@ app.get('/api/test-connection', async (req, res) => {
     res.status(500).send(err);
   }
 });
+

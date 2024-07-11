@@ -8,9 +8,11 @@ import Footer from "../General Components/Footer";
 
 import "../Categories and Display page/products.css";
 import "../Categories and Display page/Categories Pages/filterelement.css";
+import { useAuth } from "../MainOpeningpage/AuthContext";
 
 const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   const { category } = useParams();
+  const { currentUser } = useAuth();
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [layoutMode, setLayoutMode] = useState("grid");
@@ -62,32 +64,21 @@ Their air filter sealing is unique, as is the special filtration paper: this was
       "Kit Filter UD includes all necessary filter elements and components for maintaining UD filter systems.",
   };
 
-  const footerStyles = {
-    Filterelement: { top: "90rem",width:'100%',left:'0rem' },
-    Servkit: { top: "70rem" },
-    Overhaulkit:{top:"70rem"},
-    Oilfilterelement:{top:'70rem'},
-    kitfilterdd:{top:'100rem'},
-     kitfilterddp:{top:'100rem'},
-     kitfilterpd:{top:'100rem'},
-     kitfilterud:{top:'70rem'},
-  };
+
 
   useEffect(() => {
     const fetchProductsByCategory = async () => {
-      const userEmail = localStorage.getItem("userEmail");
-      if (!userEmail) {
-        setError("No user email provided");
-        setIsLoading(false);
+    
+      if (!currentUser || !currentUser.email) {
+        setError('No user email provided');
         return;
       }
-
       try {
         setIsLoading(true);
         const response = await axios.get(
           `${process.env.REACT_APP_LOCAL}/api/products/${category}`,
           {
-            params: { email: userEmail },
+            params: { email: currentUser.email },
           }
         );
         setProducts(response.data);
@@ -128,17 +119,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
       </div>
 
       <div className="productdisplay_container">
-        <p
-          style={{
-            color: "black",
-            textDecoration: "none",
-            position: "absolute",
-            fontSize: "3rem",
-            left: "0rem",
-            top: "-3rem",
-            width: "10rem",
-          }}
-        >
+        <p className="category_p">
           &nbsp;{category}&nbsp;
         </p>
         {isLoading ? (
@@ -218,7 +199,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
         )}
         <div
           className="filterelement_footer"
-          style={footerStyles[category] || {}}
+        
         >
           <Footer />
         </div>

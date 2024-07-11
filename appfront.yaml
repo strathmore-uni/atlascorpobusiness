@@ -1,6 +1,6 @@
 runtime: python39
 env: standard
-service: atlascopcolimited
+service: atlascopcolimitedv2
 
 handlers:
 - url: /

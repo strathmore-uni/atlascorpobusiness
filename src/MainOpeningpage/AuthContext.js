@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
-import { auth } from '../Firebase'; 
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -9,44 +8,37 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [IsAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser(user);
-        setIsAuthenticated(true);
-      } else {
-        setCurrentUser(null);
-        setIsAuthenticated(false);
+    const verifyToken = async () => {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        try {
+          const response = await axios.post(`${process.env.REACT_APP_LOCAL}/verifyToken`, { token });
+          setCurrentUser({ email: response.data.email });
+        } catch (error) {
+          console.error('Token verification failed:', error);
+          localStorage.removeItem('authToken');
+        }
       }
       setLoading(false);
-    });
-    return unsubscribe;
+    };
+
+    verifyToken();
   }, []);
 
   const signOut = async () => {
-    await firebaseSignOut(auth);
     setCurrentUser(null);
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('userEmail');
+    localStorage.removeItem('authToken');
   };
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (storedUser) {
-      setCurrentUser(storedUser);
-    }
-    setLoading(false);
-  }, []);
-
-  const signIn = (user) => {
+  const signIn = (user, token) => {
     setCurrentUser(user);
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('authToken', token);
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, signIn, signOut, loading, IsAuthenticated, setCurrentUser }}>
+    <AuthContext.Provider value={{ currentUser, signIn, signOut, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

@@ -5,6 +5,7 @@ import '../Shopping Cart/checkout.css'
 import Notification from '../General Components/Notification';
 import { Link } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
+import { useAuth } from '../MainOpeningpage/AuthContext';
 export default function Userprofile() {
   const [userData, setUserData] = useState({});
   const [editing, setEditing] = useState(false);
@@ -20,13 +21,13 @@ export default function Userprofile() {
   const [zip, setZip] = useState('');
   const [phone, setPhone] = useState('');
   const [country, setCountry] = useState('');
+  const { currentUser } = useAuth();
 
-  const userEmail = localStorage.getItem('userEmail');
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/?email=${userEmail}`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/?email=${currentUser.email}`);
         const userData = response.data;
         setUserData(userData);
 
@@ -47,7 +48,7 @@ export default function Userprofile() {
     };
 
     fetchUserData();
-  }, [userEmail]);
+  }, [currentUser]);
 
   const handleEdit = () => {
     setEditing(true);

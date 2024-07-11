@@ -3,18 +3,19 @@ import axios from 'axios';
 import './orderhistory.css'; 
 import { IoIosArrowBack } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../MainOpeningpage/AuthContext';
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const userEmail = localStorage.getItem('userEmail');
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/orders/history?email=${userEmail}`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/orders/history?email=${currentUser.email}`);
         setOrders(response.data);
       } catch (error) {
         setError('Error fetching order history');
@@ -24,10 +25,10 @@ const OrderHistory = () => {
       }
     };
 
-    if (userEmail) {
+    if (currentUser) {
       fetchOrderHistory();
     }
-  }, [userEmail]);
+  }, [currentUser]);
 
   return (
     <div className="order-history-container">

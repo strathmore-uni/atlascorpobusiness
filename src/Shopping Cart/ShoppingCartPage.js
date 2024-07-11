@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Footer from "../General Components/Footer";
 import "./shoppingcartpage.css";
 import NavigationBar from "../General Components/NavigationBar";
+import { useAuth } from "../MainOpeningpage/AuthContext";
 
 export default function ShoppingCartPage({
   cartItems,
@@ -21,7 +22,7 @@ export default function ShoppingCartPage({
 }) {
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
-
+  const { currentUser } = useAuth();
  
   const handleQuickOrderSubmit = async () => {
     if (!quickOrderCode || quickOrderQty <= 0) {
@@ -34,7 +35,7 @@ export default function ShoppingCartPage({
     try {
       const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/products/partnumber/${quickOrderCode}`, {
         params: {
-          email: userEmail,
+          email:currentUser.email,
         },
       });
       const product = response.data;
@@ -210,7 +211,6 @@ export default function ShoppingCartPage({
 <a href="power.technique.uk@atlascopco.com" >power.technique.uk@atlascopco.com</a>
       </div>
 
-     
       <NavigationBar cartItems={cartItems} />
     </div>
   );

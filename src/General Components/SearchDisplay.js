@@ -8,6 +8,7 @@ import { CiGrid41, CiGrid2H } from "react-icons/ci";
 import { IoIosArrowBack } from "react-icons/io";
 import axios from 'axios';
 import Footer from './Footer';
+import { useAuth } from '../MainOpeningpage/AuthContext';
 
 export default function SearchDisplay({ handleAddProductDetails }) {
   const location = useLocation();
@@ -20,7 +21,7 @@ export default function SearchDisplay({ handleAddProductDetails }) {
   const pagesVisited = pageNumber * itemsPerPage;
   const pageCount = Math.ceil(results.length / itemsPerPage);
   const [searchTerm, setSearchTerm] = useState(initialTerm || '');
-
+  const { currentUser } = useAuth();
   useEffect(() => {
     if (initialResults.length > 0) {
       const categoryCount = initialResults.reduce((acc, item) => {
@@ -31,25 +32,24 @@ export default function SearchDisplay({ handleAddProductDetails }) {
     }
   }, [initialResults]);
 
-  const userEmail = localStorage.getItem('userEmail'); // Retrieve email from localStorage
   
   const handleCategoryClick = async (category) => {
     try {
-      if (!userEmail) {
+      if (!currentUser) {
         console.error('No user email provided');
         return;
       }
   
       const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/search`, {
         params: {
-          term: searchTerm,  // Assuming searchTerm is defined elsewhere in your component
+          term: searchTerm,  
           category,
-          email: userEmail  // Include the user's email in the request
+          email:  currentUser.email  
         }
       });
   
       setResults(response.data);
-      setPageNumber(0); // Reset to first page
+      setPageNumber(0); 
     } catch (error) {
       console.error('Error fetching category results:', error);
     }

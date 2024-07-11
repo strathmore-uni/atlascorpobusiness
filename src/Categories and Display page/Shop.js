@@ -20,7 +20,7 @@ export default function Shop( {handleAddProductDetails,fulldatas,cartItems,datas
                 Home &nbsp;/
               </a>
               <p
-                style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "4rem", top: "-1rem" }}
+                style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "3rem", top: "-.8rem" }}
              
               >
                 &nbsp;Shop &nbsp;
