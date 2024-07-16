@@ -1,0 +1,244 @@
+/* AddProduct.css */
+
+.form-container {
+    position: relative;
+    left: 0rem;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-container input[type="text"],
+  .form-container input[type="number"],
+  .form-container button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-container input[type="text"]:focus,
+  .form-container input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .form-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .form-container .price-field {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-container .price-field input[type="text"],
+  .form-container .price-field input[type="number"] {
+    width: 48%;
+  }
+  
+  .form-container .add-price-button {
+    background-color: #28a745;
+    margin-top: 10px;
+  }
+  
+  .form-container .add-price-button:hover {
+    background-color: #218838;
+  }
+  
+  .form-container .submit-button {
+    background-color: #17a2b8;
+    margin-top: 20px;
+  }
+  
+  .form-container .submit-button:hover {
+    background-color: #138496;
+  }
+  /* OrderDetails.css */
+
+.order-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.order-details-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.order-info {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.order-info p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.order-info p span {
+  font-weight: bold;
+  color: #333;
+}
+
+.order-items {
+  margin-top: 20px;
+}
+
+.order-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.total-price {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.go-back-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.go-back-btn:hover {
+  background-color: #0056b3;
+}
+/* adminproducts.css */
+
+.order-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-info p, .total-price p {
+  font-size: 1.1em;
+  margin: 10px 0;
+}
+
+.order-items {
+  margin: 20px 0;
+}
+
+.order-item p {
+  margin: 5px 0;
+}
+
+.order-status-buttons {
+  display: flex;
+  justify-content: start;
+  margin-top: 20px;
+}
+
+.order-status-buttons button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.approve-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pending-btn {
+  background-color: #FFC107;
+  color: white;
+}
+
+.decline-btn {
+  background-color: #F44336;
+  color: white;
+}
+
+.go-back-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.go-back-btn:hover {
+  background-color: #0056b3;
+}
+
+
+
+@media (max-width: 600px) {
+  .order-details-container {
+    padding: 15px;
+  }
+
+  .order-info p,
+  .order-item p {
+    font-size: 14px;
+  }
+
+  .total-price {
+    font-size: 16px;
+  }
+
+  .go-back-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}

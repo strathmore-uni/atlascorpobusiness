@@ -31,6 +31,13 @@ import VerifyEmail from "./MainOpeningpage/EmailVerification";
 
 import EmailConfirmation from "./MainOpeningpage/Emailconfirmation";
 import Saveditems from "./General Components/Saveditems";
+import Mainadmin from "./Admin/Mainadmin";
+import Ordereditems from "./Admin/Ordereditems";
+import AddProduct from "./Admin/AddProduct";
+import EditProduct from "./Admin/EditProduct";
+import ProductsList from "./Admin/ProductList";
+import RegisteredUsers from "./Admin/RegisteredUsers";
+import OrderDetails from "./Admin/OrderDetails ";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -328,10 +335,17 @@ function App() {
                 />
               }
             />
+            <Route path="/mainadmin" element={<Mainadmin  />} />
+            <Route path="/ordereditems" element={<Ordereditems />} />
+            <Route path="/addproduct"  element={<AddProduct />}/>
+            <Route path="/editproduct/:id"  element={<EditProduct />}/>
+            <Route path="/productlist"  element={<ProductsList />}/>
+            <Route path="/registeredusers"  element={<RegisteredUsers />}/>
+            <Route path="orderdetails/:orderId" element={<OrderDetails />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/orderhistory" element={<OrderHistory />} />
           </Routes>
-          <NavigationBar cartItems={cartItems} guestEmail={guestEmail} />
+         
         </BrowserRouter>
         <BackToTopButton />
       </AuthProvider>

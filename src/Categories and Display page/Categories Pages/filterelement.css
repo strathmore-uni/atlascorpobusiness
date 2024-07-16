@@ -61,9 +61,10 @@
 
 .sub_productdisplay_container.grid {
   display: grid;
+
   grid-template-columns:  repeat(4, 260px);
   gap: 40px;
-  margin-top: 20px;
+  margin-top: -50px;
 }
 
 .sub_productdisplay_container.normal {
@@ -337,8 +338,8 @@
   background-color: white;
   border: none;
   position: relative;
-  top: -60rem;
-  left: 10rem;
+  top: 0rem;
+  left: 0rem;
 }
 .loader {
   display: flex;
@@ -347,7 +348,7 @@
   background-color: white;
   border: none;
   position: relative;
-  top: 5rem;
+  top: 10rem;
   left: 30rem;
 }
 
@@ -360,7 +361,11 @@
   animation: spin 1.5s linear infinite;
 }
 .category-description {
-  font-size: 1.2rem;
+  position: relative;
+  left: .4rem;
+  width: 98%;
+  top: -3rem;
+  font-size: 1.3rem;
 }
 .category_p{
   font-size: 2rem;
@@ -387,6 +392,7 @@
 
   .productdisplay_container {
     background-color: #007bff;
+    
     left: 0rem;
   }
   .shop_routes {
@@ -394,6 +400,7 @@
     left: 1rem;
   }
   .sub_productdisplay_container.grid {
+
     left: 0.3rem;
     grid-template-columns: repeat(2, 190px);
     grid-gap: 25px;

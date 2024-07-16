@@ -45,9 +45,13 @@ const SignInPage = () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_LOCAL}/login`, { email, password });
       if (response.data.token) {
-        const { token } = response.data;
-        signIn({ email }, token);
-        navigate('/shop');
+        const { token, isAdmin } = response.data;
+        signIn({ email, isAdmin }, token);
+        if (isAdmin) {
+          navigate('/mainadmin');
+        } else {
+          navigate('/shop');
+        }
       } else {
         setError('Login failed. Please check your credentials and try again.');
       }

@@ -1,0 +1,77 @@
+.admin-category {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 150px;
+    background-color: #0D1117;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0 8px 8px 0;
+    z-index: 1000;
+  }
+  
+  .inputadmin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    color: white;
+  }
+  
+  .value {
+    background-color: transparent;
+    border: none;
+    padding: 15px;
+    color: white;
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .value:hover,
+  .value:focus {
+    background-color: #21262C;
+  }
+  
+  .value:focus,
+  .value:active {
+    background-color: #1A1F24;
+    outline: none;
+  }
+  
+  .value::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    width: 5px;
+    height: 80%;
+    background-color: #2F81F7;
+    border-radius: 5px;
+    opacity: 0;
+  }
+  
+  .value:focus::before,
+  .value:active::before {
+    opacity: 1;
+  }
+  
+  .value svg {
+    width: 15px;
+  }
+  
+  .inputadmin:hover > :not(.value:hover) {
+    transition: 300ms;
+    filter: blur(1px);
+    transform: scale(0.95, 0.95);
+  }
+  
+  .maincontainer_admin {
+    margin-left: 220px; /* Adjusted to accommodate the width of the fixed sidebar */
+    padding: 20px;
+    background-color: #F0F0F0;
+  }
+  

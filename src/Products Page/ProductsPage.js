@@ -123,7 +123,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
           &nbsp;{category}&nbsp;
         </p>
         {isLoading ? (
-          <div className="loader">
+          <div className="product_loader">
             <div className="spinner"></div>
           </div>
         ) : (

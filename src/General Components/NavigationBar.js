@@ -141,7 +141,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
           <LuUser className="person_icon" />
           <div className="dropdown">
             <span className="email">
-              Account
+            {currentUser ? currentUser.email : "Account"}
               <IoIosArrowDown className="nav_arrowdown" />
             </span>
             {isDropdownVisible && (

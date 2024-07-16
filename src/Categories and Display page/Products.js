@@ -61,7 +61,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
     <div className="big_container" key={1}>
       
       {isLoading ? (
-          <div className="product_loader">
+          <div className="loader">
             <div className="spinner"></div>
           </div>
         ) : (

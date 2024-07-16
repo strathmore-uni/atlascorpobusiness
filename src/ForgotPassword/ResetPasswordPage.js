@@ -27,7 +27,7 @@ const ResetPasswordPage = () => {
         email,
         newPassword
       });
-console.log("mike")
+
       if (response.status === 200) {
         navigate('/')
         console.log('SUCCESS!', response.status, response.text);

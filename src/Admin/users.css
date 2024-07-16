@@ -1,0 +1,120 @@
+/* Assuming .users-container is the container for your users list */
+.users-container {
+    position: relative;
+    top: 5rem;
+    left: 10rem;
+    width: 85%;
+    margin: 20px;
+  }
+  .users-container h2{
+    position: relative;
+    left: 20rem;
+    width: 10rem;
+  }
+  
+  /* Style for each user card */
+  .user-card {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    width: 90%;
+    margin-bottom: 10px;
+  }
+  
+  /* Heading style */
+  .user-heading {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Subheading style */
+  .user-subheading {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  
+  /* Style for user details */
+  .user-details {
+    margin-bottom: 8px;
+  }
+  
+  /* Button style */
+  .view-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .view-button:hover {
+    background-color: #0056b3;
+  }
+  /* ProductsList.css */
+
+.products-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .products-container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .products-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .products-container li {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .products-container li span {
+    font-size: 18px;
+  }
+  
+  .products-container li a {
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .products-container li a:hover {
+    background-color: #0056b3;
+  }
+  
+  .add-product-link {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  .add-product-link:hover {
+    background-color: #218838;
+  }
+  
+  /* Responsive design for mobile */
+  @media (max-width: 768px) {
+    .user-card {
+      padding: 8px;
+    }
+  }
+  
