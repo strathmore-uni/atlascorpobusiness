@@ -155,7 +155,7 @@ body {
   
   .admin-container {
     position: relative;
-    top: 3rem;
+    top: 0rem;
     left: 6rem;
     width: 84%;
     margin: 0 auto;
@@ -205,6 +205,15 @@ body {
   tr:hover {
     background-color: #f1f1f1;
   }
+  .search-input-orderitems {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
   
   @media screen and (max-width: 768px) {
     .admin-container {

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import './adminproducts.css'; // Make sure this path matches your actual CSS file path
-import Adminnav from './Adminnav';
 import AdminCategory from './AdminCategory';
 
 const OrderDetails = () => {
@@ -82,7 +81,6 @@ const OrderDetails = () => {
       </div>
       <Link to="/ordereditems" className="go-back-btn">Go Back</Link>
       <AdminCategory />
-      <Adminnav />
     </div>
   );
 };

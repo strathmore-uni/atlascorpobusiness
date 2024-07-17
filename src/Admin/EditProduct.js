@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import './editproduct.css'; // Import the CSS file
+import AdminCategory from './AdminCategory';
+import Adminnav from './Adminnav';
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -11,27 +14,37 @@ const EditProduct = () => {
     description: '',
     image: '',
     thumb1: '',
-    thumb2: ''
+    thumb2: '',
+    prices: [] // Initialize prices as an empty array
   });
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
-        // Set the state with the fetched product data
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product:', error);
       }
     };
     fetchProduct();
-  }, [id]); // Dependency array ensures this effect runs when `id` changes
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct(prevState => ({
       ...prevState,
       [name]: value
+    }));
+  };
+
+  const handlePriceChange = (index, field, value) => {
+    const updatedPrices = product.prices.map((price, i) =>
+      i === index ? { ...price, [field]: value } : price
+    );
+    setProduct(prevState => ({
+      ...prevState,
+      prices: updatedPrices
     }));
   };
 
@@ -48,7 +61,7 @@ const EditProduct = () => {
   };
 
   return (
-    <div>
+    <div className="edit-product-container">
       <h2>Edit Product</h2>
       <form onSubmit={handleSubmit}>
         <label>
@@ -58,7 +71,7 @@ const EditProduct = () => {
         <br />
         <label>
           Description:
-          <input type="text" name="description" value={product.description} onChange={handleChange} />
+          <input type="text" name="description" value={product.Description} onChange={handleChange} />
         </label>
         <br />
         <label>
@@ -76,8 +89,44 @@ const EditProduct = () => {
           <input type="text" name="thumb2" value={product.thumb2} onChange={handleChange} />
         </label>
         <br />
+        <div className="prices-section">
+          <h3>Prices and Stock</h3>
+          {product.prices && product.prices.map((price, index) => ( // Check if product.prices exists
+            <div key={index} className="price-item">
+              <label>
+                Country:
+                <input
+                  type="text"
+                  value={price.country_code}
+                  readOnly
+                />
+              </label>
+              <br />
+              <label>
+                Price:
+                <input
+                  type="text"
+                  value={price.Price}
+                  onChange={(e) => handlePriceChange(index, 'Price', e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Stock Quantity:
+                <input
+                  type="text"
+                  value={price.stock_quantity}
+                  onChange={(e) => handlePriceChange(index, 'stock_quantity', e.target.value)}
+                />
+              </label>
+              <br />
+            </div>
+          ))}
+        </div>
         <button type="submit">Update Product</button>
       </form>
+      <AdminCategory />
+      <Adminnav />
     </div>
   );
 };

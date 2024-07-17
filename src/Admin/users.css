@@ -1,7 +1,7 @@
 /* Assuming .users-container is the container for your users list */
 .users-container {
     position: relative;
-    top: 5rem;
+    top: 0rem;
     left: 10rem;
     width: 85%;
     margin: 20px;
@@ -9,7 +9,11 @@
   .users-container h2{
     position: relative;
     left: 20rem;
-    width: 10rem;
+    width: 15rem;
+  }
+  .user-list{
+    position: relative;
+    list-style-type: none;
   }
   
   /* Style for each user card */
@@ -110,6 +114,17 @@
   .add-product-link:hover {
     background-color: #218838;
   }
+  /* users.css */
+
+.search-input-orderlist {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
   
   /* Responsive design for mobile */
   @media (max-width: 768px) {

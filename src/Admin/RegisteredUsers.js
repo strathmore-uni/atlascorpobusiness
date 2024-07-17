@@ -36,7 +36,7 @@ const RegisteredUsers = () => {
           </li>
         ))}
       </ul>
-      <Adminnav />
+      
       <AdminCategory />
     </div>
   );

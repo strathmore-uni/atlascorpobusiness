@@ -73,7 +73,7 @@ const AddProduct = () => {
         <button type="submit" className="submit-button">Add Product</button>
       </form>
      
-      <Adminnav />
+     
       <AdminCategory />
     </div>
   );

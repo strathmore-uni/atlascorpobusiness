@@ -38,6 +38,7 @@ import EditProduct from "./Admin/EditProduct";
 import ProductsList from "./Admin/ProductList";
 import RegisteredUsers from "./Admin/RegisteredUsers";
 import OrderDetails from "./Admin/OrderDetails ";
+import AdminDashboardSummary from "./Admin/AdminDashboardSummary ";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -338,6 +339,7 @@ function App() {
             <Route path="/mainadmin" element={<Mainadmin  />} />
             <Route path="/ordereditems" element={<Ordereditems />} />
             <Route path="/addproduct"  element={<AddProduct />}/>
+            <Route path="/dashboard" element={<AdminDashboardSummary />} />
             <Route path="/editproduct/:id"  element={<EditProduct />}/>
             <Route path="/productlist"  element={<ProductsList />}/>
             <Route path="/registeredusers"  element={<RegisteredUsers />}/>

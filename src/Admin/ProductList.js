@@ -3,11 +3,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './users.css'; // Import CSS file
 import AdminCategory from './AdminCategory';
-import Adminnav from './Adminnav';
+
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true); // State for loading indicator
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,10 +24,26 @@ const ProductsList = () => {
     fetchProducts();
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredProducts = products.filter((product) => 
+    product.partnumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.Description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="products-container">
       <h2>Products List</h2>
-      <Link to="/addproduct" className="add-product-link">Add Product</Link>
+  
+      <input
+        type="text"
+        placeholder="Search by part number or description"
+        value={searchQuery}
+        onChange={handleSearchChange}
+        className="search-input-orderlist"
+      />
       {loading ? (
         <div className="dot-spinner">
           <div className="dot-spinner__dot"></div>
@@ -40,7 +57,7 @@ const ProductsList = () => {
         </div>
       ) : (
         <ul>
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <li key={product.id}>
               <span>{product.partnumber} - {product.Description}</span>
               <Link to={`/editproduct/${product.id}`}>Edit</Link>
@@ -49,7 +66,7 @@ const ProductsList = () => {
         </ul>
       )}
       <AdminCategory />
-      <Adminnav />
+    
     </div>
   );
 };

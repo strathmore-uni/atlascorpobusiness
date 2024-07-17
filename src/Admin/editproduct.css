@@ -1,0 +1,73 @@
+/* EditProduct.css */
+
+.edit-product-container {
+    position: relative;
+    top:3rem;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-product-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .edit-product-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-product-container label {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .edit-product-container input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .edit-product-container .prices-section {
+    margin-top: 20px;
+  }
+  
+  .edit-product-container .price-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .edit-product-container .price-item label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .edit-product-container .price-item input[type="text"] {
+    width: calc(100% - 16px);
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .edit-product-container button {
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .edit-product-container button:hover {
+    background: #0056b3;
+  }
+  

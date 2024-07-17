@@ -2,8 +2,10 @@
 
 .form-container {
     position: relative;
+    top: 1rem;
     left: 0rem;
-    max-width: 600px;
+    width: 30rem;
+    height: 40rem;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -21,7 +23,7 @@
   .form-container input[type="text"],
   .form-container input[type="number"],
   .form-container button {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin: 8px 0;
     border: 1px solid #ccc;
@@ -54,7 +56,7 @@
   
   .form-container .price-field input[type="text"],
   .form-container .price-field input[type="number"] {
-    width: 48%;
+    width: 40%;
   }
   
   .form-container .add-price-button {

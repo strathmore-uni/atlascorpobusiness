@@ -9,13 +9,12 @@ const Ordereditems = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); 
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
 
   useEffect(() => {
     const fetchOrders = async () => {
-    
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders`);
-        
         setOrders(response.data);
         setLoading(false);
       } catch (error) {
@@ -26,7 +25,6 @@ const Ordereditems = () => {
 
     fetchOrders();
   }, []);
-
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -41,19 +39,21 @@ const Ordereditems = () => {
     }
   };
 
-
   const handleFilterChange = (event) => {
-   
     setFilter(event.target.value);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-  const filteredOrders = filter === 'all' ? orders : orders.filter(order => {
-   
-    return order.status === filter;
+  const filteredOrders = orders.filter(order => {
+    const matchesFilter = filter === 'all' || order.status === filter;
+    const matchesSearch = (order.orderNumber && order.orderNumber.toLowerCase().includes(searchQuery.toLowerCase())) || 
+                          (order.email && order.email.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesFilter && matchesSearch;
   });
-  
- 
+
   return (
     <div className="admin-container">
       <h2>Orders</h2>
@@ -66,6 +66,13 @@ const Ordereditems = () => {
           <option value="declined">Declined</option>
         </select>
       </div>
+      <input
+        type="text"
+        placeholder="Search by order number or email"
+        value={searchQuery}
+        onChange={handleSearchChange}
+        className="search-input-orderitems"
+      />
       {loading ? (
         <div className="dot-spinner">
           <div className="dot-spinner__dot"></div>
@@ -114,7 +121,7 @@ const Ordereditems = () => {
         </table>
       )}
       <AdminCategory />
-      <Adminnav />
+   
     </div>
   );
 };

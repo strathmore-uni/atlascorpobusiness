@@ -59,7 +59,7 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
 
       if (response.data.message === 'Order placed successfully') {
         const cartItemsDetails = cartItems.map(item => {
-          return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price}`;
+          return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price}, Total Price: $${newPrice}`;
         }).join('\n');
 
         
