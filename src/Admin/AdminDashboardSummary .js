@@ -1,39 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useHistory hook for navigation
+import { useNavigate } from 'react-router-dom';
 import AdminCategory from './AdminCategory';
 import './admincategory.css';
 
 const AdminDashboardSummary = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const [summary, setSummary] = useState({
     orders: 0,
     products: 0,
     users: 0,
     recentOrders: [],
+    pendingOrders: [],
   });
 
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        // Fetch total counts
-        const ordersCount = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/count`);
-        const productsCount = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products/count`);
-        const usersCount = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/users/count`);
-
-        // Fetch recent orders
-        const recentOrdersResponse = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/recent`);
-        const recentOrders = recentOrdersResponse.data;
+        const [ordersCount, productsCount, usersCount, recentOrdersResponse, pendingOrdersResponse] = await Promise.all([
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/count`),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products/count`),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/users/count`),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/recent`),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`)
+        ]);
 
         setSummary({
           orders: ordersCount.data.count,
           products: productsCount.data.count,
           users: usersCount.data.count,
-          recentOrders: recentOrders.map(order => ({
-            orderNumber: order.ordernumber,
-            email: order.email,
-          })),
+          recentOrders: recentOrdersResponse.data,
+          pendingOrders: pendingOrdersResponse.data,
         });
       } catch (error) {
         console.error('Error fetching summary:', error);
@@ -43,9 +41,8 @@ const AdminDashboardSummary = () => {
     fetchSummary();
   }, []);
 
-  const handleOrderClick = (orderId) => {
-    // Navigate to OrderDetails page with orderId
-    history(`/orderdetails/${orderId}`);
+  const handleOrderClick = (orderNumber) => {
+    navigate(`/orderdetails/${orderNumber}`);
   };
 
   return (
@@ -67,18 +64,32 @@ const AdminDashboardSummary = () => {
           </div>
         </div>
 
-        <div className="summary-item-recent">
-          <h3>Recent Orders (Last 7 Days)</h3>
-           {summary.recentOrders.map(order => (
-          <div className="recent-orders-list">
-            <ul>
-                <li key={order.orderNumber} onClick={() => handleOrderClick(order.orderNumber)}>
-                  Order Number: {order.orderNumber}  Email: {order.email}
-                </li>
-             
-            </ul>
+        <div className="admin-dashboard-summary">
+          <div className="summary-item-recent">
+            <h3>Recent Orders (Last 7 Days)</h3>
+            <div className="recent-orders-list">
+              <ul>
+                {summary.recentOrders.map(order => (
+                  <li key={order.ordernumber} onClick={() => handleOrderClick(order.ordernumber)}>
+                    Order Number: {order.ordernumber}  Email: {order.email}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-           ))}
+
+          <div className="summary-item-pending">
+            <h3>Pending Orders</h3>
+            <div className="pending-orders-list">
+              <ul>
+                {summary.pendingOrders.map(order => (
+                  <li key={order.ordernumber} onClick={() => handleOrderClick(order.ordernumber)}>
+                    Order Number: {order.ordernumber}  Email: {order.email}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       <AdminCategory />

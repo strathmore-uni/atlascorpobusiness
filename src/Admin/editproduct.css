@@ -58,7 +58,7 @@
     border-radius: 4px;
   }
   
-  .edit-product-container button {
+  .edit-product-container .editproduct_button {
     padding: 10px 20px;
     background: #007bff;
     color: #fff;
@@ -67,7 +67,7 @@
     cursor: pointer;
   }
   
-  .edit-product-container button:hover {
+  .edit-product-container .editproduct_button:hover {
     background: #0056b3;
   }
   

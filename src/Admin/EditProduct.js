@@ -71,7 +71,7 @@ const EditProduct = () => {
         <br />
         <label>
           Description:
-          <input type="text" name="description" value={product.Description} onChange={handleChange} />
+          <input type="text" name="description" value={product.description} onChange={handleChange} />
         </label>
         <br />
         <label>
@@ -91,7 +91,7 @@ const EditProduct = () => {
         <br />
         <div className="prices-section">
           <h3>Prices and Stock</h3>
-          {product.prices && product.prices.map((price, index) => ( // Check if product.prices exists
+          {product.prices && product.prices.map((price, index) => (
             <div key={index} className="price-item">
               <label>
                 Country:
@@ -115,7 +115,8 @@ const EditProduct = () => {
                 Stock Quantity:
                 <input
                   type="text"
-                  value={price.stock_quantity}
+                  name="stock_quantity"
+                  value={price.stock_quantity || ''} // Display stock quantity from prices if exists
                   onChange={(e) => handlePriceChange(index, 'stock_quantity', e.target.value)}
                 />
               </label>
@@ -123,7 +124,7 @@ const EditProduct = () => {
             </div>
           ))}
         </div>
-        <button type="submit">Update Product</button>
+        <button type="submit" className='editproduct_button'>Update Product</button>
       </form>
       <AdminCategory />
       <Adminnav />

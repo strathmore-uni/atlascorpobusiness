@@ -3,13 +3,14 @@ import AdminCategory from './AdminCategory';
 import Adminnav from './Adminnav';
 import Ordereditems from './Ordereditems';
 import './admincategory.css'; 
+import AdminDashboardSummary from './AdminDashboardSummary ';
 
 export default function Mainadmin() {
   return (
-    <div>
-      
-      <div className="maincontainer_admin">
+    <div className='container_admin'>
       <AdminCategory />
+      <div className="maincontainer_admin">
+      
       <AdminDashboardSummary />
     
       </div>
