@@ -5,8 +5,10 @@ import "../Shopping Cart/shoppingcartpage.css";
 import { GrCart } from "react-icons/gr";
 import { IoIosArrowBack } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import NavigationBar from './NavigationBar';
 export default function Saveditems({quotationItems,handleRemoveSingleQuotationProduct,handleAddProduct}) {
   return (
+    <div>
     <div className="quotation_items" >
           <Link to='/shop' className='backtoform'>
           <p><IoIosArrowBack className='arrowbackReview' />Back</p>
@@ -83,5 +85,8 @@ export default function Saveditems({quotationItems,handleRemoveSingleQuotationPr
           </div>
         )}
     </div>
+    <NavigationBar />
+    </div>
+
   )
 }

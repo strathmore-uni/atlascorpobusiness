@@ -21,4 +21,16 @@
     padding: 10px;
     border-radius: 5px;
   }
+  .order-details-link{
+    color: black;
+    text-decoration: none;
+  }
+ 
+  
+  .order-details-link:hover {
+    text-decoration: underline; 
+    color: #007bff;
+  }
+  
+
   

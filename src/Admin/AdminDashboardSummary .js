@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AdminCategory from './AdminCategory';
 import './admincategory.css';
 
 const AdminDashboardSummary = () => {
-  const navigate = useNavigate();
-
   const [summary, setSummary] = useState({
     orders: 0,
     products: 0,
@@ -26,12 +24,15 @@ const AdminDashboardSummary = () => {
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`)
         ]);
 
+        // Sort recent orders and pending orders from newest to oldest
+        const sortByDateDescending = (a, b) => new Date(b.created_at) - new Date(a.created_at);
+
         setSummary({
           orders: ordersCount.data.count,
           products: productsCount.data.count,
           users: usersCount.data.count,
-          recentOrders: recentOrdersResponse.data,
-          pendingOrders: pendingOrdersResponse.data,
+          recentOrders: recentOrdersResponse.data.sort(sortByDateDescending),
+          pendingOrders: pendingOrdersResponse.data.sort(sortByDateDescending),
         });
       } catch (error) {
         console.error('Error fetching summary:', error);
@@ -41,14 +42,10 @@ const AdminDashboardSummary = () => {
     fetchSummary();
   }, []);
 
-  const handleOrderClick = (orderNumber) => {
-    navigate(`/orderdetails/${orderNumber}`);
-  };
-
   return (
     <div>
       <div className="maincontainer_admin">
-        <h3>Dashboard</h3>
+        <h2>Dashboard</h2>
         <div className="admin-dashboard-summary">
           <div className="summary-item">
             <h3>Total Orders</h3>
@@ -70,9 +67,11 @@ const AdminDashboardSummary = () => {
             <div className="recent-orders-list">
               <ul>
                 {summary.recentOrders.map(order => (
-                  <li key={order.ordernumber} onClick={() => handleOrderClick(order.ordernumber)}>
-                    Order Number: {order.ordernumber}  Email: {order.email}
-                  </li>
+                  <Link to={`/orderdetails/${order.id}`} className="order-link" key={order.id}>
+                    <li>
+                      Order Number: {order.ordernumber} Email: {order.email}
+                    </li>
+                  </Link>
                 ))}
               </ul>
             </div>
@@ -83,9 +82,11 @@ const AdminDashboardSummary = () => {
             <div className="pending-orders-list">
               <ul>
                 {summary.pendingOrders.map(order => (
-                  <li key={order.ordernumber} onClick={() => handleOrderClick(order.ordernumber)}>
-                    Order Number: {order.ordernumber}  Email: {order.email}
-                  </li>
+                  <Link to={`/orderdetails/${order.id}`} className="order-link" key={order.id}>
+                    <li>
+                      Order Number: {order.ordernumber} Email: {order.email}
+                    </li>
+                  </Link>
                 ))}
               </ul>
             </div>

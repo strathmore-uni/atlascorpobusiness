@@ -3,7 +3,8 @@
 .edit-product-container {
     position: relative;
     top:3rem;
-    max-width: 600px;
+    max-width: 800px;
+    left: 8rem;
     margin: 0 auto;
     padding: 20px;
     background: #f9f9f9;

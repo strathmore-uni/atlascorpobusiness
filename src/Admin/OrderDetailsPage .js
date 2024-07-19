@@ -9,12 +9,14 @@ const OrderDetailsPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); 
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${category}`);
-        setOrders(response.data);
+        const sortedOrders = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date descending
+        setOrders(sortedOrders);
       } catch (error) {
         setError('Error fetching orders.');
         console.error('Error fetching orders:', error);
@@ -26,17 +28,27 @@ const OrderDetailsPage = () => {
     fetchOrders();
   }, [category]);
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredOrders = orders.filter(order =>
+    order.ordernumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    order.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    order.items.some(item => item.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   if (loading) {
     return <div className="dot-spinner">
-    <div className="dot-spinner__dot"></div>
-    <div className="dot-spinner__dot"></div>
-    <div className="dot-spinner__dot"></div>
-    <div className="dot-spinner__dot"></div>
-    <div className="dot-spinner__dot"></div>
-    <div className="dot-spinner__dot"></div>
-    <div className="dot-spinner__dot"></div>
-    <div className="dot-spinner__dot"></div>
-  </div>;;
+      <div className="dot-spinner__dot"></div>
+      <div className="dot-spinner__dot"></div>
+      <div className="dot-spinner__dot"></div>
+      <div className="dot-spinner__dot"></div>
+      <div className="dot-spinner__dot"></div>
+      <div className="dot-spinner__dot"></div>
+      <div className="dot-spinner__dot"></div>
+      <div className="dot-spinner__dot"></div>
+    </div>;
   }
 
   if (error) {
@@ -50,12 +62,19 @@ const OrderDetailsPage = () => {
   return (
     <div className="order-details-page">
       <h1>{category.charAt(0).toUpperCase() + category.slice(1)} Orders</h1>
+      <input
+        type="text"
+        placeholder="Search orders"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-bar"
+      />
       <ul>
-
-        {orders.map(order => (
-                 
+        {filteredOrders.map(order => (
           <li key={order.id}>
-          <Link to={`/orderdetails/${order.id}`} className="order-details-link">   <div>Order Number: {order.ordernumber}</div></Link>
+            <Link to={`/orderdetails/${order.id}`} className="order-details-link">
+              <div>Order Number: {order.ordernumber}</div>
+            </Link>
             <div>Status: {order.status}</div>
             <div>Items:</div>
             <ul>
@@ -64,16 +83,13 @@ const OrderDetailsPage = () => {
                   <div>Description: {item.description}</div>
                   <div>Quantity: {item.quantity}</div>
                   <div>Price: ${item.price.toFixed(2)}</div>
-                 
                 </li>
               ))}
             </ul>
           </li>
-          
         ))}
-
-    </ul>
-    <AdminCategory />
+      </ul>
+      <AdminCategory />
     </div>
   );
 };

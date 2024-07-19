@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './users.css'; // Import CSS file
+import './users.css'; 
 import AdminCategory from './AdminCategory';
-
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true); // State for loading indicator
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
+  const [loading, setLoading] = useState(true); 
+  const [searchQuery, setSearchQuery] = useState(''); 
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -18,20 +17,25 @@ const ProductsList = () => {
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
-        setLoading(false); // Always set loading to false after trying to fetch products
+        setLoading(false); 
       }
     };
     fetchProducts();
-  }, []); // Empty dependency array ensures useEffect runs only once on component mount
+  }, []); 
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredProducts = products.filter((product) => 
-    product.partnumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.Description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProducts = products.filter((product) => {
+    const partnumber = product.partnumber || ''; // Default to empty string if null or undefined
+    const description = product.Description || ''; // Default to empty string if null or undefined
+
+    return (
+      partnumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   return (
     <div className="products-container">
@@ -59,14 +63,13 @@ const ProductsList = () => {
         <ul>
           {filteredProducts.map((product) => (
             <li key={product.id}>
-              <span>{product.partnumber} - {product.Description}</span>
+              <span>{product.partnumber || 'N/A'} - {product.Description || 'N/A'}</span>
               <Link to={`/editproduct/${product.id}`}>Edit</Link>
             </li>
           ))}
         </ul>
       )}
       <AdminCategory />
-    
     </div>
   );
 };

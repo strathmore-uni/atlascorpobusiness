@@ -2,9 +2,45 @@
 .users-container {
     position: relative;
     top: 0rem;
-    left: 10rem;
-    width: 85%;
+    left: 15rem;
+    width: 78%;
     margin: 20px;
+  }
+  .user-details-info {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 40px;
+    margin-bottom: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .user-details-info strong {
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .user-details-info div {
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  
+  .user-details-info {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-details-info br {
+    margin: 5px 0;
+  }
+  
+
+  .user-card {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
   }
   .users-container h2{
     position: relative;
@@ -21,11 +57,26 @@
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 10px;
+    padding: 1=0px;
     width: 90%;
     margin-bottom: 10px;
   }
+  .back-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    position: relative;
+    left: 20rem;
+    top: 3rem;
+  }
   
+  .back-button:hover {
+    background-color: #0056b3;
+  }
   /* Heading style */
   .user-heading {
     font-size: 1.2rem;
@@ -57,6 +108,19 @@
   
   .view-button:hover {
     background-color: #0056b3;
+  }
+  .back-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .back-button:hover {
+    background-color: #5a6268;
   }
   /* ProductsList.css */
 

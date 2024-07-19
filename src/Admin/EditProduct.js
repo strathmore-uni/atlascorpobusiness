@@ -1,21 +1,26 @@
-// EditProduct.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './editproduct.css'; // Import the CSS file
 import AdminCategory from './AdminCategory';
 import Adminnav from './Adminnav';
 
 const EditProduct = () => {
   const { id } = useParams();
+  const history = useNavigate();
   const [product, setProduct] = useState({
     partnumber: '',
-    description: '',
+    Description: '',
     image: '',
     thumb1: '',
     thumb2: '',
-    prices: [] // Initialize prices as an empty array
+    prices: [], // Initialize prices as an empty array
+    mainCategory: '',
+    subCategory: ''
+  });
+  const [categories, setCategories] = useState({
+    mainCategories: [],
+    subCategories: []
   });
 
   useEffect(() => {
@@ -27,7 +32,24 @@ const EditProduct = () => {
         console.error('Error fetching product:', error);
       }
     };
+
+    const fetchCategories = async () => {
+      try {
+        const [mainCategoriesResponse, subCategoriesResponse] = await Promise.all([
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/categories/main`),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/categories/sub`)
+        ]);
+        setCategories({
+          mainCategories: mainCategoriesResponse.data,
+          subCategories: subCategoriesResponse.data
+        });
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
     fetchProduct();
+    fetchCategories();
   }, [id]);
 
   const handleChange = (e) => {
@@ -48,15 +70,36 @@ const EditProduct = () => {
     }));
   };
 
+  const handleCategoryChange = (e) => {
+    const { name, value } = e.target;
+    setProduct(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.put(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, product);
       alert('Product updated successfully');
-      // Optionally, redirect to products list or perform other actions
+      history('/productslist'); // Redirect after update
     } catch (error) {
       console.error('Error updating product:', error);
       alert('Failed to update product');
+    }
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
+        alert('Product deleted successfully');
+        history('/productslist'); // Redirect after deletion
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        alert('Failed to delete product');
+      }
     }
   };
 
@@ -71,7 +114,7 @@ const EditProduct = () => {
         <br />
         <label>
           Description:
-          <input type="text" name="description" value={product.description} onChange={handleChange} />
+          <input type="text" name="Description" value={product.Description} onChange={handleChange} />
         </label>
         <br />
         <label>
@@ -87,6 +130,26 @@ const EditProduct = () => {
         <label>
           Thumbnail 2 URL:
           <input type="text" name="thumb2" value={product.thumb2} onChange={handleChange} />
+        </label>
+        <br />
+        <label>
+          Main Category:
+          <select name="mainCategory" value={product.mainCategory} onChange={handleCategoryChange}>
+            <option value="">Select Main Category</option>
+            {categories.mainCategories.map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <label>
+          Sub Category:
+          <select name="subCategory" value={product.subCategory} onChange={handleCategoryChange}>
+            <option value="">Select Sub Category</option>
+            {categories.subCategories.filter(cat => cat.mainCategoryId === product.mainCategory).map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
         </label>
         <br />
         <div className="prices-section">
@@ -115,7 +178,6 @@ const EditProduct = () => {
                 Stock Quantity:
                 <input
                   type="text"
-                  name="stock_quantity"
                   value={price.stock_quantity || ''} // Display stock quantity from prices if exists
                   onChange={(e) => handlePriceChange(index, 'stock_quantity', e.target.value)}
                 />
@@ -125,6 +187,7 @@ const EditProduct = () => {
           ))}
         </div>
         <button type="submit" className='editproduct_button'>Update Product</button>
+        <button type="button" className='deleteproduct_button' onClick={handleDelete}>Delete Product</button>
       </form>
       <AdminCategory />
       <Adminnav />

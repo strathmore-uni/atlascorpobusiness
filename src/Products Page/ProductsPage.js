@@ -95,7 +95,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
 
   return (
     <div className="big_container">
-      <NavigationBar cartItems={cartItems} />
+     
 
       <div className="products_routes">
         <Link to="/" style={{ color: "#0078a1", textDecoration: "none" }}>
@@ -204,6 +204,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
           <Footer />
         </div>
       </div>
+      <NavigationBar cartItems={cartItems} />
     </div>
   );
 };

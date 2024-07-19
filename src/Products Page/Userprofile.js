@@ -6,6 +6,7 @@ import Notification from '../General Components/Notification';
 import { Link } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useAuth } from '../MainOpeningpage/AuthContext';
+import NavigationBar from '../General Components/NavigationBar';
 export default function Userprofile() {
   const [userData, setUserData] = useState({});
   const [editing, setEditing] = useState(false);
@@ -106,6 +107,7 @@ export default function Userprofile() {
   
 
   return (
+    <div>
     <div className='userprofile_container'>
            <Link to='/shop' className='backtoform'>
           <p><IoIosArrowBack className='arrowbackReview' />Back</p>
@@ -228,6 +230,8 @@ export default function Userprofile() {
         </>
       )}
         {notificationMessage && <Notification message={notificationMessage} />}
+    </div>
+    <NavigationBar />
     </div>
   );
 }

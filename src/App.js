@@ -347,7 +347,7 @@ function App() {
             <Route path="/registeredusers"  element={<RegisteredUsers />}/>
             <Route path="orderdetails/:orderId" element={<OrderDetails />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/orderhistory" element={<OrderHistory />} />
+            <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct} />} />
           </Routes>
          
         </BrowserRouter>
