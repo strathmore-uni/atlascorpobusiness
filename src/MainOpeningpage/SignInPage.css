@@ -1,7 +1,7 @@
 .form-container {
   position: relative;
   top: 7rem;
-  left: 25rem;
+  left: 0rem;
   width: 400px;
   height: 500px;
   background-color: #fff;
@@ -72,7 +72,7 @@
   color: grey;
   font-size: .8rem;
 }
-.form-btn {
+.signin-form-btn {
   position: relative;
   width: 90%;
   top: 0rem;
@@ -88,11 +88,11 @@
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.form-btn:hover{
+.signin-form-btn:hover{
 background-color: #777;
 }
 
-.form-btn:active {
+.signin-form-btn:active {
   box-shadow: none;
 }
 
@@ -165,16 +165,17 @@ background-color: #777;
 .signup_link .link:hover{
   color: #0078a1;
 }
-.forgotbtn{
+.signinforgotbtn{
   position: relative;
-  top: 7.5rem;
+  top: 8rem;
+  font-size: .9rem;
   background: none;
   border: none;
   color: grey;
   cursor: pointer;
 
 }
-.forgotbtn:hover{
+.signinforgotbtn:hover{
   color: #0078a1
 }
 @media (max-width: 45rem) {

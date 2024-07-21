@@ -88,7 +88,7 @@
 /* Admin Dashboard Summary */
 .admin-dashboard-summary {
   position: relative;
-  left: 16rem;
+  left: 2rem;
   display: flex;
   justify-content: space-around;
   padding: 20px;
@@ -96,7 +96,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 20px 0;
-  width: 75%;
+  width: 90%;
 }
 .admin-dashboard-summary h2{
   position: relative;
@@ -140,9 +140,16 @@
   margin-bottom: 10px;
   color: #333;
 }
-.summary-item,
-.summary-item-recent,
-.summary-item-pending {
+.summary-item {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+.summary-item-recent, .summary-item-pending {
+  height: 30rem;
+  overflow-y: auto;
   background-color: #f8f9fa;
   padding: 20px;
   border-radius: 8px;

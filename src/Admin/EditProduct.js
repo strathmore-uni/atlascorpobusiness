@@ -83,25 +83,23 @@ const EditProduct = () => {
     try {
       await axios.put(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, product);
       alert('Product updated successfully');
-      history('/productslist'); // Redirect after update
+      history('/productlist'); // Redirect after update
     } catch (error) {
       console.error('Error updating product:', error);
       alert('Failed to update product');
     }
   };
-
   const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      try {
-        await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
-        alert('Product deleted successfully');
-        history('/productslist'); // Redirect after deletion
-      } catch (error) {
-        console.error('Error deleting product:', error);
-        alert('Failed to delete product');
-      }
+    try {
+      await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
+      alert('Product deleted successfully');
+      history('/productlist'); // Redirect to products list
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      alert('Failed to delete product. Please ensure no related records exist.');
     }
   };
+  
 
   return (
     <div className="edit-product-container">

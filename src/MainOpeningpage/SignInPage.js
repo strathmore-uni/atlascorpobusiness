@@ -3,6 +3,7 @@ import { auth, googleProvider } from '../Firebase';
 import { signInWithPopup } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import NavigationBar from '../General Components/NavigationBar'
 import './SignInPage.css';
 import axios from 'axios';
 
@@ -66,6 +67,7 @@ const SignInPage = () => {
   };
 
   return (
+    <div>
     <div className="form-container">
       {error && <p className='error_login'>{error}</p>}
       <div className="line-container">
@@ -79,7 +81,7 @@ const SignInPage = () => {
         <input type="email" className="input-email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
         <label className='lbl_signin'>Password</label>
         <input type="password" className='input-password' placeholder='Password' onChange={e => setPassword(e.target.value)} />
-        <button type="submit" className="form-btn">Sign in</button>
+        <button type="submit" className="signin-form-btn">Sign in</button>
       </form>
       <div className="buttons-container">
         <div className="google-login-button" onClick={handleGoogleSignIn}>
@@ -92,8 +94,11 @@ const SignInPage = () => {
           <span>Sign in with Google</span>
         </div>
         <p className='signup_link'>Don't have an Account?<Link to="/Checkout" className='link'>Sign Up</Link></p>
-        <button onClick={handleForgotPassword} className='forgotbtn'>Forgot password?</button>
+        <p onClick={handleForgotPassword} className='signinforgotbtn'>Forgot password?</p>
       </div>
+     
+    </div>
+    <NavigationBar />
     </div>
   );
 };
