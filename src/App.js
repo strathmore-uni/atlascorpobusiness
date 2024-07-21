@@ -187,6 +187,35 @@ function App() {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
     }
   };
+  const handleAddHistoryProduct = (product) => {
+    
+  
+ 
+    const formattedProduct = {
+      partnumber: product.partnumber || '', 
+      Description: product.description || '',
+      Price: product.price || 0,
+      quantity: product.quantity || 1,
+      image: product.image || ''
+    };
+  
+   
+    const existingProduct = cartItems.find(item => item.partnumber === formattedProduct.partnumber);
+  
+    if (existingProduct) {
+      
+      setCartItems(prevCartItems =>
+        prevCartItems.map(item =>
+          item.partnumber === formattedProduct.partnumber
+            ? { ...item, quantity: item.quantity + formattedProduct.quantity }
+            : item
+        )
+      );
+    } else {
+      // Add new product to cart
+      setCartItems(prevCartItems => [...prevCartItems, formattedProduct]);
+    }
+  };
   const handleRemoveSingleProduct = (product) => {
     setCartItems(cartItems.filter((item) => item.id !== product.id));
   };
@@ -347,7 +376,7 @@ function App() {
             <Route path="/registeredusers"  element={<RegisteredUsers />}/>
             <Route path="orderdetails/:orderId" element={<OrderDetails />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct} />} />
+            <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct}  handleAddHistoryProduct={handleAddHistoryProduct} />} />
           </Routes>
          
         </BrowserRouter>

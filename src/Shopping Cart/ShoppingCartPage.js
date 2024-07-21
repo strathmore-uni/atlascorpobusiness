@@ -23,23 +23,17 @@ export default function ShoppingCartPage({
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
   const { currentUser } = useAuth();
- 
+
   const handleQuickOrderSubmit = async () => {
     if (!quickOrderCode || quickOrderQty <= 0) {
       alert("Please enter a valid product code and quantity.");
       return;
     }
-  
-    const userEmail = localStorage.getItem("userEmail");
-  
+
     try {
-      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/products/partnumber/${quickOrderCode}`, {
-        params: {
-          email:currentUser.email,
-        },
-      });
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/products/partnumber/${quickOrderCode}`);
       const product = response.data;
-  
+
       if (product) {
         handleAddProduct({ ...product, quantity: quickOrderQty });
         setQuickOrderCode("");
@@ -52,7 +46,6 @@ export default function ShoppingCartPage({
       alert("Error fetching product. Please try again.");
     }
   };
-  
 
   return (
     <div className="shoppingcartpage_container">
@@ -82,36 +75,10 @@ export default function ShoppingCartPage({
           <RiDeleteBinLine className="deleteicon" />
         </button>
         <hr className="hr_shoppingcartpage" />
-        <small
-        className="table_description"
-        
-        >
-          {" "}
-          Description
-        </small>
-        <small
-        className="total_cart_table"
-          style={{
-            position: "absolute",
-            top: "5rem",
-            right: "3rem",
-            fontWeight: "500",
-          }}
-        >
-          Total
-        </small>
-        <small
-        className="netprice_cart"
-    
-        >
-          Net Price
-        </small>
-        <small
-        className="qty_cart"
-         
-        >
-          Qty
-        </small>
+        <small className="table_description">Description</small>
+        <small className="total_cart_table" style={{ position: "absolute", top: "5rem", right: "3rem", fontWeight: "500" }}>Total</small>
+        <small className="netprice_cart">Net Price</small>
+        <small className="qty_cart">Qty</small>
 
         {cartItems.length === 0 && (
           <p className="cart_empty"> No items are added</p>
@@ -119,53 +86,34 @@ export default function ShoppingCartPage({
         {cartItems.map((item) => (
           <div key={item.partnumber} className="display_cart">
             {item.image ? (
-            <img className="prdt_image_shopping" src={item.image} alt="" />
-          ) : (
-            <p className="cameraoff_icon">
-              <LuCameraOff />
-            </p>
-          )}
+              <img className="prdt_image_shopping" src={item.image} alt="" />
+            ) : (
+              <p className="cameraoff_icon">
+                <LuCameraOff />
+              </p>
+            )}
 
             <div className="btngroup_cart">
-              <button
-                className="increase-item"
-                onClick={() => handleAddProduct(item)}
-              >
+              <button className="increase-item" onClick={() => handleAddProduct({ ...item, quantity: item.quantity + 1 })}>
                 +
               </button>
               <p className="cart_quantity">{item.quantity}</p>
-              <button
-                className="decrease-item"
-                onClick={() => handleRemoveProduct(item)}
-              >
+              <button className="decrease-item" onClick={() => handleRemoveProduct(item)}>
                 -
               </button>
             </div>
-            <p className="p_serialnumber">
-              Part Number:&nbsp;{item.partnumber}
-            </p>
-            <p className="cart_item_title"
-             
-            >
-              {" "}
-              {item.Description}
-            </p>
+            <p className="p_serialnumber">Part Number:&nbsp;{item.partnumber}</p>
+            <p className="cart_item_title">{item.Description}</p>
             <p className="net_cart_itemprice">$ {item.Price}</p>
             <p className="cart_itemprice">$ {item.Price}</p>
 
-            <p
-              className="cart_removeitem"
-              onClick={() => handleRemoveSingleProduct(item)}
-            >
+            <p className="cart_removeitem" onClick={() => handleRemoveSingleProduct(item)}>
               Remove
-              {" "}
               <RiDeleteBinLine />
             </p>
             <hr className="hr_incartdisplay" />
           </div>
         ))}
-
-       
       </div>
 
       <div className="order_summary">
@@ -204,11 +152,11 @@ export default function ShoppingCartPage({
           Add to cart
         </button>
       </div>
-      <div className="cantfind" >
-<h3>Can’t find what you are looking for?</h3>
-<p>Missing a product on the webshop? Contact our customer center.</p>
-<p>Email:</p>
-<a href="power.technique.uk@atlascopco.com" >power.technique.uk@atlascopco.com</a>
+      <div className="cantfind">
+        <h3>Can’t find what you are looking for?</h3>
+        <p>Missing a product on the webshop? Contact our customer center.</p>
+        <p>Email:</p>
+        <a href="mailto:power.technique.uk@atlascopco.com">power.technique.uk@atlascopco.com</a>
       </div>
 
       <NavigationBar cartItems={cartItems} />

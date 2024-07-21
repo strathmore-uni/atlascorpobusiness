@@ -7,7 +7,7 @@ import Adminnav from './Adminnav';
 
 const EditProduct = () => {
   const { id } = useParams();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [product, setProduct] = useState({
     partnumber: '',
     Description: '',
@@ -35,14 +35,12 @@ const EditProduct = () => {
 
     const fetchCategories = async () => {
       try {
-        const [mainCategoriesResponse, subCategoriesResponse] = await Promise.all([
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/categories/main`),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/categories/sub`)
-        ]);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/mycategories`);
         setCategories({
-          mainCategories: mainCategoriesResponse.data,
-          subCategories: subCategoriesResponse.data
+          mainCategories: response.data.mainCategories || [],
+          subCategories: response.data.subCategories || []
         });
+        console.log('Categories fetched:', response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -83,23 +81,23 @@ const EditProduct = () => {
     try {
       await axios.put(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, product);
       alert('Product updated successfully');
-      history('/productlist'); // Redirect after update
+      navigate('/productlist'); // Redirect after update
     } catch (error) {
       console.error('Error updating product:', error);
       alert('Failed to update product');
     }
   };
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
       alert('Product deleted successfully');
-      history('/productlist'); // Redirect to products list
+      navigate('/productlist'); // Redirect to products list
     } catch (error) {
       console.error('Error deleting product:', error);
       alert('Failed to delete product. Please ensure no related records exist.');
     }
   };
-  
 
   return (
     <div className="edit-product-container">
@@ -134,8 +132,8 @@ const EditProduct = () => {
           Main Category:
           <select name="mainCategory" value={product.mainCategory} onChange={handleCategoryChange}>
             <option value="">Select Main Category</option>
-            {categories.mainCategories.map(cat => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            {categories.mainCategories.map((cat, index) => (
+              <option key={index} value={cat}>{cat}</option>
             ))}
           </select>
         </label>
@@ -144,9 +142,11 @@ const EditProduct = () => {
           Sub Category:
           <select name="subCategory" value={product.subCategory} onChange={handleCategoryChange}>
             <option value="">Select Sub Category</option>
-            {categories.subCategories.filter(cat => cat.mainCategoryId === product.mainCategory).map(cat => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
-            ))}
+            {product.mainCategory && categories.subCategories
+              .filter(cat => cat.mainCategoryId === product.mainCategory)
+              .map((cat, index) => (
+                <option key={index} value={cat}>{cat}</option>
+              ))}
           </select>
         </label>
         <br />

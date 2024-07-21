@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 import NavigationBar from '../General Components/NavigationBar';
 
-const OrderHistory = ({ handleAddProduct }) => {
+const OrderHistory = ({ handleAddHistoryProduct }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -31,8 +31,18 @@ const OrderHistory = ({ handleAddProduct }) => {
     }
   }, [currentUser]);
 
-  const addOrderItemsToCart = (items) => {
-    items.forEach(item => handleAddProduct(item));
+  const addOrderItemsToCart = async (orderId) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/orders/${orderId}`);
+      const items = response.data.items;
+  
+      // Log items to debug
+      console.log('Order items:', items);
+  
+      items.forEach(item => handleAddHistoryProduct(item));
+    } catch (error) {
+      console.error('Error fetching order details:', error);
+    }
   };
 
   return (
@@ -65,7 +75,7 @@ const OrderHistory = ({ handleAddProduct }) => {
                     </li>
                   ))}
                 </ul>
-                <button className="add-to-cart-button" onClick={() => addOrderItemsToCart(order.items)}>
+                <button className="add-to-cart-button" onClick={() => addOrderItemsToCart(order.id)}>
                   Add to Cart
                 </button>
                 <hr className="hr" />
