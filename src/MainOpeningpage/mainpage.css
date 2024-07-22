@@ -151,16 +151,17 @@ top: 0rem;
   height: 15rem;
   color: black;
   text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 
 
 }
 
 .mylinks_mainpage:hover {
-    position: relative;
-  padding: 0.1rem;
-
-  box-shadow: 0px 0px 5px 0px;
-  transition: background-color 0.3s ease;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .mainpage_footer {

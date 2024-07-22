@@ -67,14 +67,15 @@
         height: 22rem;
         color: black;
         text-decoration: none;
-    
-    
+     border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
       
     }
     .mylink_search:hover{
-      padding: .1rem;
-      box-shadow: 0px 0px 5px 0px;
-      transition: background-color 0.3s ease;
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .search_display_wrapper {
       display: flex;

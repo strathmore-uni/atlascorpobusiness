@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import "./categories.css";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { FaBars } from "react-icons/fa";
-import { FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
+
 export default function Categories() {
   const [dropdowns, setDropdowns] = useState({
     filterElement: false,
@@ -15,8 +15,10 @@ export default function Categories() {
   const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
   const navigate = useNavigate();
 
+  const categoriesRef = useRef(null);
   const handleCategoryClick = (category) => {
     navigate(`/products/${category}`);
+    setIsCategoriesVisible(false); // Close the categories when a category is selected
   };
 
   const toggleDropdown = (dropdown) => {
@@ -27,18 +29,19 @@ export default function Categories() {
     setIsCategoriesVisible(!isCategoriesVisible);
   };
 
-  const closeDropdown = () => {
-    setIsCategoriesVisible(false);
-  };
   return (
-    <div className="categories-container">
+    <div className={`categories-container ${isCategoriesVisible ? 'visible' : ''}`}   ref={categoriesRef}>
+    
       <button className="categories-toggle" onClick={toggleCategoriesVisibility}>
         <FaBars />
       </button>
       <div className={`categories-list ${isCategoriesVisible ? 'visible' : ''}`}>
+        <button className="close-button" onClick={() => setIsCategoriesVisible(false)}>
+          <FaTimes />
+        </button>
         <h3 style={{ color: "#0078a1" }}>Categories</h3>
         <ul className="listedproducts-categories">
-        <li key="filterElement">
+          <li key="filterElement">
             <span onClick={() => toggleDropdown("filterElement")}>
               Filter Element{" "}
               {dropdowns.filterElement ? (
@@ -59,9 +62,7 @@ export default function Categories() {
             )}
           </li>
           <li onClick={() => handleCategoryClick("Servkit")}>Serv Kit</li>
-          <li onClick={() => handleCategoryClick("Autodrainvalve")}>
-            Auto Drain Valve
-          </li>
+          <li onClick={() => handleCategoryClick("Autodrainvalve")}>Auto Drain Valve</li>
           <li onClick={() => handleCategoryClick("Contractor")}>Contractor</li>
           <li key="overhaulKit">
             <span onClick={() => toggleDropdown("overhaulKit")}>
@@ -86,21 +87,13 @@ export default function Categories() {
               </ul>
             )}
           </li>
-          <li onClick={() => handleCategoryClick("Bearingkits")}>
-            Bearing Kits
-          </li>
+          <li onClick={() => handleCategoryClick("Bearingkits")}>Bearing Kits</li>
           <li onClick={() => handleCategoryClick("Kitpm8k")}>KIT PM8K RS</li>
-          <li onClick={() => handleCategoryClick("energyrecovery")}>
-            Energy Recovery
-          </li>
-          <li onClick={() => handleCategoryClick("blowerpowerckt")}>
-            Blower Power Ckt
-          </li>
-          <li onClick={() => handleCategoryClick("blowerbearkingkit")}>
-            Blower Bearing Kit
-          </li>
+          <li onClick={() => handleCategoryClick("energyrecovery")}>Energy Recovery</li>
+          <li onClick={() => handleCategoryClick("blowerpowerckt")}>Blower Power Ckt</li>
+          <li onClick={() => handleCategoryClick("blowerbearkingkit")}>Blower Bearing Kit</li>
           <li key="prevMain">
-          <span onClick={() => toggleDropdown("prevMain")}>
+            <span onClick={() => toggleDropdown("prevMain")}>
               Prev Main{" "}
               {dropdowns.prevMain ? (
                 <IoIosArrowUp className="arrow" />
@@ -108,15 +101,15 @@ export default function Categories() {
                 <IoIosArrowDown className="arrow" />
               )}
             </span>
+            {dropdowns.prevMain && (
+              <ul className="dropdown-menu">
+                <li onClick={() => handleCategoryClick("Prevmain")}>Prev Main</li>
+                <li onClick={() => handleCategoryClick("Hrkit")}>Hr Kit</li>
+              </ul>
+            )}
           </li>
-          {dropdowns.prevMain && (
-            <ul className="dropdown-menu">
-              <li onClick={() => handleCategoryClick("Prevmain")}>Prev Main</li>
-              <li onClick={() => handleCategoryClick("Hrkit")}>Hr Kit</li>
-            </ul>
-          )}
           <li key="kitFilter">
-          <span onClick={() => toggleDropdown("kitFilter")}>
+            <span onClick={() => toggleDropdown("kitFilter")}>
               Kit Filter{" "}
               {dropdowns.kitFilter ? (
                 <IoIosArrowUp className="arrow" />
@@ -124,24 +117,15 @@ export default function Categories() {
                 <IoIosArrowDown className="arrow" />
               )}
             </span>
+            {dropdowns.kitFilter && (
+              <ul className="dropdown-menu">
+                <li onClick={() => handleCategoryClick("kitfilterdd")}>Kit Filter DD</li>
+                <li onClick={() => handleCategoryClick("kitfilterpd")}>Kit Filter PD</li>
+                <li onClick={() => handleCategoryClick("kitfilterddp")}>Kit Filter DDP</li>
+                <li onClick={() => handleCategoryClick("kitfilterud")}>Kit Filter UD</li>
+              </ul>
+            )}
           </li>
-          {dropdowns.kitFilter && (
-            <ul className="dropdown-menu">
-              <li onClick={() => handleCategoryClick("kitfilterdd")}>
-                Kit Filter DD
-              </li>
-              <li onClick={() => handleCategoryClick("kitfilterpd")}>
-                Kit Filter PD
-              </li>
-              <li onClick={() => handleCategoryClick("kitfilterddp")}>
-                Kit Filter DDP
-              </li>
-              <li onClick={() => handleCategoryClick("kitfilterud")}>
-                Kit Filter UD
-              </li>
-            </ul>
-          )}
-          <p onClick={closeDropdown} className="close-button" ><FaTimes /></p>
         </ul>
       </div>
     </div>

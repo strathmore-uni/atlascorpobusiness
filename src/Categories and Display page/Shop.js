@@ -1,48 +1,42 @@
-import React from 'react'
-import NavigationBar from '../General Components/NavigationBar'
-import Categories from './Categories'
-import Products from './Products'
+import React from "react";
+import NavigationBar from "../General Components/NavigationBar";
+import Categories from "./Categories";
+import Products from "./Products";
+import Footer from "../General Components/Footer";
+import "./shop.css";
 
-import './shop.css'
-import Footer from '../General Components/Footer'
-
-
-
-export default function Shop( {handleAddProductDetails,fulldatas,cartItems,datas,handleAddQuotationProduct} ) {
-
+export default function Shop({
+  handleAddProductDetails,
+  fulldatas,
+  cartItems,
+  datas,
+  handleAddQuotationProduct,
+}) {
   return (
-    <div>
-    <div className='container_shop' >
-    
-           <div className='shop_routes' >
- <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
-                {" "}
-                Home &nbsp;/
-              </a>
-              <p
-                style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "3rem", top: "-.8rem" }}
-             
-              >
-                &nbsp;Shop &nbsp;
-              </p>
-        </div>
+    <div className="shop-page-container">
      
-      <div className='shop_product_container' >
-   
-             
-<Products datas={datas} handleAddProductDetails={handleAddProductDetails} handleAddQuotationProduct={handleAddQuotationProduct} fulldatas={fulldatas} />
+  
+      <div className="container_shop">
+        <div className="shop_routes">
+          <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
+            Home/  &nbsp;
+          </a>
+          <p style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "3rem", top: "-.4rem" }}>
+            &nbsp;Shop &nbsp;
+          </p>
+        </div>
+        <div className="shop-product-container">
+          <Products
+            handleAddProductDetails={handleAddProductDetails}
+            handleAddQuotationProduct={handleAddQuotationProduct}
+          />
+        </div>
       </div>
-    
-           
-    </div>
- 
-        <Categories /> 
-        
-        <NavigationBar   cartItems={cartItems}/>
-        <div className='shop_footer' >
-         <Footer  />
+      <div className="shop_footer">
+        <Footer  />
       </div>
-
+      
+      <NavigationBar cartItems={cartItems} />
     </div>
-  )
+  );
 }

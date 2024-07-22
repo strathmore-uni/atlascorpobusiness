@@ -1,6 +1,6 @@
 /* AddProduct.css */
 
-.form-container {
+.form-container-addproduct {
     position: relative;
     top: 1rem;
     left: 0rem;
@@ -14,15 +14,15 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  .form-container h2 {
+  .form-container-addproduct h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
   }
   
-  .form-container input[type="text"],
-  .form-container input[type="number"],
-  .form-container button {
+  .form-container-addproduct input[type="text"],
+  .form-container-addproduct input[type="number"],
+  .form-container-addproduct button {
     width: 90%;
     padding: 10px;
     margin: 8px 0;
@@ -30,14 +30,14 @@
     border-radius: 4px;
   }
   
-  .form-container input[type="text"]:focus,
-  .form-container input[type="number"]:focus {
+  .form-container-addproduct input[type="text"]:focus,
+  .form-container-addproduct input[type="number"]:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
   
-  .form-container button {
+  .form-container-addproduct button {
     background-color: #007bff;
     color: white;
     border: none;
@@ -45,35 +45,35 @@
     transition: background-color 0.3s ease;
   }
   
-  .form-container button:hover {
+  .form-container-addproduct button:hover {
     background-color: #0056b3;
   }
   
-  .form-container .price-field {
+  .form-container-addproduct .price-field {
     display: flex;
     justify-content: space-between;
   }
   
-  .form-container .price-field input[type="text"],
-  .form-container .price-field input[type="number"] {
+  .form-container-addproduct .price-field input[type="text"],
+  .form-container-addproduct .price-field input[type="number"] {
     width: 40%;
   }
   
-  .form-container .add-price-button {
+  .form-container-addproduct .add-price-button {
     background-color: #28a745;
     margin-top: 10px;
   }
   
-  .form-container .add-price-button:hover {
+  .form-container-addproduct .add-price-button:hover {
     background-color: #218838;
   }
   
-  .form-container .submit-button {
+  .form-container-addproduct .submit-button {
     background-color: #17a2b8;
     margin-top: 20px;
   }
   
-  .form-container .submit-button:hover {
+  .form-container-addproduct .submit-button:hover {
     background-color: #138496;
   }
   /* OrderDetails.css */

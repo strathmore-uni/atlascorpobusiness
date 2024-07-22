@@ -201,6 +201,11 @@
 .sign-in-button:hover {
   color: grey;
 }
+.bars_nav{
+  position: relative;
+  left: -1rem;
+}
+
 
 @media (max-width: 45rem) {
   .container_NavigationBar {

@@ -49,7 +49,7 @@ const SignInPage = () => {
         const { token, isAdmin } = response.data;
         signIn({ email, isAdmin }, token);
         if (isAdmin) {
-          navigate('/mainadmin');
+          navigate('/dashboard');
         } else {
           navigate('/shop');
         }

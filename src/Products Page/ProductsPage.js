@@ -5,12 +5,12 @@ import { LuCameraOff } from "react-icons/lu";
 import ReactPaginate from "react-paginate";
 import NavigationBar from "../General Components/NavigationBar";
 import Footer from "../General Components/Footer";
-
 import "../Categories and Display page/products.css";
 import "../Categories and Display page/Categories Pages/filterelement.css";
 import { useAuth } from "../MainOpeningpage/AuthContext";
+import { GrCart } from "react-icons/gr";
 
-const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
+const ProductsPage = ({ handleAddProductDetails,handleAddProduct, cartItems }) => {
   const { category } = useParams();
   const { currentUser } = useAuth();
   const [products, setProducts] = useState([]);
@@ -22,6 +22,9 @@ const ProductsPage = ({ handleAddProductDetails, cartItems }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
+  const [sortOption, setSortOption] = useState("");
+  const [filters, setFilters] = useState({ priceRange: [0, 1000], inStock: false });
+
   const categoryDescriptions = {
     Filterelement: `Our genuine Air Filters trap particles down to 3 microns, preventing 99.9% of contaminants from reaching your compressor elements. These filters were developed on the most important parameters for compressor applications: maximum dust holding capacity, high separation efficiency and minimized restriction.
 
@@ -65,10 +68,8 @@ Their air filter sealing is unique, as is the special filtration paper: this was
   };
 
 
-
   useEffect(() => {
     const fetchProductsByCategory = async () => {
-    
       if (!currentUser || !currentUser.email) {
         setError('No user email provided');
         return;
@@ -89,14 +90,40 @@ Their air filter sealing is unique, as is the special filtration paper: this was
         setIsLoading(false);
       }
     };
-
     fetchProductsByCategory();
   }, [category]);
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+  };
+
+  const handleFilterChange = (e) => {
+    const { name, value, checked, type } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const sortedProducts = products.sort((a, b) => {
+    if (sortOption === "priceLowToHigh") {
+      return a.Price - b.Price;
+    } else if (sortOption === "priceHighToLow") {
+      return b.Price - a.Price;
+    }
+    return 0;
+  });
+
+  const filteredProducts = sortedProducts.filter((product) => {
+    const inPriceRange =
+      product.Price >= filters.priceRange[0] && product.Price <= filters.priceRange[1];
+    const inStock = !filters.inStock || product.quantity > 0;
+    return inPriceRange && inStock;
+  });
 
   return (
     <div className="big_container">
      
-
       <div className="products_routes">
         <Link to="/" style={{ color: "#0078a1", textDecoration: "none" }}>
           Home &nbsp;/
@@ -104,84 +131,98 @@ Their air filter sealing is unique, as is the special filtration paper: this was
         <Link to="/Shop" style={{ color: "#0078a1", textDecoration: "none" }}>
           &nbsp;Shop &nbsp;/
         </Link>
-        <p
-          style={{
-            color: "#0078a1",
-            textDecoration: "none",
-            position: "absolute",
-            left: "7.2rem",
-            top: "-1rem",
-            width: "10rem",
-          }}
-        >
+        <p style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "7.2rem", top: "-1rem", width: "10rem" }}>
           &nbsp;{category}&nbsp;
         </p>
       </div>
-
       <div className="productdisplay_container">
-        <p className="category_p">
-          &nbsp;{category}&nbsp;
-        </p>
+        <p className="category_p">&nbsp;{category}&nbsp;</p>
         {isLoading ? (
-          <div className="product_loader">
-            <div className="spinner"></div>
+          <div className="dot-spinner">
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
           </div>
         ) : (
           <>
-            <p className="category-description">
-              {categoryDescriptions[category] ||
-                "Browse our selection of products."}
+              <p className="category-description">
+              {categoryDescriptions[category] || "Browse our selection of products."}
             </p>
+            {error && <div className="error-message">{error} <button onClick={() => window.location.reload()}>Retry</button></div>}
+            <div className="sort-filter-container">
+              <div className="sort-options">
+                <label htmlFor="sort">Sort by: </label>
+                <select id="sort" value={sortOption} onChange={handleSortChange}>
+                  <option value="">Select</option>
+                  <option value="priceLowToHigh">Price: Low to High</option>
+                  <option value="priceHighToLow">Price: High to Low</option>
+                </select>
+              </div>
+              <div className="filter-options">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="inStock"
+                    checked={filters.inStock}
+                    onChange={handleFilterChange}
+                  />
+                  In Stock
+                </label>
+              </div>
+            </div>
+        
             <div className={`sub_productdisplay_container ${layoutMode}`}>
               <small className="featuredprdts_length">
-                Results {products.length}
+                Results {filteredProducts.length}
               </small>
-
-              {products
+              {filteredProducts
                 .slice(pagesVisited, pagesVisited + itemsPerPage)
                 .map((product, index) => (
                   <Link
                     key={product.partnumber}
                     className="mylink"
-                    to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-                    onClick={() =>
-                      !isLoading && handleAddProductDetails(product)
-                    }
+                  
                   >
                     <div key={product.partnumber}>
                       {product.image ? (
-                        <img
-                          className="prdt_image"
-                          src={product.image}
-                          alt=""
-                        />
+                        <img className="prdt_image" src={product.image} alt="" />
                       ) : (
                         <p className="cameraoff_icon">
                           <LuCameraOff />
                         </p>
                       )}
                       <p className="prdt_partnumber">{product.partnumber}</p>
-                      <p className="prdt_title">{product.Description}</p>
+                     <Link key={product.partnumber}
+                 style={{color:'black',textDecoration:'none'}}
+                    to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+                    onClick={() =>
+                      handleAddProductDetails(product)
+                    }><p className="prdt_title">{product.Description}</p></Link> 
                       <p className="prdt_price">${product.Price}</p>
                       <div className="stock_status">
                         <div
-                          className={`status_indicator ${
-                            product.quantity > 0 ? "in_stock" : "out_of_stock"
-                          }`}
+                          className={`status_indicator ${product.quantity > 0 ? "in_stock" : "out_of_stock"}`}
                         ></div>
                         <div className="in_out_stock">
                           {product.quantity > 0 ? "In Stock" : "Out of Stock"}
                         </div>
                         {product.quantity <= 0 && (
-                          <div className="get_quote_productpage">
-                            <p>Get a Quote</p>
+                          <div className="get_quote_productpage" onClick={() =>
+                            handleAddProduct(product)
+                          } >
+                            <p><GrCart className="cart_productpage"  /></p>
                           </div>
                         )}
                       </div>
                     </div>
                   </Link>
                 ))}
-              {data.length > 0 && (
+              {filteredProducts.length > 0 && (
                 <ReactPaginate
                   previousLabel={"Previous"}
                   nextLabel={"Next"}
@@ -197,10 +238,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
             </div>
           </>
         )}
-        <div
-          className="filterelement_footer"
-        
-        >
+        <div className="filterelement_footer">
           <Footer />
         </div>
       </div>

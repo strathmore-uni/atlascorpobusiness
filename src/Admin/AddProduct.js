@@ -93,7 +93,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container-addproduct">
       <h2>Add New Product</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" name="partnumber" placeholder="Part Number" value={productDetails.partnumber} onChange={handleInputChange} required />

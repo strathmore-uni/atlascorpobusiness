@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { IoPersonOutline, IoSearchOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { GrCart } from "react-icons/gr";
+import { FaBars } from "react-icons/fa";
 import axios from "axios";
 import { useAuth } from '../MainOpeningpage/AuthContext'; 
-import { auth } from "../Firebase";
 import { LuUser } from "react-icons/lu";
-import "./Navigation.css";
 import { IoIosArrowDown } from "react-icons/io";
+import Categories from "../Categories and Display page/Categories";
+import "./Navigation.css";
 
 export default function NavigationBar({ cartItems = [], guestEmail }) {
   const navigate = useNavigate();
@@ -19,15 +19,17 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [categories, setCategories] = useState([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail') || guestEmail);
+  const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
 
   const toggleDropdownVisibility = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
 
+  const handleScroll = () => {
+    setIsScrolled(window.scrollY > 0);
+  };
+
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -104,15 +106,24 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     localStorage.removeItem('userEmail');
   };
 
+  const handleBarsClick = () => {
+    setIsCategoriesVisible(!isCategoriesVisible);
+  };
 
-
-  
+  const handleCategoriesClose = () => {
+    setIsCategoriesVisible(false);
+  };
 
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
+      <div className="bars_nav" onClick={handleBarsClick}>
+        <FaBars />
+      </div>
+     
       <Link style={{ textDecoration: 'none' }} to="/">
         <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
       </Link>
+      
       <div className="div_search">
         <input
           className="input"
@@ -127,6 +138,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
           Search
         </button>
       </div>
+      
       <div className="mycart">
         <Link to='/Cart' className="p_cart" style={{ textDecoration: 'none' }}>
           <GrCart className="icon_cart" />
@@ -136,12 +148,13 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
           <small>Cart</small>
         </Link>
       </div>
+      
       <div className="user-profile-container" onClick={toggleDropdownVisibility}>
         <div className="user-profile">
           <LuUser className="person_icon" />
           <div className="dropdown">
             <span className="email">
-            {currentUser ? currentUser.email : "Account"}
+              {currentUser ? currentUser.email : "Account"}
               <IoIosArrowDown className="nav_arrowdown" />
             </span>
             {isDropdownVisible && (
@@ -155,6 +168,8 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
           </div>
         </div>
       </div>
+      
+      {isCategoriesVisible && <Categories isVisible={isCategoriesVisible} onClose={handleCategoriesClose} />}
     </div>
   );
 }

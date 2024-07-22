@@ -342,6 +342,7 @@ function App() {
                 <ProductsPage
                   handleAddProductDetails={handleAddProductDetails}
                   cartItems={cartItems}
+                  handleAddProduct={handleAddProduct}
                 />
               }
             />

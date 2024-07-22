@@ -87,19 +87,22 @@
 .prdt_image {
   position: relative;
   top: 0.5rem;
-  left: 1.5rem;
-  max-height: 9rem;
+  left: 2rem;
+  max-height: 9.5rem;
   max-width: 15rem;
   justify-content: center;
   align-items: center;
   font-size: 3.5rem;
   color: grey;
+  transition: transform 0.3s ease;
 }
+
 .prdt_title {
   position: relative;
   font-size: 1.3rem;
   top: 1rem;
   left: 0.7rem;
+  font-weight: bold;
 
   width: 14rem;
 }
@@ -131,7 +134,7 @@
 }
 .prdt_price {
   position: relative;
-  top: 1rem;
+  top: 2rem;
   left: 1rem;
   font-size: 1.3rem;
   font-weight: 600;
@@ -147,19 +150,22 @@
 
 .mylink {
   position: relative;
-  border: 1px solid grey;
+  border: 1px currentColor grey;
   border-radius: 6px;
   top: 2rem;
   left: 1rem;
-  width: 17rem;
-  height: 26rem;
+  width: 18rem;
+  height: 28rem;
   color: black;
   text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 .mylink:hover {
-  padding: 0.1rem;
-  box-shadow: 0px 0px 5px 0px;
-  transition: background-color 0.3s ease;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .featuredprdts_length {
   position: absolute;
@@ -178,7 +184,7 @@
   height: 8rem;
   left: 0rem;
   
-  top: 20rem;
+  top: 18rem;
   width: 100%;
   box-sizing: border-box;
 }
@@ -273,7 +279,7 @@
 .stock_status {
   position: relative;
   left: 0.5rem;
-  top: 2rem;
+  top: 5rem;
   height: 2.5rem;
   display: flex;
   flex-direction: row;
@@ -308,28 +314,36 @@
 }
 .get_quote_productpage {
   position: relative;
-  top: 0rem;
+  top:-1rem;
   background-color: #007bff;
-  width: 5.8rem;
+  border-radius: 50%;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  left: 0rem;
+  left: 4rem;
   font-size: 1rem;
-
-  height: 35px;
+width: 3rem;
+  height: 3rem;
   border-radius: 1000px;
 }
 .get_quote_productpage p {
   color: white;
   font-size: 0.8rem;
   font-weight: 600;
+  position: relative;
+  display: flex;
+  top: 0rem;
 }
 .fabars_categories {
   position: relative;
   top: 0rem;
   left: 0rem;
+}
+.cart_productpage{
+  position: relative;
+  top: -.2rem;
+  font-size: 1.1rem;
 }
 .product_loader{
   display: flex;
@@ -364,8 +378,9 @@
   position: relative;
   left: .4rem;
   width: 98%;
-  top: -3rem;
+  top: 0rem;
   font-size: 1.3rem;
+  
 }
 .category_p{
   font-size: 2rem;
@@ -382,6 +397,114 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Sorting and Filtering Container */
+.sort-filter-container {
+  display: flex;
+  position: relative;
+
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sort Options */
+.sort-options {
+  display: flex;
+  align-items: center;
+}
+
+.sort-options label {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.sort-options select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.sort-options select:focus {
+  border-color: #0078a1;
+  outline: none;
+}
+
+/* Filter Options */
+.filter-options {
+  display: flex;
+  align-items: center;
+}
+
+.filter-options label {
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.filter-options input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+/* Hover Effects */
+.sort-options select:hover,
+.filter-options input[type="checkbox"]:hover {
+  border-color: #0078a1;
+}
+.sort-options select, .filter-options input {
+  margin: 0 10px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
+.add-to-cart-btn {
+  background: #0078a1;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+  background: #005f6a;
+}
+.no_product{
+  position: relative;
+  top: 2rem;
+  left: 2rem;
+  width: 10rem;
+  font-size: 1.2rem;
+
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sort-filter-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sort-options,
+  .filter-options {
+    margin-bottom: 1rem;
   }
 }
 
