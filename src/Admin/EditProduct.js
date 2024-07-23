@@ -167,8 +167,8 @@ const EditProduct = () => {
                 Price:
                 <input
                   type="text"
-                  value={price.Price}
-                  onChange={(e) => handlePriceChange(index, 'Price', e.target.value)}
+                  value={price.price}
+                  onChange={(e) => handlePriceChange(index, 'price', e.target.value)}
                 />
               </label>
               <br />
