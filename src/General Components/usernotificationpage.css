@@ -1,0 +1,73 @@
+/* notifications-container styles */
+.notifications-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notifications-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Notification list styles */
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .unread {
+    background-color: #e7f0ff; /* Light blue background for unread notifications */
+    font-weight: bold;
+  }
+  
+  /* Notification message styles */
+  .notification-message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .order-number {
+    font-weight: bold;
+    color: #007bff; /* Blue color for order numbers */
+  }
+  
+  .notification-text {
+    flex: 1;
+    margin-left: 10px;
+    color: #333;
+  }
+  
+  /* Media Queries for responsiveness */
+  @media (max-width: 600px) {
+    .notifications-container {
+      padding: 10px;
+    }
+  
+    .notifications-container h2 {
+      font-size: 20px;
+    }
+  
+    li {
+      padding: 10px;
+    }
+  }
+  

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import NavigationBar from "../General Components/NavigationBar";
 import "./productdetails.css";
 import { GrCart } from "react-icons/gr";
@@ -8,15 +9,11 @@ import Notification from "../General Components/Notification";
 import { useAuth } from "../MainOpeningpage/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
-export default function ProductDetails({
-  productdetails,
-  handleAddProduct,
-  cartItems,
-}) {
+export default function ProductDetails({ productdetails, handleAddProduct, cartItems }) {
   const { currentUser } = useAuth();
   const [selectedImage, setSelectedImage] = useState(productdetails[0]?.image);
   const [notificationMessage, setNotificationMessage] = useState('');
-  const [activeTab, setActiveTab] = useState('description'); 
+  const [activeTab, setActiveTab] = useState('description');
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -24,17 +21,31 @@ export default function ProductDetails({
     setSelectedImage(image);
   };
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = async (product) => {
     if (!currentUser) {
       navigate('/signin');
       return;
     }
-    handleAddProduct(product);
-    setNotificationMessage(`${product.Description} has been added to the cart.`);
-    setTimeout(() => {
-      setNotificationMessage('');
-    }, 3000);
+  
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/cart`, {
+        partnumber: product.partnumber,
+        quantity: 1
+      }, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}` // Ensure this is correctly set
+        }
+      });
+      handleAddProduct(product);
+      setNotificationMessage(`${product.Description} has been added to the cart.`);
+      setTimeout(() => {
+        setNotificationMessage('');
+      }, 3000);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
   };
+  
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -52,10 +63,7 @@ export default function ProductDetails({
               <a href="/Shop" style={{ color: "#0078a1", textDecoration: "none" }}>
                 &nbsp;Shop &nbsp;/
               </a>
-              <a href="/Shop/products" style={{ color: "#0078a1", textDecoration: "none" }}>
-                &nbsp;Products &nbsp;/
-              </a>
-              <p style={{ position: "absolute", left: "12.5rem", top: "-1rem" }}>
+              <p style={{ position: "absolute", left: "7.5rem", top: "-1rem" }}>
                 {product.Description}
               </p>
             </div>
@@ -132,19 +140,16 @@ export default function ProductDetails({
             <div className="productdetails_content">
               {activeTab === 'description' && (
                 <div>
-                  
                   <p>Details about description for this product.</p>
                 </div>
               )}
               {activeTab === 'specification' && (
                 <div>
-                  
                   <p>Product specifications go here.</p>
                 </div>
               )}
               {activeTab === 'reviews' && (
                 <div>
-                  
                   <p>Customer reviews and ratings.</p>
                 </div>
               )}
@@ -159,23 +164,19 @@ export default function ProductDetails({
                 <GrCart /> Add to cart
               </button>
               <div className="stock_status_prdtdetails">
-                        <div
-                          className={`status_indicator ${product.quantity > 0 ? "in_stock" : "out_of_stock"}`}
-                        ></div>
-                        <div className="in_out_stock">
-                          {product.quantity > 0 ? "In Stock" : "Out of Stock"}
-                        </div>
-                      
-                      </div>
+                <div className={`status_indicator ${product.quantity > 0 ? "in_stock" : "out_of_stock"}`}></div>
+                <p className="stock_status">
+                  {product.quantity > 0 ? "In stock" : "Out of stock"}
+                </p>
+              </div>
             </div>
           </div>
         ))}
       </div>
-      <div className='productdetails_footer'>
-        <Footer />
-      </div>
-      {notificationMessage && <Notification message={notificationMessage} />}
-      <NavigationBar cartItems={cartItems} />
+      {notificationMessage && (
+        <Notification message={notificationMessage} />
+      )}
+      <NavigationBar />
     </div>
   );
 }

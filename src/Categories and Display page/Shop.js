@@ -17,15 +17,16 @@ export default function Shop({
      
   
       <div className="container_shop">
+       
+        <div className="shop-product-container">
         <div className="shop_routes">
           <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
-            Home/  &nbsp;
+            Home&nbsp;/
           </a>
-          <p style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "3rem", top: "-.4rem" }}>
+          <p style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "3.2rem", top: "-1rem" }}>
             &nbsp;Shop &nbsp;
           </p>
         </div>
-        <div className="shop-product-container">
           <Products
             handleAddProductDetails={handleAddProductDetails}
             handleAddQuotationProduct={handleAddQuotationProduct}

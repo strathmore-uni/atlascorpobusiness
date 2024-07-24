@@ -1,24 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { LuCameraOff } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import Footer from "../General Components/Footer";
 import "./shoppingcartpage.css";
 import NavigationBar from "../General Components/NavigationBar";
 import { useAuth } from "../MainOpeningpage/AuthContext";
 
 export default function ShoppingCartPage({
-  cartItems,
-  quotationItems,
+
   handleRemoveProduct,
   handleRemoveSingleProduct,
   handleAddProduct,
   handleCartClearance,
-  handleAddQuotationProduct,
-  handleRemoveQuotationProduct,
   totalPrice,
-  handleRemoveSingleQuotationProduct,
+  
 }) {
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
@@ -47,6 +43,52 @@ export default function ShoppingCartPage({
     }
   };
 
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await axios.get('/api/cart', {
+          headers: {
+            Authorization: `Bearer ${currentUser.token}`
+          }
+        });
+        setCartItems(response.data);
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+      }
+    };
+
+    fetchCartItems();
+  }, [currentUser]);
+
+  const handleRemoveFromCart = async (partnumber) => {
+    try {
+      await axios.delete(`/api/cart/${partnumber}`, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`
+        }
+      });
+      setCartItems(cartItems.filter(item => item.partnumber !== partnumber));
+      handleRemoveProduct(partnumber);
+    } catch (error) {
+      console.error('Error removing from cart:', error);
+    }
+  };
+
+  const handleClearCartClick = async () => {
+    try {
+      await axios.delete('/api/cart', {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`
+        }
+      });
+      setCartItems([]);
+      handleClearCart();
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+    }
+  };
   return (
     <div className="shoppingcartpage_container">
       <div className="productsdisplay_shoppingcart">
@@ -70,7 +112,7 @@ export default function ShoppingCartPage({
           </p>
         </div>
         <h2 style={{ color: "#0078a1" }}>Cart Items</h2>
-        <button className="btn_clearcart" onClick={handleCartClearance}>
+        <button className="btn_clearcart"  onClick={handleClearCartClick}>
           Clear Cart
           <RiDeleteBinLine className="deleteicon" />
         </button>
@@ -98,7 +140,7 @@ export default function ShoppingCartPage({
                 +
               </button>
               <p className="cart_quantity">{item.quantity}</p>
-              <button className="decrease-item" onClick={() => handleRemoveProduct(item)}>
+              <button className="decrease-item" onClick={() => handleRemoveFromCart(item.partnumber)}>
                 -
               </button>
             </div>
@@ -107,7 +149,7 @@ export default function ShoppingCartPage({
             <p className="net_cart_itemprice">$ {item.Price}</p>
             <p className="cart_itemprice">$ {item.Price}</p>
 
-            <p className="cart_removeitem" onClick={() => handleRemoveSingleProduct(item)}>
+            <p className="cart_removeitem" onClick={() => handleRemoveFromCart(item.partnumber)}>
               Remove
               <RiDeleteBinLine />
             </p>

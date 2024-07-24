@@ -1,0 +1,116 @@
+/* Stock Component Styles */
+.stock-page {
+    position: relative;
+    left: 7rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .stock-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .stock-page ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .stock-page ul li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s;
+  }
+  
+  .stock-page ul li:hover {
+    transform: scale(1.02);
+  }
+  
+  .stock-page ul li div {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .stock-page ul li div strong {
+    color: #333;
+  }
+  
+  .dot-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .dot-spinner__dot {
+    width: 14px;
+    height: 14px;
+    margin: 0 5px;
+    background-color: #333;
+    border-radius: 50%;
+    animation: dotSpinner 1.2s infinite ease-in-out;
+  }
+  
+  .dot-spinner__dot:nth-child(1) {
+    animation-delay: -0.24s;
+  }
+  
+  .dot-spinner__dot:nth-child(2) {
+    animation-delay: -0.12s;
+  }
+  
+  .dot-spinner__dot:nth-child(3) {
+    animation-delay: 0;
+  }
+  
+  @keyframes dotSpinner {
+    0%, 80%, 100% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Admin Category Component Styles */
+  .admin-category {
+    margin-top: 20px;
+  }
+  
+  .admin-category h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .admin-category ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .admin-category ul li {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s;
+  }
+  
+  .admin-category ul li:hover {
+    background-color: #f1f1f1;
+  }
+  

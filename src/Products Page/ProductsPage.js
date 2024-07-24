@@ -47,7 +47,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
       "Bearing kits include bearings and related components for various applications, ensuring smooth and reliable operation.",
     Kitpm8k:
       "KIT PM8K RS is a comprehensive kit for the PM8K RS system, including all necessary parts for maintenance and repair.",
-    Energyrecovery:
+    energyrecovery:
       "Energy recovery systems capture and reuse energy that would otherwise be lost, improving efficiency and reducing costs.",
     blowerpowerckt:
       "Blower power circuits are essential for powering blowers, ensuring efficient and reliable operation in various applications.",
@@ -117,7 +117,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
   const filteredProducts = sortedProducts.filter((product) => {
     const inPriceRange =
       product.Price >= filters.priceRange[0] && product.Price <= filters.priceRange[1];
-    const inStock = !filters.inStock || product.quantity > 0;
+    const inStock = !filters.inStock || product.stock_quantity > 0;
     return inPriceRange && inStock;
   });
 

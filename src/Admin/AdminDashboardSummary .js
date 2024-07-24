@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import AdminCategory from './AdminCategory';
 import './admincategory.css';
+import './notificationspage.css';
+import AdminCategory from './AdminCategory';
 
 const AdminDashboardSummary = () => {
   const [summary, setSummary] = useState({
@@ -11,20 +12,21 @@ const AdminDashboardSummary = () => {
     users: 0,
     recentOrders: [],
     pendingOrders: [],
+    unreadNotificationsCount: 0,
   });
 
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const [ordersCount, productsCount, usersCount, recentOrdersResponse, pendingOrdersResponse] = await Promise.all([
+        const [ordersCount, productsCount, usersCount, recentOrdersResponse, pendingOrdersResponse, notificationsCountResponse] = await Promise.all([
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/count`),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products/count`),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/users/count`),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/recent`),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`)
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/notifications/count`),
         ]);
 
-        // Sort recent orders and pending orders from newest to oldest
         const sortByDateDescending = (a, b) => new Date(b.created_at) - new Date(a.created_at);
 
         setSummary({
@@ -33,6 +35,7 @@ const AdminDashboardSummary = () => {
           users: usersCount.data.count,
           recentOrders: recentOrdersResponse.data.sort(sortByDateDescending),
           pendingOrders: pendingOrdersResponse.data.sort(sortByDateDescending),
+          unreadNotificationsCount: notificationsCountResponse.data.count,
         });
       } catch (error) {
         console.error('Error fetching summary:', error);
@@ -46,6 +49,14 @@ const AdminDashboardSummary = () => {
     <div>
       <div className="maincontainer_admin">
         <h2>Dashboard</h2>
+        <div className="notification-bell">
+          <Link to="/notifications">
+            <span className="bell-icon">&#128276;</span>
+            {summary.unreadNotificationsCount > 0 && (
+              <span className="notification-count">{summary.unreadNotificationsCount}</span>
+            )}
+          </Link>
+        </div>
         <div className="admin-dashboard-summary">
           <div className="summary-item">
             <h3>Total Orders</h3>

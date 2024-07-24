@@ -20,6 +20,8 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail') || guestEmail);
   const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
 
   const toggleDropdownVisibility = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -37,36 +39,26 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   }, []);
 
   useEffect(() => {
-    const fetchSearchResults = async () => {
+    const fetchNotifications = async () => {
       try {
-        if (!userEmail) {
-          console.error('No user email provided');
+        if (!currentUser) {
           return;
         }
 
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/search`, {
-          params: {
-            term: searchQuery,
-            email:  currentUser.email
-          }
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/notifications`, {
+          params: { email: currentUser.email }
         });
 
-        setResults(response.data);
-
-        const uniqueCategories = [...new Set(response.data.map(item => item.category))];
-        setCategories(uniqueCategories);
+        setNotifications(response.data);
+        const unreadCount = response.data.filter(notification => !notification.read).length;
+        setUnreadNotificationsCount(unreadCount);
       } catch (error) {
-        console.error('Error searching:', error);
+        console.error('Error fetching notifications:', error);
       }
     };
 
-    if (searchQuery.trim() !== '') {
-      fetchSearchResults();
-    } else {
-      setResults([]);
-      setCategories([]);
-    }
-  }, [searchQuery, currentUser]);
+    fetchNotifications();
+  }, [currentUser]);
 
   const handleSearch = async () => {
     try {
@@ -78,7 +70,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
       const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/search`, {
         params: {
           term: searchQuery,
-          email:  currentUser.email
+          email: currentUser.email
         }
       });
 
@@ -148,6 +140,8 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
           <small>Cart</small>
         </Link>
       </div>
+
+   
       
       <div className="user-profile-container" onClick={toggleDropdownVisibility}>
         <div className="user-profile">
@@ -167,6 +161,14 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
             )}
           </div>
         </div>
+        <div className="notification-bell-nav">
+        <Link to='/usernotifications'>
+          <span className="bell-icon-nav">&#128276;</span>
+          {unreadNotificationsCount > 0 && (
+            <span className="notification-count-nav">{unreadNotificationsCount}</span>
+          )}
+        </Link>
+      </div>
       </div>
       
       {isCategoriesVisible && <Categories isVisible={isCategoriesVisible} onClose={handleCategoriesClose} />}

@@ -40,6 +40,9 @@ import RegisteredUsers from "./Admin/RegisteredUsers";
 import OrderDetails from "./Admin/OrderDetails ";
 import AdminDashboardSummary from "./Admin/AdminDashboardSummary ";
 import OrderDetailsPage from "./Admin/OrderDetailsPage ";
+import Stock from "./Admin/Stock";
+import NotificationsPage from "./Admin/NotificationsPage";
+import UserNotificationPage from "./General Components/UserNotificationPage";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -372,10 +375,13 @@ function App() {
             <Route path="/ordereditems/:category" element={<OrderDetailsPage />} />
             <Route path="/addproduct"  element={<AddProduct />}/>
             <Route path="/dashboard" element={<AdminDashboardSummary />} />
+            <Route path='/stock' element={<Stock />} />
             <Route path="/editproduct/:id"  element={<EditProduct />}/>
             <Route path="/productlist"  element={<ProductsList />}/>
             <Route path="/registeredusers"  element={<RegisteredUsers />}/>
             <Route path="orderdetails/:orderId" element={<OrderDetails />} />
+            <Route path="/notifications" element={<NotificationsPage />}  />
+            <Route path="/usernotifications" element={<UserNotificationPage />}  />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct}  handleAddHistoryProduct={handleAddHistoryProduct} />} />
           </Routes>
