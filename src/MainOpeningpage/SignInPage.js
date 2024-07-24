@@ -37,17 +37,20 @@ const SignInPage = () => {
 
   const handleEmailSignIn = async (event) => {
     event.preventDefault();
-
+  
     if (!email || !password) {
       setError('Email and password are required.');
       return;
     }
-
+  
     try {
       const response = await axios.post(`${process.env.REACT_APP_LOCAL}/login`, { email, password });
       if (response.data.token) {
-        const { token, isAdmin } = response.data;
-        signIn({ email, isAdmin }, token);
+        const { token, isAdmin, id } = response.data; // Get id from the response
+        const currentUser = { email, isAdmin, id }; // Store id in currentUser
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  
+        signIn(currentUser, token);
         if (isAdmin) {
           navigate('/dashboard');
         } else {
@@ -61,6 +64,7 @@ const SignInPage = () => {
       setError('Login failed. Please check your credentials and try again.');
     }
   };
+  
 
   const handleForgotPassword = () => {
     navigate('/forgot-password');

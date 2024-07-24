@@ -8,17 +8,28 @@ import NavigationBar from "../General Components/NavigationBar";
 import { useAuth } from "../MainOpeningpage/AuthContext";
 
 export default function ShoppingCartPage({
-
   handleRemoveProduct,
   handleRemoveSingleProduct,
-  handleAddProduct,
   handleCartClearance,
   totalPrice,
-  
 }) {
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
   const { currentUser } = useAuth();
+  const [cartItems, setCartItems] = useState([]);
+
+  const handleAddProduct = (product) => {
+    const existingProduct = cartItems.find(item => item.partnumber === product.partnumber);
+    if (existingProduct) {
+      setCartItems(cartItems.map(item =>
+        item.partnumber === product.partnumber
+          ? { ...item, quantity: item.quantity + product.quantity }
+          : item
+      ));
+    } else {
+      setCartItems([...cartItems, product]);
+    }
+  };
 
   const handleQuickOrderSubmit = async () => {
     if (!quickOrderCode || quickOrderQty <= 0) {
@@ -43,15 +54,16 @@ export default function ShoppingCartPage({
     }
   };
 
-  const [cartItems, setCartItems] = useState([]);
-
   useEffect(() => {
     const fetchCartItems = async () => {
+      if (!currentUser || !currentUser.email) {
+        console.warn('No current user or email available.');
+        return;
+      }
+
       try {
-        const response = await axios.get('/api/cart', {
-          headers: {
-            Authorization: `Bearer ${currentUser.token}`
-          }
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/cart`, {
+          params: { email: currentUser.email } // Pass email as query parameter
         });
         setCartItems(response.data);
       } catch (error) {
@@ -63,32 +75,46 @@ export default function ShoppingCartPage({
   }, [currentUser]);
 
   const handleRemoveFromCart = async (partnumber) => {
+    if (!currentUser || !currentUser.email) {
+      console.warn('No current user or email available.');
+      return;
+    }
+  
     try {
-      await axios.delete(`/api/cart/${partnumber}`, {
-        headers: {
-          Authorization: `Bearer ${currentUser.token}`
-        }
+      await axios.delete(`${process.env.REACT_APP_LOCAL}/api/cart/${partnumber}`, {
+        params: { email: currentUser.email } // Pass email as query parameter
       });
+      
+      // Update cart items after successful deletion
       setCartItems(cartItems.filter(item => item.partnumber !== partnumber));
-      handleRemoveProduct(partnumber);
+      handleRemoveProduct(partnumber); // Ensure this is correctly updating the state or performing the action
     } catch (error) {
       console.error('Error removing from cart:', error);
     }
   };
+  
+  
+  
+  
 
   const handleClearCartClick = async () => {
+    if (!currentUser || !currentUser.email) {
+      console.warn('No current user or email available.');
+      return;
+    }
+  
     try {
-      await axios.delete('/api/cart', {
-        headers: {
-          Authorization: `Bearer ${currentUser.token}`
-        }
+      await axios.delete(`${process.env.REACT_APP_LOCAL}/api/cart`, {
+        params: { email: currentUser.email } // Pass email as query parameter
       });
       setCartItems([]);
-      handleClearCart();
+      handleCartClearance(); // Ensure this function updates UI or state appropriately
     } catch (error) {
       console.error('Error clearing cart:', error);
     }
   };
+  
+
   return (
     <div className="shoppingcartpage_container">
       <div className="productsdisplay_shoppingcart">
@@ -112,7 +138,7 @@ export default function ShoppingCartPage({
           </p>
         </div>
         <h2 style={{ color: "#0078a1" }}>Cart Items</h2>
-        <button className="btn_clearcart"  onClick={handleClearCartClick}>
+        <button className="btn_clearcart" onClick={handleClearCartClick}>
           Clear Cart
           <RiDeleteBinLine className="deleteicon" />
         </button>
@@ -145,9 +171,9 @@ export default function ShoppingCartPage({
               </button>
             </div>
             <p className="p_serialnumber">Part Number:&nbsp;{item.partnumber}</p>
-            <p className="cart_item_title">{item.Description}</p>
-            <p className="net_cart_itemprice">$ {item.Price}</p>
-            <p className="cart_itemprice">$ {item.Price}</p>
+            <p className="cart_item_title">{item.description}</p>
+            <p className="net_cart_itemprice">$ {item.price}</p>
+            <p className="cart_itemprice">$ {item.price}</p>
 
             <p className="cart_removeitem" onClick={() => handleRemoveFromCart(item.partnumber)}>
               Remove

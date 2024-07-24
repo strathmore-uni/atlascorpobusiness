@@ -22,19 +22,22 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
   };
 
   const handleAddToCart = async (product) => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
       navigate('/signin');
       return;
     }
   
+    console.log('User Email:', currentUser.email); // Debugging
+    console.log('Product Part Number:', product.partnumber); // Debugging
+  
     try {
       await axios.post(`${process.env.REACT_APP_LOCAL}/api/cart`, {
         partnumber: product.partnumber,
-        quantity: 1
-      }, {
-        headers: {
-          Authorization: `Bearer ${currentUser.token}` // Ensure this is correctly set
-        }
+        quantity: 1,
+        userEmail: currentUser.email, // Ensure userEmail is correctly set
+        description: product.Description, // Include description
+        price: product.Price // Include price
       });
       handleAddProduct(product);
       setNotificationMessage(`${product.Description} has been added to the cart.`);
@@ -45,6 +48,11 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
       console.error('Error adding to cart:', error);
     }
   };
+  
+  
+  
+  
+  
   
 
   const handleTabChange = (tab) => {
