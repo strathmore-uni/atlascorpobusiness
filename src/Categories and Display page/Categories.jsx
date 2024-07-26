@@ -1,16 +1,22 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import "./categories.css";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaBars, FaTimes } from "react-icons/fa";
 
-export default function Categories() {
+export default function Categories({isVisible, onClose}) {
   const [dropdowns, setDropdowns] = useState({
     filterElement: false,
     overhaulKit: false,
     prevMain: false,
     kitFilter: false,
   });
+  const handleCategorySelect = (category) => {
+    // Handle category selection logic here
+    onClose(); // Close the categories dropdown
+  };
+
+  if (!isVisible) return null;
 
   const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
   const navigate = useNavigate();
@@ -30,8 +36,7 @@ export default function Categories() {
   };
 
   return (
-    <div className={`categories-container ${isCategoriesVisible ? 'visible' : ''}`}   ref={categoriesRef}>
-    
+    <div className={`categories-container ${isCategoriesVisible ? 'visible' : ''}`} ref={categoriesRef}>
       <button className="categories-toggle" onClick={toggleCategoriesVisibility}>
         <FaBars />
       </button>

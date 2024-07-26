@@ -7,7 +7,8 @@ import { FaBars } from "react-icons/fa6";
 import Categories from "./Categories";
 import { useAuth } from "../MainOpeningpage/AuthContext";
 import { GrCart } from "react-icons/gr";
-export default function Products({ handleAddProductDetails, handleAddQuotationProduct }) {
+import axios from "axios";
+export default function Products({ handleAddProductDetails,handleAddProduct, handleAddQuotationProduct }) {
   const [data, setData] = useState([]);
   const [visibleCount, setVisibleCount] = useState(20); // Initially show 20 products
   const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
@@ -44,6 +45,34 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
 
   const loadMoreProducts = () => {
     setVisibleCount((prevCount) => prevCount + 20); // Load 20 more products
+  };
+  const handleAddToCart = async (product) => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      navigate('/signin');
+      return;
+    }
+  
+    console.log('User Email:', currentUser.email); // Debugging
+    console.log('Product Part Number:', product.partnumber); // Debugging
+  
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/singlecart`, {
+        partnumber: product.partnumber,
+        quantity: 1,
+        userEmail: currentUser.email, // Ensure userEmail is correctly set
+        description: product.Description, // Include description
+        price: product.Price, // Include price
+    
+      });
+      handleAddProduct(product);
+      setNotificationMessage(`${product.Description} has been added to the cart.`);
+      setTimeout(() => {
+        setNotificationMessage('');
+      }, 3000);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
   };
 
   return (
@@ -93,7 +122,7 @@ export default function Products({ handleAddProductDetails, handleAddQuotationPr
                       </div>
                     
                         <div className="get_quote_productpage" onClick={() =>
-                          handleAddProduct(product)
+                          handleAddToCart(product)
                         } >
                           <p><GrCart className="cart_productpage"  /></p>
                         </div>

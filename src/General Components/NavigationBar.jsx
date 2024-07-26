@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GrCart } from "react-icons/gr";
 import { FaBars } from "react-icons/fa";
 import axios from "axios";
 import { useAuth } from '../MainOpeningpage/AuthContext'; 
-import { LuUser } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import Categories from "../Categories and Display page/Categories";
 import "./Navigation.css";
@@ -12,6 +11,7 @@ import "./Navigation.css";
 export default function NavigationBar({ cartItems = [], guestEmail }) {
   const navigate = useNavigate();
   const { currentUser, signOut } = useAuth();
+  const categoriesRef = useRef(null);
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -106,6 +106,28 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     setIsCategoriesVisible(false);
   };
 
+  const handleOutsideClick = (event) => {
+    if (categoriesRef.current && !categoriesRef.current.contains(event.target)) {
+      setIsCategoriesVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isCategoriesVisible) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isCategoriesVisible]);
+
+  const getInitial = (email) => {
+    return email ? email.charAt(0).toUpperCase() : '';
+  };
+
   return (
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
       <div className="bars_nav" onClick={handleBarsClick}>
@@ -131,6 +153,32 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
         </button>
       </div>
       
+      <div className="user-profile-container">
+        <div className="user-profile" onClick={toggleDropdownVisibility}>
+          <div className="profile-initial">{getInitial(currentUser ? currentUser.email : "A")}</div>
+          {isDropdownVisible && (
+            <div className="dropdown-content">
+               <div className="profile-initial-dropdown">{getInitial(currentUser ? currentUser.email : "A")}</div>
+              <small className='account_dropdown'>{currentUser ? currentUser.email : "Account"}</small>
+              <p>{currentUser ? currentUser.displayName : "User Name"}</p>
+              <Link to='/userprofile'><p>User Profile</p></Link>
+              <Link to='/orderhistory'><p>Order History</p></Link>
+              <Link to='/saveditems'><p>Saved Items</p></Link>
+              <small onClick={handleSignOut} className='logout_btn' >Log Out</small>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="notification-bell-nav">
+        <Link to='/usernotifications'>
+          <span className="bell-icon-nav">&#128276;</span>
+          {unreadNotificationsCount > 0 && (
+            <span className="notification-count-nav">{unreadNotificationsCount}</span>
+          )}
+        </Link>
+      </div>
+
       <div className="mycart">
         <Link to='/Cart' className="p_cart" style={{ textDecoration: 'none' }}>
           <GrCart className="icon_cart" />
@@ -141,37 +189,11 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
         </Link>
       </div>
 
-   
-      
-      <div className="user-profile-container" onClick={toggleDropdownVisibility}>
-        <div className="user-profile">
-          <LuUser className="person_icon" />
-          <div className="dropdown">
-            <span className="email">
-              {currentUser ? currentUser.email : "Account"}
-              <IoIosArrowDown className="nav_arrowdown" />
-            </span>
-            {isDropdownVisible && (
-              <div className="dropdown-content">
-                <Link to='/userprofile'><p>User Profile</p></Link>
-                <Link to='/orderhistory'><p>Order History</p></Link>
-                <Link to='/saveditems'><p>Saved Items</p></Link>
-                <p onClick={handleSignOut}>Log Out</p>
-              </div>
-            )}
-          </div>
+      {isCategoriesVisible && (
+        <div ref={categoriesRef}>
+          <Categories isVisible={isCategoriesVisible} onClose={handleCategoriesClose} />
         </div>
-        <div className="notification-bell-nav">
-        <Link to='/usernotifications'>
-          <span className="bell-icon-nav">&#128276;</span>
-          {unreadNotificationsCount > 0 && (
-            <span className="notification-count-nav">{unreadNotificationsCount}</span>
-          )}
-        </Link>
-      </div>
-      </div>
-      
-      {isCategoriesVisible && <Categories isVisible={isCategoriesVisible} onClose={handleCategoriesClose} />}
+      )}
     </div>
   );
 }

@@ -41,7 +41,7 @@
   position: relative;
   left: .5rem;
   display: block;
-  width: 10rem;
+  width:100%;
 }
 
 .categories-list.visible {

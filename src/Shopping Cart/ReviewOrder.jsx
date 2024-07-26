@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NavigationBar from '../General Components/NavigationBar';
-import { LuCameraOff } from "react-icons/lu";
+import { LuCameraOff } from 'react-icons/lu';
 import axios from 'axios';
 import emailjs from 'emailjs-com';
-import { AiTwotoneEdit } from "react-icons/ai";
-import { IoIosArrowBack } from "react-icons/io";
+import { AiTwotoneEdit } from 'react-icons/ai';
+import { IoIosArrowBack } from 'react-icons/io';
 import Footer from '../General Components/Footer';
 import Notification from '../General Components/Notification';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 
-const ReviewOrder = ({ cartItems, totalPrice }) => {
+const ReviewOrder = ({ totalPrice }) => {
   const [userData, setUserData] = useState({});
   const [notificationMessage, setNotificationMessage] = useState('');
   const { currentUser } = useAuth();
-
-
-
+  const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/?email=${currentUser.email}`);
         setUserData(response.data);
-       
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -31,9 +28,9 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
     fetchUserData();
   }, [currentUser]);
 
-  let shipping_fee = 40.00;
-  let vat = (totalPrice * 0.16);
-  let newPrice = totalPrice + vat + shipping_fee;
+  const shipping_fee = 40.00;
+  const vat = totalPrice * 0.16;
+  const newPrice = totalPrice + vat + shipping_fee;
 
   const generateOrderNumber = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -59,10 +56,9 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
 
       if (response.data.message === 'Order placed successfully') {
         const cartItemsDetails = cartItems.map(item => {
-          return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price}, Total Price: $${newPrice}`;
+          return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price}, Total Price: $${item.Price * item.quantity}`;
         }).join('\n');
 
-        
         const emailData = {
           to_email: userData.email,
           to_name: userData.firstName,
@@ -75,7 +71,6 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
             Cart Items: 
             ${cartItemsDetails}
 
-            
             Order Number: ${orderNumber}
             Total Amount: $${newPrice.toFixed(2)}
             
@@ -87,12 +82,8 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
           `
         };
 
-        emailjs.send('service_bmvwx28', 'template_zsdszy8', emailData, 'KeePPXIGkpTcoiTBJ')
-          .then((result) => {
-            setNotificationMessage('Order placed and confirmation email sent.');
-          }, (error) => {
-            console.error('Email sending failed:', error);
-          });
+        await emailjs.send('service_bmvwx28', 'template_zsdszy8', emailData, 'KeePPXIGkpTcoiTBJ');
+        setNotificationMessage('Order placed and confirmation email sent.');
       } else {
         console.error('Order placement failed:', response.data.message);
       }
@@ -100,6 +91,25 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
       console.error('Error placing order:', error);
     }
   };
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      if (!currentUser || !currentUser.email) {
+        console.warn('No current user or email available.');
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/cart`, {
+          params: { email: currentUser.email } // Pass email as query parameter
+        });
+        setCartItems(response.data);
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+      }
+    };
+
+    fetchCartItems();
+  }, [currentUser]);
 
   return (
     <div>
@@ -147,15 +157,15 @@ const ReviewOrder = ({ cartItems, totalPrice }) => {
           <p className="cart_empty">No items are added</p>
         )}
         {cartItems.map((item) => (
-          <div key={item.id} className='display_cart'>
+          <div key={item.partnumber} className='display_cart'>
             <p className='lucameraoff_cart'><LuCameraOff /></p>
             <div className='btngroup_cart'>
               <p className='cart_quantity_review'>{item.quantity}</p>
             </div>
             <p className='p_serialnumber'>Serial Number:&nbsp;{item.partnumber}</p>
-            <p className='p_description'>{item.Description}</p>
-            <p className='net_cart_itemprice_revieworder'>${item.Price}</p>
-            <p className='cart_itemprice_revieworder'>${item.Price}</p>
+            <p className='p_description'>{item.description}</p>
+            <p className='net_cart_itemprice_revieworder'>${item.price}</p>
+            <p className='cart_itemprice_revieworder'>${item.price}</p>
             <hr className='hr_incartdisplay' />
           </div>
         ))}

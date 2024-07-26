@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './orderhistory.css'; 
 import { IoIosArrowBack } from 'react-icons/io';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 import NavigationBar from '../General Components/NavigationBar';
 
@@ -11,6 +11,7 @@ const OrderHistory = ({ handleAddHistoryProduct }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
@@ -31,17 +32,25 @@ const OrderHistory = ({ handleAddHistoryProduct }) => {
     }
   }, [currentUser]);
 
-  const addOrderItemsToCart = async (orderId) => {
+  const handleAddOrderItemsToCart = async (orderId) => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      navigate('/signin');
+      return;
+    }
+
+    console.log('User Email:', currentUser.email); // Debugging
+    console.log('Order ID:', orderId); // Debugging
+
     try {
-      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/orders/${orderId}`);
-      const items = response.data.items;
-  
-      // Log items to debug
-      console.log('Order items:', items);
-  
-      items.forEach(item => handleAddHistoryProduct(item));
+      const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/cart`, {
+        userEmail: currentUser.email,
+        orderId: orderId
+      });
+      console.log(response.data.message); // Log success message
+      // Optionally, fetch updated cart items here
     } catch (error) {
-      console.error('Error fetching order details:', error);
+      console.error('Error adding order items to cart:', error);
     }
   };
 
@@ -75,7 +84,7 @@ const OrderHistory = ({ handleAddHistoryProduct }) => {
                     </li>
                   ))}
                 </ul>
-                <button className="add-to-cart-button" onClick={() => addOrderItemsToCart(order.id)}>
+                <button className="add-to-cart-button" onClick={() => handleAddOrderItemsToCart(order.id)}>
                   Add to Cart
                 </button>
                 <hr className="hr" />

@@ -66,7 +66,69 @@ Their air filter sealing is unique, as is the special filtration paper: this was
     kitfilterud:
       "Kit Filter UD includes all necessary filter elements and components for maintaining UD filter systems.",
   };
-
+  const categoryBackgroundImages = {
+    Filterelement: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
+    Oilfilterelement: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
+    Servkit: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
+    Autodrainvalve: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
+    Contractor: 'url(/path/to/contractor-image.jpg)',
+    Overhaulkit: 'url(/path/to/overhaulkit-image.jpg)',
+    Silencerkit: 'url(/path/to/silencerkit-image.jpg)',
+    Maintenancekit: 'url(/path/to/maintenancekit-image.jpg)',
+    Bearingkits: 'url(/path/to/bearingkits-image.jpg)',
+    Kitpm8k: 'url(/path/to/kitpm8k-image.jpg)',
+    energyrecovery: 'url(/path/to/energyrecovery-image.jpg)',
+    blowerpowerckt: 'url(/path/to/blowerpowerckt-image.jpg)',
+    blowerbearkingkit: 'url(/path/to/blowerbearkingkit-image.jpg)',
+    Prevmain: 'url(/path/to/prevmain-image.jpg)',
+    Hrkit: 'url(/path/to/hrkit-image.jpg)',
+    kitfilterdd: 'url(/path/to/kitfilterdd-image.jpg)',
+    kitfilterpd: 'url(/path/to/kitfilterpd-image.jpg)',
+    kitfilterddp: 'url(/path/to/kitfilterddp-image.jpg)',
+    kitfilterud: 'url(/path/to/kitfilterud-image.jpg)',
+  };
+  const categoryBackgroundStyle = {
+    backgroundImage: categoryBackgroundImages[category] || 'none',
+    backgroundSize: 'cover',
+    position:'relative',
+    backgroundPosition: 'center',
+    height: '20rem',
+    display: 'flex',
+    alignItems: 'center',
+    top:'-9rem',
+    justifyContent: 'center',
+    color: 'white',
+    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+    padding: '1rem',
+    marginBottom: '0rem'
+  };
+  const handleAddToCart = async (product) => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      navigate('/signin');
+      return;
+    }
+  
+    console.log('User Email:', currentUser.email); // Debugging
+    console.log('Product Part Number:', product.partnumber); // Debugging
+  
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/cart`, {
+        partnumber: product.partnumber,
+        quantity: 1,
+        userEmail: currentUser.email, // Ensure userEmail is correctly set
+        description: product.Description, // Include description
+        price: product.Price // Include price
+      });
+      handleAddProduct(product);
+      setNotificationMessage(`${product.Description} has been added to the cart.`);
+      setTimeout(() => {
+        setNotificationMessage('');
+      }, 3000);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchProductsByCategory = async () => {
@@ -150,8 +212,12 @@ Their air filter sealing is unique, as is the special filtration paper: this was
           </div>
         ) : (
           <>
-              <p className="category-description">
+              <p className="category-description"  style={categoryBackgroundStyle} >
+                {category}
               {categoryDescriptions[category] || "Browse our selection of products."}
+              <small className="featuredprdts_length">
+                Results {filteredProducts.length}
+              </small>
             </p>
             {error && <div className="error-message">{error} <button onClick={() => window.location.reload()}>Retry</button></div>}
             <div className="sort-filter-container">
@@ -177,9 +243,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
             </div>
         
             <div className={`sub_productdisplay_container ${layoutMode}`}>
-              <small className="featuredprdts_length">
-                Results {filteredProducts.length}
-              </small>
+       
               {filteredProducts
                 .slice(pagesVisited, pagesVisited + itemsPerPage)
                 .map((product, index) => (
@@ -213,7 +277,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
                         </div>
                         {product.Stock <= 0 && (
                           <div className="get_quote_productpage" onClick={() =>
-                            handleAddProduct(product)
+                            handleAddToCart(product)
                           } >
                             <p><GrCart className="cart_productpage"  /></p>
                           </div>

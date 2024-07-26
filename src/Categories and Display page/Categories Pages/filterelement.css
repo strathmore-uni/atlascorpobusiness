@@ -14,10 +14,11 @@
 }
 .products_routes {
   position: absolute;
-
-  width: 10rem;
-  top: 7rem;
-  left: 1rem;
+  background-color: rgb(243, 243, 243);
+  width: 100%;
+  top: 5rem;
+  height: 2rem;
+  left: 0rem;
 }
 
 .pagination {

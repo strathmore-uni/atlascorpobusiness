@@ -222,6 +222,7 @@ function App() {
   const handleRemoveSingleProduct = (product) => {
     setCartItems(cartItems.filter((item) => item.id !== product.id));
   };
+ 
 
   return (
     <>
@@ -282,6 +283,7 @@ function App() {
                     handleCartClearance={handleCartClearance}
                     totalPrice={totalPrice}
                     handleRemoveQuotationProduct={handleRemoveQuotationProduct}
+              
                   />
                 </>
               }
@@ -300,7 +302,7 @@ function App() {
             <Route
               path="/review-order"
               element={
-                <ReviewOrder cartItems={cartItems} totalPrice={totalPrice} />
+                <ReviewOrder totalPrice={totalPrice} />
               }
             />
             <Route

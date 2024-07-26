@@ -181,10 +181,12 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
           </div>
         ))}
       </div>
+      
       {notificationMessage && (
         <Notification message={notificationMessage} />
       )}
       <NavigationBar />
+  
     </div>
   );
 }

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './mainadmin.css'; // Import the CSS file
 import AdminCategory from './AdminCategory';
-import Adminnav from './Adminnav';
 
 const Ordereditems = () => {
   const [orders, setOrders] = useState([]);
@@ -49,8 +48,12 @@ const Ordereditems = () => {
 
   const filteredOrders = orders.filter(order => {
     const matchesFilter = filter === 'all' || order.status === filter;
-    const matchesSearch = (order.orderNumber && order.orderNumber.toLowerCase().includes(searchQuery.toLowerCase())) || 
-                          (order.email && order.email.toLowerCase().includes(searchQuery.toLowerCase()));
+
+    const orderNumber = order.orderNumber ? order.orderNumber.toLowerCase() : '';
+    const email = order.email ? order.email.toLowerCase() : '';
+
+    const matchesSearch = orderNumber.includes(searchQuery.toLowerCase()) || email.includes(searchQuery.toLowerCase());
+
     return matchesFilter && matchesSearch;
   });
 
@@ -121,7 +124,6 @@ const Ordereditems = () => {
         </table>
       )}
       <AdminCategory />
-   
     </div>
   );
 };

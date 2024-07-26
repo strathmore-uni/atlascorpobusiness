@@ -93,10 +93,6 @@ export default function ShoppingCartPage({
     }
   };
   
-  
-  
-  
-
   const handleClearCartClick = async () => {
     if (!currentUser || !currentUser.email) {
       console.warn('No current user or email available.');
@@ -113,6 +109,26 @@ export default function ShoppingCartPage({
       console.error('Error clearing cart:', error);
     }
   };
+  const handleIncreaseQuantity = (partnumber) => {
+    setCartItems((prevCartItems) =>
+      prevCartItems.map(item =>
+        item.partnumber === partnumber
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    );
+  };
+  
+  const handleDecreaseQuantity = (partnumber) => {
+    setCartItems((prevCartItems) =>
+      prevCartItems.map(item =>
+        item.partnumber === partnumber
+          ? { ...item, quantity: Math.max(item.quantity - 1, 1) } // Prevent going below 1
+          : item
+      )
+    );
+  };
+  
   
 
   return (
@@ -162,11 +178,11 @@ export default function ShoppingCartPage({
             )}
 
             <div className="btngroup_cart">
-              <button className="increase-item" onClick={() => handleAddProduct({ ...item, quantity: item.quantity + 1 })}>
+              <button className="increase-item" onClick={() => handleIncreaseQuantity(item.partnumber)}>
                 +
               </button>
               <p className="cart_quantity">{item.quantity}</p>
-              <button className="decrease-item" onClick={() => handleRemoveFromCart(item.partnumber)}>
+              <button className="decrease-item" onClick={() => handleDecreaseQuantity(item.partnumber)}>
                 -
               </button>
             </div>
