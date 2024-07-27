@@ -65,12 +65,14 @@
 
   grid-template-columns:  repeat(4, 260px);
   gap: 40px;
-  margin-top: -50px;
+  position: relative;
+  top: -5rem;
 }
 
 .sub_productdisplay_container.normal {
   display: flex;
   flex-direction: column;
+  
   left: 21rem;
   position: relative;
 }
@@ -170,7 +172,8 @@
 }
 .featuredprdts_length {
   position: absolute;
-  top: 0rem;
+  top: 23rem;
+  color: black;
   left: 1rem;
   font-weight: 700;
 }
@@ -384,8 +387,13 @@ width: 3rem;
   
 }
 .category_p{
-  font-size: 2rem;
+  top: -7rem;
   
+  font-size: 3rem;
+  position: relative;
+ 
+  color: white;
+width: 10rem;
 }
 .categories_sidebar {
   width: 100%; /* Initially set to 100% */
@@ -405,7 +413,7 @@ width: 3rem;
 .sort-filter-container {
   display: flex;
   position: relative;
-
+top: -3rem;
   justify-content: space-between;
   align-items: center;
   margin: 2rem 0;

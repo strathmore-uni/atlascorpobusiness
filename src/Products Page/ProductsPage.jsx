@@ -67,8 +67,8 @@ Their air filter sealing is unique, as is the special filtration paper: this was
       "Kit Filter UD includes all necessary filter elements and components for maintaining UD filter systems.",
   };
   const categoryBackgroundImages = {
-    Filterelement: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
-    Oilfilterelement: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
+    Filterelement: 'url(https://atlascopco.scene7.com/is/image/atlascopco/GA_FLX16-9?$landscape1280$)',
+    Oilfilterelement: 'url(https://atlascopco.scene7.com/is/image/atlascopco/Stikstofgenerator-blog-Cover+NGP70%2B_2023_Max+%281%29?$landscape1280$)',
     Servkit: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
     Autodrainvalve: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
     Contractor: 'url(/path/to/contractor-image.jpg)',
@@ -95,7 +95,8 @@ Their air filter sealing is unique, as is the special filtration paper: this was
     height: '20rem',
     display: 'flex',
     alignItems: 'center',
-    top:'-9rem',
+    top:'-4rem',
+    left:'-.1rem',
     justifyContent: 'center',
     color: 'white',
     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
@@ -198,7 +199,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
         </p>
       </div>
       <div className="productdisplay_container">
-        <p className="category_p">&nbsp;{category}&nbsp;</p>
+   
         {isLoading ? (
           <div className="dot-spinner">
             <div className="dot-spinner__dot"></div>
@@ -213,7 +214,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
         ) : (
           <>
               <p className="category-description"  style={categoryBackgroundStyle} >
-                {category}
+              <p className="category_p">&nbsp;{category}&nbsp;</p>
               {categoryDescriptions[category] || "Browse our selection of products."}
               <small className="featuredprdts_length">
                 Results {filteredProducts.length}

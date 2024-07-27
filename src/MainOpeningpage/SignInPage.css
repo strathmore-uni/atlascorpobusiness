@@ -1,12 +1,18 @@
+.signincontainer{
+  height: 38rem;
+  width: 67%;
+  background: url('https://atlascopco.scene7.com/is/image/atlascopco/Categories+banner_1600x954_AC-Blue_1?$landscape1600$');
+  
+}
+
+
 .form-container {
   position: relative;
-  top: 6rem;
-  left: 25rem;
-  width: 400px;
+  top: 4.5rem;
+  left: 51.5rem;
+  width: 380px;
   height: 500px;
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border-radius: 10px;
+
   box-sizing: border-box;
   padding: 20px 30px;
 }

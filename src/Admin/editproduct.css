@@ -71,4 +71,16 @@
   .edit-product-container .editproduct_button:hover {
     background: #0056b3;
   }
-  
+  .deleteproduct_button{
+    background: red;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    width: 10rem;
+    margin-top: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .deleteproduct_button:hover {
+    background: #960f0f;
+  }

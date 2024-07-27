@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './editproduct.css'; // Import the CSS file
 import AdminCategory from './AdminCategory';
 import Adminnav from './Adminnav';
-
+import Swal from 'sweetalert2';
 const EditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -88,17 +88,40 @@ const EditProduct = () => {
     }
   };
 
+
   const handleDelete = async () => {
-    try {
-      await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
-      alert('Product deleted successfully');
-      navigate('/productlist'); // Redirect to products list
-    } catch (error) {
-      console.error('Error deleting product:', error);
-      alert('Failed to delete product. Please ensure no related records exist.');
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    });
+  
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
+        Swal.fire(
+          'Deleted!',
+          'The product has been deleted.',
+          'success'
+        );
+        navigate('/productlist'); // Redirect to products list
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        Swal.fire(
+          'Error!',
+          'Failed to delete product. Please ensure no related records exist.',
+          'error'
+        );
+      }
     }
   };
-
+  
+  
   return (
     <div className="edit-product-container">
       <h2>Edit Product</h2>

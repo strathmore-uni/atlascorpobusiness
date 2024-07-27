@@ -32,7 +32,7 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
     console.log('Product Part Number:', product.partnumber); // Debugging
   
     try {
-      await axios.post(`${process.env.REACT_APP_LOCAL}/api/cart`, {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/singlecart`, {
         partnumber: product.partnumber,
         quantity: 1,
         userEmail: currentUser.email, // Ensure userEmail is correctly set

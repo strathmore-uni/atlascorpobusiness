@@ -9,7 +9,7 @@ const OrderDetailsPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState(''); 
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -24,7 +24,7 @@ const OrderDetailsPage = () => {
         setLoading(false);
       }
     };
-  
+
     fetchOrders();
   }, [category]);
 
@@ -33,22 +33,24 @@ const OrderDetailsPage = () => {
   };
 
   const filteredOrders = orders.filter(order =>
-    order.ordernumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.items.some(item => item.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    (order.ordernumber && order.ordernumber.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (order.status && order.status.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (order.items && order.items.some(item => item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase())))
   );
 
   if (loading) {
-    return <div className="dot-spinner">
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-    </div>;
+    return (
+      <div className="dot-spinner">
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+      </div>
+    );
   }
 
   if (error) {
@@ -73,16 +75,18 @@ const OrderDetailsPage = () => {
         {filteredOrders.map(order => (
           <li key={order.id}>
             <Link to={`/orderdetails/${order.id}`} className="order-details-link">
-              <div>Order Number: {order.ordernumber}</div>
+              <div>Order Number: {order.ordernumber || 'N/A'}</div>
             </Link>
-            <div>Status: {order.status}</div>
+            <div>Status: {order.status || 'N/A'}</div>
             <div>Items:</div>
             <ul>
-              {order.items.map((item, index) => (
+              {order.items && order.items.map((item, index) => (
                 <li key={index}>
-                  <div>Description: {item.description}</div>
-                  <div>Quantity: {item.quantity}</div>
-                  <div>Price: ${item.price.toFixed(2)}</div>
+                  <div>Description: {item.description || 'N/A'}</div>
+                  <div>Quantity: {item.quantity || 'N/A'}</div>
+                  <div>
+                    Price: ${item.price !== null && item.price !== undefined ? item.price.toFixed(2) : 'N/A'}
+                  </div>
                 </li>
               ))}
             </ul>

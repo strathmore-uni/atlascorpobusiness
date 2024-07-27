@@ -9,12 +9,13 @@ import { IoIosArrowBack } from 'react-icons/io';
 import Footer from '../General Components/Footer';
 import Notification from '../General Components/Notification';
 import { useAuth } from '../MainOpeningpage/AuthContext';
-
+import Swal from 'sweetalert2';
 const ReviewOrder = ({ totalPrice }) => {
   const [userData, setUserData] = useState({});
   const [notificationMessage, setNotificationMessage] = useState('');
   const { currentUser } = useAuth();
   const [cartItems, setCartItems] = useState([]);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -41,56 +42,72 @@ const ReviewOrder = ({ totalPrice }) => {
     return orderNumber + Date.now();
   };
 
+
+
   const handlePlaceOrder = async () => {
-    const orderNumber = generateOrderNumber();
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/order`, {
-        formData: userData,
-        cartItems,
-        totalPrice,
-        shipping_fee,
-        vat,
-        newPrice,
-        orderNumber
-      });
-
-      if (response.data.message === 'Order placed successfully') {
-        const cartItemsDetails = cartItems.map(item => {
-          return `Item: ${item.Description}, Quantity: ${item.quantity}, Price: $${item.Price}, Total Price: $${item.Price * item.quantity}`;
-        }).join('\n');
-
-        const emailData = {
-          to_email: userData.email,
-          to_name: userData.firstName,
-          subject: `Order Confirmation - ${orderNumber}`,
-          message: `
-            Dear ${userData.firstName},
-            
-            Thank you for your order. Here are the details:
-            
-            Cart Items: 
-            ${cartItemsDetails}
-
-            Order Number: ${orderNumber}
-            Total Amount: $${newPrice.toFixed(2)}
-            
-            Shipping Address:
-            ${userData.address1}, ${userData.address2}, ${userData.city}, ${userData.zip}
-            
-            Best regards,
-            Your Company Name
-          `
-        };
-
-        await emailjs.send('service_bmvwx28', 'template_zsdszy8', emailData, 'KeePPXIGkpTcoiTBJ');
-        setNotificationMessage('Order placed and confirmation email sent.');
-      } else {
-        console.error('Order placement failed:', response.data.message);
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to place this order?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, place the order!',
+      cancelButtonText: 'Cancel'
+    });
+  
+    if (result.isConfirmed) {
+      const orderNumber = generateOrderNumber();
+      try {
+        const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/order`, {
+          formData: userData,
+          cartItems,
+          totalPrice,
+          shipping_fee,
+          vat,
+          newPrice,
+          orderNumber
+        });
+  
+        if (response.data.message === 'Order placed successfully') {
+          const cartItemsDetails = cartItems.map(item => {
+            return `Item: ${item.description}, Quantity: ${item.quantity}, Price: $${item.price}, Total Price: $${item.price * item.quantity}`;
+          }).join('\n');
+  
+          const emailData = {
+            to_email: userData.email,
+            to_name: userData.firstName,
+            subject: `Order Confirmation - ${orderNumber}`,
+            message: `
+              Dear ${userData.firstName},
+  
+              Thank you for your order. Here are the details:
+  
+              Cart Items: 
+              ${cartItemsDetails}
+  
+              Order Number: ${orderNumber}
+              Total Amount: $${newPrice.toFixed(2)}
+  
+              Shipping Address:
+              ${userData.address1}, ${userData.address2}, ${userData.city}, ${userData.zip}
+  
+              Best regards,
+              Your Company Name
+            `
+          };
+  
+          await emailjs.send('service_bmvwx28', 'template_zsdszy8', emailData, 'KeePPXIGkpTcoiTBJ');
+          setNotificationMessage('Order placed and confirmation email sent.');
+        } else {
+          console.error('Order placement failed:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error placing order:', error);
       }
-    } catch (error) {
-      console.error('Error placing order:', error);
     }
   };
+  
   useEffect(() => {
     const fetchCartItems = async () => {
       if (!currentUser || !currentUser.email) {
@@ -100,7 +117,7 @@ const ReviewOrder = ({ totalPrice }) => {
 
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/cart`, {
-          params: { email: currentUser.email } // Pass email as query parameter
+          params: { email: currentUser.email }
         });
         setCartItems(response.data);
       } catch (error) {
