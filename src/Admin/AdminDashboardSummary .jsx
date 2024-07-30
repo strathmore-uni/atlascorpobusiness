@@ -3,7 +3,10 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './admincategory.css';
 import './notificationspage.css';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
 import AdminCategory from './AdminCategory';
+import { useAuth } from '../MainOpeningpage/AuthContext';
 
 const AdminDashboardSummary = () => {
   const [summary, setSummary] = useState({
@@ -12,19 +15,21 @@ const AdminDashboardSummary = () => {
     users: 0,
     recentOrders: [],
     pendingOrders: [],
-    unreadNotificationsCount: 0,
+    groupedOrders: {},
   });
+  const [expandedCountries, setExpandedCountries] = useState([]);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const [ordersCount, productsCount, usersCount, recentOrdersResponse, pendingOrdersResponse, notificationsCountResponse] = await Promise.all([
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/count`),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products/count`),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/users/count`),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/recent`),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/notifications/count`),
+        const [ordersCount, productsCount, usersCount, recentOrdersResponse, pendingOrdersResponse, groupedOrdersResponse] = await Promise.all([
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/count`, { params: { email: currentUser.email } }),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products/count`, { params: { email: currentUser.email } }),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/users/count`, { params: { email: currentUser.email } }),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/recent`, { params: { email: currentUser.email } }),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`, { params: { email: currentUser.email } }),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/groupedByCountry`, { params: { email: currentUser.email } }),
         ]);
 
         const sortByDateDescending = (a, b) => new Date(b.created_at) - new Date(a.created_at);
@@ -35,7 +40,7 @@ const AdminDashboardSummary = () => {
           users: usersCount.data.count,
           recentOrders: recentOrdersResponse.data.sort(sortByDateDescending),
           pendingOrders: pendingOrdersResponse.data.sort(sortByDateDescending),
-          unreadNotificationsCount: notificationsCountResponse.data.count,
+          groupedOrders: groupedOrdersResponse.data,
         });
       } catch (error) {
         console.error('Error fetching summary:', error);
@@ -43,8 +48,37 @@ const AdminDashboardSummary = () => {
     };
 
     fetchSummary();
-  }, []);
+  }, [currentUser]);
 
+  const handleExpandAll = (country) => {
+    setExpandedCountries((prevExpandedCountries) => {
+      if (prevExpandedCountries.includes(country)) {
+        return prevExpandedCountries.filter((item) => item !== country);
+      } else {
+        return [...prevExpandedCountries, country];
+      }
+    });
+  };
+  const data = {
+    labels: ['Orders', 'Products', 'Users'],
+    datasets: [
+      {
+        label: 'Count',
+        data: [summary.orders, summary.products, summary.users],
+        backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+        borderColor: ['rgba(75, 192, 192, 1)'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
   return (
     <div>
       <div className="maincontainer_admin">
@@ -102,6 +136,29 @@ const AdminDashboardSummary = () => {
               </ul>
             </div>
           </div>
+        </div>
+
+        <div className="admin-dashboard-orders-grouped">
+          {Object.keys(summary.groupedOrders).map(country => (
+            <div key={country} className="country-orders">
+              <h3>Orders for {country}</h3>
+              <button onClick={() => handleExpandAll(country)}>
+                {expandedCountries.includes(country) ? 'Collapse All' : 'Expand All'}
+              </button>
+              <ul className={expandedCountries.includes(country) ? 'expanded' : 'collapsed'}>
+                {summary.groupedOrders[country].map(order => (
+                  <Link to={`/orderdetails/${order.id}`} className="order-link" key={order.id}>
+                    <li>
+                      Order Number: {order.ordernumber} Email: {order.email} Date: {new Date(order.created_at).toLocaleDateString()}
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="chart-container">
+          <Bar data={data} options={options} />
         </div>
       </div>
       <AdminCategory />

@@ -150,6 +150,7 @@ const ReviewOrder = ({ totalPrice }) => {
         <p>Zip Code: {userData.zip}</p>
         <p>Phone: {userData.phone}</p>
         <p>Email: {userData.email}</p>
+        <p>Country: {userData.country}</p>
       </div>
 
       <div className='order_summary_checkout'>

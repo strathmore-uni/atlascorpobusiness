@@ -33,7 +33,7 @@ export default function UserNotificationPage() {
           <li key={notification.id} className={notification.read ? "" : "unread"}>
             <div className="notification-message">
               {notification.orderNumber && (
-                <span className="order-number">Order #{notification.orderNumber}</span>
+                <span className="order-number">Order {notification.orderNumber}</span>
               )}
               <span className="notification-text">: {notification.message}</span>
             </div>

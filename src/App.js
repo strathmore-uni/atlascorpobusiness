@@ -44,6 +44,7 @@ import Stock from "./Admin/Stock";
 import NotificationsPage from "./Admin/NotificationsPage";
 import UserNotificationPage from "./General Components/UserNotificationPage";
 import MiniAdminDashboard from "./Admin/MinAdmin/MiniAdminDashboard";
+import MiniAdminRegisteredUsers from "./Admin/MinAdmin/MiniAdminRegisteredUsers";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -384,7 +385,7 @@ function App() {
             {/** MinAdmin   */}
 
             <Route path="/mini-admin-dashboard" element={<MiniAdminDashboard />} />
-
+            <Route path="/mini-admin-registeredusers"  element={<MiniAdminRegisteredUsers />}/>
 
 
             {/**MinAdmin */}

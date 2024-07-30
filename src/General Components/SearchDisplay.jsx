@@ -8,9 +8,10 @@ import { CiGrid41, CiGrid2H } from "react-icons/ci";
 import { IoIosArrowBack } from "react-icons/io";
 import axios from 'axios';
 import Footer from './Footer';
+import { GrCart } from "react-icons/gr";
 import { useAuth } from '../MainOpeningpage/AuthContext';
 
-export default function SearchDisplay({ handleAddProductDetails }) {
+export default function SearchDisplay({ handleAddProductDetails,handleAddProduct }) {
   const location = useLocation();
   const { results: initialResults, term: initialTerm } = location.state || { results: [], term: '' };
   const [results, setResults] = useState(initialResults);
@@ -31,7 +32,34 @@ export default function SearchDisplay({ handleAddProductDetails }) {
       setCategories(categoryCount);
     }
   }, [initialResults]);
-
+  const handleAddToCart = async (product) => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      navigate('/signin');
+      return;
+    }
+  
+    console.log('User Email:', currentUser.email); // Debugging
+    console.log('Product Part Number:', product.partnumber); // Debugging
+  
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/singlecart`, {
+        partnumber: product.partnumber,
+        quantity: 1,
+        userEmail: currentUser.email, // Ensure userEmail is correctly set
+        description: product.Description, // Include description
+        price: product.Price, // Include price
+    
+      });
+      handleAddProduct(product);
+      setNotificationMessage(`${product.Description} has been added to the cart.`);
+      setTimeout(() => {
+        setNotificationMessage('');
+      }, 3000);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
   
   const handleCategoryClick = async (category) => {
     try {
@@ -77,15 +105,15 @@ export default function SearchDisplay({ handleAddProductDetails }) {
           )}
                 <p className='prdt_partnumber'>{item.partnumber}</p>
                 <p className='prdt_title'>{item.Description}</p>
-                <p className='prdt_price'>USD {item.Price}</p>
+                <p className='prdt_price'>${item.Price}</p>
                 <div className="stock_status">
                   <div className={`status_indicator ${item.quantity > 0 ? 'in_stock' : 'out_of_stock'}`}></div>
                   <div className="in_out_stock">{item.quantity > 0 ? 'In Stock' : 'Out of Stock'}</div>
-                  {item.quantity <= 0 && (
-                    <div className="get_quote-search">
-                      <p>Get a Quote</p>
-                    </div>
-                  )}
+                  <div className="get_quote_productpage" onClick={() =>
+                          handleAddToCart(item)
+                        } >
+                          <p><GrCart className="cart_productpage"  /></p>
+                        </div>
                 </div>
               </Link>
             ))}

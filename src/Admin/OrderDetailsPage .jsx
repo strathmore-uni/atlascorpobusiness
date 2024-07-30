@@ -11,14 +11,23 @@ const OrderDetailsPage = () => {
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')); // Fetch current user from localStorage
+  const adminEmail = currentUser.email; // Extract email from currentUser
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${category}`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${category}`, {
+          params: { email: adminEmail }
+        });
         const sortedOrders = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date descending
         setOrders(sortedOrders);
       } catch (error) {
-        setError('Error fetching orders.');
+        if (error.response && error.response.status === 401) {
+          setError('Unauthorized access. Please log in as an admin.');
+        } else {
+          setError('Error fetching orders.');
+        }
         console.error('Error fetching orders:', error);
       } finally {
         setLoading(false);
@@ -26,7 +35,7 @@ const OrderDetailsPage = () => {
     };
 
     fetchOrders();
-  }, [category]);
+  }, [category, adminEmail]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);

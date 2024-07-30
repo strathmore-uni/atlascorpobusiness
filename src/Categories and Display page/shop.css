@@ -97,7 +97,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 .show-more-button {
   position: relative;
   top: 0rem;
-  left: 8rem;
+  left: 12rem;
   display: block;
   margin: 1rem auto;
   padding: 1rem 3rem;
@@ -114,8 +114,9 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .showing_no_items{
   position: relative;
-  left: 27rem;
+  left: 33rem;
   top:5rem;
+  font-size: .8rem;
 }
 .prdt_image_shop{
   position: relative;

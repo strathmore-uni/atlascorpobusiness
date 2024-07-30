@@ -58,7 +58,7 @@
 .listedproducts-categories > li {
   position: relative;
   height: 2rem;
-  margin: 10px 0;
+
   cursor: pointer;
 }
 

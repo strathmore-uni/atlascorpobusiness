@@ -191,7 +191,64 @@
   border-radius: 4px;
 }
 
-  
+  /* src/components/users.css */
+
+/* Modal styling */
+.modal_header{
+  display: flex;
+  position: relative;
+  top: 0rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.modal-actions {
+  display: flex;
+  position: relative;
+  top: 0rem;
+
+ 
+}
+
+.modal-button {
+  padding: 5px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #b5b6b8;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modal-button:hover {
+  background-color: #0056b3;
+}
+
+/* Optional: Add styling for the modal itself if needed */
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal_viewproduct{
+  position: relative;
+  margin-top: 0px;
+  background: #fff;
+  width: 30%;
+  height: 40rem;
+  margin-left: 800px;
+  border-radius: 6px;
+}
+.prdtview_details{
+  margin-top: 10px;
+}
+.close_icon_prdtview{
+  position: relative;
+  top: 1rem;
+  left: 20rem;
+  font-size: 1.4rem;
+}
+.close_icon_prdtview:hover{
+  cursor: pointer;
+}
+
   /* Responsive design for mobile */
   @media (max-width: 768px) {
     .user-card {

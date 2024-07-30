@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
 import './users.css'; 
 import AdminCategory from './AdminCategory';
+import { RxCross2 } from "react-icons/rx";
+// Set the app element for accessibility
+Modal.setAppElement('#root');
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -11,6 +14,8 @@ const ProductsList = () => {
   const [searchQuery, setSearchQuery] = useState(''); 
   const [selectedMainCategory, setSelectedMainCategory] = useState('');
   const [selectedSubCategory, setSelectedSubCategory] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -59,10 +64,27 @@ const ProductsList = () => {
     setSelectedSubCategory(e.target.value);
   };
 
-  // Debug: Check categories and products
-  console.log('Categories:', categories);
-  console.log('Selected Main Category:', selectedMainCategory);
-  console.log('Selected Sub Category:', selectedSubCategory);
+  const handleViewProduct = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
+  const handleEdit = () => {
+    if (selectedProduct) {
+      window.location.href = `/editproduct/${selectedProduct.id}`;
+    }
+  };
+
+  const handlePrint = () => {
+    if (selectedProduct) {
+      window.print(); // Adjust this if you have specific print logic
+    }
+  };
 
   // Filter products based on search query, main category, and subcategory
   const filteredProducts = products.filter((product) => {
@@ -134,7 +156,9 @@ const ProductsList = () => {
             filteredProducts.map((product) => (
               <li key={product.id}>
                 <span>{product.partnumber || 'N/A'} - {product.Description || 'N/A'}</span>
-                <Link to={`/editproduct/${product.id}`}>Edit</Link>
+                <button onClick={() => handleViewProduct(product)} className="view-button">
+                  View
+                </button>
               </li>
             ))
           ) : (
@@ -142,7 +166,56 @@ const ProductsList = () => {
           )}
         </ul>
       )}
+
       <AdminCategory />
+
+      {/* Modal for viewing product details */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Product Details"
+        style={{
+          content: {
+            position: 'absolute',
+            top: '0%',
+            right: '0',
+            bottom: '10%',
+            height: '100%',
+            width: '100%',
+            padding: '20px',
+            overflow: 'auto',
+            border: 'none',
+            borderRadius: '4px',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex:'999',
+          },
+        }}
+      >
+        {selectedProduct && (
+          <div className='modal_viewproduct'>
+            <div  onClick={closeModal}>
+            <RxCross2  className='close_icon_prdtview' />  
+            </div>
+            
+             <p className='modal_header' >{selectedProduct.Description || 'N/A'}</p> 
+            <div className="modal-actions">
+             
+              <button onClick={handleEdit} className="modal-button">Edit</button>
+              <button onClick={handlePrint} className="modal-button">Print</button>
+          
+            </div>
+            <div className='prdtview_details' >
+            <small>Product Info</small>
+            <p><strong>Part Number:</strong> {selectedProduct.partnumber || 'N/A'}</p>
+
+            <p><strong>Main Category:</strong> {selectedProduct.mainCategory || 'N/A'}</p>
+            <p><strong>Sub Category:</strong> {selectedProduct.subCategory || 'N/A'}</p>
+              </div>
+            {/* Add more details as needed */}
+        
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

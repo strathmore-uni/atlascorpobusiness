@@ -64,7 +64,7 @@ const SignInPage = () => {
           if (isAdmin) {
             navigate('/dashboard');
           } else if (isMiniAdmin) {
-            navigate('/mini-admin-dashboard');
+            navigate('/dashboard');
           } else {
             navigate('/shop');
           }

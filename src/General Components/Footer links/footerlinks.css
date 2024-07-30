@@ -30,7 +30,8 @@
   }
   
   .footer-links li {
-    margin: 10px 0;
+    height: 1rem;
+    list-style-type: none;
   }
   
   .footer-links a {
