@@ -207,9 +207,10 @@ const ProductsList = () => {
             <div className='prdtview_details' >
             <small>Product Info</small>
             <p><strong>Part Number:</strong> {selectedProduct.partnumber || 'N/A'}</p>
-
+              
             <p><strong>Main Category:</strong> {selectedProduct.mainCategory || 'N/A'}</p>
             <p><strong>Sub Category:</strong> {selectedProduct.subCategory || 'N/A'}</p>
+            <img  className='img_view'  src={selectedProduct.image} alt={selectedProduct.image}/>
               </div>
             {/* Add more details as needed */}
         

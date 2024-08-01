@@ -12,6 +12,12 @@
   z-index: 1000;
   text-decoration: none;
 }
+.profile-initial-admin{
+  position: relative;
+  top: 35rem;
+  left: 0rem;
+  color: white;
+}
 .admin-category h3{
   position: relative;
   top: -2.5rem;
@@ -265,4 +271,109 @@
   margin-top: 20px;
   width: 100%;
   margin-left: 20px;
+}
+.most-ordered-products {
+
+  left: 0;
+  width: 250px;
+  height: 80vh; /* Adjust based on your needs */
+  overflow-y: auto;
+  background-color: #f4f4f4;
+  border-right: 2px solid #ddd;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.most-ordered-products h3 {
+  margin-top: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.most-ordered-products ul {
+  list-style: decimal;
+  padding-left: 10px;
+}
+
+.most-ordered-products li {
+
+  font-size: 0.8em;
+  line-height:1.5;
+}
+.most-ordered-products li:hover{
+  background-color:   rgba(0, 0, 0, 0.2);
+}
+/* Quick Action Buttons Container */
+.quick-buttons {
+
+  top: 0;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 15px;
+  background-color: #f8f9fa; /* Light background for contrast */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  z-index: 1000; /* Ensures it sits above other content */
+  border-radius: 8px; /* Rounded corners for a modern look */
+}
+
+/* Individual Quick Action Button */
+.quick-button {
+  display: block;
+  padding: 6px 5px;
+  /* Primary color */
+  color: black; /* White text */
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+/* Hover State */
+.quick-button:hover {
+  background-color: grey; /* Darker shade for hover effect */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Focus State */
+.quick-button:focus {
+  outline: 2px solid #0056b3; /* Outline for accessibility */
+  outline-offset: 2px;
+}
+
+/* Active State */
+.quick-button:active {
+  background-color: #004085; /* Even darker shade for active state */
+  transform: translateY(1px); /* Slightly pressed effect */
+}
+
+/* Disabled State */
+.quick-button:disabled {
+  background-color: #e0e0e0; /* Gray background */
+  color: #6c757d; /* Gray text */
+  cursor: not-allowed; /* Indicate disabled state */
+  pointer-events: none; /* Prevent interaction */
+}
+
+/* Button Icon (if needed) */
+.quick-button .button-icon {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .quick-buttons {
+    padding: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .quick-button {
+    flex: 1 1 auto; /* Allow buttons to adjust in size */
+  }
 }

@@ -1,0 +1,33 @@
+.settings {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .settings h2 {
+    text-align: center;
+  }
+  
+  .settings-section {
+    margin-bottom: 20px;
+  }
+  
+  .settings-section h3 {
+    margin-bottom: 10px;
+  }
+  
+  .settings-section label {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .settings-section select, .settings-section input {
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  .settings-section input[type="checkbox"] {
+    width: auto;
+  }
+  

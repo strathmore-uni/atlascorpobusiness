@@ -43,14 +43,19 @@ const RegisteredUsers = () => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/countries`);
-        setCountries(response.data);
+        if (Array.isArray(response.data)) {
+          setCountries(response.data);
+        } else {
+          console.error('Unexpected data format:', response.data);
+        }
       } catch (error) {
         console.error('Error fetching countries:', error);
       }
     };
-
+  
     fetchCountries();
   }, []);
+  
 
   const handleViewDetails = async (userId) => {
     try {
@@ -65,16 +70,21 @@ const RegisteredUsers = () => {
     setSelectedUser(null);
   };
 
-  const handleCountryChange = (event) => {
+  const handleCountryChange = async (event) => {
     const country = event.target.value;
     setSelectedCountry(country);
-
-    if (country === '') {
-      setFilteredUsers(users);
-    } else {
-      setFilteredUsers(users.filter(user => user.country === country));
+  
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/registeredusers`, {
+        params: { email: currentUser.email, country }
+      });
+      setUsers(response.data);
+      setFilteredUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching filtered users:', error);
     }
   };
+  
 
   if (loading) {
     return (
@@ -118,6 +128,7 @@ const RegisteredUsers = () => {
       {error && <p className="error-message">{error}</p>}
 
       {/* Country Filter Dropdown */}
+      {currentUser.email === 'superadmin@gmail.com' && (
       <div className="filter-container">
         <label htmlFor="country-select">Filter by Country:</label>
         <select
@@ -131,7 +142,7 @@ const RegisteredUsers = () => {
           ))}
         </select>
       </div>
-
+      )}
       <ul className="user-list">
         {filteredUsers.map(user => (
           <li key={user.id} className="user-card">

@@ -5,7 +5,9 @@ import './editproduct.css'; // Import the CSS file
 import AdminCategory from './AdminCategory';
 import Adminnav from './Adminnav';
 import Swal from 'sweetalert2';
+import { useAuth } from '../MainOpeningpage/AuthContext';
 const EditProduct = () => {
+  const {currentUser} = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({
@@ -23,16 +25,18 @@ const EditProduct = () => {
     subCategories: []
   });
 
+ 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, {
+          params: { email: currentUser.email } // Pass the admin's email as a query parameter
+        });
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product:', error);
       }
     };
-
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/mycategories`);
@@ -48,7 +52,7 @@ const EditProduct = () => {
 
     fetchProduct();
     fetchCategories();
-  }, [id]);
+  }, [id,currentUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

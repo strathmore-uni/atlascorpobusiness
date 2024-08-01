@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import './adminproducts.css'; // Make sure this path matches your actual CSS file path
 import AdminCategory from './AdminCategory';
 
@@ -78,6 +77,20 @@ const OrderDetails = () => {
     pdf.save(`Invoice for order ${order.ordernumber}.pdf`);
   };
 
+  const orderSteps = [
+    'Received',
+    'Approved',
+    'Being Processed',
+    'Released from Warehouse',
+    'On Transit'
+  ];
+
+  const getStatusIndex = (status) => {
+    return orderSteps.indexOf(status);
+  };
+
+  const progressPercentage = (getStatusIndex(order?.status) + 1) / orderSteps.length * 100;
+
   if (loading) {
     return <div className="dot-spinner">
       <div className="dot-spinner__dot"></div>
@@ -120,8 +133,28 @@ const OrderDetails = () => {
           <button onClick={() => updateOrderStatus('Declined')} className="decline-btn">Decline</button>
         </div>
       </div>
+   
       <button onClick={generatePDF} className="generate-pdf-btn">Generate PDF</button>
       <Link to="/ordereditems" className="go-back-btn">Go Back</Link>
+      <div className="progress-container">
+        <div className="progress-bar">
+          <div className="progress-bar-fill" style={{ width: `${progressPercentage}%` }}></div>
+          <div className="progress-step-container">
+            {orderSteps.map((step, index) => (
+              <div key={index} className={`progress-step ${getStatusIndex(order.status) >= index ? 'completed' : ''}`}>
+                {index + 1}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="progress-step-labels">
+          {orderSteps.map((step, index) => (
+            <div key={index} className="progress-step-label">
+              {step}
+            </div>
+          ))}
+        </div>
+      </div>
       <AdminCategory />
     </div>
   );

@@ -10,15 +10,30 @@ const OrderDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [countries, setCountries] = useState([]); // State for countries
+  const [selectedCountry, setSelectedCountry] = useState(''); // State for selected country
 
   const currentUser = JSON.parse(localStorage.getItem('currentUser')); // Fetch current user from localStorage
   const adminEmail = currentUser.email; // Extract email from currentUser
 
   useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/countries`);
+        setCountries(response.data);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${category}`, {
-          params: { email: adminEmail }
+          params: { email: adminEmail, country: selectedCountry }
         });
         const sortedOrders = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date descending
         setOrders(sortedOrders);
@@ -35,10 +50,14 @@ const OrderDetailsPage = () => {
     };
 
     fetchOrders();
-  }, [category, adminEmail]);
+  }, [category, adminEmail, selectedCountry]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+  const handleCountryChange = (e) => {
+    setSelectedCountry(e.target.value);
   };
 
   const filteredOrders = orders.filter(order =>
@@ -73,6 +92,19 @@ const OrderDetailsPage = () => {
   return (
     <div className="order-details-page">
       <h1>{category.charAt(0).toUpperCase() + category.slice(1)} Orders</h1>
+      <div className="filter-container">
+        <label htmlFor="country-select">Filter by Country:</label>
+        <select
+          id="country-select"
+          value={selectedCountry}
+          onChange={handleCountryChange}
+        >
+          <option value="">All Countries</option>
+          {countries.map(country => (
+            <option key={country.code} value={country.code}>{country.name}</option>
+          ))}
+        </select>
+      </div>
       <input
         type="text"
         placeholder="Search orders"

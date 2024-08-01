@@ -16,6 +16,8 @@ const AdminDashboardSummary = () => {
     recentOrders: [],
     pendingOrders: [],
     groupedOrders: {},
+    mostOrderedProducts: [],
+    unreadNotificationsCount: 0 // Add state for unread notifications count
   });
   const [expandedCountries, setExpandedCountries] = useState([]);
   const { currentUser } = useAuth();
@@ -23,13 +25,25 @@ const AdminDashboardSummary = () => {
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const [ordersCount, productsCount, usersCount, recentOrdersResponse, pendingOrdersResponse, groupedOrdersResponse] = await Promise.all([
+        const [
+          ordersCount,
+          productsCount,
+          usersCount,
+          recentOrdersResponse,
+          pendingOrdersResponse,
+          groupedOrdersResponse,
+          mostOrderedProductsResponse,
+          notificationsCountResponse // Add API call for notifications count
+        ] = await Promise.all([
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/count`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products/count`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/users/count`, { params: { email: currentUser.email } }),
+    
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/recent`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/groupedByCountry`, { params: { email: currentUser.email } }),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/mostOrderedProducts`, { params: { email: currentUser.email } }),
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/notifications/count`, { params: { email: currentUser.email } }) // Add API call for notifications count
         ]);
 
         const sortByDateDescending = (a, b) => new Date(b.created_at) - new Date(a.created_at);
@@ -38,9 +52,12 @@ const AdminDashboardSummary = () => {
           orders: ordersCount.data.count,
           products: productsCount.data.count,
           users: usersCount.data.count,
+          
           recentOrders: recentOrdersResponse.data.sort(sortByDateDescending),
           pendingOrders: pendingOrdersResponse.data.sort(sortByDateDescending),
           groupedOrders: groupedOrdersResponse.data,
+          mostOrderedProducts: mostOrderedProductsResponse.data,
+          unreadNotificationsCount: notificationsCountResponse.data.count // Set unread notifications count
         });
       } catch (error) {
         console.error('Error fetching summary:', error);
@@ -59,6 +76,7 @@ const AdminDashboardSummary = () => {
       }
     });
   };
+
   const data = {
     labels: ['Orders', 'Products', 'Users'],
     datasets: [
@@ -79,18 +97,28 @@ const AdminDashboardSummary = () => {
       },
     },
   };
+
   return (
     <div>
       <div className="maincontainer_admin">
         <h2>Dashboard</h2>
-        <div className="notification-bell">
-          <Link to="/notifications">
-            <span className="bell-icon">&#128276;</span>
-            {summary.unreadNotificationsCount > 0 && (
-              <span className="notification-count">{summary.unreadNotificationsCount}</span>
-            )}
-          </Link>
+        <div className="quick-buttons">
+          <Link to="/admin/orders" className="quick-button">Orders</Link>
+          <Link to="/admin/users" className="quick-button">Users</Link>
+          {currentUser.email === 'superadmin@gmail.com' && (
+            <Link to="/admin/create-admin" className="quick-button">Create Admin</Link>
+          )}
+          <Link to="/admin/settings" className="quick-button">Settings</Link>
+          <div className="notification-bell">
+            <Link to="/notifications">
+              <span className="bell-icon">&#128276;</span>
+              {summary.unreadNotificationsCount > 0 && (
+                <span className="notification-count">{summary.unreadNotificationsCount}</span>
+              )}
+            </Link>
+          </div>
         </div>
+
         <div className="admin-dashboard-summary">
           <div className="summary-item">
             <h3>Total Orders</h3>
@@ -157,8 +185,31 @@ const AdminDashboardSummary = () => {
             </div>
           ))}
         </div>
+
         <div className="chart-container">
           <Bar data={data} options={options} />
+        </div>
+
+        <div className="most-ordered-products">
+          <h3>Most Ordered Products</h3>
+          <ul>
+            {summary.mostOrderedProducts.map(product => (
+              <li key={product.partnumber}>
+                <div className="info">
+                  <span className="label">Part Number:</span>
+                  <span className="partnumber">{product.partnumber}</span>
+                </div>
+                <div className="info">
+                  <span className="label">Description:</span>
+                  <span className="description">{product.description}</span>
+                </div>
+                <div className="info">
+                  <span className="label">Total Quantity Ordered:</span>
+                  <span className="total-quantity">{product.total_quantity}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <AdminCategory />

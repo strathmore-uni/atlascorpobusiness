@@ -98,7 +98,7 @@ export default function Form() {
   };
   
  
-// Update the handleSubmit function to correctly set the returnUrl and call sendEmailConfirmation
+
 const handleSubmit = useCallback(async (event) => {
   event.preventDefault();
   setErrorMessage('');
@@ -114,13 +114,13 @@ const handleSubmit = useCallback(async (event) => {
     await sendEmailConfirmation(formData, returnUrl);
   try {
     const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
-    console.log('Registration Response:', response); // Check registration response
+    console.log('Registration Response:', response); 
     setSuccessMessage(response.data.message);
   
   
-    console.log('Email Confirmation Sent'); // Log confirmation that email was sent
+    console.log('Email Confirmation Sent'); 
   } catch (error) {
-    console.error('Error during registration:', error); // Check for any registration errors
+    console.error('Error during registration:', error); 
     if (error.response && error.response.data && error.response.data.error) {
       setErrorMessage(error.response.data.error);
     } else {

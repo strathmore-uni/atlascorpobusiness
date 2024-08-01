@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './notificationspage.css';
+import { useAuth } from '../MainOpeningpage/AuthContext';
 
 const NotificationsPage = () => {
   const [notifications, setNotifications] = useState([]);
   const [error, setError] = useState(null);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchNotifications = async () => {
+      if (!currentUser || !currentUser.email) {
+        setError("User email is required for fetching notifications");
+        console.error("Current user or email is missing:", currentUser); // Log currentUser details
+        return;
+      }
+
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/notifications`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/notifications`, {
+          params: { email: currentUser.email }
+        });
         setNotifications(response.data);
       } catch (error) {
         setError("Error fetching notifications");
@@ -18,18 +28,18 @@ const NotificationsPage = () => {
     };
 
     fetchNotifications();
-  }, []);
+  }, [currentUser]);
 
   const markAsRead = async (id) => {
     try {
-      await axios.put(`${process.env.REACT_APP_LOCAL}/api/admin/notifications/${id}/read`);
+      await axios.delete(`${process.env.REACT_APP_LOCAL}/api/admin/notifications/${id}`, {
+        data: { email: currentUser.email } // Include currentUser.email in the request body
+      });
       // Update the local state to reflect the change
-      setNotifications(notifications.map(notification =>
-        notification.id === id ? { ...notification, status: 'read' } : notification
-      ));
+      setNotifications(notifications.filter(notification => notification.id !== id));
     } catch (error) {
-      setError("Error marking notification as read");
-      console.error("Error marking notification as read:", error);
+      setError("Error deleting notification");
+      console.error("Error deleting notification:", error);
     }
   };
 

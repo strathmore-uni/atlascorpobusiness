@@ -248,7 +248,11 @@
 .close_icon_prdtview:hover{
   cursor: pointer;
 }
-
+.img_view{
+ 
+  max-width: 5rem;
+  min-height: 5rem;
+}
   /* Responsive design for mobile */
   @media (max-width: 768px) {
     .user-card {

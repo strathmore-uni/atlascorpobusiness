@@ -43,8 +43,10 @@ import OrderDetailsPage from "./Admin/OrderDetailsPage ";
 import Stock from "./Admin/Stock";
 import NotificationsPage from "./Admin/NotificationsPage";
 import UserNotificationPage from "./General Components/UserNotificationPage";
-import MiniAdminDashboard from "./Admin/MinAdmin/MiniAdminDashboard";
-import MiniAdminRegisteredUsers from "./Admin/MinAdmin/MiniAdminRegisteredUsers";
+
+import Settings from "./Admin/Settings ";
+import CreateAdmin from "./Admin/CreateAdmin";
+import CountryComparison from "./Admin/CountryComparison";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -379,16 +381,9 @@ function App() {
             <Route path="/ordereditems/:category" element={<OrderDetailsPage />} />
             <Route path="/addproduct"  element={<AddProduct />}/>
             <Route path="/dashboard" element={<AdminDashboardSummary />} />
-
-
-
-            {/** MinAdmin   */}
-
-            <Route path="/mini-admin-dashboard" element={<MiniAdminDashboard />} />
-            <Route path="/mini-admin-registeredusers"  element={<MiniAdminRegisteredUsers />}/>
-
-
-            {/**MinAdmin */}
+            <Route path="/admin/settings" element={<Settings />}  />
+            <Route path="/admin/create-admin" element={<CreateAdmin />} />
+            <Route path="/admin/country-comparison" element={<CountryComparison />}  />
             <Route path='/stock' element={<Stock />} />
             <Route path="/editproduct/:id"  element={<EditProduct />}/>
             <Route path="/productlist"  element={<ProductsList />}/>
