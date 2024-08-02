@@ -44,7 +44,7 @@ export default function Footer() {
 </div>
 
 
-      <div className="container">
+      <div className="container_selectionfooter">
         
         <Link to='https://www.facebook.com/atlascopco/'><button>
           <svg className="icon" xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" id="Layer_21" height="24" data-name="Layer 21">

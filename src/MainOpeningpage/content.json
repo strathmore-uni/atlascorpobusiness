@@ -1,0 +1,35 @@
+{
+  "mainTitle": "Atlas Copco Kenya",
+  "subTitle": "Home of Industrial ideas",
+  "description": "Atlas Copco is a world leading provider of industrial productivity solutions, serving customers in Kenya for 88 years..",
+  "whyUs": "Our products help customers achieve sustainable productivity in a wide range of markets, including engineering, manufacturing and process industries, construction, automotives, electronics, oil and gas and much more. Atlas Copco in Kenya handles sales and service of industrial gas and air compressors, dryers and filters, compressor parts and service; vacuum pumps and solutions; construction and demolition tools including mobile compressors, pumps, light towers and generators; industrial electric, pneumatic, assembly tools, as well as an extensive range of pneumatic grinders and drills.",
+  "mainImage": "./public/R.png",
+  "shopImage": "/images/fleetLink.jpg",
+  "shopDescription": "Shop more than 75.000 original Atlas Copco spare parts now!",
+  "categories": [
+    {
+      "name": "Filterelement",
+      "image": "/images/cq5dam.web.600.600.jpeg"
+    },
+    {
+      "name": "Servkit",
+      "image": "/images/servkit.jpeg"
+    },
+    {
+      "name": "Bearingkits",
+      "image": "/images/bearingkit.jpeg"
+    },
+    {
+      "name": "Overhaulkit",
+      "image": "/images/kitoverhaul.jpeg"
+    },
+    {
+      "name": "Oilfilterelement",
+      "image": "/images/filterkitdd_ddp.jpeg"
+    },
+    {
+      "name": "Autodrainvalve",
+      "image": "/images/cq5dam.web.600.600.jpeg"
+    }
+  ]
+}

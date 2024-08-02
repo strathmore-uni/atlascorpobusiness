@@ -47,6 +47,7 @@ import UserNotificationPage from "./General Components/UserNotificationPage";
 import Settings from "./Admin/Settings ";
 import CreateAdmin from "./Admin/CreateAdmin";
 import CountryComparison from "./Admin/CountryComparison";
+import AdminRightsManagement from "./Admin/AdminRightsManagement ";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -386,6 +387,7 @@ function App() {
             <Route path="/admin/country-comparison" element={<CountryComparison />}  />
             <Route path='/stock' element={<Stock />} />
             <Route path="/editproduct/:id"  element={<EditProduct />}/>
+            <Route path="/admin/adminrightsmanagement" element={<AdminRightsManagement />}  />
             <Route path="/productlist"  element={<ProductsList />}/>
             <Route path="/registeredusers"  element={<RegisteredUsers />}/>
             <Route path="orderdetails/:orderId" element={<OrderDetails />} />

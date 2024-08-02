@@ -2,7 +2,7 @@
 .footer-links-container {
     
     top: -26rem;
-    left: 40rem;
+    left: 36.5rem;
     position: relative;
     padding: 20px;
     width: 10rem;
@@ -31,6 +31,7 @@
   
   .footer-links li {
     height: 1rem;
+   
     list-style-type: none;
   }
   

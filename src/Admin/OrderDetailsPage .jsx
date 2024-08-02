@@ -92,6 +92,7 @@ const OrderDetailsPage = () => {
   return (
     <div className="order-details-page">
       <h1>{category.charAt(0).toUpperCase() + category.slice(1)} Orders</h1>
+      {currentUser.email === 'superadmin@gmail.com' && (
       <div className="filter-container">
         <label htmlFor="country-select">Filter by Country:</label>
         <select
@@ -104,7 +105,7 @@ const OrderDetailsPage = () => {
             <option key={country.code} value={country.code}>{country.name}</option>
           ))}
         </select>
-      </div>
+      </div>)}
       <input
         type="text"
         placeholder="Search orders"

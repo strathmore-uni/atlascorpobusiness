@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import './countrycomparison.css';
+import AdminCategory from  "./AdminCategory"
 
 const CountryComparison = () => {
   const [countries, setCountries] = useState([]);
@@ -104,7 +105,7 @@ const CountryComparison = () => {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div  className='container_comparison'>
       <h1>Compare Countries</h1>
       <select className='select_comparison' multiple={true} onChange={handleCountryChange} value={countries} style={{ width: '100%', height: '100px' }}>
         <option value="UG">Uganda</option>
@@ -181,6 +182,7 @@ const CountryComparison = () => {
           </div>
         </div>
       )}
+      <AdminCategory />
     </div>
   );
 };

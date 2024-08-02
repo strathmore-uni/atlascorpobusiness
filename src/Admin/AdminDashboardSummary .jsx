@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './admincategory.css';
 import './notificationspage.css';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import AdminCategory from './AdminCategory';
 import { useAuth } from '../MainOpeningpage/AuthContext';
@@ -17,7 +17,7 @@ const AdminDashboardSummary = () => {
     pendingOrders: [],
     groupedOrders: {},
     mostOrderedProducts: [],
-    unreadNotificationsCount: 0 // Add state for unread notifications count
+    unreadNotificationsCount: 0
   });
   const [expandedCountries, setExpandedCountries] = useState([]);
   const { currentUser } = useAuth();
@@ -33,7 +33,7 @@ const AdminDashboardSummary = () => {
           pendingOrdersResponse,
           groupedOrdersResponse,
           mostOrderedProductsResponse,
-          notificationsCountResponse // Add API call for notifications count
+          notificationsCountResponse
         ] = await Promise.all([
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/count`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products/count`, { params: { email: currentUser.email } }),
@@ -43,7 +43,7 @@ const AdminDashboardSummary = () => {
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/groupedByCountry`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/mostOrderedProducts`, { params: { email: currentUser.email } }),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/notifications/count`, { params: { email: currentUser.email } }) // Add API call for notifications count
+          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/notifications/count`, { params: { email: currentUser.email } })
         ]);
 
         const sortByDateDescending = (a, b) => new Date(b.created_at) - new Date(a.created_at);
@@ -57,7 +57,7 @@ const AdminDashboardSummary = () => {
           pendingOrders: pendingOrdersResponse.data.sort(sortByDateDescending),
           groupedOrders: groupedOrdersResponse.data,
           mostOrderedProducts: mostOrderedProductsResponse.data,
-          unreadNotificationsCount: notificationsCountResponse.data.count // Set unread notifications count
+          unreadNotificationsCount: notificationsCountResponse.data.count
         });
       } catch (error) {
         console.error('Error fetching summary:', error);
@@ -77,7 +77,7 @@ const AdminDashboardSummary = () => {
     });
   };
 
-  const data = {
+  const barData = {
     labels: ['Orders', 'Products', 'Users'],
     datasets: [
       {
@@ -90,8 +90,32 @@ const AdminDashboardSummary = () => {
     ],
   };
 
-  const options = {
+  const barOptions = {
     scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  const lineData = {
+    labels: summary.mostOrderedProducts.map(product => product.partnumber),
+    datasets: [
+      {
+        label: 'Total Quantity Ordered',
+        data: summary.mostOrderedProducts.map(product => product.total_quantity),
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        fill: false,
+      },
+    ],
+  };
+
+  const lineOptions = {
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
       y: {
         beginAtZero: true,
       },
@@ -103,8 +127,8 @@ const AdminDashboardSummary = () => {
       <div className="maincontainer_admin">
         <h2>Dashboard</h2>
         <div className="quick-buttons">
-          <Link to="/admin/orders" className="quick-button">Orders</Link>
-          <Link to="/admin/users" className="quick-button">Users</Link>
+          <Link to="/ordereditems/orders" className="quick-button">Orders</Link>
+          <Link to="/registeredusers" className="quick-button">Users</Link>
           {currentUser.email === 'superadmin@gmail.com' && (
             <Link to="/admin/create-admin" className="quick-button">Create Admin</Link>
           )}
@@ -167,30 +191,33 @@ const AdminDashboardSummary = () => {
         </div>
 
         <div className="admin-dashboard-orders-grouped">
-          {Object.keys(summary.groupedOrders).map(country => (
-            <div key={country} className="country-orders">
-              <h3>Orders for {country}</h3>
-              <button onClick={() => handleExpandAll(country)}>
-                {expandedCountries.includes(country) ? 'Collapse All' : 'Expand All'}
-              </button>
-              <ul className={expandedCountries.includes(country) ? 'expanded' : 'collapsed'}>
-                {summary.groupedOrders[country].map(order => (
-                  <Link to={`/orderdetails/${order.id}`} className="order-link" key={order.id}>
-                    <li>
-                      Order Number: {order.ordernumber} Email: {order.email} Date: {new Date(order.created_at).toLocaleDateString()}
+          <h3>Orders Grouped by Country</h3>
+          {Object.entries(summary.groupedOrders).map(([country, count]) => (
+            <div key={country} className="order-country-group">
+              <h4>
+                <button onClick={() => handleExpandAll(country)}>
+                  {expandedCountries.includes(country) ? 'Collapse' : 'Expand'} {country}
+                </button>
+              </h4>
+              {expandedCountries.includes(country) && (
+                <ul>
+                  {count.map(order => (
+                    <li key={order.id}>
+                      Order Number: {order.ordernumber} Email: {order.email}
                     </li>
-                  </Link>
-                ))}
-              </ul>
+                  ))}
+                </ul>
+              )}
             </div>
           ))}
         </div>
 
-        <div className="chart-container">
-          <Bar data={data} options={options} />
-        </div>
-
-        <div className="most-ordered-products">
+        <div className="charts-container">
+          <div className="bar-chart-container">
+            <h3>Overview</h3>
+            <Bar data={barData} options={barOptions} />
+          </div>
+          <div className="most-ordered-products">
           <h3>Most Ordered Products</h3>
           <ul>
             {summary.mostOrderedProducts.map(product => (
@@ -211,8 +238,15 @@ const AdminDashboardSummary = () => {
             ))}
           </ul>
         </div>
+
+          <div className="line-chart-container">
+            <h3>Most Ordered Products (Quantity Ordered)</h3>
+            <Line data={lineData} options={lineOptions} />
+          </div>
+        </div>
+
+        <AdminCategory />
       </div>
-      <AdminCategory />
     </div>
   );
 };
