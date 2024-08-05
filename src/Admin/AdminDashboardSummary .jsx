@@ -7,6 +7,7 @@ import { Bar, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import AdminCategory from './AdminCategory';
 import { useAuth } from '../MainOpeningpage/AuthContext';
+import CountUp from 'react-countup';
 
 const AdminDashboardSummary = () => {
   const [summary, setSummary] = useState({
@@ -146,15 +147,15 @@ const AdminDashboardSummary = () => {
         <div className="admin-dashboard-summary">
           <div className="summary-item">
             <h3>Total Orders</h3>
-            <p>{summary.orders}</p>
+            <CountUp end={summary.orders} duration={2} />
           </div>
           <div className="summary-item">
             <h3>Total Products</h3>
-            <p>{summary.products}</p>
+            <CountUp end={summary.products} duration={2} />
           </div>
           <div className="summary-item">
             <h3>Total Users</h3>
-            <p>{summary.users}</p>
+            <CountUp end={summary.users} duration={2} />
           </div>
         </div>
 
@@ -244,9 +245,8 @@ const AdminDashboardSummary = () => {
             <Line data={lineData} options={lineOptions} />
           </div>
         </div>
-
-        <AdminCategory />
       </div>
+      <AdminCategory />
     </div>
   );
 };

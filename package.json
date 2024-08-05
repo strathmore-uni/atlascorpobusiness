@@ -17,6 +17,7 @@
     "dotenv": "^16.4.5",
     "emailjs": "^4.0.3",
     "emailjs-com": "^3.2.0",
+    "file-saver": "^2.0.5",
     "firebase": "^10.12.2",
     "google-auth-library": "^9.11.0",
     "html2canvas": "^1.4.1",
@@ -29,6 +30,7 @@
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
+    "react-countup": "^6.5.3",
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.3.1",
     "react-i18next": "^14.1.1",
@@ -48,7 +50,8 @@
     "stream-browserify": "^3.0.0",
     "sweetalert2": "^11.12.3",
     "util": "^0.12.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

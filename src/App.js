@@ -48,6 +48,8 @@ import Settings from "./Admin/Settings ";
 import CreateAdmin from "./Admin/CreateAdmin";
 import CountryComparison from "./Admin/CountryComparison";
 import AdminRightsManagement from "./Admin/AdminRightsManagement ";
+import ErrorPage from "./Error/ErrorPage";
+import ErrorBoundary from "./Error/ErrorBoundary";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -230,7 +232,8 @@ function App() {
  
 
   return (
-    <>
+    <>     
+     <ErrorBoundary>
       <AuthProvider>
         <BrowserRouter>
           <ScrollToTop />
@@ -394,12 +397,14 @@ function App() {
             <Route path="/notifications" element={<NotificationsPage />}  />
             <Route path="/usernotifications" element={<UserNotificationPage />}  />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/error" element={<ErrorPage />} />
             <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct}  handleAddHistoryProduct={handleAddHistoryProduct} />} />
           </Routes>
          
         </BrowserRouter>
         <BackToTopButton />
       </AuthProvider>
+      </ErrorBoundary>
     </>
   );
 }

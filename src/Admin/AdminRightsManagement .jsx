@@ -1,61 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AdminRightsManagement.css'; // Import your CSS file
+import './AdminRightsManagement.css';
 
 const AdminRightsManagement = () => {
   const [admins, setAdmins] = useState([]);
-  
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [permissions, setPermissions] = useState({
     create: false,
-    read: false,
+    read: true,
     update: false,
     delete: false,
   });
+  const [role, setRole] = useState('Viewer');
   const [error, setError] = useState('');
 
-  // Define roles and permissions
-  const roles = ['Admin', 'Editor', 'Viewer'];
-  
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admins`);
-        console.log('API Response:', response.data);
-  
-        if (Array.isArray(response.data)) {
-          setAdmins(response.data);
-        } else {
-          console.error('Unexpected API response format:', response.data);
-          setAdmins([]); // Ensure admins is always an array
-        }
+        setAdmins(response.data);
       } catch (error) {
         console.error('Error fetching admins:', error);
-        setAdmins([]); // Ensure admins is always an array
       }
     };
-  
+
     fetchAdmins();
   }, []);
-  
-  
-  
-  
 
   const handleEdit = (adminId) => {
     const admin = admins.find(a => a.id === adminId);
     setSelectedAdmin(admin);
-    setPermissions(admin.permissions || {
-      create: false,
-      read: false,
-      update: false,
-      delete: false,
+    setPermissions({
+      create: admin.create_permission,
+      read: admin.read_permission,
+      update: admin.update_permission,
+      delete: admin.delete_permission,
     });
+    setRole(admin.role);
   };
 
   const handleRevoke = async (adminId) => {
     try {
-      await axios.post(`${process.env.REACT_APP_LOCAL}/api/admin/revoke`, { id: adminId });
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/admin/revoke`, { user_id: adminId });
       alert('Rights revoked successfully');
       setAdmins(admins.filter(admin => admin.id !== adminId));
     } catch (error) {
@@ -71,14 +57,14 @@ const AdminRightsManagement = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_LOCAL}/api/admin/update`, {
-        id: selectedAdmin.id,
-        role: selectedAdmin.role,
-        permissions
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/admin/rights`, {
+        user_id: selectedAdmin.id,
+        role,
+        ...permissions
       });
       alert('Admin rights updated successfully');
       setAdmins(admins.map(admin =>
-        admin.id === selectedAdmin.id ? { ...admin, permissions } : admin
+        admin.id === selectedAdmin.id ? { ...admin, role, ...permissions } : admin
       ));
       setSelectedAdmin(null);
     } catch (error) {
@@ -91,7 +77,6 @@ const AdminRightsManagement = () => {
     <div className="admin-rights-management">
       <h2>Manage Admin Rights</h2>
       
-      {/* Admin List */}
       <div className="admin-list">
         <input type="text" placeholder="Search admins" />
         <table>
@@ -125,7 +110,6 @@ const AdminRightsManagement = () => {
         </table>
       </div>
       
-      {/* Edit Admin Rights */}
       {selectedAdmin && (
         <div className="edit-admin">
           <h3>Edit Admin Rights</h3>
@@ -136,13 +120,10 @@ const AdminRightsManagement = () => {
             </div>
             <div>
               <label>Role:</label>
-              <select
-                value={selectedAdmin.role}
-                onChange={(e) => setSelectedAdmin(prev => ({ ...prev, role: e.target.value }))}
-              >
-                {roles.map(role => (
-                  <option key={role} value={role}>{role}</option>
-                ))}
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
+                <option value="Admin">Admin</option>
+                <option value="Editor">Editor</option>
+                <option value="Viewer">Viewer</option>
               </select>
             </div>
             <div>
@@ -161,7 +142,6 @@ const AdminRightsManagement = () => {
       )}
     </div>
   );
-  
 };
 
 export default AdminRightsManagement;

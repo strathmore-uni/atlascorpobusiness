@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
 import './adminproducts.css'; // Import the CSS file
 import AdminCategory from './AdminCategory';
 
@@ -15,7 +16,7 @@ const AddProduct = () => {
       stock: 0,
       mainCategory: '',
       subCategory: '',
-    }
+    },
   ]);
 
   const [categories, setCategories] = useState([]);
@@ -67,6 +68,7 @@ const AddProduct = () => {
     );
     setProducts(updatedProducts);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -77,7 +79,6 @@ const AddProduct = () => {
       alert('Error adding products');
     }
   };
-  
 
   const handleAddCategory = async () => {
     try {
@@ -116,9 +117,39 @@ const AddProduct = () => {
     ]);
   };
 
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const data = new Uint8Array(event.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+      const parsedProducts = jsonData.slice(1).map((row) => ({
+        partnumber: row[0] || '',
+        description: row[1] || '',
+        image: row[2] || '',
+        thumb1: row[3] || '',
+        thumb2: row[4] || '',
+        prices: [{ country_code: row[5] || '', price: row[6] || '' }],
+        stock: row[7] || 0,
+        mainCategory: row[8] || '',
+        subCategory: row[9] || '',
+      }));
+
+      setProducts(parsedProducts);
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
+
   return (
     <div className="form-container-addproduct">
       <h2>Add New Products</h2>
+      <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
       <form onSubmit={handleSubmit}>
         {products.map((product, productIndex) => (
           <div key={productIndex} className="product-form-section">
@@ -242,27 +273,14 @@ const AddProduct = () => {
                 />
               </div>
             ))}
-            <button
-              type="button"
-              className="add-price-button"
-              onClick={() => addPriceField(productIndex)}
-            >
+            <button type="button" onClick={() => addPriceField(productIndex)}>
               Add Price
             </button>
           </div>
         ))}
-        <button
-          type="button"
-          className="add-product-button"
-          onClick={addProduct}
-        >
-          Add Another Product
-        </button>
-        <button type="submit" className="submit-button">
-          Add Products
-        </button>
+        <button type="button" onClick={addProduct}>Add Product</button>
+        <button type="submit">Submit</button>
       </form>
-      <AdminCategory />
     </div>
   );
 };
