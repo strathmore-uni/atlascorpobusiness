@@ -19,10 +19,12 @@ const SignInPage = () => {
   useEffect(() => {
     if (redirecting && currentUser) {
       setTimeout(() => {
-        if (currentUser.isAdmin || currentUser.isMiniAdmin) {
+        if (currentUser.isAdmin || currentUser.isMiniAdmin ) {
           navigate('/dashboard');
-        } else {
-          navigate('/shop');
+        } else if (currentUser.isWarehouse) {
+          navigate('/warehouse/dashboard');
+        }else {
+          navigate('/shop')
         }
       }, 3000); // 3 seconds delay
     }
@@ -44,36 +46,41 @@ const SignInPage = () => {
 
   const handleEmailSignIn = async (event) => {
     event.preventDefault();
-
+  
     if (!email || !password) {
       setError('Email and password are required.');
       return;
     }
-
+  
     setIsLoading(true);
-
+  
     try {
       const response = await axios.post(`${process.env.REACT_APP_LOCAL}/login`, { email, password });
       if (response.data.token) {
-        const { token, isAdmin, isMiniAdmin, id, country } = response.data;
-        const currentUser = { email, isAdmin, isMiniAdmin, id, country };
+        const { token, isAdmin, isMiniAdmin,isWarehouse, country } = response.data;
+        const currentUser = { email, isAdmin, isMiniAdmin,isWarehouse, country };
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        localStorage.setItem('token', token); // Store the token separately
-        localStorage.setItem('country', country); // Store the country separately
-
+        localStorage.setItem('token', token);
+        localStorage.setItem('country', country);
+  
         signIn(currentUser, token);
         setIsLoading(false);
-        setRedirecting(true); // Set redirecting to true to initiate redirection
+        setRedirecting(true);
       } else {
         setError('Login failed. Please check your credentials and try again.');
         setIsLoading(false);
+        // Log the failed attempt to your backend
+        await axios.post(`${process.env.REACT_APP_LOCAL}/log-failed-login`, { email });
       }
     } catch (error) {
       console.error(error);
       setError('Login failed. Please check your credentials and try again.');
       setIsLoading(false);
+      // Log the failed attempt to your backend
+      await axios.post(`${process.env.REACT_APP_LOCAL}/log-failed-login`, { email });
     }
   };
+  
 
   const handleForgotPassword = () => {
     navigate('/forgot-password');

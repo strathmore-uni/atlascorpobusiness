@@ -50,6 +50,8 @@ import CountryComparison from "./Admin/CountryComparison";
 import AdminRightsManagement from "./Admin/AdminRightsManagement ";
 import ErrorPage from "./Error/ErrorPage";
 import ErrorBoundary from "./Error/ErrorBoundary";
+import AuditLogPage from "./Admin/AuditLogPage";
+import Dashboard from "./AdminWarehouse/Dashboard";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -398,6 +400,8 @@ function App() {
             <Route path="/usernotifications" element={<UserNotificationPage />}  />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/error" element={<ErrorPage />} />
+            <Route path="/admin/auditlog" element={<AuditLogPage/>}  />
+            <Route path="/warehouse/dashboard" element={<Dashboard />}  />
             <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct}  handleAddHistoryProduct={handleAddHistoryProduct} />} />
           </Routes>
          

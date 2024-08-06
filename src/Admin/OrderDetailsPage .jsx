@@ -10,11 +10,13 @@ const OrderDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [countries, setCountries] = useState([]); // State for countries
-  const [selectedCountry, setSelectedCountry] = useState(''); // State for selected country
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
-  const currentUser = JSON.parse(localStorage.getItem('currentUser')); // Fetch current user from localStorage
-  const adminEmail = currentUser.email; // Extract email from currentUser
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const adminEmail = currentUser.email;
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -33,9 +35,9 @@ const OrderDetailsPage = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${category}`, {
-          params: { email: adminEmail, country: selectedCountry }
+          params: { email: adminEmail, country: selectedCountry, startDate, endDate }
         });
-        const sortedOrders = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date descending
+        const sortedOrders = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setOrders(sortedOrders);
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -50,7 +52,7 @@ const OrderDetailsPage = () => {
     };
 
     fetchOrders();
-  }, [category, adminEmail, selectedCountry]);
+  }, [category, adminEmail, selectedCountry, startDate, endDate]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -58,6 +60,14 @@ const OrderDetailsPage = () => {
 
   const handleCountryChange = (e) => {
     setSelectedCountry(e.target.value);
+  };
+
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
   };
 
   const filteredOrders = orders.filter(order =>
@@ -106,6 +116,22 @@ const OrderDetailsPage = () => {
           ))}
         </select>
       </div>)}
+      <div className="date-filter-container">
+        <label htmlFor="start-date">Start Date:</label>
+        <input
+          type="date"
+          id="start-date"
+          value={startDate}
+          onChange={handleStartDateChange}
+        />
+        <label htmlFor="end-date">End Date:</label>
+        <input
+          type="date"
+          id="end-date"
+          value={endDate}
+          onChange={handleEndDateChange}
+        />
+      </div>
       <input
         type="text"
         placeholder="Search orders"

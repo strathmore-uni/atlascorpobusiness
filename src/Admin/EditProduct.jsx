@@ -82,8 +82,21 @@ const EditProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    if (!currentUser || !currentUser.email) {
+      console.error('Current user email is undefined');
+      alert('Failed to update product: User email is not available.');
+      return;
+    }
+  
     try {
-      await axios.put(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, product);
+      const productWithEmail = { ...product, email: currentUser.email };
+  
+      await axios.put(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, productWithEmail, {
+        headers: {
+          'Authorization': `Bearer ${currentUser.token}` // Include the token if applicable
+        }
+      });
       alert('Product updated successfully');
       navigate('/productlist'); // Redirect after update
     } catch (error) {
@@ -91,6 +104,8 @@ const EditProduct = () => {
       alert('Failed to update product');
     }
   };
+  
+  
 
 
   const handleDelete = async () => {

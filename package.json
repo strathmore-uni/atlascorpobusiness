@@ -51,6 +51,7 @@
     "sweetalert2": "^11.12.3",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4",
+    "winston": "^3.13.1",
     "xlsx": "^0.18.5"
   },
   "scripts": {
