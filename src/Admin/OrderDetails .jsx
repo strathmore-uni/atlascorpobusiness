@@ -89,7 +89,9 @@ const OrderDetails = () => {
     return orderSteps.indexOf(status);
   };
 
-  const progressPercentage = (getStatusIndex(order?.status) + 1) / orderSteps.length * 100;
+  const progressPercentage = (status) => {
+    return (getStatusIndex(status) + 1) / orderSteps.length * 100;
+  };
 
   if (loading) {
     return <div className="dot-spinner">
@@ -131,14 +133,15 @@ const OrderDetails = () => {
           <button onClick={() => updateOrderStatus('Approved')} className="approve-btn">Approve</button>
           <button onClick={() => updateOrderStatus('Pending')} className="pending-btn">Pending</button>
           <button onClick={() => updateOrderStatus('Declined')} className="decline-btn">Decline</button>
+          <button onClick={() => updateOrderStatus('Released from Warehouse')} className="complete-btn">Complete</button>
         </div>
       </div>
    
       <button onClick={generatePDF} className="generate-pdf-btn">Generate PDF</button>
-      <Link to="/ordereditems" className="go-back-btn">Go Back</Link>
+     
       <div className="progress-container">
         <div className="progress-bar">
-          <div className="progress-bar-fill" style={{ width: `${progressPercentage}%` }}></div>
+          <div className="progress-bar-fill" style={{ width: `${progressPercentage(order.status)}%` }}></div>
           <div className="progress-step-container">
             {orderSteps.map((step, index) => (
               <div key={index} className={`progress-step ${getStatusIndex(order.status) >= index ? 'completed' : ''}`}>

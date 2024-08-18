@@ -86,10 +86,13 @@ export default function Form() {
   
       await emailjs.send(
         'service_ie3g4m5', // Your EmailJS service ID
-        'template_9ecqaoc', // Your EmailJS template ID
+        'template_igi5iov', // Your EmailJS template ID
         templateParams,
         'HSw7Ydql4N9nzAoVn' // Your EmailJS user ID (public key)
       );
+
+      await emailjs.send('service_bmvwx28', 'template_zsdszy8', emailData, 'KeePPXIGkpTcoiTBJ');
+      await emailjs.send('service_bmvwx28', 'template_igi5iov', adminEmailData, 'KeePPXIGkpTcoiTBJ');
   
       console.log('Email sent successfully!');
     } catch (error) {

@@ -88,6 +88,10 @@
   /* Admin Category Component Styles */
   .admin-category {
     margin-top: 20px;
+    width: 12rem;
+  }
+  .link_category{
+    font-size: .8rem;
   }
   
   .admin-category h2 {
@@ -95,7 +99,17 @@
     margin-bottom: 15px;
     color: #333;
   }
-  
+  .sub-links{
+    display: flex;
+    flex-direction: column;
+ gap: 10px;
+  }
+  .sub-link{
+    color: white;
+    list-style-type: none;
+    text-decoration: none;
+    
+  }
   .admin-category ul {
     list-style: none;
     padding: 0;

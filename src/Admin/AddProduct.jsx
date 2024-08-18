@@ -1,124 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
-import './adminproducts.css'; // Import the CSS file
+import './addproduct.css'; // Import the CSS file
+import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import the toast styles
 import AdminCategory from './AdminCategory';
 
 const AddProduct = () => {
-  const [products, setProducts] = useState([
-    {
-      partnumber: '',
-      description: '',
-      image: '',
-      thumb1: '',
-      thumb2: '',
-      prices: [{ country_code: '', price: '' }],
-      stock: 0,
-      mainCategory: '',
-      subCategory: '',
-    },
-  ]);
-
+  const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  const [newCategory, setNewCategory] = useState('');
-  const [newSubcategory, setNewSubcategory] = useState('');
+  const [headers, setHeaders] = useState([]);
+  const [isFileLoaded, setIsFileLoaded] = useState(false);
+  const [singleProduct, setSingleProduct] = useState({
+    partnumber: '',
+    description: '',
+    image: '',
+    thumb1: '',
+    thumb2: '',
+    prices: [{ country_code: '', price: '' }],
+    stock: 0,
+    mainCategory: '',
+    subCategory: '',
+  });
+  const [isTableVisible, setIsTableVisible] = useState(true);
+  const [fileChosen, setFileChosen] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/categories`);
-        setCategories(response.data.categories);
-        setSubcategories(response.data.subcategories);
+        if (response.data.categories && response.data.subcategories) {
+          setCategories(response.data.categories);
+          setSubcategories(response.data.subcategories);
+        } else {
+          toast.error('Unexpected API response structure');
+        }
       } catch (error) {
         console.error('Error fetching categories:', error);
+        toast.error('Error fetching categories');
       }
     };
     fetchCategories();
   }, []);
-
-  const handleProductChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedProducts = products.map((product, i) =>
-      i === index ? { ...product, [name]: value } : product
-    );
-    setProducts(updatedProducts);
-  };
-
-  const handlePriceChange = (productIndex, priceIndex, e) => {
-    const { name, value } = e.target;
-    const updatedProducts = products.map((product, pIdx) =>
-      pIdx === productIndex
-        ? {
-            ...product,
-            prices: product.prices.map((price, prIdx) =>
-              prIdx === priceIndex ? { ...price, [name]: value } : price
-            ),
-          }
-        : product
-    );
-    setProducts(updatedProducts);
-  };
-
-  const addPriceField = (index) => {
-    const updatedProducts = products.map((product, i) =>
-      i === index
-        ? { ...product, prices: [...product.prices, { country_code: '', price: '' }] }
-        : product
-    );
-    setProducts(updatedProducts);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(`${process.env.REACT_APP_LOCAL}/api/newproducts/batch`, products);
-      alert('Products added successfully');
-    } catch (error) {
-      console.error('Error adding products:', error);
-      alert('Error adding products');
-    }
-  };
-
-  const handleAddCategory = async () => {
-    try {
-      await axios.post(`${process.env.REACT_APP_LOCAL}/api/categories`, { category: newCategory });
-      setCategories((prevCategories) => [...prevCategories, newCategory]);
-      setNewCategory('');
-    } catch (error) {
-      console.error('Error adding category:', error);
-    }
-  };
-
-  const handleAddSubcategory = async () => {
-    try {
-      await axios.post(`${process.env.REACT_APP_LOCAL}/api/categories`, { subcategory: newSubcategory });
-      setSubcategories((prevSubcategories) => [...prevSubcategories, newSubcategory]);
-      setNewSubcategory('');
-    } catch (error) {
-      console.error('Error adding subcategory:', error);
-    }
-  };
-
-  const addProduct = () => {
-    setProducts([
-      ...products,
-      {
-        partnumber: '',
-        description: '',
-        image: '',
-        thumb1: '',
-        thumb2: '',
-        prices: [{ country_code: '', price: '' }],
-        stock: 0,
-        mainCategory: '',
-        subCategory: '',
-      },
-    ]);
-  };
+  
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
+    setFileChosen(true);
+
     const reader = new FileReader();
 
     reader.onload = (event) => {
@@ -128,159 +60,284 @@ const AddProduct = () => {
       const sheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-      const parsedProducts = jsonData.slice(1).map((row) => ({
-        partnumber: row[0] || '',
-        description: row[1] || '',
-        image: row[2] || '',
-        thumb1: row[3] || '',
-        thumb2: row[4] || '',
-        prices: [{ country_code: row[5] || '', price: row[6] || '' }],
-        stock: row[7] || 0,
-        mainCategory: row[8] || '',
-        subCategory: row[9] || '',
-      }));
+      const [headerRow, ...rows] = jsonData;
+      setHeaders(headerRow);
+
+      const parsedProducts = rows.map((row) =>
+        headerRow.reduce((acc, header, index) => {
+          acc[header] = row[index] || '';
+          return acc;
+        }, {})
+      );
 
       setProducts(parsedProducts);
+      setIsFileLoaded(true);
     };
 
     reader.readAsArrayBuffer(file);
   };
 
+  const handleProductChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedProducts = products.map((product, i) =>
+      i === index ? { ...product, [name]: value } : product
+    );
+    setProducts(updatedProducts);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const userEmail = currentUser ? currentUser.email : null;
+    if (!userEmail) {
+      toast.error('User email not found in localStorage');
+      return;
+    }
+
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/newproducts/batch`, products, {
+        headers: {
+          'User-Email': userEmail,
+        },
+      });
+      toast.success('Products added successfully');
+      setProducts([]);
+      setIsFileLoaded(false);
+      setFileChosen(false);
+      setIsTableVisible(true);
+    } catch (error) {
+      console.error('Error adding products:', error);
+      toast.error('Error adding products you do not have the required permissions');
+    }
+  };
+
+  const handleSingleProductSubmit = async (e) => {
+    e.preventDefault();
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const userEmail = currentUser ? currentUser.email : null;
+    if (!userEmail) {
+      toast.error('User email not found in localStorage');
+      return;
+    }
+
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/newproducts`, singleProduct, {
+        headers: {
+          'User-Email': userEmail,
+        },
+      });
+      toast.success('Product added successfully');
+      setSingleProduct({
+        partnumber: '',
+        description: '',
+        image: '',
+        thumb1: '',
+        thumb2: '',
+        prices: [{ country_code: '', price: '' }],
+        stock: 0,
+        mainCategory: '',
+        subCategory: '',
+      });
+    } catch (error) {
+      console.error('Error adding product:', error);
+      toast.error('Error adding products you do not have the required permissions');
+    }
+  };
+
+  const handleSingleProductChange = (e) => {
+    const { name, value } = e.target;
+    setSingleProduct({
+      ...singleProduct,
+      [name]: value,
+    });
+  };
+
+  const handleSinglePriceChange = (index, e) => {
+    const { name, value } = e.target;
+    setSingleProduct({
+      ...singleProduct,
+      prices: singleProduct.prices.map((price, prIdx) =>
+        prIdx === index ? { ...price, [name]: value } : price
+      ),
+    });
+  };
+
+  const handleAddSinglePrice = () => {
+    setSingleProduct({
+      ...singleProduct,
+      prices: [...singleProduct.prices, { country_code: '', price: '' }],
+    });
+  };
+
   return (
-    <div className="form-container-addproduct">
-      <h2>Add New Products</h2>
-      <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
-      <form onSubmit={handleSubmit}>
-        {products.map((product, productIndex) => (
-          <div key={productIndex} className="product-form-section">
-            <h3>Product {productIndex + 1}</h3>
-            <input
-              type="text"
-              name="partnumber"
-              placeholder="Part Number"
-              value={product.partnumber}
-              onChange={(e) => handleProductChange(productIndex, e)}
-              required
-            />
-            <input
-              type="text"
-              name="description"
-              placeholder="Description"
-              value={product.description}
-              onChange={(e) => handleProductChange(productIndex, e)}
-              required
-            />
-            <input
-              type="text"
-              name="image"
-              placeholder="Image URL"
-              value={product.image}
-              onChange={(e) => handleProductChange(productIndex, e)}
-              required
-            />
-            <input
-              type="text"
-              name="thumb1"
-              placeholder="Thumbnail 1 URL"
-              value={product.thumb1}
-              onChange={(e) => handleProductChange(productIndex, e)}
-              required
-            />
-            <input
-              type="text"
-              name="thumb2"
-              placeholder="Thumbnail 2 URL"
-              value={product.thumb2}
-              onChange={(e) => handleProductChange(productIndex, e)}
-              required
-            />
-            <input
-              type="number"
-              name="stock"
-              placeholder="Stock"
-              value={product.stock}
-              onChange={(e) => handleProductChange(productIndex, e)}
-              required
-            />
+    <div className="add-product-container">
+      <h2>Bulk Product Upload</h2>
+      <input
+        type="file"
+        accept=".xlsx"
+        onChange={handleFileUpload}
+        className="file-upload-input"
+      />
+      <button
+        onClick={() => setIsTableVisible(!isTableVisible)}
+        className="table-toggle-button"
+        disabled={!fileChosen}
+      >
+        {isTableVisible ? 'Hide Table' : 'Show Table'}
+      </button>
 
-            <select
-              name="mainCategory"
-              value={product.mainCategory}
-              onChange={(e) => handleProductChange(productIndex, e)}
-              required
-            >
-              <option value="">Select Main Category</option>
-              {categories.map((cat, index) => (
-                <option key={index} value={cat}>{cat}</option>
+      {isFileLoaded && isTableVisible && (
+        <table className="product-data-table">
+          <thead>
+            <tr>
+              {headers.map((header, index) => (
+                <th key={index}>{header}</th>
               ))}
-            </select>
-            <input
-              type="text"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-              placeholder="New Main Category"
-            />
-            <button
-              type="button"
-              className="add-category-button"
-              onClick={handleAddCategory}
-            >
-              Add Category
-            </button>
-
-            <select
-              name="subCategory"
-              value={product.subCategory}
-              onChange={(e) => handleProductChange(productIndex, e)}
-              required
-            >
-              <option value="">Select Subcategory</option>
-              {subcategories.map((subcat, index) => (
-                <option key={index} value={subcat}>{subcat}</option>
-              ))}
-            </select>
-            <input
-              type="text"
-              value={newSubcategory}
-              onChange={(e) => setNewSubcategory(e.target.value)}
-              placeholder="New Subcategory"
-            />
-            <button
-              type="button"
-              className="add-subcategory-button"
-              onClick={handleAddSubcategory}
-            >
-              Add Subcategory
-            </button>
-
-            {product.prices.map((price, priceIndex) => (
-              <div key={priceIndex} className="price-field">
-                <input
-                  type="text"
-                  name="country_code"
-                  placeholder="Country Code"
-                  value={price.country_code}
-                  onChange={(e) => handlePriceChange(productIndex, priceIndex, e)}
-                  required
-                />
-                <input
-                  type="number"
-                  name="price"
-                  placeholder="Price"
-                  value={price.price}
-                  onChange={(e) => handlePriceChange(productIndex, priceIndex, e)}
-                  required
-                />
-              </div>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product, index) => (
+              <tr key={index}>
+                {headers.map((header) => (
+                  <td key={header}>
+                    <input
+                      type="text"
+                      name={header}
+                      value={product[header]}
+                      onChange={(e) => handleProductChange(index, e)}
+                    />
+                  </td>
+                ))}
+              </tr>
             ))}
-            <button type="button" onClick={() => addPriceField(productIndex)}>
-              Add Price
-            </button>
-          </div>
-        ))}
-        <button type="button" onClick={addProduct}>Add Product</button>
-        <button type="submit">Submit</button>
-      </form>
+          </tbody>
+        </table>
+      )}
+      {isFileLoaded && (
+        <button onClick={handleSubmit} className="submit-bulk-products">
+          Add Products
+        </button>
+      )}
+
+      <div className="single-product-section">
+        <h3>Add Single Product</h3>
+        <form onSubmit={handleSingleProductSubmit}>
+          <label>Part Number</label>
+          <input
+            type="text"
+            name="partnumber"
+            value={singleProduct.partnumber}
+            onChange={handleSingleProductChange}
+            required
+          />
+          <label>Description</label>
+          <input
+            type="text"
+            name="description"
+            value={singleProduct.description}
+            onChange={handleSingleProductChange}
+            required
+          />
+          <label>Image URL</label>
+          <input
+            type="text"
+            name="image"
+            value={singleProduct.image}
+            onChange={handleSingleProductChange}
+            required
+          />
+          <label>Thumbnail 1 URL</label>
+          <input
+            type="text"
+            name="thumb1"
+            value={singleProduct.thumb1}
+            onChange={handleSingleProductChange}
+          />
+          <label>Thumbnail 2 URL</label>
+          <input
+            type="text"
+            name="thumb2"
+            value={singleProduct.thumb2}
+            onChange={handleSingleProductChange}
+          />
+          <label>Stock</label>
+          <input
+            type="number"
+            name="stock"
+            value={singleProduct.stock}
+            onChange={handleSingleProductChange}
+            required
+          />
+          <label>Main Category</label>
+          <select
+            name="mainCategory"
+            value={singleProduct.mainCategory}
+            onChange={handleSingleProductChange}
+            required
+          >
+            <option value="">Select Main Category</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+          <label>Sub Category</label>
+          <select
+            name="subCategory"
+            value={singleProduct.subCategory}
+            onChange={handleSingleProductChange}
+            required
+          >
+            <option value="">Select Sub Category</option>
+            {subcategories
+              .filter(
+                (subcategory) =>
+                  subcategory.mainCategory === singleProduct.mainCategory
+              )
+              .map((subcategory, index) => (
+                <option key={index} value={subcategory.subCategory}>
+                  {subcategory.subCategory}
+                </option>
+              ))}
+          </select>
+        
+          {singleProduct.prices.map((price, index) => (
+            <div key={index}>
+              <label>Country Code</label>
+              <input
+                type="text"
+                name="country_code"
+                value={price.country_code}
+                onChange={(e) => handleSinglePriceChange(index, e)}
+                required
+              />
+              <label>Price</label>
+              <input
+                type="number"
+                name="price"
+                value={price.price}
+                onChange={(e) => handleSinglePriceChange(index, e)}
+                required
+              />
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={handleAddSinglePrice}
+            className="add-price-button"
+          >
+            Add Another Price
+          </button>
+          <button type="submit" className="submit-single-product">
+            Add Product
+          </button>
+        </form>
+      </div>
+      <ToastContainer />
+      <AdminCategory />
     </div>
   );
 };

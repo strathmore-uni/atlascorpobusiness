@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AdminRightsManagement.css';
+import AdminCategory from './AdminCategory';
 
 const AdminRightsManagement = () => {
   const [admins, setAdmins] = useState([]);
@@ -10,17 +11,22 @@ const AdminRightsManagement = () => {
     read: false,
     update: false,
     delete: false,
+    manageUsers: false,
+    manageProducts: false,
+    manageOrders: false,
   });
-  const [error, setError] = useState('');
-  const [viewMode, setViewMode] = useState(true); // True for viewing, false for editing
+  const [categories, setCategories] = useState([]);
 
-  const roles = ['Admin', 'Editor', 'Viewer'];
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [error, setError] = useState('');
+  const [viewMode, setViewMode] = useState(true);
+
+  const roles = ['Super Admin', 'admin', 'Editor', 'Viewer', 'Support', 'Finance'];
 
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admins`);
-        console.log('Fetched admins:', response.data);
         setAdmins(response.data);
       } catch (error) {
         console.error('Error fetching admins:', error);
@@ -28,52 +34,73 @@ const AdminRightsManagement = () => {
       }
     };
 
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/categories`);
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setError('Failed to fetch categories');
+      }
+    };
+
     fetchAdmins();
+    fetchCategories();
   }, []);
 
-  const handleViewPermissions = async (adminId) => {
+  const fetchAdminRights = async (adminId) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admins/${adminId}/permissions`);
-      setSelectedAdmin(admins.find(a => a.id === adminId));
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/permissions/${adminId}`);
+      const { create_permission, read_permission, update_permission, delete_permission, role,
+              manage_users_permission, manage_products_permission, manage_orders_permission } = response.data;
+  
       setPermissions({
-        create: response.data.create_permission || false,
-        read: response.data.read_permission || false,
-        update: response.data.update_permission || false,
-        delete: response.data.delete_permission || false,
+        create: create_permission || false,
+        read: read_permission || false,
+        update: update_permission || false,
+        delete: delete_permission || false,
+        manageUsers: manage_users_permission || false,
+        manageProducts: manage_products_permission || false,
+        manageOrders: manage_orders_permission || false,
       });
-      setViewMode(true);
+  
+      // Assuming categories come in a different field or need separate fetching
+      // If categories are included in the response, adjust this line accordingly
+      // setSelectedCategories(response.data.categories || []);
+  
     } catch (error) {
-      console.error('Error fetching permissions:', error);
-      setError('Failed to fetch permissions');
+      console.error('Error fetching admin rights:', error);
+      setError('Failed to fetch admin rights');
     }
   };
+  
 
-  const handleEditPermissions = async (adminId) => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admins/${adminId}/permissions`);
-      setSelectedAdmin(admins.find(a => a.id === adminId));
-      setPermissions({
-        create: response.data.create_permission || false,
-        read: response.data.read_permission || false,
-        update: response.data.update_permission || false,
-        delete: response.data.delete_permission || false,
-      });
-      setViewMode(false); // Switch to edit mode
-    } catch (error) {
-      console.error('Error fetching permissions:', error);
-      setError('Failed to fetch permissions');
-    }
+  const handleViewPermissions = async (admin) => {
+    setSelectedAdmin(admin);
+    await fetchAdminRights(admin.id);
+    setViewMode(true);
+  };
+
+  const handleEditPermissions = async (admin) => {
+    setSelectedAdmin(admin);
+    await fetchAdminRights(admin.id);
+    setViewMode(false);
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_LOCAL}/api/admin/update`, {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/admin/permissions`, {
         user_id: selectedAdmin.id,
+        role: selectedAdmin.role,
         create_permission: permissions.create,
         read_permission: permissions.read,
         update_permission: permissions.update,
         delete_permission: permissions.delete,
+        manage_users_permission: permissions.manageUsers,
+        manage_products_permission: permissions.manageProducts,
+        manage_orders_permission: permissions.manageOrders,
+        categories: selectedCategories,
       });
       alert('Admin rights updated successfully');
       setAdmins(admins.map(admin =>
@@ -85,7 +112,11 @@ const AdminRightsManagement = () => {
         read: false,
         update: false,
         delete: false,
+        manageUsers: false,
+        manageProducts: false,
+        manageOrders: false,
       });
+      setSelectedCategories([]);
       setViewMode(true);
     } catch (error) {
       console.error('Error updating admin rights:', error);
@@ -97,8 +128,35 @@ const AdminRightsManagement = () => {
     setPermissions(prev => ({ ...prev, [permission]: value }));
   };
 
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedCategories(prev => {
+      if (checked) {
+        return [...prev, value];
+      } else {
+        return prev.filter(category => category !== value);
+      }
+    });
+  };
+  const handleSuspendAdmin = async (admin, suspend) => {
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/admin/suspend`, {
+        adminId: admin.id,
+        suspend,
+      });
+      alert(`Admin ${suspend ? 'suspended' : 'reactivated'} successfully`);
+      setAdmins(admins.map(a =>
+        a.id === admin.id ? { ...a, is_suspended: suspend } : a
+      ));
+    } catch (error) {
+      console.error('Error updating admin status:', error);
+      setError('Failed to update admin status');
+    }
+  };
+
   return (
-    <div className="admin-rights-management">
+    <div>
+       <div className="admin-rights-management">
       <h2>Manage Admin Rights</h2>
 
       {/* Admin List */}
@@ -121,8 +179,11 @@ const AdminRightsManagement = () => {
                   <td>{admin.email}</td>
                   <td>{admin.role}</td>
                   <td>
-                    <button onClick={() => handleViewPermissions(admin.id)}>View Permissions</button>
-                    <button onClick={() => handleEditPermissions(admin.id)}>Edit Permissions</button>
+                    <button onClick={() => handleViewPermissions(admin)}>View Permissions</button>
+                    <button onClick={() => handleEditPermissions(admin)}>Edit Permissions</button>
+                    <button onClick={() => handleSuspendAdmin(admin, !admin.is_suspended)}>
+                      {admin.is_suspended ? 'Reactivate' : 'Suspend'}
+                    </button>
                   </td>
                 </tr>
               ))
@@ -192,13 +253,62 @@ const AdminRightsManagement = () => {
                 disabled={viewMode}
               />
             </div>
+            <div>
+              <label>Manage Users:</label>
+              <input
+                type="checkbox"
+                checked={permissions.manageUsers}
+                onChange={(e) => handlePermissionChange('manageUsers', e.target.checked)}
+                disabled={viewMode}
+              />
+            </div>
+            <div>
+              <label>Manage Products:</label>
+              <input
+                type="checkbox"
+                checked={permissions.manageProducts}
+                onChange={(e) => handlePermissionChange('manageProducts', e.target.checked)}
+                disabled={viewMode}
+              />
+            </div>
+            <div>
+              <label>Manage Orders:</label>
+              <input
+                type="checkbox"
+                checked={permissions.manageOrders}
+                onChange={(e) => handlePermissionChange('manageOrders', e.target.checked)}
+                disabled={viewMode}
+              />
+            </div>
+            {/* Categories Selection */}
+            {!viewMode && (
+              <div>
+                <label>Categories:</label>
+                {Array.isArray(categories) && categories.map(category => (
+  <div key={category}>
+    <input
+      type="checkbox"
+      value={category}
+      checked={selectedCategories.includes(category)}
+      onChange={handleCategoryChange}
+      disabled={viewMode}
+    />
+    <label>{category}</label>
+  </div>
+))}
+
+              </div>
+            )}
             {error && <p className="error">{error}</p>}
             {!viewMode && <button type="submit">Save Changes</button>}
           </form>
         </div>
       )}
     </div>
+    <AdminCategory />
+      </div>
+   
   );
 };
 
-export default AdminRightsManagement;
+export default AdminRightsManagement

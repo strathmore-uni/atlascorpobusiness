@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import the default styles
 import './users.css'; // Import the CSS file for styling
 import AdminCategory from './AdminCategory';
 import Adminnav from './Adminnav';
@@ -19,6 +21,7 @@ const RegisteredUsers = () => {
     const fetchUsers = async () => {
       if (!currentUser || !currentUser.email) {
         setError('No admin email provided');
+        toast.error('No admin email provided');
         return;
       }
 
@@ -28,9 +31,11 @@ const RegisteredUsers = () => {
         });
         setUsers(response.data);
         setFilteredUsers(response.data);
+        toast.success('Users fetched successfully');
       } catch (error) {
         console.error('Error fetching users:', error);
         setError('Failed to fetch users.');
+        toast.error('Failed to fetch users.');
       } finally {
         setLoading(false);
       }
@@ -50,19 +55,23 @@ const RegisteredUsers = () => {
         }
       } catch (error) {
         console.error('Error fetching countries:', error);
+        toast.error('Failed to fetch countries.');
       }
     };
   
     fetchCountries();
   }, []);
-  
 
   const handleViewDetails = async (userId) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/registeredusers/${userId}`);
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/registeredusers/${userId}`, {
+        params: { email: currentUser.email }
+      });
       setSelectedUser(response.data);
+      toast.success('User details fetched successfully');
     } catch (error) {
       console.error('Error fetching user details:', error);
+      toast.error('Failed to fetch user details you dont have necessary permissions.');
     }
   };
 
@@ -80,8 +89,28 @@ const RegisteredUsers = () => {
       });
       setUsers(response.data);
       setFilteredUsers(response.data);
+      toast.success('Users filtered successfully');
     } catch (error) {
       console.error('Error fetching filtered users:', error);
+      toast.error('Failed to filter users .');
+    }
+  };
+  const handleSuspendUser = async (userId) => {
+    if (!window.confirm('Are you sure you want to suspend this user?')) {
+      return;
+    }
+  
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/suspenduser`, {
+        email: currentUser.email,
+        userId
+      });
+      toast.success('User suspended successfully');
+      // Optionally, you can refetch users to update the list
+      fetchUsers();
+    } catch (error) {
+      console.error('Error suspending user:', error);
+      toast.error('Failed to suspend user.');
     }
   };
   
@@ -106,18 +135,28 @@ const RegisteredUsers = () => {
       <div className="user-details-container">
         <button onClick={handleBackToList} className="back-button">Back to List</button>
         <h2>User Details</h2>
-        <div className="user-details-info">
-          <strong>Email:</strong> {selectedUser.email}<br />
-          <strong>Name:</strong> {selectedUser.firstName} {selectedUser.secondName}<br />
-          <strong>Company:</strong> {selectedUser.companyName}<br />
-          <strong>Address 1:</strong> {selectedUser.address1}<br />
-          <strong>Address 2:</strong> {selectedUser.address2}<br />
-          <strong>Phone:</strong> {selectedUser.phone}<br />
-          <strong>City:</strong> {selectedUser.city}<br />
-          <strong>Zip Code:</strong> {selectedUser.zip}<br />
-          <strong>Country:</strong> {selectedUser.country}<br />
-        </div>
+    
+<div className="user-details-info">
+  <strong>Email:</strong> {selectedUser.email}<br />
+  <strong>Name:</strong> {selectedUser.firstName} {selectedUser.secondName}<br />
+  <strong>Company:</strong> {selectedUser.companyName}<br />
+  <strong>Address 1:</strong> {selectedUser.address1}<br />
+  <strong>Address 2:</strong> {selectedUser.address2}<br />
+  <strong>Phone:</strong> {selectedUser.phone}<br />
+  <strong>City:</strong> {selectedUser.city}<br />
+  <strong>Zip Code:</strong> {selectedUser.zip}<br />
+  <strong>Country:</strong> {selectedUser.country}<br />
+  {/* Suspend Button */}
+  <button
+    onClick={() => handleSuspendUser(selectedUser.id)}
+    className="suspend-button"
+  >
+    Suspend User
+  </button>
+</div>
+
         <AdminCategory />
+        <ToastContainer /> {/* Include ToastContainer to display toasts */}
       </div>
     );
   }
@@ -161,6 +200,7 @@ const RegisteredUsers = () => {
         ))}
       </ul>
       <AdminCategory />
+      <ToastContainer /> {/* Include ToastContainer to display toasts */}
     </div>
   );
 };

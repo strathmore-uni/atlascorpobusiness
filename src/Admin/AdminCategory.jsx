@@ -4,6 +4,7 @@ import { Link,useNavigate } from 'react-router-dom'
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { FiLogOut } from "react-icons/fi";
 import { useAuth } from '../MainOpeningpage/AuthContext';
+import axios from 'axios';
 export default function AdminCategory() {
   const [showSubLinks, setShowSubLinks] = useState(false);
   const { currentUser, signOut } = useAuth();
@@ -11,7 +12,8 @@ export default function AdminCategory() {
   const toggleSubLinks = () => {
     setShowSubLinks(!showSubLinks);
   };
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+   
     signOut();
     console.log('User signed out successfully.');
     navigate('/signin');
@@ -28,7 +30,7 @@ export default function AdminCategory() {
       <div onClick={handleSignOut}>  
       <FiLogOut className='logout_icon' />
      </div>
-     <Link to='/dashboard' style={{textDecoration:'none'}} ><h3>Admin </h3></Link> 
+     <Link to='/dashboard' className='' style={{textDecoration:'none'}} ><h3>Admin </h3></Link> 
   
         <div class="inputadmin">
         <Link to='/dashboard' className='link_category' ><button class="value">
@@ -42,10 +44,12 @@ export default function AdminCategory() {
   </button></Link>
   {showSubLinks && (
           <div className="sub-links">
-            <Link to="/ordereditems/orders" className="sub-link">Orders</Link>
+            <Link to="/ordereditems/orders" style={{listStyle:'none',color:'white'}} className="sub-link">Orders</Link>
             <Link to="/ordereditems/approved" className="sub-link">Approved</Link>
             <Link to="/ordereditems/pending" className="sub-link">Pending</Link>
             <Link to="/ordereditems/cancelled" className="sub-link">Cancelled</Link>
+            <Link to="/ordereditems/finished_packing" className="sub-link">Ready for Transport</Link>
+            <Link to="/ordereditems/completed_orders" className="sub-link">Completed Orders</Link>
           </div>
         )}
   <Link to="/addproduct"  className='link_category'>
@@ -87,6 +91,13 @@ export default function AdminCategory() {
   <button class="value">
     <svg fill="none" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="m11.9572 4.31201c-3.35401 0-6.00906 2.59741-6.00906 5.67742v3.29037c0 .1986-.05916.3927-.16992.5576l-1.62529 2.4193-.01077.0157c-.18701.2673-.16653.5113-.07001.6868.10031.1825.31959.3528.67282.3528h14.52603c.2546 0 .5013-.1515.6391-.3968.1315-.2343.1117-.4475-.0118-.6093-.0065-.0085-.0129-.0171-.0191-.0258l-1.7269-2.4194c-.121-.1695-.186-.3726-.186-.5809v-3.29037c0-1.54561-.6851-3.023-1.7072-4.00431-1.1617-1.01594-2.6545-1.67311-4.3019-1.67311zm-8.00906 5.67742c0-4.27483 3.64294-7.67742 8.00906-7.67742 2.2055 0 4.1606.88547 5.6378 2.18455.01.00877.0198.01774.0294.02691 1.408 1.34136 2.3419 3.34131 2.3419 5.46596v2.97007l1.5325 2.1471c.6775.8999.6054 1.9859.1552 2.7877-.4464.795-1.3171 1.4177-2.383 1.4177h-14.52603c-2.16218 0-3.55087-2.302-2.24739-4.1777l1.45056-2.1593zm4.05187 11.32257c0-.5523.44772-1 1-1h5.99999c.5523 0 1 .4477 1 1s-.4477 1-1 1h-5.99999c-.55228 0-1-.4477-1-1z" fill="#7D8590" fill-rule="evenodd"></path></svg>
     Audit Logs
+  </button></Link>
+  )}
+   {currentUser.email === 'superadmin@gmail.com' && (
+  <Link to='/admin/records' className='link_category'>
+  <button class="value">
+    <svg fill="none" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="m11.9572 4.31201c-3.35401 0-6.00906 2.59741-6.00906 5.67742v3.29037c0 .1986-.05916.3927-.16992.5576l-1.62529 2.4193-.01077.0157c-.18701.2673-.16653.5113-.07001.6868.10031.1825.31959.3528.67282.3528h14.52603c.2546 0 .5013-.1515.6391-.3968.1315-.2343.1117-.4475-.0118-.6093-.0065-.0085-.0129-.0171-.0191-.0258l-1.7269-2.4194c-.121-.1695-.186-.3726-.186-.5809v-3.29037c0-1.54561-.6851-3.023-1.7072-4.00431-1.1617-1.01594-2.6545-1.67311-4.3019-1.67311zm-8.00906 5.67742c0-4.27483 3.64294-7.67742 8.00906-7.67742 2.2055 0 4.1606.88547 5.6378 2.18455.01.00877.0198.01774.0294.02691 1.408 1.34136 2.3419 3.34131 2.3419 5.46596v2.97007l1.5325 2.1471c.6775.8999.6054 1.9859.1552 2.7877-.4464.795-1.3171 1.4177-2.383 1.4177h-14.52603c-2.16218 0-3.55087-2.302-2.24739-4.1777l1.45056-2.1593zm4.05187 11.32257c0-.5523.44772-1 1-1h5.99999c.5523 0 1 .4477 1 1s-.4477 1-1 1h-5.99999c-.55228 0-1-.4477-1-1z" fill="#7D8590" fill-rule="evenodd"></path></svg>
+    Records
   </button></Link>
   )}
 </div>

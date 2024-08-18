@@ -52,6 +52,11 @@ import ErrorPage from "./Error/ErrorPage";
 import ErrorBoundary from "./Error/ErrorBoundary";
 import AuditLogPage from "./Admin/AuditLogPage";
 import Dashboard from "./AdminWarehouse/Dashboard";
+import WarehouseOrderDetails from "./AdminWarehouse/WarehouseOrderDetails";
+import WarehouseOrderDetailsPage from "./AdminWarehouse/WarehouseOrderDetailsPage";
+import FinanceDashboard from "./AdminFinance/FinanceDashboard";
+import FinanceOrderViewPage from "./AdminFinance/FinanceOrderViewPage";
+import AdminRecords from "./Admin/AdminRecords";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -401,8 +406,26 @@ function App() {
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/error" element={<ErrorPage />} />
             <Route path="/admin/auditlog" element={<AuditLogPage/>}  />
+            <Route path="/admin/records" element={<AdminRecords />}   />
+
+            {/**  Warehouse Admin  */}
             <Route path="/warehouse/dashboard" element={<Dashboard />}  />
+            <Route path="" element={<Ordereditems />} />
+            
+            <Route path="/warehouseordertails/:orderId"  element={<WarehouseOrderDetails />}  />
+            <Route path="/warehouseordereditems/:category"  element={<WarehouseOrderDetailsPage />}  />
+
+            {/**   Warehouse Admin  */}
             <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct}  handleAddHistoryProduct={handleAddHistoryProduct} />} />
+
+
+
+            {/** Finance Admin   */}
+            <Route path="/finance/dashboard" element={<FinanceDashboard />}   />
+            <Route path="/finaceordertails/:orderId"  element={<FinanceOrderViewPage />}  />
+
+
+            {/** Finance Admin  */}
           </Routes>
          
         </BrowserRouter>

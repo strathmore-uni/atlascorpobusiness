@@ -91,7 +91,8 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
     }
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    
     signOut();
     console.log('User signed out successfully.');
     navigate('/signin');

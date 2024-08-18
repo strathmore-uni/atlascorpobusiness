@@ -1,0 +1,187 @@
+/* SalesByCountryChart.css */
+.chart-container-country {
+
+    border-radius: 8px;
+   
+    max-width: 300px;
+   margin-top: -50px;
+  }
+  
+  .chart-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .chart-header h3 {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .filter-buttons button {
+    padding: 5px 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #fff;
+    background-color: #007bff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .date-range {
+    margin-left: 50px;
+    display: flex;
+    gap: 2px;
+  }
+  
+  .date-range label {
+    margin-right: 0px;
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .date-range input {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .date-range input[type="date"] {
+    width: 120px;
+  }
+  
+  .date-range input[type="date"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .doughnut-chart {
+    position: relative;
+    height: 400px;
+    width: 100%;
+  }
+  
+  .order_counts_country{
+    margin-top: 20px;
+height: 30rem;
+margin-left: -120px;
+width: 100%;
+
+display: flex;
+flex-direction: row;
+
+  }
+  .order_counts_country h3{
+width: 20rem;
+
+height: 2rem;
+
+  }
+  .orders_country_chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+    padding: 20px;
+    border-radius: 10px;
+   
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .orders_country_chart h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .orders_country_chart .filter-options {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .orders_country_chart button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .orders_country_chart button:hover {
+    background-color: #0056b3;
+  }
+  
+  .orders_country_chart button.active {
+    background-color: #28a745;
+  }
+  
+  .orders_country_chart .date-picker {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .orders_country_chart .date-picker .ant-picker {
+    border-radius: 5px;
+    width: 150px;
+  }
+  
+  .orders_country_chart .doughnut-chart {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  @media (max-width: 600px) {
+    .orders_country_chart {
+      padding: 15px;
+    }
+  
+    .orders_country_chart button {
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+  
+    .orders_country_chart h3 {
+      font-size: 20px;
+    }
+  
+    .orders_country_chart .doughnut-chart {
+      max-width: 300px;
+    }
+  }
+  
+  .total-sales-chart{
+    width: 30rem;
+    height: 300px;
+    width: 300px;
+    margin-top: 80px;
+   
+    
+      }

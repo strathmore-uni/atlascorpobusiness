@@ -10,23 +10,67 @@ import Footer from '../General Components/Footer';
 import Notification from '../General Components/Notification';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 import Swal from 'sweetalert2';
+
 const ReviewOrder = ({ totalPrice }) => {
   const [userData, setUserData] = useState({});
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [adminEmail, setAdminEmail] = useState('');
   const { currentUser } = useAuth();
   const [cartItems, setCartItems] = useState([]);
+
+  // Function to fetch the admin email
+  const fetchAdminEmail = async (userEmail) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin-email`, {
+        params: { userEmail }
+      });
+      setAdminEmail(response.data.email);
+    } catch (error) {
+      console.error('Error fetching admin email:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (currentUser?.email) {
+      fetchAdminEmail(currentUser.email); // Fetch admin email based on the current user's email
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/?email=${currentUser.email}`);
-        setUserData(response.data);
+        const userResponse = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user`, {
+          params: { email: currentUser.email }
+        });
+        setUserData(userResponse.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    fetchUserData();
+    if (currentUser?.email) {
+      fetchUserData();
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      if (!currentUser?.email) {
+        console.warn('No current user or email available.');
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/cart`, {
+          params: { email: currentUser.email }
+        });
+        setCartItems(response.data);
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+      }
+    };
+
+    fetchCartItems();
   }, [currentUser]);
 
   const shipping_fee = 40.00;
@@ -58,6 +102,12 @@ const ReviewOrder = ({ totalPrice }) => {
   
     if (result.isConfirmed) {
       const orderNumber = generateOrderNumber();
+  
+      // Define cartItemsDetails
+      const cartItemsDetails = cartItems.map(item => 
+        `Product: ${item.name}, Quantity: ${item.quantity}, Price: $${item.price}`
+      ).join('\n');
+  
       try {
         const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/order`, {
           formData: userData,
@@ -70,11 +120,8 @@ const ReviewOrder = ({ totalPrice }) => {
         });
   
         if (response.data.message === 'Order placed successfully') {
-          const cartItemsDetails = cartItems.map(item => {
-            return `Item: ${item.description}, Quantity: ${item.quantity}, Price: $${item.price}, Total Price: $${item.price * item.quantity}`;
-          }).join('\n');
-  
-          const emailData = {
+          // Prepare email data for the client
+          const clientEmailData = {
             to_email: userData.email,
             to_name: userData.firstName,
             subject: `Order Confirmation - ${orderNumber}`,
@@ -83,7 +130,7 @@ const ReviewOrder = ({ totalPrice }) => {
   
               Thank you for your order. Here are the details:
   
-              Cart Items: 
+              Cart Items:
               ${cartItemsDetails}
   
               Order Number: ${orderNumber}
@@ -97,8 +144,43 @@ const ReviewOrder = ({ totalPrice }) => {
             `
           };
   
-          await emailjs.send('service_bmvwx28', 'template_zsdszy8', emailData, 'KeePPXIGkpTcoiTBJ');
-          setNotificationMessage('Order placed and confirmation email sent.');
+          // Prepare email data for the admin
+          const adminEmailData = {
+            to_email: adminEmail,
+            to_name: 'Admin',
+            subject: `New Order Placed - ${orderNumber}`,
+            message: `
+              New order placed by ${userData.firstName} ${userData.secondName}.
+
+              Details:
+              
+
+              From: ${userData.firstName}
+
+              Email: ${userData.email}
+  
+              Cart Items:
+              ${cartItemsDetails}
+  
+              Order Number: ${orderNumber}
+              Total Amount: $${newPrice.toFixed(2)}
+  
+              Shipping Address:
+              ${userData.address1}, ${userData.address2}, ${userData.city}, ${userData.zip}
+  
+              User Details:
+              Name: ${userData.firstName} ${userData.secondName}
+              Email: ${userData.email}
+              Phone: ${userData.phone}
+  
+              Please review the order and proceed with the next steps.
+            `
+          };
+  
+          await emailjs.send('service_bmvwx28', 'template_zsdszy8', clientEmailData, 'KeePPXIGkpTcoiTBJ');
+          await emailjs.send('service_ie3g4m5', 'template_igi5iov', adminEmailData, 'HSw7Ydql4N9nzAoVn');
+      
+          setNotificationMessage('Order placed and confirmation emails sent to you and the admin.');
         } else {
           console.error('Order placement failed:', response.data.message);
         }
@@ -108,25 +190,6 @@ const ReviewOrder = ({ totalPrice }) => {
     }
   };
   
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      if (!currentUser || !currentUser.email) {
-        console.warn('No current user or email available.');
-        return;
-      }
-
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/cart`, {
-          params: { email: currentUser.email }
-        });
-        setCartItems(response.data);
-      } catch (error) {
-        console.error('Error fetching cart items:', error);
-      }
-    };
-
-    fetchCartItems();
-  }, [currentUser]);
 
   return (
     <div>
@@ -183,7 +246,7 @@ const ReviewOrder = ({ totalPrice }) => {
             <p className='p_serialnumber'>Serial Number:&nbsp;{item.partnumber}</p>
             <p className='p_description'>{item.description}</p>
             <p className='net_cart_itemprice_revieworder'>${item.price}</p>
-            <p className='cart_itemprice_revieworder'>${item.price}</p>
+            <p className='cart_itemprice_revieworder'>${item.price * item.quantity}</p>
             <hr className='hr_incartdisplay' />
           </div>
         ))}

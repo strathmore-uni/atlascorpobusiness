@@ -6,6 +6,8 @@ import AdminCategory from './AdminCategory';
 import Adminnav from './Adminnav';
 import Swal from 'sweetalert2';
 import { useAuth } from '../MainOpeningpage/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const EditProduct = () => {
   const {currentUser} = useAuth();
   const { id } = useParams();
@@ -30,7 +32,7 @@ const EditProduct = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, {
-          params: { email: currentUser.email } // Pass the admin's email as a query parameter
+          params: { email: currentUser.email }
         });
         setProduct(response.data);
       } catch (error) {
@@ -49,10 +51,11 @@ const EditProduct = () => {
         console.error('Error fetching categories:', error);
       }
     };
-
+  
     fetchProduct();
     fetchCategories();
-  }, [id,currentUser]);
+  }, [id, currentUser]);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,33 +85,36 @@ const EditProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')); // Retrieve current user object
     if (!currentUser || !currentUser.email) {
       console.error('Current user email is undefined');
-      alert('Failed to update product: User email is not available.');
+      toast.error('Failed to update product: User email is not available.');
       return;
     }
-  
+
     try {
+      // Add the user's email to the product object before sending the request
       const productWithEmail = { ...product, email: currentUser.email };
-  
+      
+      // Send the updated product to the server with the user's email in the headers
       await axios.put(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, productWithEmail, {
         headers: {
-          'Authorization': `Bearer ${currentUser.token}` // Include the token if applicable
+          'User-Email': currentUser.email, // Include the user's email in the headers
+         
         }
       });
-      alert('Product updated successfully');
+
+      toast.success('Product updated successfully');
       navigate('/productlist'); // Redirect after update
     } catch (error) {
       console.error('Error updating product:', error);
-      alert('Failed to update product');
+      toast.error('Failed to update product you dont have the required permissions');
     }
   };
-  
-  
 
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: 'Are you sure?',
       text: 'This action cannot be undone.',
@@ -122,23 +128,26 @@ const EditProduct = () => {
   
     if (result.isConfirmed) {
       try {
-        await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`);
-        Swal.fire(
-          'Deleted!',
-          'The product has been deleted.',
-          'success'
-        );
+        await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          },
+          data: {
+            email: localStorage.getItem('userEmail')
+          }
+        });
+        toast.success('Product deleted successfully');
         navigate('/productlist'); // Redirect to products list
       } catch (error) {
         console.error('Error deleting product:', error);
-        Swal.fire(
-          'Error!',
-          'Failed to delete product. Please ensure no related records exist.',
-          'error'
-        );
+        toast.error('Failed to delete product. Please ensure no related records exist.');
       }
     }
   };
+  
+  
+  
+
   
   
   return (
@@ -229,8 +238,10 @@ const EditProduct = () => {
         <button type="submit" className='editproduct_button'>Update Product</button>
         <button type="button" className='deleteproduct_button' onClick={handleDelete}>Delete Product</button>
       </form>
+      <ToastContainer />
       <AdminCategory />
       <Adminnav />
+
     </div>
   );
 };

@@ -1,5 +1,5 @@
 .signincontainer{
-  height: 35rem;
+  height: 39.4rem;
   width: 62%;
   background: url('https://atlascopco.scene7.com/is/image/atlascopco/Categories+banner_1600x954_AC-Blue_1?$landscape1600$');
   
@@ -8,8 +8,8 @@
 
 .form-container {
   position: relative;
-  top: 4.5rem;
-  left: 44rem;
+  top: 6rem;
+  left: 51rem;
   width: 380px;
   height: 450px;
 
@@ -110,7 +110,7 @@ background-color: #777;
 
     .google-login-button {
       position: relative;
-      top: 17rem;
+      top: 20rem;
   border-radius: 20px;
   box-sizing: border-box;
   padding: 15px 15px;
@@ -134,7 +134,7 @@ background-color: #777;
 /* Style for the line */
 .line-container {
   position: relative;
-  top: 18rem;
+  top: 20rem;
   display: flex;
   align-items: center;
   margin: 20px 0;
@@ -154,12 +154,12 @@ background-color: #777;
 .error_login{
   position: relative;
   color: red;
-  top: 16rem;
+  top: 18rem;
   left: 1rem;
 }
 .signup_link{
   position: relative;
-  top: 18rem;
+  top: 22rem;
   color: grey;
 }
 .signup_link .link{
@@ -173,7 +173,7 @@ background-color: #777;
 }
 .signinforgotbtn{
   position: relative;
-  top: 8rem;
+  top: 10rem;
   font-size: .9rem;
   background: none;
   border: none;
@@ -226,3 +226,4 @@ background-color: #777;
   
 
 }
+

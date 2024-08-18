@@ -1,0 +1,155 @@
+/* Container for the entire AddProduct page */
+.add-product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7f6;
+}
+
+.add-product-container h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* File upload input */
+.file-upload-input {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file-upload-input:hover {
+  border-color: #007bff;
+}
+
+/* Toggle button for the table */
+.table-toggle-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.table-toggle-button:hover {
+  background-color: #0056b3;
+}
+
+/* Table styling */
+.product-data-table {
+  width: 80%;
+  border-collapse: collapse;
+  margin-left: 200px;
+  margin-bottom: 20px;
+
+}
+
+.product-data-table th,
+.product-data-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.product-data-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.product-data-table td input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* Submit button for bulk upload */
+.submit-bulk-products {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-bulk-products:hover {
+  background-color: #218838;
+}
+
+/* Single product form styling */
+.single-product-section {
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.single-product-section h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.single-product-section label {
+  display: block;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.single-product-section input,
+.single-product-section select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.single-product-section input:focus,
+.single-product-section select:focus {
+  border-color: #007bff;
+}
+
+.single-product-section .add-price-button {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.single-product-section .add-price-button:hover {
+  background-color: #e0a800;
+}
+
+/* Submit button for single product form */
+.submit-single-product {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-single-product:hover {
+  background-color: #0056b3;
+}
+
+.toast-container {
+  font-size: 14px;
+}

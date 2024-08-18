@@ -1,0 +1,141 @@
+/* FinanceDashboard.css */
+
+.finance-dashboard {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  .finance-dashboard h1 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .rate-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .rate-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 200px; /* Responsive item width */
+  }
+  
+  .flag {
+    width: 40px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  .country {
+    flex-grow: 1;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .rate {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .error {
+    color: red;
+    font-size: 18px;
+  }
+  
+  .orders-container {
+    height: 20rem;
+    width: 20rem;
+    overflow-y: scroll;
+    margin-top: 20px;
+  }
+  
+  .orders-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .order-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .error {
+    color: red;
+    font-size: 18px;
+  }
+  
+  .loading {
+    font-size: 18px;
+    color: #555;
+  }
+/* Add this to your financedashboard.css */
+
+.sales-summary {
+  width: 20rem;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sales-summary h2 {
+  margin-bottom: 15px;
+}
+
+.sales-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.sales-item {
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.sales-item .value {
+  font-size: 1.2em;
+  color: #333;
+}
+.chart_orders{
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.chart_sales_month, .chart_order_month{
+  width: 50%;
+  height: 50%;
+
+}
+.orders-summary-list{
+  height: 32rem;
+  overflow-y: scroll;
+  width: 23rem;
+}
+.sales_order_container{
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}

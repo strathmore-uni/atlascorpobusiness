@@ -22,7 +22,7 @@ const CreateAdmin = () => {
     { label: 'Admin', value: 'admin' },
     { label: 'Warehouse', value: 'warehouse' },
     { label: 'Transporter', value: 'transporter' },
-    { label: 'Others', value: 'others' }
+    { label: 'Finance', value: 'finance' }
   ];
 
   const handleSubmit = async (e) => {

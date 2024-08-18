@@ -1,0 +1,41 @@
+.country-logins-container {
+    padding: 20px;
+     
+    width: 30rem;
+    height: 30rem;
+  }
+  
+  .country-logins-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .country-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 200px;
+  }
+  
+  .country-flag {
+    width: 40px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  .country-info {
+    flex: 1;
+  }
+  
+  .chart-container {
+    margin-top: 20px;
+    width: 30rem;
+    height: 30rem;
+  }
+
+  

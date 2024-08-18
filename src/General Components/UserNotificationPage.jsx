@@ -32,8 +32,8 @@ export default function UserNotificationPage() {
         {notifications.map((notification) => (
           <li key={notification.id} className={notification.read ? "" : "unread"}>
             <div className="notification-message">
-              {notification.orderNumber && (
-                <span className="order-number">Order {notification.orderNumber}</span>
+              {notification.ordernumber && (
+                <span className="order-number">Order {notification.ordernumber}</span>
               )}
               <span className="notification-text">: {notification.message}</span>
             </div>
