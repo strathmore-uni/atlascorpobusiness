@@ -8,6 +8,7 @@ export default function Footer() {
     <div className='container_footer'>
 
 <div  className='top_container'>
+  
 <p className='contact_p_header' > Contact us</p>
 
 <div className='contact_quicklinks'>
@@ -38,7 +39,11 @@ export default function Footer() {
 <p>Monday - Friday 8:30am - 5:00pm</p>
 
 </div>
-<FooterLinks  />
+
+<div className='container_footerlinks' >
+  <FooterLinks  />
+</div>
+
 
 
 </div>

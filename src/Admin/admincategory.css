@@ -1,9 +1,10 @@
 /* Admin Category Sidebar */
 .admin-category {
   position: fixed;
-  top: -1.2rem;
-  left: 0;
-  height: 100%;
+  
+  top: 0rem;
+  left: 5px ;
+  height: 40rem;
   width: 160px; /* Increased width for better usability */
   background-color: #0D1117;
   padding: 20px;

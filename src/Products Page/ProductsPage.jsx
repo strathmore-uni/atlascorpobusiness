@@ -95,7 +95,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
     height: '20rem',
     display: 'flex',
     alignItems: 'center',
-    top:'-4rem',
+    top:'-3rem',
     left:'-.1rem',
     justifyContent: 'center',
     color: 'white',
@@ -194,7 +194,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
         <Link to="/Shop" style={{ color: "#0078a1", textDecoration: "none" }}>
           &nbsp;Shop &nbsp;/
         </Link>
-        <p style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "7.2rem", top: "-1rem", width: "10rem" }}>
+        <p style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "7.2rem", top: "0rem", width: "10rem" }}>
           &nbsp;{category}&nbsp;
         </p>
       </div>
@@ -215,7 +215,10 @@ Their air filter sealing is unique, as is the special filtration paper: this was
           <>
               <p className="category-description"  style={categoryBackgroundStyle} >
               <p className="category_p">&nbsp;{category}&nbsp;</p>
+              <div className="categorydescription" >
               {categoryDescriptions[category] || "Browse our selection of products."}
+              </div>
+             
               <small className="featuredprdts_length">
                 Results {filteredProducts.length}
               </small>
@@ -261,29 +264,33 @@ Their air filter sealing is unique, as is the special filtration paper: this was
                           <LuCameraOff />
                         </p>
                       )}
-                      <p className="prdt_partnumber">{product.partnumber}</p>
-                     <Link key={product.partnumber}
-                 style={{color:'black',textDecoration:'none'}}
-                    to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-                    onClick={() =>
-                      handleAddProductDetails(product)
-                    }><p className="prdt_title">{product.Description}</p></Link> 
-                      <p className="prdt_price">${product.Price}</p>
-                      <div className="stock_status">
-                        <div
-                          className={`status_indicator ${product.Stock > 0 ? "in_stock" : "out_of_stock"}`}
-                        ></div>
-                        <div className="in_out_stock">
-                          {product.Stock > 0 ? "In Stock" : "Out of Stock"}
-                        </div>
-                        {product.Stock <= 0 && (
-                          <div className="get_quote_productpage" onClick={() =>
-                            handleAddToCart(product)
-                          } >
-                            <p><GrCart className="cart_productpage"  /></p>
-                          </div>
-                        )}
+                       <div className='the_prdt_details' >
+ <p className="prdt_partnumber">{product.partnumber}</p>
+                    <Link
+                      key={product.partnumber}
+                      to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+                      onClick={() => handleAddProductDetails(product)}
+                      style={{ color: "black", textDecoration: "none" }}
+                    >
+                      <p className="prdt_title">{product.Description}</p>
+                    </Link>
+                    <p className="prdt_price">${product.Price}</p>
+                    <div className="stock_status">
+                      <div
+                        className={`status_indicator ${product.Stock > 0 ? "in_stock" : "out_of_stock"}`}
+                      ></div>
+                      <div className="in_out_stock">
+                        {product.Stock > 0 ? "In Stock" : "Out of Stock"}
                       </div>
+                    
+                        <div className="get_quote_productpage" onClick={() =>
+                          handleAddToCart(product)
+                        } >
+                          <p><GrCart className="cart_productpage"  /></p>
+                        </div>
+                   
+                    </div>
+                    </div>
                     </div>
                   </Link>
                 ))}

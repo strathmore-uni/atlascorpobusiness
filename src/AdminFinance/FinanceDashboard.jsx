@@ -6,6 +6,8 @@ import { Bar, Line } from 'react-chartjs-2';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
 import { Link } from 'react-router-dom';
+import WeeklySalesChart from './WeeklySalesChart';
+import FinanceCtegory from './FinanceCategory';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, LineElement, PointElement);
 
@@ -183,7 +185,8 @@ const FinanceDashboard = () => {
   };
 
   return (
-    <div className="finance-dashboard">
+    <div>
+<div className="finance-dashboard">
       <h1>Finance Dashboard</h1>
       <h1>Exchange Rates</h1>
       <div className="rate-container">
@@ -260,7 +263,11 @@ const FinanceDashboard = () => {
           </div>
       </div>
   
+  <WeeklySalesChart />
     </div>
+    <FinanceCtegory />
+      </div>
+    
   );
 };
 

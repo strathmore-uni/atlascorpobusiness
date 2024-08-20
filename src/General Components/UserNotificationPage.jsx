@@ -28,7 +28,7 @@ export default function UserNotificationPage() {
   return (
     <div className="notifications-container">
       <h2>Notifications</h2>
-      <ul>
+      <ul className="usernotification_ul">
         {notifications.map((notification) => (
           <li key={notification.id} className={notification.read ? "" : "unread"}>
             <div className="notification-message">

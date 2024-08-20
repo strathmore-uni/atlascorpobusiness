@@ -20,11 +20,18 @@
     align-items: center;
 
   }
+  .container_footerlinks{
+    margin-top: -50px;
+    margin-left: 200px;
+    
+  }
   .top_container{
     position: relative;
     background-color: #f3f1f1;
     top: -1rem;
     height: 19rem;
+    display: flex;
+    flex-direction: row;
     width: 100%;
   }
   .contact_p_header {

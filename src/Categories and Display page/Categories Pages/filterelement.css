@@ -16,9 +16,15 @@
   position: absolute;
   background-color: rgb(243, 243, 243);
   width: 100%;
-  top: 5rem;
+  top: 5.5rem;
   height: 2rem;
   left: 0rem;
+  justify-content: center;
+  align-items: center;
+}
+.categorydescription{
+
+  margin-left: -140px;
 }
 
 .pagination {
@@ -76,12 +82,18 @@
   left: 21rem;
   position: relative;
 }
+.the_prdt_details{
+  position: absolute;
+ 
+  top:10rem;
+ 
+}
 
 .cameraoff_icon {
   position: relative;
   display: flex;
 
-  top: -1rem;
+  top: 2rem;
   justify-content: center;
   align-items: center;
   font-size: 3.5rem;
@@ -137,7 +149,7 @@
 }
 .prdt_price {
   position: relative;
-  top: 2rem;
+  top: 1rem;
   left: 1rem;
   font-size: 1.3rem;
   font-weight: 600;
@@ -172,7 +184,7 @@
 }
 .featuredprdts_length {
   position: absolute;
-  top: 0rem;
+  top: 21rem;
   color: black;
   left: 1rem;
   font-weight: 700;
@@ -283,7 +295,7 @@
 .stock_status {
   position: relative;
   left: 0.5rem;
-  top: 5rem;
+  top: 2rem;
   height: 2.5rem;
   display: flex;
   flex-direction: row;
@@ -346,7 +358,7 @@ width: 3rem;
 }
 .cart_productpage{
   position: relative;
-  top: -.2rem;
+  top: .3rem;
   font-size: 1.1rem;
 }
 .product_loader{

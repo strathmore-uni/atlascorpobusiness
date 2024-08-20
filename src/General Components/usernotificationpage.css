@@ -16,20 +16,20 @@
   }
   
   /* Notification list styles */
-  ul {
-    list-style: none;
+  .usernotification_ul {
+      list-style: none;
     padding: 0;
     margin: 0;
   }
   
-  li {
+  .usernotification_ul  .li {
     padding: 15px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
-  li:hover {
+   
+ .usernotification_ul   li:hover {
     background-color: #f0f0f0;
   }
   

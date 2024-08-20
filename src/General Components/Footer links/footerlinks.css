@@ -1,8 +1,8 @@
 /* footerLinks.css */
 .footer-links-container {
-    
-    top: -26rem;
-    left: 36.5rem;
+  
+    top: 0rem;
+    left: 0rem;
     position: relative;
     padding: 20px;
     width: 10rem;
@@ -12,26 +12,30 @@
     position: relative;
     top: 3rem;
     width: 15rem;
+    height: 1rem;
     font-size: 1.1rem;
-    left: 0rem;
+    margin-left: 200px;
     color: #0078a1;
   }
   
   .footer-links {
-    list-style-type: none;
+
+  width: 40rem;
+  height: 17rem;
     position: relative;
-    top: 1.5rem;
+    top: 2rem;
     padding: 0;
     margin: 0;
     font-size: .9rem;
     display: grid;
-    grid-template-columns: repeat(5, minmax(90px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(5, 120px);
+    gap: 0px;
   }
   
-  .footer-links li {
-    height: 1rem;
-   
+  .footer-links .footer_li {
+    height: 3rem;
+
+width: 6rem;
     list-style-type: none;
   }
   

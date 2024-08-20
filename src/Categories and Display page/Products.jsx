@@ -103,7 +103,8 @@ export default function Products({ handleAddProductDetails,handleAddProduct, han
                         <LuCameraOff />
                       </p>
                     )}
-                    <p className="prdt_partnumber">{product.partnumber}</p>
+                    <div className='the_prdt_details' >
+ <p className="prdt_partnumber">{product.partnumber}</p>
                     <Link
                       key={product.partnumber}
                       to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
@@ -128,6 +129,8 @@ export default function Products({ handleAddProductDetails,handleAddProduct, han
                         </div>
                    
                     </div>
+                    </div>
+                   
                   </div>
                 </Link>
               ))}

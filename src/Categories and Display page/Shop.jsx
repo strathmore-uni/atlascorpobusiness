@@ -23,7 +23,7 @@ export default function Shop({
           <a href="/" style={{ color: "#0078a1", textDecoration: "none" }}>
             Home&nbsp;/
           </a>
-          <p style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "3.2rem", top: "-1rem" }}>
+          <p style={{ color: "#0078a1", textDecoration: "none", position: "absolute", left: "3.5rem", top: "0rem" }}>
             &nbsp;Shop &nbsp;
           </p>
         </div>

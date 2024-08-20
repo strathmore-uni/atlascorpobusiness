@@ -1,8 +1,4 @@
-/* Ensure the container takes full height */
-html, body {
-  height: 100%;
-  margin: 0;
-}
+
 
 .shop-page-container {
   display: flex;

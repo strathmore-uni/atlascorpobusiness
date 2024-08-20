@@ -67,12 +67,15 @@ export default function Mainpage({ cartItems, datas, handleAddProductDetails }) 
           <p ref={(el) => (fadeRefs.current[2] = el)} className='submain_p fade-in'>
             Atlas Copco is a world leading provider of industrial productivity solutions, serving customers in Kenya for 88 years..
           </p>
-          <p ref={(el) => (fadeRefs.current[3] = el)} className='sub_p_sub fade-in'>
+          
+        </section>
+        <div>
+        <p ref={(el) => (fadeRefs.current[3] = el)} className='sub_p_sub fade-in'>
             <p>Why Us?</p>
             Our products help customers achieve sustainable productivity in a wide range of markets, including engineering, manufacturing and process industries, construction, automotives, electronics, oil and gas and much more.
             Atlas Copco in Kenya handles sales and service of industrial gas and air compressors, dryers and filters, compressor parts and service; vacuum pumps and solutions; construction and demolition tools including mobile compressors, pumps, light towers and generators; industrial electric, pneumatic, assembly tools, as well as an extensive range of pneumatic grinders and drills.
           </p>
-        </section>
+        </div>
 
         <img  src='./public/R.png' alt='' ref={(el) => (fadeRefs.current[4] = el)} className='fade-in' />
 

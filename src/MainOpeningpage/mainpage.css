@@ -1,232 +1,165 @@
-.mainpage_container {
-  position: relative;
-  display: flex;
-  flex-grow: 1;
-  top: 0rem;
-
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-section {
-  position: absolute;
-  height: 25rem;
-  top: 10rem;
-  left: 7rem;
-  width: 90%;
-  
-}
-.main_p {
-  position: relative;
-  top: 0rem;
-font-size: 4rem;
-  width: 92%;
-  font-weight: bold;
-text-align: center;
-  color: white;
-  line-height: 1;
+body {
   font-family: "Poppins", sans-serif;
-  font-weight: 900;
-  font-style: normal;
-}
-.main_sub_P{
-  font-size: 2rem;
-  position: relative;
-  top: 0rem;
-  width: 92%;
-  font-weight: bold;
-text-align: center;
-  color: white;
-  line-height: 1;
-  font-family: "Poppins", sans-serif;
-  font-weight: 900;
-  font-style: normal;
-}
-.p_atlas_copco {
-  font-weight: bold;
-  
-}
-.submain_p {
-  position: relative;
-  color: white;
-  font-size: 2rem;
-  font-family: "Source Sans Pro", helvetica, arial, sans-serif;
-  font-weight: 800;
-  text-align: center;
-  
-  font-style: normal;
-  width: 90%;
-top: 0rem;
-  line-height: 1.1;
-}
-.sub_p_sub {
-  position: relative;
-  top: 5rem;
-  left: 5rem;
-  width: 70%;
-  font-weight: 800;
-  font-size: 1.5rem;
-  color: #0078a1;
-}
-.sub_p_sub p {
-  font-size: 2rem;
-  font-weight: 800;
-}
-.main_p, .submain_p{
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); /* Dark shadow for better contrast */
 }
 
-.container_media {
-  position: absolute;
-  height: 35rem;
- 
+/* Main Page Container */
+.mainpage-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  left: 0rem;
-  top: 5rem;
+}
+
+/* Media Container */
+.container_media {
+  position: relative;
+  height: 35rem;
+  width: 100%;
   background-size: cover;
   background-position: center;
   background-image: url("/public/images/Group 2.png");
 }
 
-.shopwithus {
+/* Section Styling */
+section {
   position: absolute;
-  top: 70rem;
-  background-color:  #0078a1 ;
-  left: 0;
-  right: 0;
-  font-size: 2rem;
-
-  height: 18rem;
+  top: 10rem;
+  left: 5%;
+  width: 90%;
+  padding: 1rem;
 }
-.shopwithus h3 {
-  position: absolute;
-  top: 0rem;
-  left:32rem;
+
+/* Typography */
+.main_p, .submain_p {
+  font-family: "Poppins", sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); /* Dark shadow for better contrast */
+}
+
+.main_p {
+  font-size: 4rem;
+  font-weight: 900;
+  text-align: center;
   color: white;
-  font-weight: bolder;
-
 }
 
-.imageshop_withus{
-  position: relative;
-  top: 0rem;
+.main_sub_P {
+  font-size: 2rem;
+  font-weight: 900;
+  text-align: center;
+  color: white;
+}
+
+.submain_p {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  color: white;
+  line-height: 1.1;
+}
+
+.sub_p_sub {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0078a1;
+  margin: 5rem;
+}
+
+/* Shop With Us */
+.shopwithus {
+  background-color: #0078a1;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.imageshop_withus {
   max-width: 40%;
-  left: -2rem;
-  height: 18rem;
+  height: auto;
 }
+
+.shopwithus h3 {
+  font-weight: bolder;
+}
+
+/* Featured Products */
 .featuredproducts_mainpage {
-  position: absolute;
-  top: 90rem;
-  
   width: 100%;
-}
-.featuredproducts_mainpage h2{
-    position: relative;
-   width: 15rem;
-    height: 3rem;
-    color: black;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    font-family: "Ubuntu", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-}
-.featuredproducts_mainpage h3{
-    position: relative;
- 
-  
-    font-family: "Ubuntu", sans-serif;
-    font-weight: 700;
-    font-style: normal;
+  padding: 2rem 0;
+  text-align: center;
 }
 
-.mylinks_mainpage {
-  position: relative;
-  top: 1rem;
-  left: 0rem;
-  width: 20rem;
-  margin-left: 5rem;
-  margin-right: 5rem;
-  height: 15rem;
+.featuredproducts_mainpage h2 {
   color: black;
-  text-decoration: none;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-
-
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
 }
 
-.mylinks_mainpage:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.featuredproducts_mainpage h3 {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
 }
 
-.mainpage_footer {
-  position:absolute;
-  background-color: #373D41;
-  top:120rem;
-  height: 30rem;
-  left: 0;
-  right: 0;
-  box-sizing: border-box;
-
-}
+/* Category Styling */
 .mainpage_products {
-  position: absolute;
-display: flex;
-height: 20rem;
-border:currentColor;
-overflow-x: auto;
-flex-direction: row;
-width: 100%;
-
-flex-direction: row;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 1rem;
 }
-.individual_categories{
-  position: relative;
-height: 16rem;
-width: 13rem;
-left: 1rem;
-top: 1rem;
-margin-left: 2rem;
 
-
-
-}
-.individual_categories:hover{
-box-shadow: 0px 0px 8px 0px;
-}
-.individual_categories p{
-  position: relative;
-  left: 1rem;
-  color:   #0078a1;
-}
-.individual_images{
-  position: relative;
-  height: 10rem;
+.individual_categories {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 16rem;
   width: 13rem;
-
+  margin: 1rem;
+  transition: box-shadow 0.3s;
 }
-.btn_toShop{
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  font-size: 1rem;
-  color: black;
-  background:none;
+
+.individual_categories:hover {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+.individual_categories p {
+  color: #0078a1;
+}
+
+.individual_images {
+  height: 10rem;
+  width: auto;
+}
+
+/* Buttons */
+.btn_toShop {
+  background: none;
   border: none;
+  color: black;
   cursor: pointer;
   text-decoration: none;
-}
-.btn_toShop:hover{
- color:#0078a1;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
 }
 
-/* mainpage.css */
+.btn_toShop:hover {
+  color: #0078a1;
+}
 
+/* Footer */
+.mainpage_footer {
+  background-color: #373D41;
+  height: 30rem;
+}
+
+/* Fade-in Animation */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -238,132 +171,74 @@ box-shadow: 0px 0px 8px 0px;
   transform: translateY(0);
 }
 
-
-
+/* Responsive Design */
 @media (max-width: 45rem) {
   .container_media {
-   
-    top: 8rem;
-    left: 0rem;
-    width: 100%;
     height: 21rem;
-
   }
- 
+
   section {
-    left: 0rem;
     top: 7rem;
-    height: 60rem;
+    left: 0;
     width: 90%;
-    
-  }
-  .main_sub_P{
-    position: relative;
-    font-size: 1.8rem;
-    top:0rem;
-    left: 0rem;
-  }
-  .shopwithus {
-    top: 75rem;
-    width: 100%;
-    height: 10rem;
-
-    left: 0rem;
-  }
-  .imageshop_withus{
-    position: relative;
-    top: 0rem;
-    max-width: 50%;
-    left: 0rem;
-    height: 10rem;
-  }
-  .shopwithus h3{
-    position: relative;
-    top: -10rem;
-    left: 14rem;
-    width: 12rem;
-    font-size: 1rem;
-  color: black;
-
-
-  }
-  .arrow_left {
-    left: 0rem;
-  }
-  .submain_p {
-    
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.3rem;
-    height: 10rem;
-    left: 0rem;
-    top: 0rem;
-    font: .8rem;
   }
 
-  .arrow_right {
-    left: 25rem;
-  }
-  .shopwithus_arrowright {
-    left: 21rem;
-    top: 2.5rem;
-  }
   .main_p {
-   
-    left: 0rem;
-    top: 1rem;
-
     font-size: 2.3rem;
-
-    font: 1rem;
   }
+
+  .main_sub_P {
+    font-size: 1.8rem;
+  }
+
+  .submain_p {
+    font-size: 1.3rem;
+    height: auto;
+  }
+
   .sub_p_sub {
-    position: relative;
-    left: 0rem;
-    top: -4rem;
-    width: 100%;
     font-size: 1.4rem;
+    margin: 2rem 0;
+  }
 
+  .shopwithus {
+    height: 10rem;
+    padding: 1rem 0;
   }
-  .featuredproducts_mainpage{
-    position: relative;
-    top: 85rem;
-    width: 100%;
-    left: 0rem;
-    background-color: grey;
-   
+
+  .imageshop_withus {
+    max-width: 50%;
+    height: auto;
   }
-  .featuredproducts_mainpage h2{
+
+  .shopwithus h3 {
     font-size: 1rem;
-    left: 1rem;
-  }
-  .section{
-    position: relative;
-    left: -10rem;
+    margin-top: -1rem;
   }
 
-  .mainpage_products{
-   position: absolute;
-    left: -4rem;
-    width: 30rem;
-    height: 20rem;
+  .featuredproducts_mainpage {
+    top: 85rem;
+  }
 
-   
+  .featuredproducts_mainpage h2 {
+    font-size: 1rem;
   }
-  .individual_categories{
-    top: 1rem;
-  }
-  
-  .linktoviewmore{
-    top: 1.5rem;
-    right: 1rem;
 
+  .mainpage_products {
+    height: auto;
+    flex-direction: column;
   }
-  .mainpage_footer{
-top: 115rem;
 
+  .individual_categories {
+    width: 100%;
+    margin: 0.5rem 0;
   }
- 
+
+  .individual_images {
+    height: auto;
+  }
+
+  .mainpage_footer {
+    top: 115rem;
+  }
 }
