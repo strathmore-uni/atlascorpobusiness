@@ -8,6 +8,7 @@ import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Lege
 import { Link } from 'react-router-dom';
 import WeeklySalesChart from './WeeklySalesChart';
 import FinanceCtegory from './FinanceCategory';
+import MonthlySalesLineChart from './MonthlySalesLineChart';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, LineElement, PointElement);
 
@@ -264,6 +265,7 @@ const FinanceDashboard = () => {
       </div>
   
   <WeeklySalesChart />
+  <MonthlySalesLineChart />
     </div>
     <FinanceCtegory />
       </div>
