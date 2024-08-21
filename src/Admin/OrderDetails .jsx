@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import './adminproducts.css'; // Make sure this path matches your actual CSS file path
 import AdminCategory from './AdminCategory';
+import { useAuth } from '../MainOpeningpage/AuthContext';
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for react-toastify
 
 const OrderDetails = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -27,20 +31,32 @@ const OrderDetails = () => {
 
   const updateOrderStatus = async (status) => {
     try {
-      await axios.patch(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${orderId}/status`, { status }, {
+      // Update the order status on the backend
+      await axios.patch(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${orderId}/status`, { 
+        status, 
+        userEmail: currentUser.email // Pass the current admin's email 
+      }, {
         headers: {
           'Content-Type': 'application/json',
         }
       });
-      alert(`Order status updated to ${status}`);
-      setOrder((prevOrder) => ({ ...prevOrder, status }));
+      
+      // Update local state with the new status
+      setOrder((prevOrder) => ({
+        ...prevOrder,
+        Status: status
+      }));
+      
+      toast.success(`Order status updated to ${status}`);
     } catch (error) {
       console.error('Error updating order status:', error);
-      alert('Failed to update order status');
+      toast.error('Error clearing order, you do not have the necessary permissions.');
     }
   };
 
   const generatePDF = () => {
+    if (!order) return;
+
     const pdf = new jsPDF();
     pdf.setFontSize(16);
     pdf.text('Invoice', 14, 22); // Title
@@ -82,7 +98,8 @@ const OrderDetails = () => {
     'Approved',
     'Being Processed',
     'Released from Warehouse',
-    'On Transit'
+    'On Transit',
+    'Cleared'
   ];
 
   const getStatusIndex = (status) => {
@@ -93,17 +110,22 @@ const OrderDetails = () => {
     return (getStatusIndex(status) + 1) / orderSteps.length * 100;
   };
 
+  // Determine if the order status is 'Cleared'
+  const isCleared = order && order.Status === 'Cleared';
+
   if (loading) {
-    return <div className="dot-spinner">
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-      <div className="dot-spinner__dot"></div>
-    </div>;
+    return (
+      <div className="dot-spinner">
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+        <div className="dot-spinner__dot"></div>
+      </div>
+    );
   }
 
   if (!order) {
@@ -117,6 +139,7 @@ const OrderDetails = () => {
         <div className="order-info">
           <p><span>Order Number:</span> {order.ordernumber}</p>
           <p><span>Customer Email:</span> {order.email}</p>
+          <p><span>Status:</span> {order.Status || 'N/A'}</p>
         </div>
         <div className="order-items">
           <h3>Items:</h3>
@@ -130,21 +153,57 @@ const OrderDetails = () => {
           <p><span>Total Price:</span> ${order.totalprice ? order.totalprice : 'N/A'}</p>
         </div>
         <div className="order-status-buttons">
-          <button onClick={() => updateOrderStatus('Approved')} className="approve-btn">Approve</button>
-          <button onClick={() => updateOrderStatus('Pending')} className="pending-btn">Pending</button>
-          <button onClick={() => updateOrderStatus('Declined')} className="decline-btn">Decline</button>
-          <button onClick={() => updateOrderStatus('Released from Warehouse')} className="complete-btn">Complete</button>
+          <button 
+            onClick={() => updateOrderStatus('Cleared')} 
+            className="clear-btn"
+          >
+            Cleared
+          </button>
+          <button 
+            onClick={() => updateOrderStatus('Approved')} 
+            className="approve-btn"
+            disabled={!isCleared}
+          >
+            Approve
+          </button>
+          <button 
+            onClick={() => updateOrderStatus('Pending')} 
+            className="pending-btn"
+            disabled={!isCleared}
+          >
+            Pending
+          </button>
+          <button 
+            onClick={() => updateOrderStatus('Declined')} 
+            className="decline-btn"
+            disabled={!isCleared}
+          >
+            Decline
+          </button>
+          <button 
+            onClick={() => updateOrderStatus('Released from Warehouse')} 
+            className="complete-btn"
+            disabled={!isCleared}
+          >
+            Complete
+          </button>
         </div>
       </div>
-   
-      <button onClick={generatePDF} className="generate-pdf-btn">Generate PDF</button>
+     
+      <button 
+        onClick={generatePDF} 
+        className="generate-pdf-btn"
+        disabled={!isCleared}
+      >
+        Generate PDF
+      </button>
      
       <div className="progress-container">
         <div className="progress-bar">
-          <div className="progress-bar-fill" style={{ width: `${progressPercentage(order.status)}%` }}></div>
+          <div className="progress-bar-fill" style={{ width: `${progressPercentage(order.Status)}%` }}></div>
           <div className="progress-step-container">
             {orderSteps.map((step, index) => (
-              <div key={index} className={`progress-step ${getStatusIndex(order.status) >= index ? 'completed' : ''}`}>
+              <div key={index} className={`progress-step ${getStatusIndex(order.Status) >= index ? 'completed' : ''}`}>
                 {index + 1}
               </div>
             ))}
@@ -159,6 +218,7 @@ const OrderDetails = () => {
         </div>
       </div>
       <AdminCategory />
+      <ToastContainer /> {/* Add ToastContainer here */}
     </div>
   );
 };

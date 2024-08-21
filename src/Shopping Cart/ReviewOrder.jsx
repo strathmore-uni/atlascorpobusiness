@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import NavigationBar from '../General Components/NavigationBar';
 import { LuCameraOff } from 'react-icons/lu';
 import axios from 'axios';
@@ -11,12 +11,16 @@ import Notification from '../General Components/Notification';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 import Swal from 'sweetalert2';
 
-const ReviewOrder = ({ totalPrice }) => {
+const ReviewOrder = () => {
   const [userData, setUserData] = useState({});
   const [notificationMessage, setNotificationMessage] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
   const { currentUser } = useAuth();
   const [cartItems, setCartItems] = useState([]);
+
+
+  const location = useLocation();
+  const { totalPrice } = location.state || { totalPrice: 0 };
 
   // Function to fetch the admin email
   const fetchAdminEmail = async (userEmail) => {
@@ -73,9 +77,15 @@ const ReviewOrder = ({ totalPrice }) => {
     fetchCartItems();
   }, [currentUser]);
 
-  const shipping_fee = 40.00;
-  const vat = totalPrice * 0.16;
-  const newPrice = totalPrice + vat + shipping_fee;
+  const numericTotalPrice = Number(totalPrice); 
+
+
+  const shipping_fee = 40;
+  const vat = numericTotalPrice * 0.10;
+  const newPrice = numericTotalPrice + vat + shipping_fee;
+
+  const formattedTotalPrice = newPrice;  // Ensure two decimal places
+
 
   const generateOrderNumber = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -221,18 +231,18 @@ const ReviewOrder = ({ totalPrice }) => {
         <p className='p_carttotal'>Subtotal</p>
         <small className='cart_totalitemsprice'>${totalPrice}</small>
         <p>Shipping: <small style={{ position: 'absolute', right: '2rem' }}>${shipping_fee}</small></p>
-        <p>VAT: <small style={{ position: 'absolute', right: '2rem' }}>${vat.toFixed(2)}</small></p>
-        <p>Total: <small style={{ position: 'absolute', right: '2rem' }}>${newPrice.toFixed(2)}</small></p>
+        <p>VAT: <small style={{ position: 'absolute', right: '2rem' }}>${vat}</small></p>
+        <p>Total: <small style={{ position: 'absolute', right: '2rem' }}>${formattedTotalPrice}</small></p>
         <button className='checkout_btn' onClick={handlePlaceOrder}>Place the Order</button>
       </div>
 
       <div className='productsdisplay_shoppingcart_review'>
         <h2 style={{ color: '#0078a1' }}>Cart Items</h2>
         <hr className='hr_shoppingcartpage' />
-        <small className='tbl_description' style={{ position: 'absolute', top: '5rem', left: '2rem', fontWeight: '500' }}>Description</small>
-        <small className='tbl_total' style={{ position: 'absolute', top: '5rem', right: '3rem', fontWeight: '500' }}>Total</small>
-        <small className='tbl_net' style={{ position: 'absolute', top: '5rem', left: '25rem', fontWeight: '500' }}>Net Price</small>
-        <small className='tbl_qty' style={{ position: 'absolute', top: '5rem', right: '13rem', fontWeight: '500' }}>Qty</small>
+        <small className='tbl_description' style={{ position: 'absolute', top: '3rem', left: '5rem', fontWeight: '500' }}>Description</small>
+        <small className='tbl_total' style={{ position: 'absolute', top: '3rem', right: '1rem', fontWeight: '500' }}>Total</small>
+        <small className='tbl_net' style={{ position: 'absolute', top: '3rem', left: '25rem', fontWeight: '500' }}>Net Price</small>
+        <small className='tbl_qty' style={{ position: 'absolute', top: '3rem', right: '15rem', fontWeight: '500' }}>Qty</small>
 
         {cartItems.length === 0 && (
           <p className="cart_empty">No items are added</p>

@@ -57,6 +57,7 @@ import WarehouseOrderDetailsPage from "./AdminWarehouse/WarehouseOrderDetailsPag
 import FinanceDashboard from "./AdminFinance/FinanceDashboard";
 import FinanceOrderViewPage from "./AdminFinance/FinanceOrderViewPage";
 import AdminRecords from "./Admin/AdminRecords";
+import FinanceUsers from "./AdminFinance/FinanceUsers";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -72,10 +73,7 @@ function App() {
 
   const [productdetails, setProductDetails] = useState([]);
 
-  const totalPrice = cartItems.reduce(
-    (Price, item) => Price + item.quantity * item.Price,
-    0
-  );
+  
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -296,7 +294,7 @@ function App() {
                     handleAddQuotationProduct={handleAddQuotationProduct}
                     handleRemoveProduct={handleRemoveProduct}
                     handleCartClearance={handleCartClearance}
-                    totalPrice={totalPrice}
+        
                     handleRemoveQuotationProduct={handleRemoveQuotationProduct}
               
                   />
@@ -307,17 +305,17 @@ function App() {
             <Route
               path="/delivery"
               element={
-                <Delivery cartItems={cartItems} totalPrice={totalPrice} />
+                <Delivery cartItems={cartItems} />
               }
             />
             <Route
               path="/form"
-              element={<Form cartItems={cartItems} totalPrice={totalPrice} />}
+              element={<Form cartItems={cartItems}  />}
             />
             <Route
               path="/review-order"
               element={
-                <ReviewOrder totalPrice={totalPrice} />
+                <ReviewOrder  />
               }
             />
             <Route
@@ -333,7 +331,7 @@ function App() {
             <Route
               path="/checkout"
               element={
-                <Checkout cartItems={cartItems} totalPrice={totalPrice} />
+                <Checkout cartItems={cartItems}  />
               }
             />
             <Route path="/mycomponent" element={<MyComponent />} />
@@ -423,7 +421,7 @@ function App() {
             {/** Finance Admin   */}
             <Route path="/finance/dashboard" element={<FinanceDashboard />}   />
             <Route path="/finaceordertails/:orderId"  element={<FinanceOrderViewPage />}  />
-
+            <Route path="/finance/registeredusers"  element={<FinanceUsers />}  />
 
             {/** Finance Admin  */}
           </Routes>

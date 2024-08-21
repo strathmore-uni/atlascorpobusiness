@@ -138,5 +138,27 @@
 .sales_order_container{
   display: flex;
   flex-direction: row;
-  gap: 40px;
+  gap: 10px;
+}
+.sales-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+ 
+  padding: 15px;
+  border-radius: 8px; /* Rounded corners */
+  
+}
+
+.sales-info-container div {
+  margin: 0 15px; /* Space between the two sections */
+  color: "#333"; 
+  font-size: 18px; /* Larger font size */
+  font-weight: bold; /* Bold text */
+}
+
+.sales-info-container div small {
+  color: #1e90ff; /* Bright blue for strong text */
+  font-size: 14px; /* Slightly larger size for emphasis */
 }

@@ -1,74 +1,154 @@
-.admin-rights-management {
-    padding: 20px;
-    margin-left: 200px;
-  }
+/* Container for the whole component */
+.admin-rights-container {
+  max-width: 1000px;
+  margin-left: 230px;
+  margin-top: 20px;
   
-  .admin-list {
-    margin-bottom: 20px;
-  }
-  
-  .admin-list input {
-    margin-bottom: 10px;
-    padding: 8px;
-    width: 100%;
-  }
-  
-  .admin-list table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .admin-list th, .admin-list td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .admin-list th {
-    background-color: #f4f4f4;
-  }
-  
-  .admin-list button {
-    margin-right: 10px;
-  }
-  
-  .edit-admin {
-    margin-top: 20px;
-  }
-  
-  .edit-admin form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .edit-admin div {
-    margin-bottom: 15px;
-  }
-  
-  .edit-admin label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .edit-admin input, .edit-admin select {
-    padding: 8px;
-    width: 100%;
-  }
-  
-  .error {
-    color: red;
-    margin-bottom: 15px;
-  }
-  
-  button {
-    padding: 10px 15px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.admin-rights-header {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Error message */
+.error-message {
+  color: #dc3545;
+  background: #f8d7da;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Table Styles */
+.admins-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.admins-table thead th {
+  background: #007bff;
+  color: #fff;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.admins-table tbody td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.admins-table tbody tr:hover {
+  background: #f1f1f1;
+}
+
+/* Action Buttons */
+.view-permissions-button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.edit-permissions-button {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.view-permissions-button:hover,
+.edit-permissions-button:hover {
+  opacity: 0.9;
+}
+
+/* Permissions Form */
+.permissions-form {
+  margin-top: 1rem;
+  background: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.permissions-form h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.permissions-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.permission-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.permission-checkbox input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Save Button */
+.save-permissions-button {
+  background: #007bff;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
+}
+
+.save-permissions-button:hover {
+  background: #0056b3;
+}
+
+/* AdminCategory */
+.admin-category-container {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.admin-category-header {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.admin-category-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.admin-category-select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+

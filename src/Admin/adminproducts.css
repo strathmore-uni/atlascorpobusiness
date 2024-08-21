@@ -32,12 +32,21 @@
   margin-top: 20px;
 }
 
+.order-status-buttons button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .order-status-buttons button {
   padding: 10px 20px;
   font-size: 1em;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+.clear-btn{
+  background-color: #d9534f;
+  color: white;
 }
 
 .approve-btn {

@@ -25,6 +25,7 @@ import { FaUsers } from "react-icons/fa";
 import { FiShoppingBag } from "react-icons/fi";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { IoMdNotifications } from "react-icons/io";
+import OrderStatsComparison from '../AdminFinance/OrderStatsComparison';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 const AdminDashboardSummary = () => {
@@ -352,7 +353,12 @@ const AdminDashboardSummary = () => {
     </div>
         <h3>Logged-in Users</h3>
         <CountUp end={loggedInUsersCount} duration={2} />
+    
+    
       </div>
+
+    
+      
 
 </div>
 
@@ -497,8 +503,9 @@ const AdminDashboardSummary = () => {
   <UserLoginsChart />
 </div>
 
-
+ <OrderStatsComparison />
       </div>
+     
       <AdminCategory />
     </div>
   );

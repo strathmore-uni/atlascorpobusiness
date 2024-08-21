@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './users.css';
+import '../Admin/users.css';
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useAuth } from '../MainOpeningpage/AuthContext';
+import FinanceCtegory from './FinanceCategory';
 
-import AdminCategory from './AdminCategory';
-
-const RegisteredUsers = () => {
+const FinanceUsers = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -207,7 +206,7 @@ const RegisteredUsers = () => {
             </div>
           )}
         </div>
-        <AdminCategory />
+        <FinanceCtegory />
         <ToastContainer />
       </div>
     );
@@ -250,10 +249,10 @@ const RegisteredUsers = () => {
           </li>
         ))}
       </ul>
-      <AdminCategory />
+      <FinanceCtegory />
       <ToastContainer />
     </div>
   );
 };
 
-export default RegisteredUsers;
+export default FinanceUsers;

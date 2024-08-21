@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import WeeklySalesChart from './WeeklySalesChart';
 import FinanceCtegory from './FinanceCategory';
 import MonthlySalesLineChart from './MonthlySalesLineChart';
+import OrderStatsComparison from './OrderStatsComparison';
+import OrderTransitCount from './OrderTransitCount';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, LineElement, PointElement);
 
@@ -266,6 +268,8 @@ const FinanceDashboard = () => {
   
   <WeeklySalesChart />
   <MonthlySalesLineChart />
+  <OrderStatsComparison />
+  <OrderTransitCount/>
     </div>
     <FinanceCtegory />
       </div>

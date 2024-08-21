@@ -2,22 +2,38 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { LuCameraOff } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./shoppingcartpage.css";
 import NavigationBar from "../General Components/NavigationBar";
 import { useAuth } from "../MainOpeningpage/AuthContext";
+import ReviewOrder from "./ReviewOrder";
 
 export default function ShoppingCartPage({
   handleRemoveProduct,
   handleRemoveSingleProduct,
   handleCartClearance,
-  totalPrice,
+  
 }) {
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
   const { currentUser } = useAuth();
   const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate();
+  
+  const [totalPrice, setTotalPrice] = useState(0);
+  useEffect(() => {
+    // Calculate the total price whenever cartItems changes
+    const calculateTotalPrice = () => {
+      const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      setTotalPrice(total.toFixed(2)); // Ensure the total price has two decimal places
+    };
 
+    calculateTotalPrice();
+  }, [cartItems]);
+
+  const handleCheckout = () => {
+    navigate('/review-order', { state: { totalPrice } });
+  };
   const handleAddProduct = (product) => {
     const existingProduct = cartItems.find(item => item.partnumber === product.partnumber);
     if (existingProduct) {
@@ -146,7 +162,7 @@ export default function ShoppingCartPage({
             style={{
               position: "absolute",
               left: "7.5rem",
-              top: "-1rem",
+              top: "0rem",
               color: "#0078a1",
             }}
           >
@@ -207,9 +223,8 @@ export default function ShoppingCartPage({
         <p>Shipping:</p>
         <p>VAT:</p>
 
-        <Link to="/review-order">
-          <button className="checkout_btn">Go to Checkout</button>
-        </Link>
+          <button className="checkout_btn" onClick={handleCheckout} >Go to Checkout</button>
+       
       </div>
 
       <div className="quick_search">

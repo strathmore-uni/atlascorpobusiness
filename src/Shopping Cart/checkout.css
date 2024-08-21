@@ -184,8 +184,8 @@
 }
 .cart_quantity_review{
     position: relative;
-    top: -1rem;
-    left: 3rem;
+    top: -.5rem;
+    left: 0rem;
     font-weight: 700;
 
 }
