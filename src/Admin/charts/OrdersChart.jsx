@@ -5,6 +5,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { DatePicker } from 'antd';
 import 'antd/dist/reset.css';
 import { useAuth } from '../../MainOpeningpage/AuthContext';
+import './saleschartcountry.css';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
@@ -93,10 +94,11 @@ const OrdersChart = () => {
   }, [filterType, startDate, endDate, currentUser]); // No need for a second useEffect
 
   return (
-    <div>
-      <h3>Order Sales by {currentUser.isAdmin ? 'Country' : 'City'}</h3>
+    <div>  
+      
       
       <div className='orders_country_chart'>
+      <h3>Order Sales by {currentUser.isAdmin ? 'Country' : 'City'}</h3>
         {/* Filter options within the chart section */}
         <div>
           <button onClick={() => setFilterType('weekly')}>Weekly</button>

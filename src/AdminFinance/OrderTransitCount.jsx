@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './orderstats.css'
 
 const OrderTransitCount = () => {
     const [totalOrdersTransit, setTotalOrdersTransit] = useState(0);

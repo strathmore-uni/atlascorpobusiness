@@ -268,8 +268,12 @@ const FinanceDashboard = () => {
   
   <WeeklySalesChart />
   <MonthlySalesLineChart />
+
+  <div className='order_transit_stats' > 
   <OrderStatsComparison />
   <OrderTransitCount/>
+  </div>
+  
     </div>
     <FinanceCtegory />
       </div>

@@ -162,3 +162,11 @@
   color: #1e90ff; /* Bright blue for strong text */
   font-size: 14px; /* Slightly larger size for emphasis */
 }
+
+.order_transit_stats{
+  background-color: rgb(224, 222, 222);
+ 
+  height: 15rem;
+  display: flex;
+  flex-direction: row;
+}

@@ -48,7 +48,7 @@ const UserLoginsChart = () => {
   }, [selectedDate]);
 
   return (
-    <div>
+    <div className='userlogincontainer' >
       <h2>User Logins by Hour</h2>
       <div className="date-picker-container">
         <label className="date-picker-label">Select Date:</label>

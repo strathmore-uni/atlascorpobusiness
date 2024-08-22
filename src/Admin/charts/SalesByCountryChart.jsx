@@ -85,8 +85,7 @@ const SalesByCountryChart = () => {
 
   return (
     <div className="chart-container-country">
-      <div className=
-      "chart-header">
+      <div className="chart-header">
         <h3>Sales by {currentUser.isAdmin ? 'Country' : 'City'}</h3>
       </div>
       <div className="filter-container">

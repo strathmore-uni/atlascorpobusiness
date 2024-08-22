@@ -1,12 +1,15 @@
 .order-stats-container {
     padding: 20px;
-    margin-top: 20px;
+    background-color: #2c2c2c; 
+    margin-top: 100px;
     max-width: 600px;
     margin: 0 auto;
-    background-color: #2c2c2c;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    
 }
 
 
@@ -17,6 +20,7 @@
 }
 
 .stats-details div {
+    
     margin-bottom: 10px;
 }
 
@@ -42,4 +46,50 @@
     height: 100%;
     background-color: #28a745;
     transition: width 0.4s ease-in-out;
+}
+.order-transit-container {
+    padding: 20px;
+    background-color: #2c2c2c; 
+    margin-top: 100px;
+    max-width: 600px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.order-transit-container h3 {
+    font-size: 1.5rem; /* Slightly larger heading */
+    color:#fff; /* Darker color for the heading */
+    margin-bottom: 20px; /* Spacing below the heading */
+    border-bottom: 2px solid #007bff; /* Accent underline */
+    padding-bottom: 10px; /* Padding below the heading text */
+    text-align: center; /* Center the heading text */
+}
+
+.transit-count {
+    font-size: 1.25rem; /* Slightly larger text for the count */
+    color: #007bff; /* Primary color for emphasis */
+    text-align: center; /* Center the count text */
+    margin-top: 10px; /* Spacing above the count text */
+    background-color: #eef4ff; /* Light blue background for the count */
+    border-radius: 6px; /* Rounded corners for the count box */
+    padding: 15px; /* Spacing inside the count box */
+}
+
+.text-center {
+    text-align: center; /* Center alignment for texts */
+}
+
+.text-danger {
+    color: #dc3545; /* Red color for error messages */
+    font-weight: 600; /* Slightly bolder for emphasis */
+}
+
+.loading {
+    font-size: 1rem; /* Standard size for loading text */
+    color: #555; /* Grey color for loading text */
+    font-style: italic; /* Italic style for loading indication */
 }

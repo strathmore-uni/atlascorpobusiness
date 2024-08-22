@@ -26,6 +26,8 @@ import { FiShoppingBag } from "react-icons/fi";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { IoMdNotifications } from "react-icons/io";
 import OrderStatsComparison from '../AdminFinance/OrderStatsComparison';
+import MonthlySalesLineChart from '../AdminFinance/MonthlySalesLineChart';
+import OrderTransitCount from '../AdminFinance/OrderTransitCount';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 const AdminDashboardSummary = () => {
@@ -373,6 +375,10 @@ const AdminDashboardSummary = () => {
             <h3>Most Ordered Products</h3>
             <Line data={lineData} options={lineOptions} />
           </div>
+
+
+
+
         </div>
 
 
@@ -381,7 +387,7 @@ const AdminDashboardSummary = () => {
        
 <div className='recentusers_container'>
    <div className="recent-users">
-          <h3>Recent Users</h3>
+          <h3>New Users</h3>
           <ul>
             {summary.recentUsers.map(user => (
               <li key={user.email}>
@@ -432,7 +438,13 @@ const AdminDashboardSummary = () => {
 
 </div>
     </div>
+    <div className='order_transit_stats' >
+  
+  <OrderStatsComparison />
+  <OrderTransitCount />
+  </div>
  
+ {/** 
 <div className="admin-dashboard-summary-orders">
           <div className="summary-item-recent">
             <h3>Recent Orders (Last 7 Days)</h3>
@@ -464,7 +476,7 @@ const AdminDashboardSummary = () => {
             </div>
           </div>
         </div>
-        
+       */} 
 
         <div className="company-comparison">
         <h3>Company Comparison</h3>
@@ -495,6 +507,14 @@ const AdminDashboardSummary = () => {
       <div className='country_comparison_container' >
 
 </div>
+
+<div  className='monthly_order_comparison' >
+
+<div>
+  <MonthlySalesLineChart />
+</div>
+</div>
+
        <div>
         <CountryWithMostLogins />
       </div>
@@ -503,7 +523,7 @@ const AdminDashboardSummary = () => {
   <UserLoginsChart />
 </div>
 
- <OrderStatsComparison />
+
       </div>
      
       <AdminCategory />
