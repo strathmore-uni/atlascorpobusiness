@@ -32,7 +32,7 @@ export default function ShoppingCartPage({
   }, [cartItems]);
 
   const handleCheckout = () => {
-    navigate('/review-order', { state: { totalPrice } });
+    navigate('/review-order', { state: { cartItems,totalPrice } });
   };
   const handleAddProduct = (product) => {
     const existingProduct = cartItems.find(item => item.partnumber === product.partnumber);

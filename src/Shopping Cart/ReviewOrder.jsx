@@ -16,11 +16,10 @@ const ReviewOrder = () => {
   const [notificationMessage, setNotificationMessage] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
   const { currentUser } = useAuth();
-  const [cartItems, setCartItems] = useState([]);
 
 
   const location = useLocation();
-  const { totalPrice } = location.state || { totalPrice: 0 };
+  const { totalPrice, cartItems=[] } = location.state || { totalPrice: 0 };
 
   // Function to fetch the admin email
   const fetchAdminEmail = async (userEmail) => {
