@@ -13,15 +13,23 @@
   
   .order-details-page ul {
     list-style-type: none;
-    padding: 0;
+    
+    
   }
   
   .order-details-page li {
     background-color: #f9f9f9;
-
+    height: 3rem;
     border-radius: 5px;
+    
+  }
+  .order-details-page li:hover{
+    
+    background-color: rgb(243, 237, 237);
+    border-bottom: 2px solid green;
   }
   .order-details-link{
+   
     color: black;
     text-decoration: none;
   }
@@ -32,13 +40,22 @@
     color: #007bff;
   }
   /* Container for date filters */
+
+  .filter-section{
+    display: flex;
+    flex-direction:row ;
+    justify-content: space-between;
+    width: 100%;
+  
+  }
 .date-filter-container {
   display: flex;
+  
   height: 1rem;
   font-size: .6rem;
-  margin-left: 400px;
+  
   align-items: center;
-  margin-bottom: 20px;
+  
 }
 
 /* Label for date fields */
@@ -201,4 +218,9 @@
 
 .pagination-button:active {
   background-color: #003d80;
+}
+
+.filter-container{
+ 
+width: 15rem;
 }

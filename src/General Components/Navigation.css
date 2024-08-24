@@ -73,22 +73,24 @@ display: flex;
 .input:hover {
   outline: 1px solid lightgrey;
 }
-.mycart{
-  position: relative;
-  right: 3rem;
-}
-.mycart:hover{
- color: grey;
+
+.wrapper_cart{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+ 
+  width: 8rem;
+  height: 2rem;
+  font-size: 1rem;
 }
 
 .p_cart {
-  position: relative;
-  font-size: 1.2rem;
- 
+
+
  
   border-radius: 6px;
- height: 3rem;
- width: 3rem;
+ 
   display: flex;
   align-items: center;
   color:  #0078a1;
@@ -98,13 +100,11 @@ display: flex;
 }
 .p_cart small{
   position: relative;
-  left: .5rem;
-  top: .1rem;
-  font-size: .9rem;
+  
 }
 
 .icon_cart{
-  font-size: 1rem;
+  
   color:  #0078a1;
 }
 
@@ -251,14 +251,10 @@ display: flex;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.notification-bell-nav {
-  margin-left: 10px;
-  position: relative;
-}
 
-.bell-icon-nav {
-  font-size: 1rem;
-}
+
+
+
 
 .notification-count-nav {
   position: absolute;
@@ -330,3 +326,65 @@ display: flex;
     text-align: center;
   }
 }
+/* From Uiverse.io by thewizardofzen */ 
+.sign_in_button {
+  --primary-color: #ffff;
+  --secondary-color: #002152;
+  --hover-color: #eceff2;
+  --arrow-width: 10px;
+  --arrow-stroke: 2px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 50px;
+  color: var(--secondary-color);
+  padding: 1em 1.8em;
+  background: var(--primary-color);
+  display: flex;
+  margin-right: 50px;
+  transition: 0.2s background;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: bold;
+}
+
+.sign_in_button .arrow-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign_in_button .arrow {
+  margin-top: 1px;
+  width: var(--arrow-width);
+  background: var(--primary-color);
+  height: var(--arrow-stroke);
+  position: relative;
+  transition: 0.2s;
+}
+
+.sign_in_button .arrow::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  border: solid var(--secondary-color);
+  border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+  display: inline-block;
+  top: -3px;
+  right: 3px;
+  transition: 0.2s;
+  padding: 3px;
+  transform: rotate(-45deg);
+}
+
+.sign_in_button:hover {
+  background-color: var(--hover-color);
+}
+
+.sign_in_button:hover .arrow {
+  background: var(--secondary-color);
+}
+
+.sign_in_button:hover .arrow:before {
+  right: 0;
+}
+

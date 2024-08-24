@@ -1,11 +1,10 @@
-import React, { useState, useCallback,useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Form.css'
+import './Form.css'; // Updated CSS file name
 import axios from 'axios';
-import Notification from '../General Components/Notification';
 import emailjs from 'emailjs-com';
 
-export default function Form() {
+export default function RegistrationForm() {
   const [formData, setFormData] = useState({
     companyName: '',
     title: '',
@@ -18,24 +17,24 @@ export default function Form() {
     phone: '',
     email: '',
     password: '',
+    confpassword: '',
     country: '',
   });
 
+  const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('')
-
+  const [successMessage, setSuccessMessage] = useState('');
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [failureNotification, setFailureNotification] = useState('');
 
-  const [failurenotification, setFailurenotification] = useState('') 
   const navigate = useNavigate();
+
   const handleFormDataChange = useCallback((event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
   }, []);
-
-
 
   const validatePassword = (password) => {
     const minLength = /.{6,}/;
@@ -55,21 +54,21 @@ export default function Form() {
 
   const validateFormData = (formData) => {
     const errors = {};
-  
+
     Object.keys(formData).forEach((key) => {
-      if (!formData[key]) {
+      if (!formData[key] && key !== 'address2') { // Address2 is optional
         errors[key] = `${key} is required`;
       }
     });
-  
-    if (!validatePassword(formData.password)) {
-      errors.password = 'Password must be at least 6 characters long and include upper and lower case letters, a number, and a special character';
+
+    if (formData.title && !['Mr', 'Mrs', 'Ms'].includes(formData.title)) {
+      errors.title = 'Invalid title';
     }
-  
-    if (formData.password !== formData.confpassword) {
-      errors.confpassword = 'Passwords do not match';
+
+    if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
+      errors.phone = 'Invalid phone number';
     }
-  
+
     return errors;
   };
 
@@ -83,282 +82,300 @@ export default function Form() {
         reply_to: 'support@example.com',
         verification_link: verificationLink
       };
-  
-      await emailjs.send(
-        'service_ie3g4m5', // Your EmailJS service ID
-        'template_igi5iov', // Your EmailJS template ID
-        templateParams,
-        'HSw7Ydql4N9nzAoVn' // Your EmailJS user ID (public key)
-      );
 
-      await emailjs.send('service_bmvwx28', 'template_zsdszy8', emailData, 'KeePPXIGkpTcoiTBJ');
-      await emailjs.send('service_bmvwx28', 'template_igi5iov', adminEmailData, 'KeePPXIGkpTcoiTBJ');
-  
+      await emailjs.send('service_ie3g4m5', 'template_igi5iov', templateParams, 'HSw7Ydql4N9nzAoVn');
       console.log('Email sent successfully!');
     } catch (error) {
       console.error('Error sending email:', error);
     }
   };
-  
- 
 
-const handleSubmit = useCallback(async (event) => {
-  event.preventDefault();
-  setErrorMessage('');
-  setSuccessMessage('');
-
-  const errors = validateFormData(formData);
-
-  if (Object.keys(errors).length > 0) {
-    setErrors(errors);
-    return;
-  }
-  const returnUrl = window.location.href;
-    await sendEmailConfirmation(formData, returnUrl);
-  try {
-    const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
-    console.log('Registration Response:', response); 
-    setSuccessMessage(response.data.message);
-  
-  
-    console.log('Email Confirmation Sent'); 
-  } catch (error) {
-    console.error('Error during registration:', error); 
-    if (error.response && error.response.data && error.response.data.error) {
-      setErrorMessage(error.response.data.error);
-    } else {
-      setErrorMessage('An unexpected error occurred.');
+  const handleTabSwitch = (step) => {
+    // Validate the current step before switching
+    if (validateCurrentStep()) {
+      setCurrentStep(step);
     }
-  }
-  
-  
-}, [formData, navigate]);
+  };
 
+  const validateCurrentStep = () => {
+    let stepSpecificFormData = {};
 
+    if (currentStep === 1) {
+      stepSpecificFormData = {
+        email: formData.email,
+        password: formData.password,
+        confpassword: formData.confpassword,
+      };
+    } else if (currentStep === 2) {
+      stepSpecificFormData = {
+        title: formData.title,
+        firstName: formData.firstName,
+        secondName: formData.secondName,
+        phone: formData.phone,
+      };
+    } else if (currentStep === 3) {
+      stepSpecificFormData = {
+        address1: formData.address1,
+        city: formData.city,
+        zip: formData.zip,
+        country: formData.country,
+      };
+    } else if (currentStep === 4) {
+      stepSpecificFormData = {
+        companyName: formData.companyName,
+      };
+    }
 
+    const errors = validateFormData(stepSpecificFormData);
 
-  
- 
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return false;
+    }
+
+    if (currentStep === 1 && formData.password !== formData.confpassword) {
+      setErrors({ confpassword: 'Passwords do not match' });
+      return false;
+    }
+
+    if (currentStep === 1 && !validatePassword(formData.password)) {
+      setErrors({ password: 'Password does not meet the requirements' });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = useCallback(async (event) => {
+    event.preventDefault();
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    if (!validateCurrentStep()) {
+      return;
+    }
+
+    const errors = validateFormData(formData);
+
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+
+    if (!validatePassword(formData.password)) {
+      setErrors({ password: 'Password does not meet the requirements' });
+      return;
+    }
+
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
+
+      const returnUrl = 'https://localhost:3000/verify-email';
+      await sendEmailConfirmation(formData, returnUrl);
+
+      setSuccessMessage('Registration successful! Please check your email for verification.');
+      navigate('/signin');
+    } catch (error) {
+      setErrorMessage('Registration failed. Please try again.');
+    }
+  }, [formData, navigate]);
+
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="form-container-registration">
-        <div className="form-group">
-          <label htmlFor='company_name'>
-            Company Name
-          </label>
+    <div className="registration-form-container">
+      <div className="tabs-container">
+        <div
+          className={`tab ${currentStep === 1 ? 'tab-active' : 'tab-inactive'}`}
+          onClick={() => handleTabSwitch(1)}
+        >
+          Personal Information
+        </div>
+        <div
+          className={`tab ${currentStep === 2 ? 'tab-active' : 'tab-inactive'}`}
+          onClick={() => handleTabSwitch(2)}
+        >
+          Contact Information
+        </div>
+        <div
+          className={`tab ${currentStep === 3 ? 'tab-active' : 'tab-inactive'}`}
+          onClick={() => handleTabSwitch(3)}
+        >
+          Address
+        </div>
+        <div
+          className={`tab ${currentStep === 4 ? 'tab-active' : 'tab-inactive'}`}
+          onClick={() => handleTabSwitch(4)}
+        >
+          Company Info
+        </div>
+      </div>
+
+      {currentStep === 1 && (
+        <div className="form-step">
+          <label className="form-label">Email</label>
           <input
-            type='text'
-            placeholder='Company Name'
-            id='company_name'
-            className='inputs'
-            name='companyName'
-            value={formData.companyName}
-            onChange={handleFormDataChange}
-          />
-          {errors.companyName && <div className="error">{errors.companyName}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='title' className='titleForm'>
-            Title
-          </label>
-          <select
-            id="titleForm"
-            value={formData.title}
-            name='title'
-            onChange={handleFormDataChange}
-            className='input_title'
-          >
-            <option value="">Title</option>
-            <option value="Mr">Mr</option>
-            <option value="Mrs">Mrs</option>
-            <option value="Ms">Ms</option>
-          </select>
-          {errors.title && <div className="error">{errors.title}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='country' className='country'>
-            Country
-          </label>
-          <select
-            id="country"
-            value={formData.country}
-            name='country'
-            onChange={handleFormDataChange}
-            className='country'
-          >
-            <option value="">Country</option>
-            <option value="KE">Kenya</option>
-            <option value="UG">Uganda</option>
-            <option value="TZ">Tanzania</option>
-            <option value="USA">United States of America</option>
-            <option value="UK">United Kingdom</option>
-            <option value="CH">China</option>
-          </select>
-          {errors.country && <div className="error">{errors.country}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='fname' className='fname'>
-            First Name
-          </label>
-          <input
-            id='fname'
-            className='fnameinput'
-            placeholder='First Name'
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleFormDataChange}
-          />
-          {errors.firstName && <div className="error">{errors.firstName}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='sname' className='sname'>
-            Second Name
-          </label>
-          <input
-            id='sname'
-            className='snameinput'
-            placeholder='Second Name'
-            name="secondName"
-            value={formData.secondName}
-            onChange={handleFormDataChange}
-          />
-          {errors.secondName && <div className="error">{errors.secondName}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='firstaddress' className='streetaddresslabel'>
-            Address 1
-          </label>
-          <input
-            id='firstaddress'
-            className='streetaddressinput'
-            placeholder='Street Address'
-            name="address1"
-            value={formData.address1}
-            onChange={handleFormDataChange}
-          />
-          {errors.address1 && <div className="error">{errors.address1}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='secondaddress' className='streetaddress2label'>
-            Address 2
-          </label>
-          <input
-            id='secondaddress'
-            className='streetaddress2input'
-            placeholder='Street Address 2'
-            name="address2"
-            value={formData.address2}
-            onChange={handleFormDataChange}
-          />
-          {errors.address2 && <div className="error">{errors.address2}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='city' className='citylabel'>
-            City
-          </label>
-          <input
-            id='city'
-            className='cityinput'
-            placeholder='City'
-            name='city'
-            value={formData.city}
-            onChange={handleFormDataChange}
-          />
-          {errors.city && <div className="error">{errors.city}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='zip' className='ziplabel'>
-            Zip Code
-          </label>
-          <input
-            className='zipinput'
-            placeholder='Postal Code/Zip'
-            id='zip'
-            name='zip'
-            value={formData.zip}
-            onChange={handleFormDataChange}
-          />
-          {errors.zip && <div className="error">{errors.zip}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='phone' className='phonelabel'>
-            Phone
-          </label>
-          <input
-            type='number'
-            id='phone'
-            className='phoneinput'
-            placeholder='+25471234567'
-            name='phone'
-            value={formData.phone}
-            onChange={handleFormDataChange}
-          />
-          {errors.phone && <div className="error">{errors.phone}</div>}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor='email' className='emaillabel'>
-            Email
-          </label>
-          <input
-            id='email'
-            className='emailinput'
-            placeholder='1234@gmail.com'
-            name='email'
+            type="email"
+            name="email"
+            className="form-input"
             value={formData.email}
             onChange={handleFormDataChange}
           />
-          {errors.email && <div className="error">{errors.email}</div>}
-        </div>
+          {errors.email && <div className="error-message">{errors.email}</div>}
 
-        <div className="form-group">
-          <label htmlFor='password' className='password'>
-            Password
-          </label>
+          <label className="form-label">Password</label>
           <input
-            type='password'
-            id='Password'
-            className='passwordinput'
-            placeholder='Password'
-            name='password'
+            type="password"
+            name="password"
+            className="form-input"
             value={formData.password}
             onChange={handleFormDataChange}
           />
-          {errors.password && <div className="error">{errors.password}</div>}
-        </div>
-        <div className="form-group">
-          <label htmlFor='confirm password' className='password'>
-            Confirm Password
-          </label>
+          {errors.password && <div className="error-message">{errors.password}</div>}
+
+          <label className="form-label">Confirm Password</label>
           <input
-            type='password'
-            id='confPassword'
-            className='confpasswordinput'
-            placeholder='Confirm password'
-            name='confpassword'
+            type="password"
+            name="confpassword"
+            className="form-input"
             value={formData.confpassword}
             onChange={handleFormDataChange}
           />
-          {errors.confpassword && <div className="error">{errors.confpassword}</div>}
+          {errors.confpassword && <div className="error-message">{errors.confpassword}</div>}
         </div>
-    
+      )}
 
-        <button type='submit' className='btn_continue'>Continue</button>
-      </form>
-      {errorMessage && <div className='message error'>{errorMessage}</div>}
-      {successMessage && <div className='message success'>{successMessage}</div>}
-      {notificationMessage && <Notification message={notificationMessage}  />}
-      {failurenotification && <Notification failure_message={failurenotification} />}
+      {currentStep === 2 && (
+        <div className="form-step">
+          <label className="form-label">Title</label>
+          <input
+            type="text"
+            name="title"
+            className="form-input"
+            value={formData.title}
+            onChange={handleFormDataChange}
+          />
+          {errors.title && <div className="error-message">{errors.title}</div>}
+
+          <label className="form-label">First Name</label>
+          <input
+            type="text"
+            name="firstName"
+            className="form-input"
+            value={formData.firstName}
+            onChange={handleFormDataChange}
+          />
+          {errors.firstName && <div className="error-message">{errors.firstName}</div>}
+
+          <label className="form-label">Second Name</label>
+          <input
+            type="text"
+            name="secondName"
+            className="form-input"
+            value={formData.secondName}
+            onChange={handleFormDataChange}
+          />
+          {errors.secondName && <div className="error-message">{errors.secondName}</div>}
+
+          <label className="form-label">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            className="form-input"
+            value={formData.phone}
+            onChange={handleFormDataChange}
+          />
+          {errors.phone && <div className="error-message">{errors.phone}</div>}
+        </div>
+      )}
+
+      {currentStep === 3 && (
+        <div className="form-step">
+          <label className="form-label">Address 1</label>
+          <input
+            type="text"
+            name="address1"
+            className="form-input"
+            value={formData.address1}
+            onChange={handleFormDataChange}
+          />
+          {errors.address2 && <div className="error-message">{errors.address2}</div>}
+          <label className="form-label">Address 2</label>
+          <input
+            type="text"
+            name="address2"
+            className="form-input"
+            value={formData.address2}
+            onChange={handleFormDataChange}
+          />
+          {errors.address2 && <div className="error-message">{errors.address2}</div>}
+
+
+          <label className="form-label">City</label>
+          <input
+            type="text"
+            name="city"
+            className="form-input"
+            value={formData.city}
+            onChange={handleFormDataChange}
+          />
+          {errors.city && <div className="error-message">{errors.city}</div>}
+
+          <label className="form-label">Zip Code</label>
+          <input
+            type="text"
+            name="zip"
+            className="form-input"
+            value={formData.zip}
+            onChange={handleFormDataChange}
+          />
+          {errors.zip && <div className="error-message">{errors.zip}</div>}
+
+          <label className="form-label">Country</label>
+          <input
+            type="text"
+            name="country"
+            className="form-input"
+            value={formData.country}
+            onChange={handleFormDataChange}
+          />
+          {errors.country && <div className="error-message">{errors.country}</div>}
+        </div>
+      )}
+
+      {currentStep === 4 && (
+        <div className="form-step">
+          <label className="form-label">Company Name</label>
+          <input
+            type="text"
+            name="companyName"
+            className="form-input"
+            value={formData.companyName}
+            onChange={handleFormDataChange}
+          />
+          {errors.companyName && <div className="error-message">{errors.companyName}</div>}
+        </div>
+      )}
+
+      {errorMessage && <div className="error-message">{typeof errorMessage === 'object' ? JSON.stringify(errorMessage) : errorMessage}</div>}
+      {successMessage && <div className="success-message">{typeof successMessage === 'object' ? JSON.stringify(successMessage) : successMessage}</div>}
+      {notificationMessage && <div className="notification-message">{typeof notificationMessage === 'object' ? JSON.stringify(notificationMessage) : notificationMessage}</div>}
+      {failureNotification && <div className="error-message">{typeof failureNotification === 'object' ? JSON.stringify(failureNotification) : failureNotification}</div>}
+
+      <div className="button-group">
+        {currentStep > 1 && (
+          <button type="button" onClick={() => handleTabSwitch(currentStep - 1)}>
+            Previous
+          </button>
+        )}
+        {currentStep < 4 ? (
+          <button type="button" onClick={() => handleTabSwitch(currentStep + 1)}>
+            Next
+          </button>
+        ) : (
+          <button type="submit" onClick={handleSubmit}>
+            Submit
+          </button>
+        )}
+      </div>
     </div>
-    
   );
 }

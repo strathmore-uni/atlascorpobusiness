@@ -1,0 +1,150 @@
+/* Container for the entire registration form */
+.registration-form-container {
+    width: 70rem; /* Responsive width */
+    margin-top: 200px;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+  
+    font-family: 'Roboto', sans-serif;
+    
+}
+
+/* Tabs container styling */
+.tabs-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Style for each tab */
+.tab {
+    padding: 12px 25px;
+    margin: 0 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    color: #555555;
+    background-color: #f9f9f9;
+    text-align: center;
+    border: 1px solid transparent; /* Border for subtle separation */
+}
+
+/* Active tab styling */
+.tab-active {
+    background-color: #007bff;
+    color: #ffffff;
+    border: 1px solid #007bff;
+}
+
+/* Inactive tab styling */
+.tab-inactive {
+    opacity: 0.6;
+}
+
+.tab-inactive:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style for each step of the form */
+.form-step {
+    margin-bottom: 30px;
+}
+
+/* Style for the labels of each input field */
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333333;
+}
+
+/* Style for each input field */
+.form-input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.form-input:focus {
+    background-color: #ffffff;
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Style for error messages */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: -4px;
+    margin-bottom: 12px;
+}
+
+/* Style for success messages */
+.success-message {
+    color: #2ecc71;
+    font-size: 1em;
+    margin-top: 12px;
+}
+
+/* Style for the button group at the bottom */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+/* Style for the buttons */
+.button-group button {
+    padding: 14px 24px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1em;
+}
+
+.button-group button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Style for notification messages */
+.notification-message {
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    color: #ffffff;
+    background-color: #f39c12;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .registration-form-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .tabs-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tab {
+        margin-bottom: 12px;
+        width: 100%;
+    }
+}

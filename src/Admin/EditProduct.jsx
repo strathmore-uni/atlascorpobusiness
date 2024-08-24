@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import './editproduct.css'; // Import the CSS file
 import AdminCategory from './AdminCategory';
-import Adminnav from './Adminnav';
+
 import Swal from 'sweetalert2';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
@@ -240,8 +240,7 @@ const EditProduct = () => {
       </form>
       <ToastContainer />
       <AdminCategory />
-      <Adminnav />
-
+    
     </div>
   );
 };
