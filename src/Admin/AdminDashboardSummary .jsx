@@ -58,8 +58,7 @@ const AdminDashboardSummary = () => {
           productsCount,
           usersCount,
           loggedInUsersRes,
-          recentOrdersResponse,
-          pendingOrdersResponse,
+       
           groupedOrdersResponse,
           mostOrderedProductsResponse,
           notificationsCountResponse,
@@ -71,8 +70,8 @@ const AdminDashboardSummary = () => {
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products/count`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/users/count`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/logins/count`),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/orders`, { params: { email: currentUser.email } }),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/pending`, { params: { email: currentUser.email } }),
+        
+         
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/groupedByCountry`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/mostOrderedProducts`, { params: { email: currentUser.email } }),
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/notifications/count`, { params: { email: currentUser.email } }),
@@ -88,8 +87,7 @@ const AdminDashboardSummary = () => {
           products: productsCount.data.count,
           users: usersCount.data.count,
 
-          recentOrders: recentOrdersResponse.data.sort(sortByDateDescending),
-          pendingOrders: pendingOrdersResponse.data.sort(sortByDateDescending),
+          
           groupedOrders: groupedOrdersResponse.data,
           mostOrderedProducts: mostOrderedProductsResponse.data,
           unreadNotificationsCount: notificationsCountResponse.data.count,

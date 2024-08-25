@@ -35,18 +35,7 @@ const FinanceDashboard = () => {
   };
 
   // Fetch orders
-  const fetchOrders = async () => {
-    try {
-      const ordersResponse = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/orders`, {
-        params: { email: currentUser.email }
-      });
-      setOrders(ordersResponse.data);
-    } catch (err) {
-      setError('Failed to fetch orders');
-      console.error(err);
-    }
-  };
-
+  
   // Fetch sales data
   const fetchSales = async () => {
     try {
@@ -72,27 +61,17 @@ const FinanceDashboard = () => {
       console.error(err);
     }
   };
-  const fetchOrdersList = async () => {
-    try {
-      const ordersListResponse = await axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders/orders`, {
-        params: { email: currentUser.email }
-      });
-      setordersList(ordersListResponse.data);
-    } catch (err) {
-      setError('Failed to fetch monthly sales data');
-      console.error(err);
-    }
-  };
+
   useEffect(() => {
     fetchExchangeRates();
   }, []);
 
   useEffect(() => {
     if (currentUser.email) {
-      fetchOrders();
+      //fetchOrders();
       fetchSales();
       fetchMonthlySales();
-      fetchOrdersList();
+      //fetchOrdersList();
     }
   }, [currentUser.email]);
 
@@ -100,30 +79,11 @@ const FinanceDashboard = () => {
     return <div className="error">{error}</div>;
   }
 
-  if (!exchangeRates || !orders || !sales || !monthlySales) {
+  if (!exchangeRates || !sales || !monthlySales) {
     return <div className="loading">Loading...</div>;
   }
 
-  // Prepare data for the Orders by Month graph
-  const ordersByMonth = orders.reduce((acc, order) => {
-    const orderMonth = new Date(order.created_at).toLocaleString('default', { month: 'short' });
-    acc[orderMonth] = (acc[orderMonth] || 0) + 1;
-    return acc;
-  }, {});
-
-  const ordersBarData = {
-    labels: Object.keys(ordersByMonth),
-    datasets: [
-      {
-        label: 'Orders by Month',
-        data: Object.values(ordersByMonth),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      },
-    ],
-  };
-
+  
   const currentMonth = new Date().toISOString().slice(0, 7);
   const previousMonth = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().slice(0, 7);
 
@@ -214,7 +174,7 @@ const FinanceDashboard = () => {
     <div className='chart_orders'>
       <div className='chart_order_month'>
 <h1>Orders by Month</h1>
-      <Bar data={ordersBarData} options={{ scales: { y: { beginAtZero: true } } }} />
+   
 
 </div>
 <div className='chart_sales_month'>
@@ -250,20 +210,7 @@ const FinanceDashboard = () => {
         <Line data={lineData} options={lineOptions} />
       </div>
     </div>
-    <div className="orders-summary-list">
-            <h3>Recent Orders </h3>
-            <div className="recent-orders-list">
-              <ul>
-                {ordersList.map(order => (
-                  <Link to={`/finaceordertails/${order.id}`} className="order-link" key={order.id}>
-                    <li>
-                      Order Number: {order.ordernumber} Email: {order.email}
-                    </li>
-                  </Link>
-                ))}
-              </ul>
-            </div>
-          </div>
+   
       </div>
   
   <WeeklySalesChart />

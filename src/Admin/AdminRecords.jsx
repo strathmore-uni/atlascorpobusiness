@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './adminrecordspage.css'; // Import the CSS file
+import { useAuth } from '../MainOpeningpage/AuthContext';
 
 const AdminRecords = () => {
   const [orders, setOrders] = useState([]);
@@ -8,7 +9,8 @@ const AdminRecords = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('orders'); // Track active section
-  const [currentUser, setCurrentUser] = useState({ email: '' }); // Track current user
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const adminEmail = currentUser.email;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,14 +18,9 @@ const AdminRecords = () => {
         // Assume `currentUser.email` is available
         const [ordersResponse, usersResponse, productsResponse] = await Promise.all([
           axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/orders`, {
-            params: { email: currentUser.email } // Use query parameters if needed
+            params: { email: adminEmail,  } // Use query parameters if needed
           }),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/registeredusers`, {
-            params: { email: currentUser.email } // Use query parameters if needed
-          }),
-          axios.get(`${process.env.REACT_APP_LOCAL}/api/admin/products`, {
-            params: { email: currentUser.email } // Use query parameters if needed
-          }),
+        
         ]);
         setOrders(ordersResponse.data);
         setUsers(usersResponse.data);
@@ -69,11 +66,11 @@ const AdminRecords = () => {
               <tbody>
                 {orders.map(order => (
                   <tr key={order.id}>
-                    <td>{order.id}</td>
+                    <td>{order.orderNumber}</td>
                     <td>{order.email}</td>
                     <td>{order.country}</td>
                     <td>{order.status}</td>
-                    <td>${order.totalPrice.toFixed(2)}</td>
+                    <td>${order.totalprice}</td>
                   </tr>
                 ))}
               </tbody>
