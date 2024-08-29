@@ -35,8 +35,8 @@ const OrdersChart = () => {
         }
   
         let apiUrl = currentUser.isAdmin
-          ? `${process.env.REACT_APP_LOCAL}/api/admin/orders/orders-by-country`
-          : `${process.env.REACT_APP_LOCAL}/api/admin/orders/orders-by-city`;
+          ? `${process.env.REACT_APP_LOCAL}/api/admin/orders/orders-by-city`
+          : `${process.env.REACT_APP_LOCAL}/api/admin/orders/orders-by-country`;
   
         const response = await axios.get(apiUrl, { params });
   
@@ -56,7 +56,7 @@ const OrdersChart = () => {
   
         // Update chart data and options
         setDoughnutData({
-          labels: formattedData.map(item => currentUser.isAdmin ? item.country : item.city),
+          labels: formattedData.map(item => currentUser.isAdmin ? item.city : item.country),
           datasets: [{
             data: formattedData.map(item => item.orderCount),
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Add more colors as needed

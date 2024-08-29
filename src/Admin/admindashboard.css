@@ -184,29 +184,93 @@
   
   
   
+  .company-comparison {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .company-comparison:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .company-comparison h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  
   .company-comparison table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+    border-radius: 6px;
+    overflow: hidden;
   }
   
-  .company-comparison th, .company-comparison td {
-    border: 1px solid #dee2e6;
-    padding: 10px;
+  .company-comparison thead {
+    background-color: #4a90e2;
+    color: #fff;
     text-align: left;
   }
   
+  .company-comparison th,
+  .company-comparison td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+  }
+  
   .company-comparison th {
-    background: #f8f9fa;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .company-comparison tbody tr:nth-child(even) {
+    background-color: #f3f7fa;
+  }
+  
+  .company-comparison tbody tr:hover {
+    background-color: #e9f5fc;
+    transition: background-color 0.2s ease;
+  }
+  
+  .company-comparison td {
+    color: #555;
+  }
+  
+  .company-comparison td:first-child {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .company-comparison td:last-child {
+    font-weight: 600;
+    color: #1d72b8;
   }
   
   .companycomparisonchart {
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f8fb;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   }
   
-  .country_comparison_container{
-    display: flex;
-    flex-direction: row;
+  .companycomparisonchart canvas {
+    max-width: 100%;
+    height: auto;
   }
+  
   .country-with-most-logins {
     background-color: #f8f9fa;
     padding: 20px;

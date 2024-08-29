@@ -1,95 +1,130 @@
-/* SalesByCountryChart.css */
 .chart-container-country {
+background-color: #ddd;
+  padding: 20px;
+  border-radius: 12px;
+ 
+  
 
-    border-radius: 8px;
-   
-    max-width: 300px;
-   margin-top: -50px;
-  }
+}
+
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-header h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.filter-buttons button {
+  background-color: #4a90e2;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.filter-buttons button.active {
+  background-color: #1d72b8;
+  transform: scale(1.05);
+}
+
+.filter-buttons button:hover {
+  background-color: #357abf;
+}
+
+.date-range {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.date-range input[type="date"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.date-range input[type="date"]:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
+  outline: none;
+}
+
+.doughnut-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 12px;
+ 
   
-  .chart-header {
-    text-align: center;
-    margin-bottom: 20px;
+}
+
+.doughnut-chart canvas {
+  width: 20rem;
+  height: 20rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chart-container-country {
+    padding: 15px;
   }
-  
+
   .chart-header h3 {
-    color: #333;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 1.5rem;
   }
-  
-  .filter-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .filter-buttons {
-    display: flex;
-    gap: 5px;
-  }
-  
+
   .filter-buttons button {
-    padding: 5px 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    color: #fff;
-    background-color: #007bff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    padding: 8px 16px;
+    font-size: 0.9rem;
   }
-  
-  .filter-buttons button:hover {
-    background-color: #0056b3;
-  }
-  
-  .date-range {
-    margin-left: 50px;
-    display: flex;
-    gap: 2px;
-  }
-  
-  .date-range label {
-    margin-right: 0px;
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .date-range input {
-    margin-top: 0px;
-    margin-left: -200px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #333;
-  }
-  
+
   .date-range input[type="date"] {
-    width: 100px;
+    padding: 8px;
   }
-  
-  .date-range input[type="date"]:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  .doughnut-chart {
-    position: relative;
-    height: 400px;
-    width: 100%;
-  }
+}
+
   
   .order_counts_country{
-  
+    display: flex;
+  background-color: #28a745;
     margin-top: 20px;
 height: 30rem;
-margin-left: 20px;
+gap: 100px;
 width: 90%;
+justify-content: start;
+align-items: center;
 
-display: flex;
 flex-direction: row;
 
   }
@@ -103,12 +138,12 @@ height: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-   
+   background-color: #ddd;
     padding: 20px;
     border-radius: 10px;
    
     max-width: 400px;
-    margin: 0 auto;
+  
   }
   
   .orders_country_chart h3 {

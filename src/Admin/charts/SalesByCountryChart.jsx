@@ -23,10 +23,10 @@ const SalesByCountryChart = () => {
           params.startDate = startDate;
           params.endDate = endDate;
         }
-
+       
         let apiUrl = currentUser.isAdmin
-          ? `${process.env.REACT_APP_LOCAL}/api/admin/orders/sales-by-country`
-          : `${process.env.REACT_APP_LOCAL}/api/admin/orders/sales-by-city`;
+          ? `${process.env.REACT_APP_LOCAL}/api/admin/orders/sales-by-city`
+          : `${process.env.REACT_APP_LOCAL}/api/admin/orders/sales-by-country`;
 
         const response = await axios.get(apiUrl, { params });
         setSalesData(response.data);
@@ -39,7 +39,7 @@ const SalesByCountryChart = () => {
   }, [filterType, startDate, endDate, currentUser]);
 
   const doughnutData = {
-    labels: salesData.map(sale => currentUser.isAdmin ? sale.country : sale.city),
+    labels: salesData.map(sale => currentUser.isAdmin ? sale.city : sale.country),
     datasets: [
       {
         label: 'Total Sales',
