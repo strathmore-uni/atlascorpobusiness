@@ -94,7 +94,7 @@ const CompanyComparisonChart = ({ adminEmail }) => {
   }, [adminEmail]);
 
   return (
-    <div>
+    <div className="country_comparison_container" >
       <h3>Top 3 Companies Orders (Last 4 Months)</h3>
       <Bar data={ordersChartData} options={{ responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Orders' } } }} />
 

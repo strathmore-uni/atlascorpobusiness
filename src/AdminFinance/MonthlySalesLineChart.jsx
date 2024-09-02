@@ -71,7 +71,7 @@ const MonthlySalesLineChart = () => {
     const salesColor = thisMonthSales > lastMonthSales ? 'green' : 'red';
 
     return (
-        <div style={{ padding: '20px', marginTop: '20px', maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ padding: '20px', marginTop: '20px', maxWidth: '900px', margin: '0 auto' }}>
             <h3 className="text-center">Monthly Sales Data (Past 5 Months)</h3>
             <div className="sales-info-container">   
                 <div style={{ color: salesColor }}>

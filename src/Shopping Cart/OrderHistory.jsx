@@ -13,6 +13,10 @@ const OrderHistory = () => {
   const [receivedStatus, setReceivedStatus] = useState({});
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10; // Number of orders per page
 
   const orderSteps = [
     'Received',
@@ -20,7 +24,7 @@ const OrderHistory = () => {
     'Being Processed',
     'Finished Packing',
     'On Transit',
-    'Completed'  // Added Completed status
+    'Completed'
   ];
 
   const getStatusIndex = (status) => {
@@ -28,14 +32,16 @@ const OrderHistory = () => {
   };
 
   const progressPercentage = (status) => {
-    return (getStatusIndex(status) + 1) / orderSteps.length * 100;
+    return ((getStatusIndex(status) + 1) / orderSteps.length) * 100;
   };
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/orders/history?email=${currentUser.email}`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_LOCAL}/api/orders/history?email=${currentUser.email}`
+        );
         setOrders(response.data);
       } catch (error) {
         setError('Error fetching order history');
@@ -74,41 +80,52 @@ const OrderHistory = () => {
   const handleReceivedClick = async (orderId) => {
     try {
       // Optimistically update UI
-      setOrders(prevOrders =>
-        prevOrders.map(order =>
-          order.id === orderId
-            ? { ...order, status: 'Completed' }
-            : order
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, status: 'Completed' } : order
         )
       );
-      setReceivedStatus(prevStatus => ({ ...prevStatus, [orderId]: true }));
+      setReceivedStatus((prevStatus) => ({ ...prevStatus, [orderId]: true }));
 
       // Update on the server
-      await axios.patch(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${orderId}/status`, { status: 'Completed' }, {
-        headers: {
-          'Content-Type': 'application/json',
+      await axios.patch(
+        `${process.env.REACT_APP_LOCAL}/api/admin/orders/${orderId}/status`,
+        { status: 'Completed' },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
         }
-      });
+      );
     } catch (error) {
       console.error('Error updating order status:', error);
       // Revert optimistic update in case of error
-      setOrders(prevOrders =>
-        prevOrders.map(order =>
-          order.id === orderId
-            ? { ...order, status: 'On Transit' } // Revert to previous status if needed
-            : order
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, status: 'On Transit' } : order
         )
       );
-      setReceivedStatus(prevStatus => ({ ...prevStatus, [orderId]: false }));
+      setReceivedStatus((prevStatus) => ({ ...prevStatus, [orderId]: false }));
     }
   };
+
+  // Calculate pagination variables
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  // Handle page changes
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div>
       <div className="order-history-container">
         <h1>Order History</h1>
-        <Link to='/shop' className='backtoform'>
-          <p><IoIosArrowBack className='arrowbackReview' />Back</p>
+        <Link to="/shop" className="backtoform">
+          <p>
+            <IoIosArrowBack className="arrowbackReview" />
+            Back
+          </p>
         </Link>
         {loading ? (
           <p className="loading">Loading...</p>
@@ -118,20 +135,30 @@ const OrderHistory = () => {
           <p>No past orders found</p>
         ) : (
           <div>
-            {orders.map(order => (
+            {currentOrders.map((order) => (
               <div key={order.id} className="order-card">
                 <h2 className="order-number">Order Number: {order.ordernumber}</h2>
-                <p className="order-date">Order Date: {new Date(order.created_at).toLocaleDateString()}</p>
+                <p className="order-date">
+                  Order Date: {new Date(order.created_at).toLocaleDateString()}
+                </p>
                 <p className="order-total">Total: ${order.total}</p>
                 <p className="order-status">Status: {order.status}</p>
-                
+
                 {/* Progress Bar */}
                 <div className="progress-container">
                   <div className="progress-bar">
-                    <div className="progress-bar-fill" style={{ width: `${progressPercentage(order.status)}%` }}></div>
+                    <div
+                      className="progress-bar-fill"
+                      style={{ width: `${progressPercentage(order.status)}%` }}
+                    ></div>
                     <div className="progress-step-container">
                       {orderSteps.map((step, index) => (
-                        <div key={index} className={`progress-step ${getStatusIndex(order.status) >= index ? 'completed' : ''}`}>
+                        <div
+                          key={index}
+                          className={`progress-step ${
+                            getStatusIndex(order.status) >= index ? 'completed' : ''
+                          }`}
+                        >
                           {index + 1}
                         </div>
                       ))}
@@ -145,10 +172,10 @@ const OrderHistory = () => {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* "Received the Items" Button */}
                 {getStatusIndex(order.status) === 4 && !receivedStatus[order.id] && (
-                  <button 
+                  <button
                     className="received-button"
                     onClick={() => handleReceivedClick(order.id)}
                   >
@@ -156,29 +183,49 @@ const OrderHistory = () => {
                   </button>
                 )}
                 {receivedStatus[order.id] && (
-                  <button 
-                    className="received-button disabled"
-                    disabled
-                  >
+                  <button className="received-button disabled" disabled>
                     Received the Items
                   </button>
                 )}
 
                 <h3>Items:</h3>
                 <ul className="items-list">
-                  {order.items.map(item => (
+                  {order.items.map((item) => (
                     <li key={item.id} className="item">
                       <span className="item-description">{item.description}</span> -{' '}
-                      <span className="item-quantity">{item.quantity} x ${item.price?.toFixed(2)}</span>
+                      <span className="item-quantity">
+                        {item.quantity} x ${item.price?.toFixed(2)}
+                      </span>
                     </li>
                   ))}
                 </ul>
-                <button className="add-to-cart-button" onClick={() => handleAddOrderItemsToCart(order.id)}>
+                <button
+                  className="add-to-cart-button"
+                  onClick={() => handleAddOrderItemsToCart(order.id)}
+                >
                   Add to Cart
                 </button>
                 <hr className="hr" />
               </div>
             ))}
+
+            {/* Pagination Controls */}
+            <div className="pagination">
+              {Array.from(
+                { length: Math.ceil(orders.length / ordersPerPage) },
+                (_, index) => (
+                  <button
+                    key={index + 1}
+                    className={`pagination-button ${
+                      currentPage === index + 1 ? 'active' : ''
+                    }`}
+                    onClick={() => paginate(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                )
+              )}
+            </div>
           </div>
         )}
       </div>

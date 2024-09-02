@@ -48,6 +48,7 @@ const ForgotPasswordPage = () => {
         />
         <button type="submit">Send Password Reset Email</button>
       </form>
+      
     </div>
   );
 };

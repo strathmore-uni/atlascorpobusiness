@@ -196,7 +196,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
       
       <div className="wrapper_cart" >  
          <div className="notification-bell-nav">
-        <Link to='/usernotifications'>
+        <Link to='/usernotifications' style={{textDecoration:'none'}} >
           <span className="bell-icon-nav">&#128276;</span>
           {unreadNotificationsCount > 0 && (
             <span className="notification-count-nav">{unreadNotificationsCount}</span>

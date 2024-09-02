@@ -150,35 +150,41 @@ export default function RegistrationForm() {
     event.preventDefault();
     setErrorMessage('');
     setSuccessMessage('');
-
+  
     if (!validateCurrentStep()) {
       return;
     }
-
+  
     const errors = validateFormData(formData);
-
+  
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
       return;
     }
-
+  
     if (!validatePassword(formData.password)) {
       setErrors({ password: 'Password does not meet the requirements' });
       return;
     }
-
+  
     try {
       await axios.post(`${process.env.REACT_APP_LOCAL}/api/register`, formData);
-
+  
       const returnUrl = 'https://localhost:3000/verify-email';
       await sendEmailConfirmation(formData, returnUrl);
-
+  
       setSuccessMessage('Registration successful! Please check your email for verification.');
       navigate('/signin');
     } catch (error) {
-      setErrorMessage('Registration failed. Please try again.');
+      // Extract error message from the backend response
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage('Registration failed. Please try again.');
+      }
     }
   }, [formData, navigate]);
+  
 
   return (
     <div className="registration-form-container">
@@ -375,7 +381,10 @@ export default function RegistrationForm() {
             Submit
           </button>
         )}
+
       </div>
+     
+
     </div>
   );
 }

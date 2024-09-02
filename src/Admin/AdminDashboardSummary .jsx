@@ -4,6 +4,7 @@ import { useAuth } from '../MainOpeningpage/AuthContext';
 import './admincategory.css';
 import './notificationspage.css';
 import './admindashboard.css'
+import '../Admin/charts/saleschartcountry.css'
 import { Bar, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import AdminCategory from './AdminCategory';
@@ -28,6 +29,8 @@ import { IoMdNotifications } from "react-icons/io";
 import OrderStatsComparison from '../AdminFinance/OrderStatsComparison';
 import MonthlySalesLineChart from '../AdminFinance/MonthlySalesLineChart';
 import OrderTransitCount from '../AdminFinance/OrderTransitCount';
+import SalesChart from './charts/SalesChart';
+
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 const AdminDashboardSummary = () => {
@@ -508,18 +511,25 @@ const AdminDashboardSummary = () => {
 
 <div  className='monthly_order_comparison' >
 
-<div>
+<div className='monthlysales_container'>
   <MonthlySalesLineChart />
 </div>
+
+<SalesChart />
 </div>
 
-       <div>
+<div className='logins_container' >
+<div>
         <CountryWithMostLogins />
       </div>
 
 <div className='userloginschart'>
   <UserLoginsChart />
 </div>
+
+
+</div>
+      
 
 
       </div>

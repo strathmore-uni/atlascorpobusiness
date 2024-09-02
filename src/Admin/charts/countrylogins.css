@@ -1,8 +1,5 @@
 .country-logins-container {
-    padding: 20px;
-     
-    width: 30rem;
-    height: 30rem;
+   
   }
   
   .country-logins-cards {
@@ -19,7 +16,7 @@
     display: flex;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 200px;
+    width: 160px;
   }
   
   .country-flag {
@@ -35,11 +32,79 @@
   .chart-container {
     margin-top: 20px;
     width: 30rem;
+    
+  }
+
+  .userlogincontainer {
+   
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 25rem;
+    
     height: 30rem;
+ 
   }
-
-  .userlogincontainer h2{
-                   
+  
+  .userlogincontainer h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
   }
-
+  
+  .date-picker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .date-picker-label {
+    font-size: 16px;
+    color: #555;
+    font-weight: 500;
+  }
+  
+  .custom-datepicker-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 180px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .custom-datepicker-input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+  }
+  
+  .userlogincontainer canvas {
+  
+    height: 60rem; /* Set a maximum height for responsiveness */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .userlogincontainer {
+      padding: 15px;
+      max-width: 95%;
+    }
+  
+    .userlogincontainer h2 {
+      font-size: 20px;
+    }
+  
+    .custom-datepicker-input {
+      width: 100%;
+    }
+  }
+  
   
