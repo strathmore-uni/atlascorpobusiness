@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Form.css'; // Updated CSS file name
 import axios from 'axios';
@@ -21,6 +21,7 @@ export default function RegistrationForm() {
     country: '',
   });
 
+  const [countries,setCountries]= useState(null)
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
@@ -185,6 +186,19 @@ export default function RegistrationForm() {
     }
   }, [formData, navigate]);
   
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/settings/countries`);
+        setCountries(response.data);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
 
   return (
     <div className="registration-form-container">
@@ -252,13 +266,17 @@ export default function RegistrationForm() {
       {currentStep === 2 && (
         <div className="form-step">
           <label className="form-label">Title</label>
-          <input
-            type="text"
+          <select
             name="title"
             className="form-input"
             value={formData.title}
             onChange={handleFormDataChange}
-          />
+          >
+            <option value="">Select Title</option>
+            <option value="Mr">Mr</option>
+            <option value="Mrs">Mrs</option>
+            <option value="Ms">Ms</option>
+          </select>
           {errors.title && <div className="error-message">{errors.title}</div>}
 
           <label className="form-label">First Name</label>
@@ -303,8 +321,9 @@ export default function RegistrationForm() {
             value={formData.address1}
             onChange={handleFormDataChange}
           />
-          {errors.address2 && <div className="error-message">{errors.address2}</div>}
-          <label className="form-label">Address 2</label>
+          {errors.address1 && <div className="error-message">{errors.address1}</div>}
+
+          <label className="form-label">Address 2 (Optional)</label>
           <input
             type="text"
             name="address2"
@@ -312,8 +331,6 @@ export default function RegistrationForm() {
             value={formData.address2}
             onChange={handleFormDataChange}
           />
-          {errors.address2 && <div className="error-message">{errors.address2}</div>}
-
 
           <label className="form-label">City</label>
           <input
@@ -325,7 +342,7 @@ export default function RegistrationForm() {
           />
           {errors.city && <div className="error-message">{errors.city}</div>}
 
-          <label className="form-label">Zip Code</label>
+          <label className="form-label">ZIP</label>
           <input
             type="text"
             name="zip"
@@ -334,16 +351,22 @@ export default function RegistrationForm() {
             onChange={handleFormDataChange}
           />
           {errors.zip && <div className="error-message">{errors.zip}</div>}
-
           <label className="form-label">Country</label>
-          <input
-            type="text"
-            name="country"
-            className="form-input"
-            value={formData.country}
-            onChange={handleFormDataChange}
-          />
-          {errors.country && <div className="error-message">{errors.country}</div>}
+            <select
+              name="country"
+              className="form-input"
+              value={formData.country}
+              onChange={handleFormDataChange}
+            >
+              <option value="">Select Country</option>
+              {countries.map((country) => (
+                <option key={country} value={country}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            {errors.country && <div className="error-message">{errors.country}</div>}
+
         </div>
       )}
 
@@ -361,12 +384,8 @@ export default function RegistrationForm() {
         </div>
       )}
 
-      {errorMessage && <div className="error-message">{typeof errorMessage === 'object' ? JSON.stringify(errorMessage) : errorMessage}</div>}
-      {successMessage && <div className="success-message">{typeof successMessage === 'object' ? JSON.stringify(successMessage) : successMessage}</div>}
-      {notificationMessage && <div className="notification-message">{typeof notificationMessage === 'object' ? JSON.stringify(notificationMessage) : notificationMessage}</div>}
-      {failureNotification && <div className="error-message">{typeof failureNotification === 'object' ? JSON.stringify(failureNotification) : failureNotification}</div>}
 
-      <div className="button-group">
+<div className="button-group">
         {currentStep > 1 && (
           <button type="button" onClick={() => handleTabSwitch(currentStep - 1)}>
             Previous
@@ -383,8 +402,11 @@ export default function RegistrationForm() {
         )}
 
       </div>
-     
 
+      {successMessage && <div className="success-message">{successMessage}</div>}
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      {notificationMessage && <div className="notification-message">{notificationMessage}</div>}
+      {failureNotification && <div className="failure-notification">{failureNotification}</div>}
     </div>
   );
 }

@@ -7,7 +7,12 @@
   background-color: #373D41 ;
  
 }
+.footer_description_container{
+  display: flex;
+  flex-direction: row;
 
+  width: 100%;
+}
 .container_selectionfooter {
     position: relative;
     width: 250px;
@@ -21,14 +26,18 @@
 
   }
   .container_footerlinks{
-    margin-top: -50px;
-    margin-left: 200px;
+    position: relative;
+    top:0rem;
+
+ left: 24rem;
+
+    
     
   }
   .top_container{
     position: relative;
     background-color: #f3f1f1;
-    top: -1rem;
+    top: 0rem;
     height: 19rem;
     display: flex;
     flex-direction: row;
@@ -36,19 +45,20 @@
   }
   .contact_p_header {
     position: relative;
-    top: 1rem;
-    left: 1rem;
-    width: 5rem;
-
+    top: 0rem;
+    left: 0rem;
+    width: 10rem;
+font-size: 1rem;
   }
 
   .contact_quicklinks{
+
     position: relative;
-    top: 0rem;
+    top: 2rem;
     left: 1rem;
    font-size: .8rem;
-    width: 20rem;
-    height: 20rem;
+    width: 15rem;
+    height: 15rem;
     
   }
   .contact_quicklinks a{
@@ -76,6 +86,7 @@
 
   
   .contact_description{
+    
 position: absolute;
       top:2rem;
       left: 23rem;

@@ -9,9 +9,9 @@ export default function Footer() {
 
 <div  className='top_container'>
   
-<p className='contact_p_header' > Contact us</p>
-
+<div className='footer_description_container' >
 <div className='contact_quicklinks'>
+<p className='contact_p_header' > Contact us</p>
 <p>Spare Parts enquiries</p>
 <a href='ptsuk.support@atlascopco.com' target='blank' > PTSUK.support@atlascopco.com  </a>
 
@@ -43,6 +43,9 @@ export default function Footer() {
 <div className='container_footerlinks' >
   <FooterLinks  />
 </div>
+
+</div>
+
 
 
 

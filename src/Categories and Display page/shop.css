@@ -34,9 +34,10 @@
 .shop_footer {
 position: relative;
 top: 10rem;
+width: 100%;
   background-color: #373D41;
   box-sizing: border-box;
-  padding: 1rem; /* Add padding for better appearance */
+  
 }
 
 /* Product Grid Styles */
@@ -45,7 +46,7 @@ top: 10rem;
   top: 1rem;
   display: grid;
   grid-template-columns: repeat(4, 210px);
-  grid-gap: 80px;
+  grid-gap: 100px;
 }
 
 .mylink_shop {

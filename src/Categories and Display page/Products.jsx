@@ -90,50 +90,46 @@ export default function Products({ handleAddProductDetails,handleAddProduct, han
                 Featured Products: {data.length}
               </small>
               {data.slice(0, visibleCount).map((product, index) => (
-                <Link
-                  key={product.partnumber}
-                  className="mylink_shop"
-                  onClick={() => handleAddProductDetails(product)}
-                >
-                  <div key={product.partnumber}>
-                    {product.image ? (
-                      <img className="prdt_image_shop" src={product.image} alt="" />
-                    ) : (
-                      <p className="cameraoff_icon">
-                        <LuCameraOff />
-                      </p>
-                    )}
-                    <div className='the_prdt_details' >
- <p className="prdt_partnumber">{product.partnumber}</p>
-                    <Link
-                      key={product.partnumber}
-                      to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-                      onClick={() => handleAddProductDetails(product)}
-                      style={{ color: "black", textDecoration: "none" }}
-                    >
-                      <p className="prdt_title">{product.Description}</p>
-                    </Link>
-                    <p className="prdt_price">${product.Price}</p>
-                    <div className="stock_status">
-                      <div
-                        className={`status_indicator ${product.Stock > 0 ? "in_stock" : "out_of_stock"}`}
-                      ></div>
-                      <div className="in_out_stock">
-                        {product.Stock > 0 ? "In Stock" : "Out of Stock"}
-                      </div>
-                    
-                        <div className="get_quote_productpage" onClick={() =>
-                          handleAddToCart(product)
-                        } >
-                          <p><GrCart className="cart_productpage"  /></p>
-                        </div>
-                   
-                    </div>
-                    </div>
-                   
-                  </div>
-                </Link>
-              ))}
+  <Link
+    key={product.partnumber}
+    className="mylink_shop"
+    onClick={() => handleAddProductDetails(product)}
+  >
+    <div className="product_card" key={product.partnumber}>
+      {product.image ? (
+        <img className="prdt_image_shop" src={product.image} alt={product.Description} />
+      ) : (
+        <p className="cameraoff_icon">
+          <LuCameraOff />
+        </p>
+      )}
+      <div className="the_prdt_details">
+        <p className="prdt_partnumber">{product.partnumber}</p>
+        <Link
+          to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+          onClick={() => handleAddProductDetails(product)}
+          className="prdt_title_link"
+          style={{ color: "black", textDecoration: "none" }}
+        >
+          <p className="prdt_title">{product.Description}</p>
+        </Link>
+        <p className="prdt_price">${product.Price}</p>
+        <div className="stock_status">
+          <div className={`status_indicator ${product.Stock > 0 ? "in_stock" : "out_of_stock"}`}></div>
+          <div className="in_out_stock">
+            {product.Stock > 0 ? "In Stock" : "Out of Stock"}
+          </div>
+          <div className="get_quote_productpage" onClick={() => handleAddToCart(product)}>
+            <p>
+              <GrCart className="cart_productpage" />
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Link>
+))}
+
                <p className="showing_no_items">Showing {visibleCount} of {data.length}</p> 
               {visibleCount < data.length && (
                 <button className="show-more-button" onClick={loadMoreProducts}>

@@ -27,6 +27,7 @@ const AdminRightsManagement = () => {
 
   const roles = ['Super Admin', 'Admin', 'Editor', 'Viewer', 'Support', 'Finance'];
 
+  
   useEffect(() => {
     const fetchAdmins = async () => {
       try {

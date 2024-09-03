@@ -1,17 +1,17 @@
 /* footerLinks.css */
 .footer-links-container {
-  
+
     top: 0rem;
     left: 0rem;
     position: relative;
-    padding: 20px;
-    width: 10rem;
+    width: 5rem;
+
     
   }
   .footer-links-container h4{
     position: relative;
-    top: 3rem;
-    width: 15rem;
+    top: 1rem;
+    width: 100%;
     height: 1rem;
     font-size: 1.1rem;
     margin-left: 200px;
@@ -20,7 +20,7 @@
   
   .footer-links {
 
-  width: 40rem;
+  width: 30rem;
   height: 17rem;
     position: relative;
     top: 2rem;

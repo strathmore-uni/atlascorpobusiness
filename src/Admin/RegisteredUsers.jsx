@@ -91,20 +91,29 @@ const RegisteredUsers = () => {
   };
 
   const handleCountryChange = async (event) => {
-    const country = event.target.value;
-    setSelectedCountry(country);
-
+    const selectedCountry = event.target.value;
+    setSelectedCountry(selectedCountry);
+  
+    // Debug log to check the selected country
+    console.log(`Selected Country: ${selectedCountry}`);
+  
     try {
       const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/registeredusers`, {
-        params: { email: currentUser.email, country }
+        params: { email: currentUser.email, country: selectedCountry || undefined },
       });
-      setUsers(response.data);
-      
+  
+      // Debug log to check the response
+      console.log('Filtered Users Response:', response.data);
+      setFilteredUsers(response.data);
+      toast.success('Users filtered successfully');
     } catch (error) {
       console.error('Error fetching filtered users:', error);
       toast.error('Failed to filter users.');
     }
   };
+  
+  
+  
 
   const handleSuspendUser = async (userId) => {
     if (!window.confirm('Are you sure you want to suspend this user?')) {

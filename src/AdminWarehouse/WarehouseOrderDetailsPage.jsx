@@ -73,16 +73,33 @@ const WarehouseOrderDetailsPage = () => {
 
   const handleReleaseForTransport = async (orderId) => {
     try {
-      await axios.patch(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${orderId}/status`, { status: 'On Transit' });
-      // Refresh orders list or update UI accordingly
-      setOrders(orders.map(order =>
-        order.id === orderId ? { ...order, status: 'On Transit' } : order
-      ));
+      // Make sure the status and any required fields are correctly sent
+      await axios.patch(
+        `${process.env.REACT_APP_LOCAL}/api/admin/orders/${orderId}/status`,
+        { status: 'On Transit',
+          userEmail: currentUser.email
+         },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      // Update the order status in the state to reflect the changes
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, status: 'On Transit' } : order
+        )
+      );
+  
+      alert('Order status updated to On Transit');
     } catch (error) {
       console.error('Error updating order status:', error);
-      setError('Error updating order status.');
+      setError('Error updating order status. Please try again.');
     }
   };
+  
 
   const filteredOrders = orders.filter(order =>
     (order.ordernumber && order.ordernumber.toLowerCase().includes(searchTerm.toLowerCase())) ||

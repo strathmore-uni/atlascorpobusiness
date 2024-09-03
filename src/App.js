@@ -44,7 +44,7 @@ import Stock from "./Admin/Stock";
 import NotificationsPage from "./Admin/NotificationsPage";
 import UserNotificationPage from "./General Components/UserNotificationPage";
 
-import Settings from "./Admin/Settings ";
+import Settings from "./Admin/Settings";
 import CreateAdmin from "./Admin/CreateAdmin";
 import CountryComparison from "./Admin/CountryComparison";
 import AdminRightsManagement from "./Admin/AdminRightsManagement ";
@@ -58,6 +58,7 @@ import FinanceDashboard from "./AdminFinance/FinanceDashboard";
 import FinanceOrderViewPage from "./AdminFinance/FinanceOrderViewPage";
 import AdminRecords from "./Admin/AdminRecords";
 import FinanceUsers from "./AdminFinance/FinanceUsers";
+import FinanceOrders from "./AdminFinance/FinanceOrders";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -368,6 +369,8 @@ function App() {
               path="/signin"
               element={<SignInPage setGuestEmail={setGuestEmail} />}
             />
+  <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct}  handleAddHistoryProduct={handleAddHistoryProduct} />} />
+
 
             <Route path="/userprofile" element={<Userprofile />} />
             <Route path="/forgot-password" element={<ForgotPasswordForm />} />
@@ -414,14 +417,13 @@ function App() {
             <Route path="/warehouseordereditems/:category"  element={<WarehouseOrderDetailsPage />}  />
 
             {/**   Warehouse Admin  */}
-            <Route path="/orderhistory" element={<OrderHistory handleAddProduct={handleAddProduct}  handleAddHistoryProduct={handleAddHistoryProduct} />} />
-
-
+          
 
             {/** Finance Admin   */}
             <Route path="/finance/dashboard" element={<FinanceDashboard />}   />
             <Route path="/finaceordertails/:orderId"  element={<FinanceOrderViewPage />}  />
             <Route path="/finance/registeredusers"  element={<FinanceUsers />}  />
+            <Route  path='/finance/orders' element={<FinanceOrders />} /> 
 
             {/** Finance Admin  */}
           </Routes>
