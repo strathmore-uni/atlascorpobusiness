@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
-
-import './addproduct.css'; // Import the CSS file
-import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import the toast styles
-import AdminCategory from './AdminCategory'; // Assuming AdminCategory is needed
+import './addproduct.css'; // CSS file for styling
+import { toast, ToastContainer } from 'react-toastify'; // Toast notifications
+import 'react-toastify/dist/ReactToastify.css'; // Toast styles
+import AdminCategory from './AdminCategory'; // Category component
 
 const AddProduct = () => {
   const [products, setProducts] = useState([]);
@@ -29,120 +28,125 @@ const AddProduct = () => {
 
   const [isTableVisible, setIsTableVisible] = useState(true);
 
+  // Fetch categories and subcategories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/categories`);
-        console.log('Categories fetched:', response.data);
         if (response.data.categories && response.data.subcategories) {
           setCategories(response.data.categories);
           setSubcategories(response.data.subcategories);
         } else {
-          console.error('Unexpected API response structure:', response.data);
           toast.error('Unexpected API response structure');
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
         toast.error('Error fetching categories');
       }
     };
     fetchCategories();
   }, []);
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // Handle file upload and parse Excel data
+// Handle file upload and parse Excel data
+// Function to handle file upload and parse Excel data
 
-    console.log('File chosen:', file.name);
-    setFileChosen(true);
-    const reader = new FileReader();
 
-    reader.onload = (event) => {
-      console.log('File loaded:', file.name);
-      const data = new Uint8Array(event.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-      const [headerRow, ...rows] = jsonData;
-      console.log('Excel headers:', headerRow);
-      setHeaders(headerRow);
 
-      const parsedProducts = rows.map((row) => {
-        const product = headerRow.reduce((acc, header, index) => {
-          acc[header] = row[index] || ''; // Use empty string for missing values
-          return acc;
-        }, {});
-        
-        // Log parsed product data
-        console.log('Parsed product:', product);
+const handleFileUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) {
+    console.error('No file selected.');
+    return;
+  }
 
-        // Auto-fill prices and stock quantities for the given countries based on the Excel file
-        const priceForAllCountries = parseFloat(product.Price) || 0; // Ensure price is a number
-        const defaultStockQuantity = 30; // Default stock quantity
+  setFileChosen(true);
+  const reader = new FileReader();
 
-        const countries = ['KE', 'TZ', 'UG']; // Example country codes
-        product.prices = countries.map((country) => ({
-          country_code: country,
-          price: priceForAllCountries,
-          stock_quantity: defaultStockQuantity,
-        }));
+  reader.onload = (event) => {
+    const data = new Uint8Array(event.target.result);
+    const workbook = XLSX.read(data, { type: 'array' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-        const productName = product['Description'] ? product['Description'].toLowerCase() : '';
-        if (productName.includes('filter element')) {
-          product.mainCategory = 'filterelement';
-          product.subCategory = 'filterelement';
-        } else {
-          product.mainCategory = ''; // Default values if no match
-          product.subCategory = '';
-        }
+    // Log headers and rows
+    const [headerRow, ...rows] = jsonData;
+    console.log('Headers:', headerRow);
+    console.log('Rows:', rows);
 
-        // Ensure image fields are empty
-        product.image = '';
-        product.thumb1 = '';
-        product.thumb2 = '';
+    // Normalize header names
+    const normalizedHeaders = headerRow.map(header => header.trim().toLowerCase());
+    console.log('Normalized Headers:', normalizedHeaders);
 
-        return product;
-      });
+    const parsedProducts = rows.map((row) => {
+      const product = normalizedHeaders.reduce((acc, header, index) => {
+        acc[header] = row[index] || '';
+        return acc;
+      }, {});
 
-      console.log('Final products array:', parsedProducts);
-      setProducts(parsedProducts);
-      setIsFileLoaded(true);
-    };
+      // Debug the parsed product
+      console.log('Parsed Product:', product);
 
-    reader.readAsArrayBuffer(file);
+      return {
+        partnumber: product['partnumber'] || '', // Ensure this matches the header
+        description: product['description'] || '',
+        image: product['image'] || '',
+        thumb1: product['thumb1'] || '',
+        thumb2: product['thumb2'] || '',
+        mainCategory: product['maincategory'] || '',
+        subCategory: product['subcategory'] || '',
+        prices: [
+          {
+            country_code: 'KE',
+            price: parseFloat(product['price']) || 0,
+            stock_quantity: parseInt(product['stock']) || 0,
+          },
+        ],
+      };
+    });
+
+    console.log('Final Parsed Products:', parsedProducts);
+
+    setProducts(parsedProducts);
+    setIsFileLoaded(true);
   };
 
+  reader.readAsArrayBuffer(file);
+};
+
+
+
+
+
+
+
+
+  // Handle changes to product data in the table
   const handleProductChange = (index, e) => {
     const { name, value } = e.target;
-    console.log(`Updating product at index ${index}, field ${name}:`, value);
     const updatedProducts = products.map((product, i) =>
       i === index ? { ...product, [name]: value } : product
     );
     setProducts(updatedProducts);
   };
 
+  // Handle bulk product submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const userEmail = currentUser ? currentUser.email : null;
-  
-   
+
     if (!userEmail) {
-      console.error('User email not found in localStorage');
       toast.error('User email not found in localStorage');
       return;
     }
-  
-    if (!Array.isArray(products) || products.length === 0) {
-      console.error('No products to add or data is not in correct format');
+
+    if (!products.length) {
       toast.error('No products to add. Please upload a file first.');
       return;
     }
-  
-    // Log the data to be sent to the backend
-    
+
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_LOCAL}/api/newproducts/batch`,
@@ -150,42 +154,41 @@ const AddProduct = () => {
         {
           headers: {
             'User-Email': userEmail,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
         }
       );
-      console.log('Response from API:', response.data);
       toast.success('Products added successfully');
       setProducts([]);
       setIsFileLoaded(false);
       setFileChosen(false);
       setIsTableVisible(true);
     } catch (error) {
-      console.error('Error adding products:', error.response?.data || error.message);
       toast.error('Error adding products: You do not have the required permissions');
     }
   };
-  
+
+  // Handle single product form submission
   const handleSingleProductSubmit = async (e) => {
     e.preventDefault();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const userEmail = currentUser ? currentUser.email : null;
 
     if (!userEmail) {
-      console.error('User email not found in localStorage');
       toast.error('User email not found in localStorage');
       return;
     }
 
-    console.log('Single product to be added:', singleProduct);
-
     try {
-      const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/newproducts`, singleProduct, {
-        headers: {
-          'User-Email': userEmail,
-        },
-      });
-      console.log('Response from API (single product):', response.data);
+      const response = await axios.post(
+        `${process.env.REACT_APP_LOCAL}/api/newproducts`,
+        singleProduct,
+        {
+          headers: {
+            'User-Email': userEmail,
+          },
+        }
+      );
       toast.success('Product added successfully');
       setSingleProduct({
         partnumber: '',
@@ -199,23 +202,22 @@ const AddProduct = () => {
         subCategory: '',
       });
     } catch (error) {
-      console.error('Error adding product:', error);
       toast.error('Error adding products: You do not have the required permissions');
     }
   };
 
+  // Handle input changes for single product form
   const handleSingleProductChange = (e) => {
     const { name, value } = e.target;
-    console.log(`Updating single product field ${name}:`, value);
     setSingleProduct({
       ...singleProduct,
       [name]: value,
     });
   };
 
+  // Handle changes to the price entries in the single product form
   const handleSinglePriceChange = (index, e) => {
     const { name, value } = e.target;
-    console.log(`Updating price at index ${index}, field ${name}:`, value);
     setSingleProduct({
       ...singleProduct,
       prices: singleProduct.prices.map((price, prIdx) =>
@@ -224,8 +226,8 @@ const AddProduct = () => {
     });
   };
 
+  // Add a new price entry for the single product form
   const handleAddSinglePrice = () => {
-    console.log('Adding new price entry');
     setSingleProduct({
       ...singleProduct,
       prices: [...singleProduct.prices, { country_code: '', price: '' }],
@@ -249,34 +251,30 @@ const AddProduct = () => {
         {isTableVisible ? 'Hide Table' : 'Show Table'}
       </button>
 
-      {isFileLoaded && isTableVisible && (
-        <table className="product-data-table">
-          <thead>
-            <tr>
-              {headers.map((header, index) => (
-                <th key={index}>{header}</th>
-              ))}
+      {isFileLoaded && products.length > 0 && (
+      <table className='product-data-table'>
+        <thead>
+          <tr>
+            <th>Part Number</th>
+            <th>Description</th>
+           
+            <th>Price</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product, index) => (
+            <tr key={index}>
+              <td>{product.partnumber}</td>
+              <td>{product.description}</td>
+             
+              <td>{product.prices[0]?.price || 0}</td>
+              
             </tr>
-          </thead>
-          <tbody>
-            {products.map((product, index) => (
-              <tr key={index}>
-                {headers.map((header) => (
-                  <td key={header}>
-                    <input
-                      type="text"
-                      value={product[header] || ''}
-                      onChange={(e) => handleProductChange(index, e)}
-                      name={header}
-                    />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
+          ))}
+        </tbody>
+      </table>
+    )}
       <button
         onClick={handleSubmit}
         className="submit-button"
@@ -317,33 +315,6 @@ const AddProduct = () => {
           />
         </div>
         <div className="form-group">
-          <label>Thumbnail 1 URL:</label>
-          <input
-            type="text"
-            name="thumb1"
-            value={singleProduct.thumb1}
-            onChange={handleSingleProductChange}
-          />
-        </div>
-        <div className="form-group">
-          <label>Thumbnail 2 URL:</label>
-          <input
-            type="text"
-            name="thumb2"
-            value={singleProduct.thumb2}
-            onChange={handleSingleProductChange}
-          />
-        </div>
-        <div className="form-group">
-          <label>Stock Quantity:</label>
-          <input
-            type="number"
-            name="stock"
-            value={singleProduct.stock}
-            onChange={handleSingleProductChange}
-          />
-        </div>
-        <div className="form-group">
           <label>Main Category:</label>
           <select
             name="mainCategory"
@@ -351,8 +322,8 @@ const AddProduct = () => {
             onChange={handleSingleProductChange}
           >
             <option value="">Select Main Category</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
                 {category}
               </option>
             ))}
@@ -366,43 +337,44 @@ const AddProduct = () => {
             onChange={handleSingleProductChange}
           >
             <option value="">Select Sub Category</option>
-            {subcategories.map((subcategory) => (
-              <option key={subcategory} value={subcategory}>
+            {subcategories.map((subcategory, index) => (
+              <option key={index} value={subcategory}>
                 {subcategory}
               </option>
             ))}
           </select>
         </div>
-        <div className="form-group">
-          <label>Prices:</label>
-          {singleProduct.prices.map((price, index) => (
-            <div key={index} className="price-entry">
-              <input
-                type="text"
-                placeholder="Country Code"
-                name="country_code"
-                value={price.country_code}
-                onChange={(e) => handleSinglePriceChange(index, e)}
-              />
-              <input
-                type="text"
-                placeholder="Price"
-                name="price"
-                value={price.price}
-                onChange={(e) => handleSinglePriceChange(index, e)}
-              />
-            </div>
-          ))}
-          <button type="button" onClick={handleAddSinglePrice}>
-            Add Price
-          </button>
-        </div>
+        {singleProduct.prices.map((price, index) => (
+          <div key={index} className="form-group">
+            <label>Country Code:</label>
+            <input
+              type="text"
+              name="country_code"
+              value={price.country_code}
+              onChange={(e) => handleSinglePriceChange(index, e)}
+            />
+            <label>Price:</label>
+            <input
+              type="number"
+              name="price"
+              value={price.price}
+              onChange={(e) => handleSinglePriceChange(index, e)}
+            />
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={handleAddSinglePrice}
+          className="add-price-button"
+        >
+          Add More Prices
+        </button>
         <button type="submit" className="submit-button">
           Add Single Product
         </button>
       </form>
 
-      <AdminCategory/>
+      <AdminCategory />
     </div>
   );
 };
