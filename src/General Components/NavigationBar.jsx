@@ -23,9 +23,19 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [notifications, setNotifications] = useState([]);
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
 
-  const toggleDropdownVisibility = () => {
-    setIsDropdownVisible(!isDropdownVisible);
-  };
+  const toggleDropdownVisibility = () => setIsDropdownVisible(!isDropdownVisible);
+
+  // Add outside click detection to close the dropdown
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (isDropdownVisible && !event.target.closest('.user-profile-container')) {
+        setIsDropdownVisible(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, [isDropdownVisible]);
+  
 
   const handleScroll = () => {
     setIsScrolled(window.scrollY > 0);

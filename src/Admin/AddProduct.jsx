@@ -5,6 +5,7 @@ import './addproduct.css'; // CSS file for styling
 import { toast, ToastContainer } from 'react-toastify'; // Toast notifications
 import 'react-toastify/dist/ReactToastify.css'; // Toast styles
 import AdminCategory from './AdminCategory'; // Category component
+import { useAuth } from '../MainOpeningpage/AuthContext';
 
 const AddProduct = () => {
   const [products, setProducts] = useState([]);
@@ -50,7 +51,37 @@ const AddProduct = () => {
 // Handle file upload and parse Excel data
 // Function to handle file upload and parse Excel data
 
+;
+// Fetch the current user
 
+const fetchCurrentUser = () => {
+  const storedUser = localStorage.getItem('currentUser');
+  if (storedUser) {
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      console.log('Fetched User:', parsedUser);
+      return parsedUser;
+    } catch (error) {
+      console.error('Error parsing user data from local storage:', error);
+      return null;
+    }
+  }
+  console.error('No user data found in local storage.');
+  return null;
+};
+const currentUser = fetchCurrentUser();
+const adminCountry = currentUser ? currentUser.country : null;
+
+
+
+
+// Debug output
+console.log('Admin Country:', adminCountry);
+
+// Check if adminCountry is correctly set
+if (!adminCountry) {
+  console.error('Country code for admin is undefined. Please check the stored user information.');
+}
 
 
 const handleFileUpload = (e) => {
@@ -70,14 +101,16 @@ const handleFileUpload = (e) => {
     const sheet = workbook.Sheets[sheetName];
     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-    // Log headers and rows
     const [headerRow, ...rows] = jsonData;
-    console.log('Headers:', headerRow);
-    console.log('Rows:', rows);
 
-    // Normalize header names
-    const normalizedHeaders = headerRow.map(header => header.trim().toLowerCase());
-    console.log('Normalized Headers:', normalizedHeaders);
+    // Normalize headers by removing special characters, spaces, and lowercasing
+    const normalizedHeaders = headerRow.map((header) =>
+      header
+        .toLowerCase()
+        .replace(/[\s\(\):"]/g, '') // Removes spaces, parentheses, colons, and quotes
+        .replace('itemnumber', 'partnumber')
+        .replace('priceusd', 'price')
+    );
 
     const parsedProducts = rows.map((row) => {
       const product = normalizedHeaders.reduce((acc, header, index) => {
@@ -85,11 +118,8 @@ const handleFileUpload = (e) => {
         return acc;
       }, {});
 
-      // Debug the parsed product
-      console.log('Parsed Product:', product);
-
       return {
-        partnumber: product['partnumber'] || '', // Ensure this matches the header
+        partnumber: product['partnumber'] || '',
         description: product['description'] || '',
         image: product['image'] || '',
         thumb1: product['thumb1'] || '',
@@ -98,7 +128,7 @@ const handleFileUpload = (e) => {
         subCategory: product['subcategory'] || '',
         prices: [
           {
-            country_code: 'KE',
+            country_code: adminCountry, // Use the dynamically fetched country code
             price: parseFloat(product['price']) || 0,
             stock_quantity: parseInt(product['stock']) || 0,
           },
@@ -114,6 +144,11 @@ const handleFileUpload = (e) => {
 
   reader.readAsArrayBuffer(file);
 };
+
+
+
+
+
 
 
 
@@ -233,7 +268,9 @@ const handleFileUpload = (e) => {
       prices: [...singleProduct.prices, { country_code: '', price: '' }],
     });
   };
-
+  const toggleTableVisibility = () => {
+    setIsTableVisible(!isTableVisible);
+  };
   return (
     <div className="add-product-container">
       <h2>Bulk Product Upload</h2>
@@ -243,15 +280,17 @@ const handleFileUpload = (e) => {
         onChange={handleFileUpload}
         className="file-upload-input"
       />
-      <button
-        onClick={() => setIsTableVisible(!isTableVisible)}
+       {isFileLoaded && (
+       <button
+       onClick={toggleTableVisibility}
         className="table-toggle-button"
         disabled={!fileChosen}
       >
         {isTableVisible ? 'Hide Table' : 'Show Table'}
       </button>
+       )}
 
-      {isFileLoaded && products.length > 0 && (
+{isTableVisible && (
       <table className='product-data-table'>
         <thead>
           <tr>
