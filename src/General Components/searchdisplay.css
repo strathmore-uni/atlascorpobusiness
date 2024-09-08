@@ -127,16 +127,16 @@
       position: relative;
       top: .2rem;
     }
-    .sidebar{
+    .sidebar_search{
       position: relative;
-      top:5rem;
+      top:8rem;
       
      overflow-y: auto;
       width: 10rem;
       left: 1rem;
    
     }
-    .sidebar ul{
+    .sidebar_search ul{
       list-style-type: none;
       position: relative;
       display: flex;
@@ -147,13 +147,15 @@
      
       
     }
-  .sidebar li{
-    height: 1.5rem;
+  .sidebar_search li{
+    height: 2.5rem;
  
     cursor: pointer;
   }
-  .sidebar li:hover{
+  .sidebar_search li:hover{
     border-radius: 6px;
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   
     border-bottom: 2px solid #5b5fc7;
   }

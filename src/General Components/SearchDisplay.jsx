@@ -134,7 +134,7 @@ export default function SearchDisplay({ handleAddProductDetails,handleAddProduct
         <Footer />
       </div>
         </div>
-        <div className='sidebar'>
+        <div className='sidebar_search'>
           <h3>Categories</h3>
           <ul>
             {Object.entries(categories).map(([category, count], index) => (

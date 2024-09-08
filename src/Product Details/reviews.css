@@ -1,0 +1,77 @@
+/* Add these styles to your reviews.css */
+
+.reviews-container {
+    margin-top: 20px;
+  }
+  
+  .reviews-container h3{
+    position: relative;
+    top: 0rem;
+    font-size: 1.3rem;
+  }
+  
+  .review-form {
+    margin-bottom: 20px;
+  }
+  
+  .review-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .review-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .review-form button {
+    padding: 10px 20px;
+    background-color: #0078a1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .review-form button:hover {
+    background-color: #005f73;
+  }
+  
+  .rating-stars {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .rating-stars .star {
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.3s;
+  }
+  
+  .rating-stars .star.filled {
+    color: #ffd700;
+  }
+  
+  .reviews-list {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+  
+  .review-item {
+    margin-bottom: 15px;
+  }
+  
+  .review-item .stars {
+    color: #ffd700;
+  }
+  
+  .error {
+    color: red;
+  }
+  /* Add these styles to your reviews.css */

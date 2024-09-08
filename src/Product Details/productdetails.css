@@ -30,7 +30,8 @@ width: 100%;
   position: absolute;
   top: 0rem;
   left: 0rem;
-  width: 20rem;
+  
+  
   font-size: 1.6rem;
   color: #0078a1;
   font-family: "Source Sans Pro", helvetica, arial, sans-serif;
@@ -274,6 +275,13 @@ left: 0rem;
   flex-direction: row;
   font-size: .8rem;
 }
+.stock_status_prdtdetails .status_indicator{
+  margin: 1;
+}
+.stock_status_prdtdetails .stock_status{
+  margin-top: -28px;
+}
+
 
 @media (max-width: 45rem) {
  .productview_container{
@@ -295,4 +303,405 @@ left: 0rem;
   top: 60rem;
  }
  
+}
+/* Main Container for the Q&A Section */
+.qa-section {
+  margin: 0px;
+  padding: 25px;
+  width: 100%;
+  border: 1px solid #e3e3e3;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.qa-section h3{
+  position: relative;
+  top: 0rem;
+}
+
+/* Title Styling */
+.qa-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 2px solid #0078a1;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Form Styling */
+.qa-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Input Fields */
+.qa-form input,
+.qa-form textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.qa-form input:focus,
+.qa-form textarea:focus {
+  border-color: #0078a1;
+  outline: none;
+}
+
+/* Submit Button */
+.qa-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0078a1;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.qa-form button:hover {
+  background-color: #005f7f;
+  transform: translateY(-2px);
+}
+
+/* List of Questions */
+.question-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual Question Item */
+.question-item {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s;
+}
+
+.question-item:hover {
+  background-color: #f9f9f9;
+}
+
+/* Header for Question Details */
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-email {
+  font-weight: bold;
+  color: #34495e;
+}
+
+.question-date {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+/* Question Text */
+.question-text {
+  font-size: 16px;
+  color: #2c3e50;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* Answer Section */
+.answer-section {
+  margin-top: 15px;
+  padding: 15px;
+  border-left: 4px solid #0078a1;
+  background-color: #f4faff;
+  border-radius: 5px;
+}
+
+/* Answer Header */
+.answer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.answer-user {
+  font-weight: bold;
+  color: #2980b9;
+}
+
+.answer-date {
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+/* Answer Text */
+.answer-text {
+  font-size: 15px;
+  color: #2c3e50;
+  line-height: 1.4;
+}
+
+/* Button for Adding Answers */
+.answer-button {
+  display: inline-block;
+  padding: 8px 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.answer-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+/* Common button styles in the Q&A section */
+.qa-section button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  outline: none;
+}
+
+/* Button for submitting a question */
+.submit-question-btn {
+  background-color: #28a745; /* Green */
+  color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.submit-question-btn:hover {
+  background-color: #218838; /* Darker green */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Button for selecting an answer */
+.select-answer-btn {
+  background-color: #007bff; /* Blue */
+  color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.select-answer-btn:hover {
+  background-color: #0056b3; /* Darker blue */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Button for viewing answers */
+.view-answers-btn {
+  background-color: #ffc107; /* Yellow */
+  color: #212529;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.view-answers-btn:hover {
+  background-color: #e0a800; /* Darker yellow */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Button for submitting an answer */
+.submit-answer-btn {
+  background-color: #17a2b8; /* Teal */
+  color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit-answer-btn:hover {
+  background-color: #138496; /* Darker teal */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Disabled button style */
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Button for editing a question or answer */
+.edit-btn {
+  background-color: #6c757d; /* Gray */
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #5a6268; /* Darker gray */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Add animations for subtle attention */
+@keyframes buttonPop {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+button:focus {
+  animation: buttonPop 0.3s ease-in-out;
+  outline: none;
+}
+/* Common styles for text areas in the Q&A section */
+.qa-section textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  color: #333;
+  background-color: #f9f9f9;
+  outline: none;
+}
+
+/* Text area focus effect */
+.qa-section textarea:focus {
+  border-color: #007bff; /* Highlight border when focused */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Subtle blue shadow */
+  background-color: #fff;
+}
+
+/* Placeholder styling */
+.qa-section textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Text area hover effect */
+.qa-section textarea:hover {
+  border-color: #aaa;
+}
+
+/* Text area disabled styling */
+.qa-section textarea:disabled {
+  background-color: #e9ecef;
+  border-color: #dcdcdc;
+  cursor: not-allowed;
+}
+
+/* Error state styling for validation feedback */
+.qa-section textarea.error {
+  border-color: #dc3545; /* Red border for errors */
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2); /* Red shadow */
+}
+
+/* Text area label */
+textarea-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+/* Add these styles to your existing productdetails.css */
+/* Add these styles to your existing productdetails.css */
+
+.related-products {
+  margin: 20px 0;
+  padding: 20px;
+}
+
+.related-products h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.related-products-list {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+  gap: 20px;
+  padding-bottom: 10px; /* Space for scrollbar */
+}
+
+.related-product-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  width: 250px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+}
+
+.related-product-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.related-product-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.related-product-item h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  color: #0078a1;
+  font-weight: bold;
+}
+
+.related-product-item p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.related-product-item button {
+  background-color: #0078a1;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.related-product-item button:hover {
+  background-color: #005f73;
+  transform: scale(1.05);
+}
+.review_section{
+  margin: 0px;
+  padding: 25px;
+  width: 100%;
+  border: 1px solid #e3e3e3;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

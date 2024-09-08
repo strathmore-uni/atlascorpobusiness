@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavigationBar from "../General Components/NavigationBar";
 import "./productdetails.css";
@@ -8,6 +8,9 @@ import Footer from "../General Components/Footer";
 import Notification from "../General Components/Notification";
 import { useAuth } from "../MainOpeningpage/AuthContext";
 import { useNavigate } from 'react-router-dom';
+import Reviews from "./Reviews";
+import ProductDescription from "./ProductDescription";
+import ProductSpecification from "./ProductSpecification";
 
 export default function ProductDetails({ productdetails, handleAddProduct, cartItems }) {
   const { currentUser } = useAuth();
@@ -15,6 +18,7 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
   const [notificationMessage, setNotificationMessage] = useState('');
   const [activeTab, setActiveTab] = useState('description');
   const { isAuthenticated } = useAuth();
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
   const navigate = useNavigate();
 
   const handleImageClick = (image) => {
@@ -58,6 +62,75 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+  const [questions, setQuestions] = useState([]);
+  const [newQuestion, setNewQuestion] = useState('');
+  const [newAnswer, setNewAnswer] = useState('');
+
+  const [relatedProducts, setRelatedProducts] = useState([]);
+
+  const productId = productdetails[0]?.id; // Assume this gets the product ID
+  const fetchRelatedProducts = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/relatedproducts/${productId}`);
+      setRelatedProducts(response.data);
+    } catch (error) {
+      console.error('Error fetching related products:', error);
+    }
+  };
+  useEffect(() => {
+    if (productId) {
+      fetchQuestions();
+      fetchRelatedProducts();
+    }
+  }, [productId]);
+
+  const fetchQuestions = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/questions/${productId}`);
+      setQuestions(response.data);
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+    }
+  };
+
+  const handleAddQuestion = async () => {
+    if (!currentUser) {
+      alert('You need to be signed in to ask a question.');
+      return;
+    }
+
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/questions`, {
+        productId,
+        questionText: newQuestion,
+        userEmail: currentUser.email,
+      });
+      setNewQuestion('');
+      fetchQuestions(); // Refresh questions
+    } catch (error) {
+      console.error('Error adding question:', error);
+    }
+  };
+
+  const handleAddAnswer = async (questionId) => {
+    if (!currentUser) {
+      alert('You need to be signed in to answer a question.');
+      return;
+    }
+
+    try {
+      await axios.post(`${process.env.REACT_APP_LOCAL}/api/questions/answer`, {
+        questionId,
+        answerText: newAnswer,
+        userEmail: currentUser.email,
+      });
+      setNewAnswer('');
+      setSelectedQuestion(null);
+      fetchQuestions(); // Refresh questions
+    } catch (error) {
+      console.error('Error adding answer:', error);
+    }
+  };
 
   return (
     <div className="productdetails_container">
@@ -71,7 +144,7 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
               <a href="/Shop" style={{ color: "#0078a1", textDecoration: "none" }}>
                 &nbsp;Shop &nbsp;/
               </a>
-              <p style={{ position: "absolute", left: "7.5rem", top: "-1rem" }}>
+              <p style={{ position: "absolute", left: "7.5rem", top: "0rem" }}>
                 {product.Description}
               </p>
             </div>
@@ -137,30 +210,23 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
               >
                 Specification
               </button>
-              <button
-                className={activeTab === 'reviews' ? 'active' : ''}
-                onClick={() => handleTabChange('reviews')}
-              >
-                Reviews
-              </button>
+             
             </div>
             <hr className="tab_separator" />
             <div className="productdetails_content">
               {activeTab === 'description' && (
                 <div>
-                  <p>Details about description for this product.</p>
+                  
+                  <ProductDescription productId={productId} />
                 </div>
               )}
               {activeTab === 'specification' && (
                 <div>
-                  <p>Product specifications go here.</p>
+                  <ProductSpecification productId={productId} />
                 </div>
               )}
-              {activeTab === 'reviews' && (
-                <div>
-                  <p>Customer reviews and ratings.</p>
-                </div>
-              )}
+          
+
             </div>
             
             <div className="pdrtdetails_card">
@@ -178,10 +244,64 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
                 </p>
               </div>
             </div>
+            <div className="review_section">
+            <Reviews productId={productId} />
+          </div>
+            <div className="qa-section">
+        <h3>Customer Questions & Answers</h3>
+        
+        {/* Display existing questions and answers */}
+        {questions.map((question) => (
+          <div key={question.id} className="question-item">
+            <p className="question-text">{question.questionText} - <span className="question-user">{question.userEmail}</span></p>
+            {question.answers.map((answer) => (
+              <p key={answer.id} className="answer-text">Answer: {answer.answerText} - <span className="answer-user">{answer.userEmail}</span></p>
+            ))}
+            
+            {/* Show answer input only if a question is selected */}
+            {selectedQuestion === question.id ? (
+              <div>
+                <textarea
+                  value={newAnswer}
+                  onChange={(e) => setNewAnswer(e.target.value)}
+                  placeholder="Write your answer..."
+                />
+                <button onClick={() => handleAddAnswer(question.id)}>Submit Answer</button>
+              </div>
+            ) : (
+              <button onClick={() => setSelectedQuestion(question.id)}>Answer this question</button>
+            )}
           </div>
         ))}
+
+        {/* Add new question */}
+        <textarea
+          value={newQuestion}
+          onChange={(e) => setNewQuestion(e.target.value)}
+          placeholder="Ask a new question..."
+        />
+        <button onClick={handleAddQuestion}>Submit Question</button>
       </div>
-      
+      <div className="related-products">
+        <h2>Related Products</h2>
+        <div className="related-products-list">
+          {relatedProducts.map(product => (
+            <div key={product.id} className="related-product-item">
+              <img src={product.image} alt={product.Description} />
+              <p>{product.Description}</p>
+              <p>USD {product.Price}</p>
+              <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
+            </div>
+          ))}
+        </div>
+      </div>
+          </div>
+          
+        ))}
+  
+       
+      </div>
+     
       {notificationMessage && (
         <Notification message={notificationMessage} />
       )}
