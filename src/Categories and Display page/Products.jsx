@@ -106,11 +106,11 @@ export default function Products({ handleAddProductDetails,handleAddProduct, han
       <div className="the_prdt_details">
         <p className="prdt_partnumber">{product.partnumber}</p>
         <Link
-          to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-          onClick={() => handleAddProductDetails(product)}
-          className="prdt_title_link"
-          style={{ color: "black", textDecoration: "none" }}
-        >
+                      to={`/productdetails/${product.partnumber}`} // Use URL parameter for product ID
+                      onClick={() => handleAddProductDetails(product)}
+                      className="prdt_title_link"
+                      style={{ color: "black", textDecoration: "none" }}
+                    >
           <p className="prdt_title">{product.Description}</p>
         </Link>
         <p className="prdt_price">${product.Price}</p>

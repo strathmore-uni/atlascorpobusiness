@@ -3,42 +3,45 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import './editproduct.css'; // Import the CSS file
 import AdminCategory from './AdminCategory';
-
 import Swal from 'sweetalert2';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const EditProduct = () => {
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({
     partnumber: '',
-    Description: '',
+    Description: '', // This will be updated to handle multiple descriptions
     image: '',
     thumb1: '',
     thumb2: '',
-    prices: [], // Initialize prices as an empty array
+    prices: [],
     mainCategory: '',
-    subCategory: ''
+    subCategory: '',
+    specifications: [],
+    detailedDescription: '',
+    descriptions: [] // Array to handle multiple descriptions
   });
+
   const [categories, setCategories] = useState({
     mainCategories: [],
     subCategories: []
   });
-
- 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, {
           params: { email: currentUser.email }
         });
-        setProduct(response.data);
+        setProduct(response.data || {}); // Ensure response.data is assigned correctly
       } catch (error) {
         console.error('Error fetching product:', error);
       }
     };
+  
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/mycategories`);
@@ -46,7 +49,6 @@ const EditProduct = () => {
           mainCategories: response.data.mainCategories || [],
           subCategories: response.data.subCategories || []
         });
-        console.log('Categories fetched:', response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -65,6 +67,30 @@ const EditProduct = () => {
     }));
   };
 
+  const handleDescriptionChange = (index, value) => {
+    setProduct(prevState => {
+      const descriptions = Array.isArray(prevState.descriptions) ? [...prevState.descriptions] : [];
+      descriptions[index] = value;
+      return { ...prevState, descriptions };
+    });
+  };
+  
+  const handleRemoveDescription = (index) => {
+    setProduct(prevState => {
+      const descriptions = Array.isArray(prevState.descriptions) ? [...prevState.descriptions] : [];
+      descriptions.splice(index, 1);
+      return { ...prevState, descriptions };
+    });
+  };
+  
+  const handleAddDescription = () => {
+    setProduct(prevState => {
+      const descriptions = Array.isArray(prevState.descriptions) ? [...prevState.descriptions] : [];
+      return { ...prevState, descriptions: [...descriptions, ''] };
+    });
+  };
+  
+
   const handlePriceChange = (index, field, value) => {
     const updatedPrices = product.prices.map((price, i) =>
       i === index ? { ...price, [field]: value } : price
@@ -73,6 +99,28 @@ const EditProduct = () => {
       ...prevState,
       prices: updatedPrices
     }));
+  };
+
+  const handleAddSpecification = () => {
+    setProduct(prevState => ({
+      ...prevState,
+      specifications: [...(prevState.specifications || []), { spec_key: '', spec_value: '' }]
+    }));
+  };
+
+  const handleRemoveSpecification = (index) => {
+    setProduct(prevState => ({
+      ...prevState,
+      specifications: (prevState.specifications || []).filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleSpecificationChange = (index, key, value) => {
+    setProduct(prevState => {
+      const updatedSpecifications = [...(prevState.specifications || [])];
+      updatedSpecifications[index] = { ...updatedSpecifications[index], [key]: value };
+      return { ...prevState, specifications: updatedSpecifications };
+    });
   };
 
   const handleCategoryChange = (e) => {
@@ -85,36 +133,30 @@ const EditProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const currentUser = JSON.parse(localStorage.getItem('currentUser')); // Retrieve current user object
+
     if (!currentUser || !currentUser.email) {
-      console.error('Current user email is undefined');
       toast.error('Failed to update product: User email is not available.');
       return;
     }
 
     try {
-      // Add the user's email to the product object before sending the request
       const productWithEmail = { ...product, email: currentUser.email };
-      
-      // Send the updated product to the server with the user's email in the headers
+
       await axios.put(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, productWithEmail, {
         headers: {
-          'User-Email': currentUser.email, // Include the user's email in the headers
-         
-        }
+          'User-Email': currentUser.email,
+        },
       });
 
       toast.success('Product updated successfully');
-      navigate('/productlist'); // Redirect after update
+      navigate('/productlist');
     } catch (error) {
       console.error('Error updating product:', error);
-      toast.error('Failed to update product you dont have the required permissions');
+      toast.error('Failed to update product, you do not have the required permissions');
     }
   };
 
-
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     const result = await Swal.fire({
       title: 'Are you sure?',
       text: 'This action cannot be undone.',
@@ -125,7 +167,7 @@ const EditProduct = () => {
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'Cancel'
     });
-  
+
     if (result.isConfirmed) {
       try {
         await axios.delete(`${process.env.REACT_APP_LOCAL}/api/viewproducts/${id}`, {
@@ -133,23 +175,18 @@ const EditProduct = () => {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
           },
           data: {
-            email: localStorage.getItem('userEmail')
+            email: currentUser.email
           }
         });
         toast.success('Product deleted successfully');
-        navigate('/productlist'); // Redirect to products list
+        navigate('/productlist');
       } catch (error) {
         console.error('Error deleting product:', error);
         toast.error('Failed to delete product. Please ensure no related records exist.');
       }
     }
   };
-  
-  
-  
 
-  
-  
   return (
     <div className="edit-product-container">
       <h2>Edit Product</h2>
@@ -193,7 +230,7 @@ const EditProduct = () => {
           Sub Category:
           <select name="subCategory" value={product.subCategory} onChange={handleCategoryChange}>
             <option value="">Select Sub Category</option>
-            {product.mainCategory && categories.subCategories
+            {categories.subCategories
               .filter(cat => cat.mainCategoryId === product.mainCategory)
               .map((cat, index) => (
                 <option key={index} value={cat}>{cat}</option>
@@ -203,7 +240,7 @@ const EditProduct = () => {
         <br />
         <div className="prices-section">
           <h3>Prices and Stock</h3>
-          {product.prices && product.prices.map((price, index) => (
+          {product.prices.map((price, index) => (
             <div key={index} className="price-item">
               <label>
                 Country:
@@ -227,7 +264,7 @@ const EditProduct = () => {
                 Stock Quantity:
                 <input
                   type="text"
-                  value={price.stock_quantity || ''} // Display stock quantity from prices if exists
+                  value={price.stock_quantity || ''}
                   onChange={(e) => handlePriceChange(index, 'stock_quantity', e.target.value)}
                 />
               </label>
@@ -235,12 +272,68 @@ const EditProduct = () => {
             </div>
           ))}
         </div>
-        <button type="submit" className='editproduct_button'>Update Product</button>
+        <div className="descriptions-section">
+  <h3>Descriptions</h3>
+  {product.descriptions && product.descriptions.length > 0 ? (
+    product.descriptions.map((desc, index) => (
+      <div key={index} className="description-item">
+        <label>
+          Description {index + 1}:
+          <input
+            type="text"
+            value={desc}
+            onChange={(e) => handleDescriptionChange(index, e.target.value)}
+          />
+        </label>
+        <button type="button" onClick={() => handleRemoveDescription(index)}>
+          Remove
+        </button>
+      </div>
+    ))
+  ) : (
+    <p>No descriptions available</p>
+  )}
+  <button type="button" onClick={handleAddDescription}>
+    Add Description
+  </button>
+</div>
+
+        <div className="specifications-section">
+          <h3>Specifications</h3>
+          {product.specifications.map((spec, index) => (
+            <div key={index} className="specification-item">
+              <label>
+                Key:
+                <input
+                  type="text"
+                  value={spec.spec_key}
+                  onChange={(e) => handleSpecificationChange(index, 'spec_key', e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Value:
+                <input
+                  type="text"
+                  value={spec.spec_value}
+                  onChange={(e) => handleSpecificationChange(index, 'spec_value', e.target.value)}
+                />
+              </label>
+              <button type="button" onClick={() => handleRemoveSpecification(index)}>
+                Remove
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={handleAddSpecification}>
+            Add Specification
+          </button>
+        </div>
+        <br />
+        <button type="submit"  className='editproduct_button' >Update Product</button>
         <button type="button" className='deleteproduct_button' onClick={handleDelete}>Delete Product</button>
       </form>
       <ToastContainer />
       <AdminCategory />
-    
     </div>
   );
 };

@@ -270,7 +270,7 @@ function App() {
               }
             />
             <Route
-              path="/productdetails"
+              path="/productdetails/:partnumber"
               element={
                 <Productdetails
                   handleAddProductDetails={handleAddProductDetails}

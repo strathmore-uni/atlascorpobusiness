@@ -25,7 +25,12 @@ const ProductDescription = ({ productId }) => {
   return (
     <div className="product-details">
 
-      <p>{product.description}</p> {/* Display fetched description */}
+<li>
+<strong>{product.description} </strong>
+</li>
+ 
+
+     
     </div>
   );
 };

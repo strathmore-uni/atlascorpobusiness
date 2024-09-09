@@ -7,13 +7,14 @@ import { LuCameraOff } from "react-icons/lu";
 import Footer from "../General Components/Footer";
 import Notification from "../General Components/Notification";
 import { useAuth } from "../MainOpeningpage/AuthContext";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Reviews from "./Reviews";
 import ProductDescription from "./ProductDescription";
 import ProductSpecification from "./ProductSpecification";
 
 export default function ProductDetails({ productdetails, handleAddProduct, cartItems }) {
   const { currentUser } = useAuth();
+  const { partnumber } = useParams();
   const [selectedImage, setSelectedImage] = useState(productdetails[0]?.image);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [activeTab, setActiveTab] = useState('description');

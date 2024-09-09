@@ -84,3 +84,21 @@
   .deleteproduct_button:hover {
     background: #960f0f;
   }
+  textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    resize: vertical;
+  }
+  
+  textarea[name="specifications"] {
+    min-height: 100px; /* Adjust as needed */
+  }
+  
+  textarea[name="detailedDescription"] {
+    min-height: 150px; /* Adjust as needed */
+  }
+  
