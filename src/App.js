@@ -59,6 +59,7 @@ import FinanceOrderViewPage from "./AdminFinance/FinanceOrderViewPage";
 import AdminRecords from "./Admin/AdminRecords";
 import FinanceUsers from "./AdminFinance/FinanceUsers";
 import FinanceOrders from "./AdminFinance/FinanceOrders";
+import AdminOrderHistory from "./Admin/AdminOrderHistory";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -390,6 +391,7 @@ function App() {
             />
             <Route path="/mainadmin" element={<Mainadmin  />} />
             <Route path="" element={<Ordereditems />} />
+            <Route path="/order-history/:email" element={<AdminOrderHistory/>} />
             <Route path="/ordereditems/:category" element={<OrderDetailsPage />} />
             <Route path="/addproduct"  element={<AddProduct />}/>
             <Route path="/dashboard" element={<AdminDashboardSummary />} />

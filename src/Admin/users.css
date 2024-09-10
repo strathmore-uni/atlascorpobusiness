@@ -208,7 +208,7 @@
 .modal-actions {
   display: flex;
   position: relative;
-  top: -4rem;
+  top: 0rem;
   gap: 10px;
 
  
@@ -246,26 +246,21 @@
   background-color: #0056b3;
 }
 
-/* Optional: Add styling for the modal itself if needed */
-.ReactModal__Overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
+
+
 
 .modal_viewproduct {
-  position: relative;
   background-color: #fff;
-  width: 60%;
+  width: 100%;
 
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
   padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
   display: flex;
-  margin-left: 200px;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
 }
 
 .close_icon_prdtview {
@@ -310,11 +305,9 @@
 
 .prdtview_details {
   display: flex;
-  margin-top: -50px;
   flex-direction: column;
   align-items: center;
- 
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .prdtview_details small {
@@ -332,8 +325,8 @@
 }
 
 .img_view {
-  width: 7rem;
-  height: 7rem;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 20px;
@@ -348,172 +341,6 @@
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
-.div_line {
-  height: 1px;
-  width: 100%;
-  background-color: #ddd;
-  margin-bottom: 20px;
+.chart-container-prdtview h3 {
+  margin-top: 0;
 }
-.chart-container-prdtview {
-  margin-top:-50px;
-  width: 100%;
-  
-}
-.div_line{
-  margin-top: -80px;
-  height: .05rem;
-  width: 100%;
-  background-color: grey;
-}
-/* General styling for the category select dropdown */
-.category-select {
-  font-family: Arial, sans-serif;
-  font-size: 1em;
-  color: #333;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 10px;
-  width: 100%;
-  max-width: 300px;
-  transition: border-color 0.3s ease;
-  outline: none;
-}
-
-/* Focus state for the category select dropdown */
-.category-select:focus {
-  border-color: #007bff; /* Blue border on focus */
-  box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.2); /* Subtle blue shadow */
-}
-
-/* Styling for the dropdown arrow */
-.category-select::after {
-  content: '▼'; /* Downward arrow */
-  font-size: 0.8em;
-  color: #007bff;
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-/* Container for the select element to handle positioning */
-.select-container {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  max-width: 300px;
-}
-
-/* Styling for the dropdown options */
-.category-select option {
-  padding: 10px;
-}
-
-/* Styling for when the dropdown is disabled */
-.category-select:disabled {
-  background-color: #f9f9f9;
-  color: #999;
-  cursor: not-allowed;
-}
-
-/* Optional: Styling for the placeholder option */
-.category-select option:first-child {
-  color: #aaa;
-}
-
-  /* Responsive design for mobile */
-  @media (max-width: 768px) {
-    .user-card {
-      padding: 8px;
-    }
-  }
-  /* users.css */
-
-/* Tab container */
-/* Container for tabs */
-/* Container for tabs */
-.tabs {
-  display: flex;
-  justify-content: center;
-  margin: 1rem auto;
-  border-bottom: 2px solid #ddd;
-  background: #f9f9f9;
-  max-width: 300px;
-  border-radius: 4px;
-}
-
-/* Tab buttons */
-.tab-button {
-  flex: 1;
-  padding: 0.5rem 1rem;
-  border: none;
-  background: #f9f9f9;
-  cursor: pointer;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #333;
-  border-bottom: 2px solid transparent;
-  transition: color 0.3s, border-bottom-color 0.3s;
-  border-radius: 4px 4px 0 0;
-}
-
-.tab-button.active {
-  color: #007bff;
-  border-bottom-color: #007bff;
-  font-weight: bold;
-}
-
-/* Tab content */
-.tab-content {
-  max-width: 800px;
-  margin: 1rem auto;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #fff;
-}
-
-/* User details and order history styles */
-.user-details-info, .order-history-list {
-  margin-bottom: 1rem;
-}
-
-/* Order history list */
-.order-history-list {
-  list-style: none;
-  padding: 0;
-}
-
-.order-history-item {
-  border-bottom: 1px solid #ddd;
-  padding: 0.5rem 0;
-  font-size: 0.9rem;
-}
-
-.order-history-item:last-child {
-  border-bottom: none;
-}
-
-/* Buttons */
-.suspend-button{
-  background: #007bff;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.suspend-button:hover, .back-button:hover {
-  background: #0056b3;
-}
-
-/* Back button specific styling */
-
-.back-button:hover {
-  background: #c82333;
-}
-

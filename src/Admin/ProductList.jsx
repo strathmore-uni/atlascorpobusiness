@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-modal";
 import { Line } from "react-chartjs-2";
+import "./users.css";
+import './adminproducts.css'
 import {
   Chart as ChartJS,
   Title,
@@ -11,7 +13,7 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-import "./users.css";
+
 import AdminCategory from "./AdminCategory";
 import { RxCross2 } from "react-icons/rx";
 
@@ -298,10 +300,10 @@ const ProductsList = () => {
         </ul>
       )}
 
-      <AdminCategory />
+     
 
-      {/* Modal for viewing product details */}
-      <Modal
+
+<Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         contentLabel="Product Details"
@@ -309,16 +311,13 @@ const ProductsList = () => {
           content: {
             position: "absolute",
             top: "0%",
-            right: "0",
-            bottom: "10%",
+            left: "20%",
+            
+            width: "50rem",
             height: "100%",
-            width: "100%",
-            padding: "20px",
-            overflow: "auto",
-            border: "none",
-            borderRadius: "4px",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: "999",
+            padding: "30px",
+          
+          
           },
         }}
       >
@@ -329,7 +328,7 @@ const ProductsList = () => {
             </div>
 
             <p className="modal_header">
-              {selectedProduct.Description || "N/A"}
+             
             </p>
             <div className="modal-actions">
               <button className="btn_prdtview"  onClick={handleEdit}>Edit</button>
@@ -373,6 +372,9 @@ const ProductsList = () => {
           </div>
         )}
       </Modal>
+
+      
+      <AdminCategory/>
     </div>
   );
 };
