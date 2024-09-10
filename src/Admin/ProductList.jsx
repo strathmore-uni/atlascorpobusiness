@@ -84,20 +84,22 @@ const ProductsList = () => {
 
   useEffect(() => {
     if (selectedProduct) {
-      const fetchOrderCount = async () => {
+      const fetchSalesData = async () => {
         try {
           const response = await axios.get(
             `${process.env.REACT_APP_LOCAL}/api/admin/productOrderCount/${selectedProduct.partnumber}`
           );
-          setOrderCountData(response.data);
+          setSalesData(response.data);
         } catch (error) {
-          console.error("Error fetching order count:", error);
+          console.error("Error fetching sales data:", error);
         }
       };
 
-      fetchOrderCount();
+      fetchSalesData();
     }
   }, [selectedProduct]);
+
+  // Prepare chart data
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -158,20 +160,64 @@ const ProductsList = () => {
         product.subCategory === subCat
     )
   );
-
-  // Prepare chart data
   const chartData = {
-    labels: salesData ? salesData.dates : [], // Assuming salesData has a 'dates' array
+    labels: salesData ? salesData.salesData.map(data => data.month) : [],
     datasets: [
       {
         label: "Sales",
-        data: salesData ? salesData.values : [], // Assuming salesData has a 'values' array
+        data: salesData ? salesData.salesData.map(data => data.total_quantity) : [],
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
-        fill: false,
+        borderWidth: 2,
+        tension: 0.4, // Adjust for smoothness
+        fill: true, // Fill area under the line
       },
     ],
   };
+  
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          color: '#333',
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => `Quantity: ${tooltipItem.raw}`,
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          color: 'rgba(200, 200, 200, 0.2)', // Color of grid lines
+          borderColor: 'rgba(200, 200, 200, 0.5)', // Color of x-axis border
+          borderWidth: 1,
+        },
+        title: {
+          display: true,
+          text: 'Month',
+          color: '#333',
+        },
+      },
+      y: {
+        grid: {
+          color: 'rgba(200, 200, 200, 0.2)', // Color of grid lines
+          borderColor: 'rgba(200, 200, 200, 0.5)', // Color of y-axis border
+          borderWidth: 1,
+        },
+        title: {
+          display: true,
+          text: 'Quantity',
+          color: '#333',
+        },
+      },
+    },
+  };
+  
 
   return (
     <div className="products-container">
@@ -294,6 +340,10 @@ const ProductsList = () => {
             <div className="prdtview_details">
               <small>Product Info</small>
               <p>
+                <strong>Description:</strong>{" "}
+                <strong>{selectedProduct.Description || "N/A"}</strong>
+              </p>
+              <p>
                 <strong>Part Number:</strong>{" "}
                 {selectedProduct.partnumber || "N/A"}
               </p>
@@ -310,12 +360,12 @@ const ProductsList = () => {
                 src={selectedProduct.image}
                 alt={selectedProduct.image}
               />
-              <div className="div_line"></div>
+             
             </div>
             <div className="chart-container-prdtview">
               <h3>Sales Data</h3>
-              {orderCountData ? (
-                <Line data={chartData} />
+              {salesData ? (
+                <Line data={chartData}  options={chartOptions} />
               ) : (
                 <p>Loading sales data...</p>
               )}

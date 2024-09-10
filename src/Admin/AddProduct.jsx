@@ -103,7 +103,6 @@ const handleFileUpload = (e) => {
 
     const [headerRow, ...rows] = jsonData;
 
-    // Normalize headers by removing special characters, spaces, and lowercasing
     const normalizedHeaders = headerRow.map((header) =>
       header
         .toLowerCase()
@@ -128,7 +127,7 @@ const handleFileUpload = (e) => {
         subCategory: product['subcategory'] || '',
         prices: [
           {
-            country_code: adminCountry, // Use the dynamically fetched country code
+            country_code: 'US', // Assuming country code; replace with your dynamic logic
             price: parseFloat(product['price']) || 0,
             stock_quantity: parseInt(product['stock']) || 0,
           },
@@ -136,10 +135,9 @@ const handleFileUpload = (e) => {
       };
     });
 
-    console.log('Final Parsed Products:', parsedProducts);
-
     setProducts(parsedProducts);
     setIsFileLoaded(true);
+    setIsTableVisible(true);
   };
 
   reader.readAsArrayBuffer(file);
@@ -283,40 +281,37 @@ const handleFileUpload = (e) => {
        {isFileLoaded && (
        <button
        onClick={toggleTableVisibility}
-        className="table-toggle-button"
+        className="button-base add-product-toggle-table-btn"
         disabled={!fileChosen}
       >
         {isTableVisible ? 'Hide Table' : 'Show Table'}
       </button>
        )}
 
-{isTableVisible && (
-      <table className='product-data-table'>
-        <thead>
-          <tr>
-            <th>Part Number</th>
-            <th>Description</th>
-           
-            <th>Price</th>
-           
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product, index) => (
-            <tr key={index}>
-              <td>{product.partnumber}</td>
-              <td>{product.description}</td>
-             
-              <td>{product.prices[0]?.price || 0}</td>
-              
+{isTableVisible && products.length > 0 && (
+        <table className="product-data-table">
+          <thead>
+            <tr>
+              <th>Part Number</th>
+              <th>Description</th>
+              <th>Price</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    )}
+          </thead>
+          <tbody>
+            {products.map((product, index) => (
+              <tr key={index}>
+                <td>{product.partnumber}</td>
+                <td>{product.description}</td>
+                <td>{product.prices[0]?.price || 0}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
       <button
         onClick={handleSubmit}
-        className="submit-button"
+        className="button-base add-product-submit-btn"
         disabled={!products.length}
       >
         Add Products
@@ -399,16 +394,17 @@ const handleFileUpload = (e) => {
               value={price.price}
               onChange={(e) => handleSinglePriceChange(index, e)}
             />
-          </div>
-        ))}
-        <button
+             <button
           type="button"
           onClick={handleAddSinglePrice}
-          className="add-price-button"
+          className="button-base add-product-price-btn"
         >
           Add More Prices
         </button>
-        <button type="submit" className="submit-button">
+          </div>
+        ))}
+       
+        <button type="submit" className="button-base add-product-submit-btn">
           Add Single Product
         </button>
       </form>

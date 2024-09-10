@@ -40,16 +40,9 @@ const Stock = () => {
 
   if (loading) {
     return (
-      <div className="dot-spinner">
-        <div className="dot-spinner__dot"></div>
-        <div className="dot-spinner__dot"></div>
-        <div className="dot-spinner__dot"></div>
-        <div className="dot-spinner__dot"></div>
-        <div className="dot-spinner__dot"></div>
-        <div className="dot-spinner__dot"></div>
-        <div className="dot-spinner__dot"></div>
-        <div className="dot-spinner__dot"></div>
-      </div>
+      <div className="center-spinner">
+            <div className="user-spinner"></div>
+          </div>
     );
   }
 

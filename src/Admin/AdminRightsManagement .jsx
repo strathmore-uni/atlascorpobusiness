@@ -24,9 +24,12 @@ const AdminRightsManagement = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [error, setError] = useState('');
   const [viewMode, setViewMode] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const roles = ['Super Admin', 'Admin', 'Editor', 'Viewer', 'Support', 'Finance'];
-
+  setTimeout(() => {
+    // code to be executed after 2 seconds
+  }, 2000);
   
   useEffect(() => {
     const fetchAdmins = async () => {
@@ -96,17 +99,24 @@ const AdminRightsManagement = () => {
   };
 
   const handleViewPermissions = async (admin) => {
+    setLoading(true);
     setSelectedAdmin(admin);
     await fetchAdminRights(admin.id);
     setViewMode(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   };
-
+  
   const handleEditPermissions = async (admin) => {
+    setLoading(true);
     setSelectedAdmin(admin);
     await fetchAdminRights(admin.id);
     setViewMode(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   };
-
   const handleSave = async (e) => {
     e.preventDefault();
     try {
@@ -158,6 +168,7 @@ const AdminRightsManagement = () => {
 
   return (
     <div className="admin-rights-container">
+      
       <h1 className="admin-rights-header">Admin Rights Management</h1>
       {error && <div className="error-message">{error}</div>}
       <table className="admins-table">
@@ -183,6 +194,17 @@ const AdminRightsManagement = () => {
           ))}
         </tbody>
       </table>
+      {loading && (
+        <div className="overlay">
+          <div className="spinner-container">
+            <div className="adminrights-spinner">
+              <svg viewBox="25 25 50 50">
+                <circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      )}
       {selectedAdmin && (
         <div className="permissions-form">
           <h2>{viewMode ? 'View' : 'Edit'} Permissions for {selectedAdmin.name}</h2>

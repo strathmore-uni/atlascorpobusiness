@@ -51,6 +51,24 @@
     position: relative;
     list-style-type: none;
   }
+  .user-spinner {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 60px;
+    height: 60px;
+    margin-top: 400px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
   
   /* Style for each user card */
   .user-card {
@@ -231,37 +249,110 @@
 /* Optional: Add styling for the modal itself if needed */
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0.5);
-}
-.modal_viewproduct{
-  position: relative;
-  margin-top: 0px;
-  background: #fff;
-  width: 30%;
-  height: 35rem;
-  box-shadow: 0px 0px 10px 0px;
-  margin-left: 710px;
-  border-radius: 6px;
-}
-.prdtview_details{
-  position: relative;
-  top: -3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.close_icon_prdtview{
+.modal_viewproduct {
+  position: relative;
+  background-color: #fff;
+  width: 60%;
 
-  margin-top: 2rem;
-  margin-left: 18rem;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  margin-left: 200px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.close_icon_prdtview {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   font-size: 1.4rem;
-}
-.close_icon_prdtview:hover{
   cursor: pointer;
+  transition: color 0.2s ease;
 }
-.img_view{
- position: relative;
- top: -7rem;
- left: 13rem;
-  max-width: 5rem;
-  min-height: 5rem;
+
+.close_icon_prdtview:hover {
+  color: #666;
+}
+
+.modal_header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn_prdtview {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.btn_prdtview:hover {
+  background-color: #3e8e41;
+}
+
+.prdtview_details {
+  display: flex;
+  margin-top: -50px;
+  flex-direction: column;
+  align-items: center;
+ 
+  margin-bottom: 40px;
+}
+
+.prdtview_details small {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.prdtview_details p {
+  margin-bottom: 10px;
+}
+
+.prdtview_details strong {
+  font-weight: bold;
+}
+
+.img_view {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.chart-container-prdtview {
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.div_line {
+  height: 1px;
+  width: 100%;
+  background-color: #ddd;
+  margin-bottom: 20px;
 }
 .chart-container-prdtview {
   margin-top:-50px;

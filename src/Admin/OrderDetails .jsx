@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import jsPDF from 'jspdf';
-import './adminproducts.css'; // Make sure this path matches your actual CSS file path
+import './adminproducts.css'; // Ensure this path is correct
 import AdminCategory from './AdminCategory';
 import { useAuth } from '../MainOpeningpage/AuthContext';
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for react-toastify
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Modal from 'react-modal'; // Ensure you have react-modal installed
 
 const OrderDetails = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [actionType, setActionType] = useState('');
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -31,17 +34,15 @@ const OrderDetails = () => {
 
   const updateOrderStatus = async (status) => {
     try {
-      // Update the order status on the backend
       await axios.patch(`${process.env.REACT_APP_LOCAL}/api/admin/orders/${orderId}/status`, { 
         status, 
-        userEmail: currentUser.email // Pass the current admin's email 
+        userEmail: currentUser.email 
       }, {
         headers: {
           'Content-Type': 'application/json',
         }
       });
       
-      // Update local state with the new status
       setOrder((prevOrder) => ({
         ...prevOrder,
         Status: status
@@ -50,7 +51,7 @@ const OrderDetails = () => {
       toast.success(`Order status updated to ${status}`);
     } catch (error) {
       console.error('Error updating order status:', error);
-      toast.error('Error clearing order, you do not have the necessary permissions.');
+      toast.error('Error updating order status.');
     }
   };
 
@@ -59,22 +60,19 @@ const OrderDetails = () => {
 
     const pdf = new jsPDF();
     pdf.setFontSize(16);
-    pdf.text('Invoice', 14, 22); // Title
+    pdf.text('Invoice', 14, 22); 
 
     pdf.setFontSize(12);
-    pdf.text(`Company: Atlas Copco Limited`, 14, 32); // Company Name
-    pdf.text(`Order Number: ${order.ordernumber}`, 14, 42); // Order Number
-    pdf.text(`Customer Email: ${order.email}`, 14, 52); // Customer Email
+    pdf.text(`Company: Atlas Copco Limited`, 14, 32); 
+    pdf.text(`Order Number: ${order.ordernumber}`, 14, 42); 
+    pdf.text(`Customer Email: ${order.email}`, 14, 52); 
 
-    // Line break
-    pdf.text('', 14, 62);
+    pdf.text('', 14, 62); 
 
-    // Header
     pdf.text('Items', 14, 72);
     pdf.text('Quantity', 100, 72);
     pdf.text('Price', 140, 72);
 
-    // Items
     let y = 82;
     order.items.forEach(item => {
       pdf.text(item.description, 14, y);
@@ -83,11 +81,9 @@ const OrderDetails = () => {
       y += 10;
     });
 
-    // Line break
     y += 10;
     pdf.text('', 14, y);
 
-    // Total Price
     pdf.text(`Total Price: $${order.totalprice ? order.totalprice : 'N/A'}`, 14, y + 10);
 
     pdf.save(`Invoice for order ${order.ordernumber}.pdf`);
@@ -110,8 +106,19 @@ const OrderDetails = () => {
     return (getStatusIndex(status) + 1) / orderSteps.length * 100;
   };
 
-  // Determine if the order status is 'Cleared'
   const isCleared = order && order.Status === 'Cleared';
+
+  const handleAction = (action) => {
+    setActionType(action);
+    setShowConfirmation(true);
+  };
+
+  const confirmAction = async () => {
+    await updateOrderStatus(actionType);
+    setShowConfirmation(false);
+  };
+
+  const cancelAction = () => setShowConfirmation(false);
 
   if (loading) {
     return (
@@ -139,12 +146,14 @@ const OrderDetails = () => {
         <div className="order-info">
           <p><span>Order Number:</span> {order.ordernumber}</p>
           <p><span>Customer Email:</span> {order.email}</p>
-          <p><span>Status:</span> {order.Status || 'N/A'}</p>
+          <p><span>Order Date:</span> {new Date(order.orderDate).toLocaleDateString()}</p>
+          <p><span>Shipping Address:</span> {order.shippingAddress || 'N/A'}</p>
         </div>
         <div className="order-items">
           <h3>Items:</h3>
           {order.items.map(item => (
             <div key={item.id} className="order-item">
+              <img src={item.image || 'placeholder.jpg'} alt={item.description} className="item-image" />
               <p>{item.description} - {item.quantity} x ${item.price ? item.price.toFixed(2) : 'N/A'}</p>
             </div>
           ))}
@@ -153,48 +162,25 @@ const OrderDetails = () => {
           <p><span>Total Price:</span> ${order.totalprice ? order.totalprice : 'N/A'}</p>
         </div>
         <div className="order-status-buttons">
-          <button 
-            onClick={() => updateOrderStatus('Cleared')} 
-            className="clear-btn"
-          >
+          <button onClick={() => handleAction('Cleared')} className="clear-btn">
             Cleared
           </button>
-          <button 
-            onClick={() => updateOrderStatus('Approved')} 
-            className="approve-btn"
-            disabled={!isCleared}
-          >
+          <button onClick={() => handleAction('Approved')} className="approve-btn" disabled={!isCleared}>
             Approve
           </button>
-          <button 
-            onClick={() => updateOrderStatus('Pending')} 
-            className="pending-btn"
-            disabled={!isCleared}
-          >
+          <button onClick={() => handleAction('Pending')} className="pending-btn" disabled={!isCleared}>
             Pending
           </button>
-          <button 
-            onClick={() => updateOrderStatus('Declined')} 
-            className="decline-btn"
-            disabled={!isCleared}
-          >
+          <button onClick={() => handleAction('Declined')} className="decline-btn" disabled={!isCleared}>
             Decline
           </button>
-          <button 
-            onClick={() => updateOrderStatus('Released from Warehouse')} 
-            className="complete-btn"
-            disabled={!isCleared}
-          >
+          <button onClick={() => handleAction('Released from Warehouse')} className="complete-btn" disabled={!isCleared}>
             Complete
           </button>
         </div>
       </div>
      
-      <button 
-        onClick={generatePDF} 
-        className="generate-pdf-btn"
-        disabled={!isCleared}
-      >
+      <button onClick={generatePDF} className="generate-pdf-btn" disabled={!isCleared}>
         Generate PDF
       </button>
      
@@ -217,8 +203,25 @@ const OrderDetails = () => {
           ))}
         </div>
       </div>
+      
+      <Link to={`/order-history/${order.email}`} className="order-history-link">
+        View Customer Order History
+      </Link>
+      
       <AdminCategory />
-      <ToastContainer /> {/* Add ToastContainer here */}
+      <ToastContainer />
+      
+      <Modal
+        isOpen={showConfirmation}
+        onRequestClose={cancelAction}
+        contentLabel="Confirm Action"
+        className="modal"
+        overlayClassName="overlay"
+      >
+        <h3>Are you sure you want to {actionType} this order?</h3>
+        <button onClick={confirmAction}>Yes</button>
+        <button onClick={cancelAction}>No</button>
+      </Modal>
     </div>
   );
 };
