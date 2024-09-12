@@ -1,73 +1,51 @@
-/* notifications-container styles */
 .notifications-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .notifications-container h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  /* Notification list styles */
-  .usernotification_ul {
-      list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .usernotification_ul  .li {
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-   
- .usernotification_ul   li:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .unread {
-    background-color: #e7f0ff; /* Light blue background for unread notifications */
-    font-weight: bold;
-  }
-  
-  /* Notification message styles */
-  .notification-message {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .order-number {
-    font-weight: bold;
-    color: #007bff; /* Blue color for order numbers */
-  }
-  
-  .notification-text {
-    flex: 1;
-    margin-left: 10px;
-    color: #333;
-  }
-  
-  /* Media Queries for responsiveness */
-  @media (max-width: 600px) {
-    .notifications-container {
-      padding: 10px;
-    }
-  
-    .notifications-container h2 {
-      font-size: 20px;
-    }
-  
-    li {
-      padding: 10px;
-    }
-  }
-  
+  padding: 20px;
+}
+
+.usernotification_ul {
+  list-style: none;
+  padding: 0;
+}
+
+.usernotification_ul li {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.usernotification_ul li.unread {
+  background-color: #f9f9f9;
+}
+
+.usernotification_ul li.read {
+  background-color: #e0e0e0;
+}
+
+.notification-message {
+  display: flex;
+  align-items: center;
+}
+
+.order-number {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.notification-text {
+  margin-left: 5px;
+}
+
+.mark-as-read-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mark-as-read-button:hover {
+  background-color: #0056b3;
+}

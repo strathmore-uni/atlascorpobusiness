@@ -110,8 +110,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
       return;
     }
   
-    console.log('User Email:', currentUser.email); // Debugging
-    console.log('Product Part Number:', product.partnumber); // Debugging
+
   
     try {
       await axios.post(`${process.env.REACT_APP_LOCAL}/api/cart`, {

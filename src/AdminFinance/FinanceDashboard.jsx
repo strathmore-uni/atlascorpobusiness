@@ -97,6 +97,10 @@ const FinanceDashboard = () => {
   const growthColor = growth >= 0 ? 'green' : 'red';
   const growthIcon = growth >= 0 ? <FaArrowUp /> : <FaArrowDown />;
 
+  const highestMonthSales = Math.max(...sales.map((sale) => sale.total_sales));
+const highestMonth = sales.find(
+  (sale) => parseFloat(sale.total_sales) === highestMonthSales
+)?.month;
   // Prepare data for the Sales by Month graph
   const salesByMonth = sales.reduce((acc, sale) => {
     const saleMonth = new Date(`${sale.month}-01`).toLocaleString('default', { month: 'short', year: 'numeric' });
@@ -104,49 +108,111 @@ const FinanceDashboard = () => {
     return acc;
   }, {});
 
+  const lineData = {
+    labels: ['Previous Month', 'Current Month', 'Highest Month'], // Add the highest month label
+    datasets: [
+      {
+        label: 'Sales',
+        data: [previousMonthSales, currentMonthSales, highestMonthSales],
+        fill: false,
+        borderColor: '#FF5733', // Color for the main sales line
+        backgroundColor: '#FF5733',
+        tension: 0.1,
+        borderWidth: 3,
+      },
+      {
+        label: 'Highest Sales Month',
+        data: [null, null, highestMonthSales], // Show the highest sales month data
+        fill: false,
+        borderColor: '#00BFFF', // A different color for the highest month
+        backgroundColor: '#00BFFF',
+        borderDash: [5, 5], // Dashed line for clear distinction
+        borderWidth: 2,
+        pointStyle: 'star',
+      },
+    ],
+  };
+  
+  // Updated line chart options for better display
+  const lineOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Sales Amount ($)',
+          font: { size: 14 },
+          color: '#333',
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Month',
+          font: { size: 14 },
+          color: '#333',
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `$${context.parsed.y.toFixed(2)}`, // Show sales in currency format
+        },
+      },
+    },
+    elements: {
+      line: {
+        tension: 0.3,
+      },
+      point: {
+        radius: 6,
+        hoverRadius: 8,
+      },
+    },
+  };
   const salesBarData = {
     labels: Object.keys(salesByMonth),
     datasets: [
       {
         label: 'Sales by Month',
         data: Object.values(salesByMonth),
-        backgroundColor: 'rgba(153, 102, 255, 0.6)',
-        borderColor: 'rgba(153, 102, 255, 1)',
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',   // Red
+          'rgba(54, 162, 235, 0.6)',   // Blue
+          'rgba(255, 206, 86, 0.6)',   // Yellow
+          'rgba(75, 192, 192, 0.6)',   // Green
+          'rgba(153, 102, 255, 0.6)',  // Purple
+          'rgba(255, 159, 64, 0.6)',   // Orange
+          'rgba(199, 199, 199, 0.6)',  // Grey
+          'rgba(255, 105, 180, 0.6)',  // Pink
+          'rgba(144, 238, 144, 0.6)',  // Light Green
+          'rgba(30, 144, 255, 0.6)',   // Dodger Blue
+          'rgba(221, 160, 221, 0.6)',  // Plum
+          'rgba(245, 222, 179, 0.6)'   // Wheat
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)', 
+          'rgba(54, 162, 235, 1)', 
+          'rgba(255, 206, 86, 1)', 
+          'rgba(75, 192, 192, 1)', 
+          'rgba(153, 102, 255, 1)', 
+          'rgba(255, 159, 64, 1)', 
+          'rgba(199, 199, 199, 1)', 
+          'rgba(255, 105, 180, 1)', 
+          'rgba(144, 238, 144, 1)', 
+          'rgba(30, 144, 255, 1)', 
+          'rgba(221, 160, 221, 1)', 
+          'rgba(245, 222, 179, 1)'
+        ],
         borderWidth: 1,
       },
     ],
   };
-
-  // Prepare data for the Line graph
-  const lineData = {
-    labels: ['Previous Month', 'Current Month'],
-    datasets: [
-      {
-        label: 'Sales',
-        data: [previousMonthSales, currentMonthSales],
-        fill: false,
-        borderColor: '#FF5733',
-        tension: 0.1,
-      },
-    ],
-  };
-
-  const lineOptions = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-    elements: {
-      line: {
-        borderWidth: 3,
-      },
-      point: {
-        radius: 5,
-      },
-    },
-  };
-
   return (
     <div>
 <div className="finance-dashboard">
@@ -172,18 +238,7 @@ const FinanceDashboard = () => {
 
 
     <div className='chart_orders'>
-      <div className='chart_order_month'>
-<h1>Orders by Month</h1>
-   
-
-</div>
-<div className='chart_sales_month'>
-      <h1>Sales by Month</h1>
-      <Bar data={salesBarData} options={{ scales: { y: { beginAtZero: true } } }} />
-</div>
-    </div>
-
-      {/* New Section for Current Month Sales and Growth */}
+    {/* New Section for Current Month Sales and Growth */}
       <div className='sales_order_container' >
            <div className="sales-summary">
       <h2>Sales Summary</h2>
@@ -211,10 +266,19 @@ const FinanceDashboard = () => {
       </div>
     </div>
    
-      </div>
-  
+      </div>  
+<div className='chart_sales_month'>
+      <h1>Sales by Month</h1>
+      <Bar data={salesBarData} options={{ scales: { y: { beginAtZero: true } } }} />
+</div>
+    </div>
+
+     
+  <div className='chartsorder_container' >
   <WeeklySalesChart />
   <MonthlySalesLineChart />
+
+  </div>
 
   <div className='order_transit_stats' > 
   <OrderStatsComparison />

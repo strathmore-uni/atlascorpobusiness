@@ -127,7 +127,7 @@ const handleFileUpload = (e) => {
         subCategory: product['subcategory'] || '',
         prices: [
           {
-            country_code: 'US', // Assuming country code; replace with your dynamic logic
+            country_code: adminCountry, // Assuming country code; replace with your dynamic logic
             price: parseFloat(product['price']) || 0,
             stock_quantity: parseInt(product['stock']) || 0,
           },

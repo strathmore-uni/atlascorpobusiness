@@ -146,8 +146,8 @@ const OrderDetails = () => {
         <div className="order-info">
           <p><span>Order Number:</span> {order.ordernumber}</p>
           <p><span>Customer Email:</span> {order.email}</p>
-          <p><span>Order Date:</span> {new Date(order.orderDate).toLocaleDateString()}</p>
-          <p><span>Shipping Address:</span> {order.shippingAddress || 'N/A'}</p>
+          <p><span>Order Date:</span> {new Date(order.created_at).toLocaleDateString()}</p>
+          <p><span>Shipping Address:</span> {order.city || 'N/A'}</p>
         </div>
         <div className="order-items">
           <h3>Items:</h3>

@@ -8,7 +8,25 @@ import { useAuth } from '../../MainOpeningpage/AuthContext';
 import './saleschartcountry.css';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
+const fetchCurrentUser = () => {
+  const storedUser = localStorage.getItem('currentUser');
+  if (storedUser) {
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      console.log('Fetched User:', parsedUser);
+      return parsedUser;
+    } catch (error) {
+      console.error('Error parsing user data from local storage:', error);
+      return null;
+    }
+  }
+  console.error('No user data found in local storage.');
+  return null;
+};
+const currentUser = fetchCurrentUser();
 
+const admin = currentUser.isMiniAdmin;
+console.log(admin)
 const OrdersChart = () => {
   const [doughnutData, setDoughnutData] = useState({
     labels: [],
@@ -34,7 +52,7 @@ const OrdersChart = () => {
           params.endDate = endDate.toISOString();
         }
   
-        let apiUrl = currentUser.isAdmin
+        let apiUrl = admin
           ? `${process.env.REACT_APP_LOCAL}/api/admin/orders/orders-by-city`
           : `${process.env.REACT_APP_LOCAL}/api/admin/orders/orders-by-country`;
   
@@ -56,7 +74,7 @@ const OrdersChart = () => {
   
         // Update chart data and options
         setDoughnutData({
-          labels: formattedData.map(item => currentUser.isAdmin ? item.city : item.country),
+          labels: formattedData.map(item =>admin ? item.city : item.country),
           datasets: [{
             data: formattedData.map(item => item.orderCount),
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Add more colors as needed
@@ -98,7 +116,7 @@ const OrdersChart = () => {
       
       
       <div className='orders_country_chart'>
-      <h3>Order Sales by {currentUser.isAdmin ? 'Country' : 'City'}</h3>
+      <h3>Order Sales by {admin ? 'City' : 'Country'}</h3>
         {/* Filter options within the chart section */}
         <div>
           <button onClick={() => setFilterType('weekly')}>Weekly</button>

@@ -6,7 +6,25 @@ import { useAuth } from '../../MainOpeningpage/AuthContext';
 import './saleschartcountry.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+const fetchCurrentUser = () => {
+  const storedUser = localStorage.getItem('currentUser');
+  if (storedUser) {
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      console.log('Fetched User:', parsedUser);
+      return parsedUser;
+    } catch (error) {
+      console.error('Error parsing user data from local storage:', error);
+      return null;
+    }
+  }
+  console.error('No user data found in local storage.');
+  return null;
+};
+const currentUser = fetchCurrentUser();
 
+const admin = currentUser.isMiniAdmin;
+console.log(admin)
 const SalesByCountryChart = () => {
   const [salesData, setSalesData] = useState([]);
   const [filterType, setFilterType] = useState('monthly');
@@ -24,7 +42,7 @@ const SalesByCountryChart = () => {
           params.endDate = endDate;
         }
        
-        let apiUrl = currentUser.isAdmin
+        let apiUrl = admin
           ? `${process.env.REACT_APP_LOCAL}/api/admin/orders/sales-by-city`
           : `${process.env.REACT_APP_LOCAL}/api/admin/orders/sales-by-country`;
 
@@ -39,7 +57,7 @@ const SalesByCountryChart = () => {
   }, [filterType, startDate, endDate, currentUser]);
 
   const doughnutData = {
-    labels: salesData.map(sale => currentUser.isAdmin ? sale.city : sale.country),
+    labels: salesData.map(sale =>admin ? sale.city : sale.country),
     datasets: [
       {
         label: 'Total Sales',
@@ -86,7 +104,7 @@ const SalesByCountryChart = () => {
   return (
     <div className="chart-container-country">
       <div className="chart-header">
-        <h3>Sales by {currentUser.isAdmin ? 'Country' : 'City'}</h3>
+        <h3>Sales by {admin ? 'City' : 'Country'}</h3>
       </div>
       <div className="filter-container">
         <div className="filter-buttons">

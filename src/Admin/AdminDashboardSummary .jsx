@@ -30,6 +30,7 @@ import OrderStatsComparison from '../AdminFinance/OrderStatsComparison';
 import MonthlySalesLineChart from '../AdminFinance/MonthlySalesLineChart';
 import OrderTransitCount from '../AdminFinance/OrderTransitCount';
 import SalesChart from './charts/SalesChart';
+import CompanySalesComparison from './charts/CompanySalesComparison ';
 
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
@@ -246,7 +247,75 @@ const AdminDashboardSummary = () => {
   const orderGrowthPercentage = calculateOrderGrowthPercentage();
   
   const currentDate = new Date().toLocaleDateString(); // Customize format if needed
+  const [sales, setSales] = useState([]);
+  const fetchSales = async () => {
+    try {
+      const salesResponse = await axios.get(`${process.env.REACT_APP_LOCAL}/api/finance-sales-by-month`, {
+        params: { email: currentUser.email }
+      });
+      setSales(salesResponse.data);
+    } catch (err) {
+      setError('Failed to fetch sales data');
+      console.error(err);
+    }
+  };
 
+  useEffect(() => {
+    if (currentUser.email) {
+      //fetchOrders();
+      fetchSales();
+   
+    }
+  }, [currentUser.email]);
+
+
+  // Calculate sales by month, ensuring sales is an array
+  const salesByMonth = sales.reduce((acc, sale) => {
+    const saleMonth = new Date(`${sale.month}-01`).toLocaleString('default', {
+      month: 'short',
+      year: 'numeric',
+    });
+    acc[saleMonth] = (acc[saleMonth] || 0) + parseFloat(sale.total_sales);
+    return acc;
+  }, {});
+  const salesBarData = {
+    labels: Object.keys(salesByMonth),
+    datasets: [
+      {
+        label: 'Sales by Month',
+        data: Object.values(salesByMonth),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',   // Red
+          'rgba(54, 162, 235, 0.6)',   // Blue
+          'rgba(255, 206, 86, 0.6)',   // Yellow
+          'rgba(75, 192, 192, 0.6)',   // Green
+          'rgba(153, 102, 255, 0.6)',  // Purple
+          'rgba(255, 159, 64, 0.6)',   // Orange
+          'rgba(199, 199, 199, 0.6)',  // Grey
+          'rgba(255, 105, 180, 0.6)',  // Pink
+          'rgba(144, 238, 144, 0.6)',  // Light Green
+          'rgba(30, 144, 255, 0.6)',   // Dodger Blue
+          'rgba(221, 160, 221, 0.6)',  // Plum
+          'rgba(245, 222, 179, 0.6)'   // Wheat
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)', 
+          'rgba(54, 162, 235, 1)', 
+          'rgba(255, 206, 86, 1)', 
+          'rgba(75, 192, 192, 1)', 
+          'rgba(153, 102, 255, 1)', 
+          'rgba(255, 159, 64, 1)', 
+          'rgba(199, 199, 199, 1)', 
+          'rgba(255, 105, 180, 1)', 
+          'rgba(144, 238, 144, 1)', 
+          'rgba(30, 144, 255, 1)', 
+          'rgba(221, 160, 221, 1)', 
+          'rgba(245, 222, 179, 1)'
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
     <div>
@@ -505,6 +574,9 @@ const AdminDashboardSummary = () => {
       </div>
     
       </div>
+      <div>
+  <CompanySalesComparison />
+</div>
       <div className='country_comparison_container' >
 
 </div>
@@ -516,6 +588,10 @@ const AdminDashboardSummary = () => {
 </div>
 
 <SalesChart />
+</div>
+<div className='admin-chart_sales_month'>
+      <h1>Sales by Month</h1>
+      <Bar data={salesBarData} options={{ scales: { y: { beginAtZero: true } } }} />
 </div>
 
 <div className='logins_container' >
