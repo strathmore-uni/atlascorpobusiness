@@ -147,3 +147,59 @@ button:disabled {
   font-size: 12px;
   text-align: center;
 }
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.button-container button {
+  margin: 0 5px;
+}
+
+/* Close button styling */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #ff0000;
+}
+.modal h3 {
+  margin: 0;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+}
+.modal button:hover {
+  background: #0056b3;
+}
+
+.modal button.secondary {
+  background: #6c757d;
+  margin-left: 10px;
+}
+
+.modal button.secondary:hover {
+  background: #5a6268;
+}
+/* Modal button styling */
+.modal button {
+  background: #007bff;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  outline: none;
+}

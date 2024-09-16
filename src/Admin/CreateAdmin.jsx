@@ -12,6 +12,7 @@ const CreateAdmin = () => {
   const [error, setError] = useState('');
 
   const countryOptions = [
+    { label: ' ', value: ' ' },
     { label: 'Kenya (KE)', value: 'KE' },
     { label: 'Uganda (UG)', value: 'UG' },
     { label: 'Tanzania (TZ)', value: 'TZ' },
@@ -19,6 +20,7 @@ const CreateAdmin = () => {
   ];
 
   const roleOptions = [
+    { label: 'Superadmin', value: 'superadmin' },
     { label: 'Admin', value: 'admin' },
     { label: 'Warehouse', value: 'warehouse' },
     { label: 'Transporter', value: 'transporter' },
@@ -36,7 +38,7 @@ const CreateAdmin = () => {
   };
 
   return (
-    <div>
+    <div className='create_admin_container'>
       <h2>Admin Registration</h2>
       <form className='createadmin_form' onSubmit={handleSubmit}>
         <div className="form-group">

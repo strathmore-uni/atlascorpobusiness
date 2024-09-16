@@ -8,8 +8,9 @@ import { useAuth } from './AuthContext';
 import axios from 'axios'; // Ensure axios is installed and imported for API requests.
 
 export default function Mainpage({ cartItems, datas, handleAddProductDetails }) {
-  const userEmail = localStorage.getItem('userEmail');
-  const { IsAuthenticated } = useAuth();
+  
+  const { IsAuthenticated,currentUser } = useAuth();
+  const userEmail = currentUser?.email; 
   const navigate = useNavigate();
   const fadeRefs = useRef([]);
   const [userCountry, setUserCountry] = useState(null); // State to hold the user's country.
@@ -59,10 +60,10 @@ export default function Mainpage({ cartItems, datas, handleAddProductDetails }) 
   };
 
   const handleContinueToShop = () => {
-    if (!IsAuthenticated) {
-      navigate('/signin', { state: { redirectTo: '/shop' } });
-    } else {
+    if (currentUser && userEmail) {
       navigate('/shop');
+    } else {
+      navigate('/signin', { state: { redirectTo: '/shop' } });
     }
   };
 

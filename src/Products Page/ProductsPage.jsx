@@ -25,84 +25,6 @@ const ProductsPage = ({ handleAddProductDetails,handleAddProduct, cartItems }) =
   const [sortOption, setSortOption] = useState("");
   const [filters, setFilters] = useState({ priceRange: [0, 1000], inStock: false });
 
-  const categoryDescriptions = {
-    Filterelement: `Our genuine Air Filters trap particles down to 3 microns, preventing 99.9% of contaminants from reaching your compressor elements. These filters were developed on the most important parameters for compressor applications: maximum dust holding capacity, high separation efficiency and minimized restriction.
-
-Their air filter sealing is unique, as is the special filtration paper: this was designed with special indentations that trap foreign materials without impeding incoming air flow, maximizing your process efficiency!`,
-    Oilfilterelement:
-      "Oil filter elements are crucial for maintaining the purity of oil in your systems, preventing damage and ensuring smooth operation.",
-    Servkit:
-      "Service kits contain essential components for maintaining and servicing your equipment, ensuring reliability and performance.",
-    Autodrainvalve:
-      "Auto drain valves automatically remove accumulated water and other liquids from your system, preventing corrosion and damage.",
-    Contractor:
-      "Contractors are robust and reliable components used in various applications to ensure seamless and efficient operations.",
-    Overhaulkit:
-      "Overhaul kits include all necessary parts for a complete overhaul of your equipment, restoring it to optimal condition.",
-    Silencerkit:
-      "Silencer kits are designed to reduce noise levels in your machinery, providing a quieter and more comfortable working environment.",
-    Maintenancekit:
-      "Maintenance kits contain all the necessary components for routine maintenance, ensuring your equipment runs smoothly and efficiently.",
-    Bearingkits:
-      "Bearing kits include bearings and related components for various applications, ensuring smooth and reliable operation.",
-    Kitpm8k:
-      "KIT PM8K RS is a comprehensive kit for the PM8K RS system, including all necessary parts for maintenance and repair.",
-    energyrecovery:
-      "Energy recovery systems capture and reuse energy that would otherwise be lost, improving efficiency and reducing costs.",
-    blowerpowerckt:
-      "Blower power circuits are essential for powering blowers, ensuring efficient and reliable operation in various applications.",
-    blowerbearkingkit:
-      "Blower bearing kits include all necessary bearings and components for maintaining and repairing blower systems.",
-    Prevmain:
-      "Preventive maintenance kits include all necessary components for regular maintenance, ensuring the longevity and reliability of your equipment.",
-    Hrkit:
-      "HR kits contain all necessary parts for maintaining and repairing HR systems, ensuring optimal performance and longevity.",
-    kitfilterdd:
-      "Kit Filter DD includes all necessary filter elements and components for maintaining DD filter systems.",
-    kitfilterpd:
-      "Kit Filter PD includes all necessary filter elements and components for maintaining PD filter systems.",
-    kitfilterddp:
-      "Kit Filter DDP includes all necessary filter elements and components for maintaining DDP filter systems.",
-    kitfilterud:
-      "Kit Filter UD includes all necessary filter elements and components for maintaining UD filter systems.",
-  };
-  const categoryBackgroundImages = {
-    Filterelement: 'url(https://atlascopco.scene7.com/is/image/atlascopco/GA_FLX16-9?$landscape1280$)',
-    Oilfilterelement: 'url(https://atlascopco.scene7.com/is/image/atlascopco/Stikstofgenerator-blog-Cover+NGP70%2B_2023_Max+%281%29?$landscape1280$)',
-    Servkit: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
-    Autodrainvalve: 'url(https://api.commercecloud-power-technique.atlascopco.com/medias/serviceTips.jpg?context=bWFzdGVyfGltYWdlc3w4NjIyMXxpbWFnZS9qcGVnfGFEWmhMMmcwTUM4NU1EZzROVEE1TlRjMU1UazRMM05sY25acFkyVlVhWEJ6TG1wd1p3fGViYjU5NGEwYzRiZmJhZjExOWExMzE1NzE3YzNjZGYyMjJiNzVhMjJlOGM0ZTIzYzczNWM5ZjIxOTYxNDlhOGQ)',
-    Contractor: 'url(/path/to/contractor-image.jpg)',
-    Overhaulkit: 'url(/path/to/overhaulkit-image.jpg)',
-    Silencerkit: 'url(/path/to/silencerkit-image.jpg)',
-    Maintenancekit: 'url(/path/to/maintenancekit-image.jpg)',
-    Bearingkits: 'url(/path/to/bearingkits-image.jpg)',
-    Kitpm8k: 'url(/path/to/kitpm8k-image.jpg)',
-    energyrecovery: 'url(/path/to/energyrecovery-image.jpg)',
-    blowerpowerckt: 'url(/path/to/blowerpowerckt-image.jpg)',
-    blowerbearkingkit: 'url(/path/to/blowerbearkingkit-image.jpg)',
-    Prevmain: 'url(/path/to/prevmain-image.jpg)',
-    Hrkit: 'url(/path/to/hrkit-image.jpg)',
-    kitfilterdd: 'url(/path/to/kitfilterdd-image.jpg)',
-    kitfilterpd: 'url(/path/to/kitfilterpd-image.jpg)',
-    kitfilterddp: 'url(/path/to/kitfilterddp-image.jpg)',
-    kitfilterud: 'url(/path/to/kitfilterud-image.jpg)',
-  };
-  const categoryBackgroundStyle = {
-    backgroundImage: categoryBackgroundImages[category] || 'none',
-    backgroundSize: 'cover',
-    position:'relative',
-    backgroundPosition: 'center',
-    height: '20rem',
-    display: 'flex',
-    alignItems: 'center',
-    top:'-3rem',
-    left:'-.1rem',
-    justifyContent: 'center',
-    color: 'white',
-    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
-    padding: '1rem',
-    marginBottom: '0rem'
-  };
   const handleAddToCart = async (product) => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
@@ -212,16 +134,7 @@ Their air filter sealing is unique, as is the special filtration paper: this was
           </div>
         ) : (
           <>
-              <p className="category-description"  style={categoryBackgroundStyle} >
-              <p className="category_p">&nbsp;{category}&nbsp;</p>
-              <div className="categorydescription" >
-              {categoryDescriptions[category] || "Browse our selection of products."}
-              </div>
-             
-              <small className="featuredprdts_length">
-                Results {filteredProducts.length}
-              </small>
-            </p>
+            
             {error && <div className="error-message">{error} <button onClick={() => window.location.reload()}>Retry</button></div>}
             <div className="sort-filter-container">
               <div className="sort-options">
@@ -244,9 +157,11 @@ Their air filter sealing is unique, as is the special filtration paper: this was
                 </label>
               </div>
             </div>
-        
+          
             <div className={`sub_productdisplay_container ${layoutMode}`}>
-       
+         <small className="featuredprdts_length">
+                Results {filteredProducts.length}
+              </small>
               {filteredProducts
                 .slice(pagesVisited, pagesVisited + itemsPerPage)
                 .map((product, index) => (

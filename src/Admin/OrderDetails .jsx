@@ -218,9 +218,12 @@ const OrderDetails = () => {
         className="modal"
         overlayClassName="overlay"
       >
-        <h3>Are you sure you want to {actionType} this order?</h3>
-        <button onClick={confirmAction}>Yes</button>
-        <button onClick={cancelAction}>No</button>
+         <button className="close-button" onClick={cancelAction}>×</button>
+  <h3>Are you sure you want to {actionType} this order?</h3>
+  <div className="button-container">
+    <button onClick={confirmAction}>Yes</button>
+    <button className="secondary" onClick={cancelAction}>No</button>
+  </div>
       </Modal>
     </div>
   );

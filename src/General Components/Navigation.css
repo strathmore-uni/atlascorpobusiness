@@ -20,6 +20,9 @@
 .title_h3 {
   color: #0078a1;
   margin: 0;
+  position: relative;
+  right: 10rem;
+ 
   
 }
 .title_h3:hover{
@@ -30,7 +33,7 @@
   position: relative;
 
   flex-grow: 1;
-left: -2rem;
+left: -5rem;
 display: flex;
  max-width: 25rem;
   
@@ -385,3 +388,10 @@ display: flex;
   right: 0;
 }
 
+.bars_nav {
+ position: relative;
+ right: 6rem;
+ width: 3rem;
+  margin: auto;
+
+}

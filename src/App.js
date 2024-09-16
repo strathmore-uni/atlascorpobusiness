@@ -60,6 +60,8 @@ import AdminRecords from "./Admin/AdminRecords";
 import FinanceUsers from "./AdminFinance/FinanceUsers";
 import FinanceOrders from "./AdminFinance/FinanceOrders";
 import AdminOrderHistory from "./Admin/AdminOrderHistory";
+import AdminProfile from "./Admin/AdminProfile";
+import AdminQuestionsPage from "./Admin/AdminQuesionsPage";
 
 function App() {
   const [guestEmail, setGuestEmail] = useState("");
@@ -389,6 +391,7 @@ function App() {
                 />
               }
             />
+            <Route path="/Adminprofile" element={<AdminProfile />} />
             <Route path="/mainadmin" element={<Mainadmin  />} />
             <Route path="" element={<Ordereditems />} />
             <Route path="/order-history/:email" element={<AdminOrderHistory/>} />
@@ -410,6 +413,7 @@ function App() {
             <Route path="/error" element={<ErrorPage />} />
             <Route path="/admin/auditlog" element={<AuditLogPage/>}  />
             <Route path="/admin/records" element={<AdminRecords />}   />
+            <Route path='/admin/questions' element={<AdminQuestionsPage/>}  />
 
             {/**  Warehouse Admin  */}
             <Route path="/warehouse/dashboard" element={<Dashboard />}  />

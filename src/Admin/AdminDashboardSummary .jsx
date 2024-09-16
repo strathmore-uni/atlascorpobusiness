@@ -31,6 +31,7 @@ import MonthlySalesLineChart from '../AdminFinance/MonthlySalesLineChart';
 import OrderTransitCount from '../AdminFinance/OrderTransitCount';
 import SalesChart from './charts/SalesChart';
 import CompanySalesComparison from './charts/CompanySalesComparison ';
+import ProfileTab from './ProfileTab';
 
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
@@ -317,28 +318,53 @@ const AdminDashboardSummary = () => {
     ],
   };
 
+  const fetchCurrentUser = () => {
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        console.log('Fetched User:', parsedUser);
+        return parsedUser;
+      } catch (error) {
+        console.error('Error parsing user data from local storage:', error);
+        return null;
+      }
+    }
+    console.error('No user data found in local storage.');
+    return null;
+  };
+  const mycurrentUser = fetchCurrentUser();
+
   return (
     <div>
       <div className="maincontainer_admin">
+      <ProfileTab />
         <h2>Dashboard</h2>
         <div className="quick-buttons">
       <Link to="/ordereditems/orders" className="quick-button">Orders</Link>
       <Link to="/registeredusers" className="quick-button">Users</Link>
-      {currentUser.email === 'superadmin@gmail.com' && (
+      {mycurrentUser && mycurrentUser.isAdmin &&  (
         <Link to="/admin/create-admin" className="quick-button">Create Admin</Link>
       )}
-      <Link to="/admin/settings" className="quick-button">Settings</Link>
-      <div className="notification-bell">
+      {mycurrentUser && mycurrentUser.isAdmin && (
+ <Link to="/admin/settings" className="quick-button">Settings</Link>
+      )}
+     
+     <div className='notification_date' >
+
+     <div className="notification-bell-admin">
         <Link to="/notifications">
           <IoMdNotifications />
           {summary.unreadNotificationsCount > 0 && (
-            <span className="notification-count">{summary.unreadNotificationsCount}</span>
+            <span className="notification-count-admin">{summary.unreadNotificationsCount}</span>
           )}
         </Link>
       </div>
       <div className="current-date">
         <p>{currentDate}</p>
       </div>
+     </div>
+     
     </div>
 
         <div className="admin-dashboard-summary-counts">

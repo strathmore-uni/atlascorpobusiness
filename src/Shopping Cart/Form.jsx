@@ -186,18 +186,21 @@ export default function RegistrationForm() {
     }
   }, [formData, navigate]);
   
+  
+
   useEffect(() => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/settings/countries`);
-        setCountries(response.data);
+        setCountries(response.data); // Assuming response.data is the array of country objects
       } catch (error) {
         console.error('Error fetching countries:', error);
       }
     };
-
+  
     fetchCountries();
   }, []);
+  
 
 
   return (
@@ -352,20 +355,21 @@ export default function RegistrationForm() {
           />
           {errors.zip && <div className="error-message">{errors.zip}</div>}
           <label className="form-label">Country</label>
-            <select
-              name="country"
-              className="form-input"
-              value={formData.country}
-              onChange={handleFormDataChange}
-            >
-              <option value="">Select Country</option>
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
-            {errors.country && <div className="error-message">{errors.country}</div>}
+<select
+  name="country"
+  className="form-input"
+  value={formData.country}
+  onChange={handleFormDataChange}
+>
+  <option value="">Select Country</option>
+  {countries.map((country) => (
+    <option key={country.code} value={country.code}>
+      {country.name}
+    </option>
+  ))}
+</select>
+{errors.country && <div className="error-message">{errors.country}</div>}
+
 
         </div>
       )}

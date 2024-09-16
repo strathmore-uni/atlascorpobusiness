@@ -1,4 +1,9 @@
 /* General form styling */
+.create_admin_container{
+  background-image: url("/public/images/Group 2.png");
+  height: 39.5rem;
+
+}
 .createadmin_form {
 
     max-width: 500px;
@@ -7,6 +12,10 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .create_admin_container h2{
+    color: white;
+    font-size: 2.5rem;
   }
   
   .form-group {

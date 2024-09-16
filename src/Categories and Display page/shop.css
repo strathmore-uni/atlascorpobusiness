@@ -45,8 +45,8 @@ width: 100%;
   position: relative;
   top: 1rem;
   display: grid;
-  grid-template-columns: repeat(4, 210px);
-  grid-gap: 90px;
+  grid-template-columns: repeat(4, 275px);
+  grid-gap: 20px;
 }
 
 .mylink_shop {
@@ -56,7 +56,7 @@ width: 100%;
   top: 2rem;
   left: 0rem;
   width: 17rem;
-  height: 28rem;
+  height: 24rem;
   color: black;
   text-decoration: none;
   border: 1px solid #ddd;

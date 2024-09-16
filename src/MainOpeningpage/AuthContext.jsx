@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
         try {
           const response = await axios.post(`${process.env.REACT_APP_LOCAL}/verifyToken`, { token });
           setCurrentUser({ email: response.data.email });
+          console.log('User is authenticated:', response.data.email); // Add this line
         } catch (error) {
           console.error('Token verification failed:', error);
           localStorage.removeItem('authToken');
@@ -23,6 +24,7 @@ export const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     };
+    
 
     verifyToken();
   }, []);
