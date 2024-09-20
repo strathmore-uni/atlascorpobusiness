@@ -11,8 +11,7 @@ const OrderTransitCount = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/order-transit-count`);
-                console.log('API Response:', response.data); // Check the API response format
-
+              
                 setTotalOrdersTransit(response.data.total_orders_transit);
             } catch (error) {
                 console.error('Error fetching order transit count:', error);

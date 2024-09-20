@@ -2,8 +2,8 @@
 .admin-category {
   position: fixed;
   
-  top: 0rem;
-  left: 5px ;
+  top: -1.5rem;
+  left: 0px ;
   height: 40rem;
   width: 160px; /* Increased width for better usability */
   background-color: #0D1117;

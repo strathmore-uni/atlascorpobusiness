@@ -12,8 +12,7 @@ const OrderStatsComparison = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/order-stats`);
-                console.log('API Response:', response.data); // Check the API response format
-
+               
                 if (Array.isArray(response.data) && response.data.length > 0) {
                     const data = response.data[0]; // Access the first item in the array
 

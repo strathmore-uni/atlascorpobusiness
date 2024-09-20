@@ -323,7 +323,7 @@ const AdminDashboardSummary = () => {
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        console.log('Fetched User:', parsedUser);
+        
         return parsedUser;
       } catch (error) {
         console.error('Error parsing user data from local storage:', error);

@@ -9,7 +9,7 @@ import Products from "./Categories and Display page/Products";
 import ShoppingCartPage from "./Shopping Cart/ShoppingCartPage";
 import Checkout from "./Shopping Cart/Checkout";
 import Delivery from "./Shopping Cart/Delivery";
-import MyComponent from "./Db/MyComponent";
+
 import Form from "./Shopping Cart/Form";
 import ReviewOrder from "./Shopping Cart/ReviewOrder";
 import SearchDisplay from "./General Components/SearchDisplay";
@@ -48,8 +48,7 @@ import Settings from "./Admin/Settings";
 import CreateAdmin from "./Admin/CreateAdmin";
 import CountryComparison from "./Admin/CountryComparison";
 import AdminRightsManagement from "./Admin/AdminRightsManagement ";
-import ErrorPage from "./Error/ErrorPage";
-import ErrorBoundary from "./Error/ErrorBoundary";
+
 import AuditLogPage from "./Admin/AuditLogPage";
 import Dashboard from "./AdminWarehouse/Dashboard";
 import WarehouseOrderDetails from "./AdminWarehouse/WarehouseOrderDetails";
@@ -242,7 +241,7 @@ function App() {
 
   return (
     <>     
-     <ErrorBoundary>
+     
       <AuthProvider>
         <BrowserRouter>
           <ScrollToTop />
@@ -280,6 +279,7 @@ function App() {
                   handleAddProduct={handleAddProduct}
                   productdetails={productdetails}
                   cartItems={cartItems}
+                  
                 />
               }
             />
@@ -338,7 +338,7 @@ function App() {
                 <Checkout cartItems={cartItems}  />
               }
             />
-            <Route path="/mycomponent" element={<MyComponent />} />
+           
             <Route path="/categories" element={<Categories />} />
 
             <Route path="/mytestingpage" element={<Mytestingpage />} />
@@ -410,7 +410,7 @@ function App() {
             <Route path="/notifications" element={<NotificationsPage />}  />
             <Route path="/usernotifications" element={<UserNotificationPage />}  />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/error" element={<ErrorPage />} />
+   
             <Route path="/admin/auditlog" element={<AuditLogPage/>}  />
             <Route path="/admin/records" element={<AdminRecords />}   />
             <Route path='/admin/questions' element={<AdminQuestionsPage/>}  />
@@ -437,7 +437,7 @@ function App() {
         </BrowserRouter>
         <BackToTopButton />
       </AuthProvider>
-      </ErrorBoundary>
+    
     </>
   );
 }

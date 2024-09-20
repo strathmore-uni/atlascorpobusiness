@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import * as XLSX from 'xlsx';
-import './addproduct.css'; // CSS file for styling
-import { toast, ToastContainer } from 'react-toastify'; // Toast notifications
-import 'react-toastify/dist/ReactToastify.css'; // Toast styles
-import AdminCategory from './AdminCategory'; // Category component
-import { useAuth } from '../MainOpeningpage/AuthContext';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import * as XLSX from "xlsx";
+import "./addproduct.css"; // CSS file for styling
+import { toast, ToastContainer } from "react-toastify"; // Toast notifications
+import "react-toastify/dist/ReactToastify.css"; // Toast styles
+import AdminCategory from "./AdminCategory"; // Category component
+import { useAuth } from "../MainOpeningpage/AuthContext";
 
 const AddProduct = () => {
   const [products, setProducts] = useState([]);
@@ -16,144 +16,145 @@ const AddProduct = () => {
   const [fileChosen, setFileChosen] = useState(false);
 
   const [singleProduct, setSingleProduct] = useState({
-    partnumber: '',
-    description: '',
-    image: '',
-    thumb1: '',
-    thumb2: '',
-    prices: [{ country_code: '', price: '' }],
+    partnumber: "",
+    description: "",
+    image: "",
+    thumb1: "",
+    thumb2: "",
+    prices: [{ country_code: "", price: "" }],
     stock: 0,
-    mainCategory: '',
-    subCategory: '',
+    mainCategory: "",
+    subCategory: "",
   });
 
   const [isTableVisible, setIsTableVisible] = useState(true);
+  const [selectedCountries, setSelectedCountries] = useState([]);
+
+  const countryCodeMapping = {
+    "Kenya": "KE",
+    "Uganda": "UG",
+    // Add more countries as needed
+  };
+  
+  const handleCountrySelection = (countryName) => {
+    const countryCode = countryCodeMapping[countryName];
+  
+    if (selectedCountries.includes(countryCode)) {
+      setSelectedCountries(selectedCountries.filter(code => code !== countryCode));
+    } else {
+      setSelectedCountries([...selectedCountries, countryCode]);
+    }
+  };
+  
 
   // Fetch categories and subcategories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/categories`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_LOCAL}/api/categories`
+        );
         if (response.data.categories && response.data.subcategories) {
           setCategories(response.data.categories);
           setSubcategories(response.data.subcategories);
         } else {
-          toast.error('Unexpected API response structure');
+          toast.error("Unexpected API response structure");
         }
       } catch (error) {
-        toast.error('Error fetching categories');
+        toast.error("Error fetching categories");
       }
     };
     fetchCategories();
   }, []);
 
   // Handle file upload and parse Excel data
-// Handle file upload and parse Excel data
-// Function to handle file upload and parse Excel data
+  // Handle file upload and parse Excel data
+  // Function to handle file upload and parse Excel data
 
-;
-// Fetch the current user
+  // Fetch the current user
 
-const fetchCurrentUser = () => {
-  const storedUser = localStorage.getItem('currentUser');
-  if (storedUser) {
-    try {
-      const parsedUser = JSON.parse(storedUser);
-      console.log('Fetched User:', parsedUser);
-      return parsedUser;
-    } catch (error) {
-      console.error('Error parsing user data from local storage:', error);
-      return null;
+  const fetchCurrentUser = () => {
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+
+        return parsedUser;
+      } catch (error) {
+        console.error("Error parsing user data from local storage:", error);
+        return null;
+      }
     }
-  }
-  console.error('No user data found in local storage.');
-  return null;
-};
-const currentUser = fetchCurrentUser();
-const adminCountry = currentUser ? currentUser.country : null;
-
-
-
-
-// Debug output
-console.log('Admin Country:', adminCountry);
-
-// Check if adminCountry is correctly set
-if (!adminCountry) {
-  console.error('Country code for admin is undefined. Please check the stored user information.');
-}
-
-
-const handleFileUpload = (e) => {
-  const file = e.target.files[0];
-  if (!file) {
-    console.error('No file selected.');
-    return;
-  }
-
-  setFileChosen(true);
-  const reader = new FileReader();
-
-  reader.onload = (event) => {
-    const data = new Uint8Array(event.target.result);
-    const workbook = XLSX.read(data, { type: 'array' });
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-    const [headerRow, ...rows] = jsonData;
-
-    const normalizedHeaders = headerRow.map((header) =>
-      header
-        .toLowerCase()
-        .replace(/[\s\(\):"]/g, '') // Removes spaces, parentheses, colons, and quotes
-        .replace('itemnumber', 'partnumber')
-        .replace('priceusd', 'price')
-    );
-
-    const parsedProducts = rows.map((row) => {
-      const product = normalizedHeaders.reduce((acc, header, index) => {
-        acc[header] = row[index] || '';
-        return acc;
-      }, {});
-
-      return {
-        partnumber: product['partnumber'] || '',
-        description: product['description'] || '',
-        image: product['image'] || '',
-        thumb1: product['thumb1'] || '',
-        thumb2: product['thumb2'] || '',
-        mainCategory: product['maincategory'] || '',
-        subCategory: product['subcategory'] || '',
-        prices: [
-          {
-            country_code: adminCountry, // Assuming country code; replace with your dynamic logic
-            price: parseFloat(product['price']) || 0,
-            stock_quantity: parseInt(product['stock']) || 0,
-          },
-        ],
-      };
-    });
-
-    setProducts(parsedProducts);
-    setIsFileLoaded(true);
-    setIsTableVisible(true);
+    console.error("No user data found in local storage.");
+    return null;
   };
+  const currentUser = fetchCurrentUser();
+  
+  const adminRole = currentUser ? currentUser.isAdmin : null;
 
-  reader.readAsArrayBuffer(file);
-};
+  
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      console.error("No file selected.");
+      return;
+    }
+  
+    setFileChosen(true);
+    const reader = new FileReader();
+  
+    reader.onload = (event) => {
+      const data = new Uint8Array(event.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+  
+      const [headerRow, ...rows] = jsonData;
+  
+      const normalizedHeaders = headerRow.map((header) =>
+        header
+          .toLowerCase()
+          .replace(/[\s\(\):"]/g, "") // Removes spaces, parentheses, colons, and quotes
+          .replace("itemnumber", "partnumber")
+          .replace("priceusd", "price")
+      );
+  
+      const parsedProducts = rows.map((row) => {
+        const product = normalizedHeaders.reduce((acc, header, index) => {
+          acc[header] = row[index] || "";
+          return acc;
+        }, {});
+      
+ 
+        return {
+          partnumber: product["partnumber"] || "",
+          description: product["description"] || "",
+          image: product["image"] || "",
+          thumb1: product["thumb1"] || "",
+          thumb2: product["thumb2"] || "",
+          mainCategory: product["maincategory"] || "",
+          subCategory: product["subcategory"] || "",
+          prices: [
+            {
+              country_code: selectedCountries, // Assuming country code; replace with your dynamic logic
+              price: parseFloat(product['price']) || 0,
+              stock_quantity: parseInt(product['stock']) || 0,
+            },
+          ],
+        };
+        
+      });
+      console.log("Parsed Products:", parsedProducts);
 
-
-
-
-
-
-
-
-
-
-
-
+      setProducts(parsedProducts);
+      setIsFileLoaded(true);
+      setIsTableVisible(true);
+    };
+  
+    reader.readAsArrayBuffer(file);
+  };
+  
 
   // Handle changes to product data in the table
   const handleProductChange = (index, e) => {
@@ -167,48 +168,74 @@ const handleFileUpload = (e) => {
   // Handle bulk product submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const userEmail = currentUser ? currentUser.email : null;
-
+  
     if (!userEmail) {
-      toast.error('User email not found in localStorage');
+      toast.error("User email not found in localStorage");
       return;
     }
-
+  
     if (!products.length) {
-      toast.error('No products to add. Please upload a file first.');
+      toast.error("No products to add. Please upload a file first.");
       return;
     }
-
+  
+    const productsWithCountryCode = products.map((product) => {
+      const price = product.prices && product.prices.length > 0 ? product.prices[0].price : null;
+  
+      if (!price) {
+        toast.error(`Price not found for product: ${product.name || "Unknown product"}`);
+        return null;
+      }
+  
+      return {
+        ...product,
+        prices: selectedCountries.map((countryCode) => ({
+          country_code: countryCode,
+          price: price,
+          stock_quantity: product.stock,
+        })),
+      };
+    }).filter(product => product !== null); // Filter out any null products
+  
+    if (!productsWithCountryCode.length) {
+      toast.error("No valid products to add.");
+      return;
+    }
+  
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_LOCAL}/api/newproducts/batch`,
-        { products },
+        { products: productsWithCountryCode },
         {
           headers: {
-            'User-Email': userEmail,
-            'Content-Type': 'application/json',
+            "User-Email": userEmail,
+            "Content-Type": "application/json",
           },
         }
       );
-      toast.success('Products added successfully');
+      toast.success("Products added successfully");
       setProducts([]);
       setIsFileLoaded(false);
       setFileChosen(false);
       setIsTableVisible(true);
     } catch (error) {
-      toast.error('Error adding products: You do not have the required permissions');
+      toast.error(
+        "Error adding products: You do not have the required permissions"
+      );
     }
   };
+  
 
   // Handle single product form submission
   const handleSingleProductSubmit = async (e) => {
     e.preventDefault();
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const userEmail = currentUser ? currentUser.email : null;
 
     if (!userEmail) {
-      toast.error('User email not found in localStorage');
+      toast.error("User email not found in localStorage");
       return;
     }
 
@@ -218,24 +245,26 @@ const handleFileUpload = (e) => {
         singleProduct,
         {
           headers: {
-            'User-Email': userEmail,
+            "User-Email": userEmail,
           },
         }
       );
-      toast.success('Product added successfully');
+      toast.success("Product added successfully");
       setSingleProduct({
-        partnumber: '',
-        description: '',
-        image: '',
-        thumb1: '',
-        thumb2: '',
-        prices: [{ country_code: '', price: '' }],
+        partnumber: "",
+        description: "",
+        image: "",
+        thumb1: "",
+        thumb2: "",
+        prices: [{ country_code: "", price: "" }],
         stock: 0,
-        mainCategory: '',
-        subCategory: '',
+        mainCategory: "",
+        subCategory: "",
       });
     } catch (error) {
-      toast.error('Error adding products: You do not have the required permissions');
+      toast.error(
+        "Error adding products: You do not have the required permissions"
+      );
     }
   };
 
@@ -263,12 +292,13 @@ const handleFileUpload = (e) => {
   const handleAddSinglePrice = () => {
     setSingleProduct({
       ...singleProduct,
-      prices: [...singleProduct.prices, { country_code: '', price: '' }],
+      prices: [...singleProduct.prices, { country_code: "", price: "" }],
     });
   };
   const toggleTableVisibility = () => {
     setIsTableVisible(!isTableVisible);
   };
+
   return (
     <div className="add-product-container">
       <h2>Bulk Product Upload</h2>
@@ -278,17 +308,43 @@ const handleFileUpload = (e) => {
         onChange={handleFileUpload}
         className="file-upload-input"
       />
-       {isFileLoaded && (
-       <button
-       onClick={toggleTableVisibility}
-        className="button-base add-product-toggle-table-btn"
-        disabled={!fileChosen}
-      >
-        {isTableVisible ? 'Hide Table' : 'Show Table'}
-      </button>
-       )}
+     {adminRole === true && isFileLoaded && (
+  <div className="country-selection">
+    <h3>Select Countries for Price Adjustment:</h3>
+    <label>
+      <input
+        type="checkbox"
+        value="Kenya"
+        onChange={() => handleCountrySelection("Kenya")}
+        checked={selectedCountries.includes("KE")} // Use ISO code here
+      />
+      Kenya
+    </label>
+    <label>
+      <input
+        type="checkbox"
+        value="Uganda"
+        onChange={() => handleCountrySelection("Uganda")}
+        checked={selectedCountries.includes("UG")} // Use ISO code here
+      />
+      Uganda
+    </label>
+    {/* Add more countries as needed */}
+  </div>
+)}
 
-{isTableVisible && products.length > 0 && (
+
+      {isFileLoaded && (
+        <button
+          onClick={toggleTableVisibility}
+          className="button-base add-product-toggle-table-btn"
+          disabled={!fileChosen}
+        >
+          {isTableVisible ? "Hide Table" : "Show Table"}
+        </button>
+      )}
+
+      {isTableVisible && products.length > 0 && (
         <table className="product-data-table">
           <thead>
             <tr>
@@ -320,7 +376,10 @@ const handleFileUpload = (e) => {
       <ToastContainer />
 
       <h2>Add Single Product</h2>
-      <form onSubmit={handleSingleProductSubmit} className="single-product-form">
+      <form
+        onSubmit={handleSingleProductSubmit}
+        className="single-product-form"
+      >
         <div className="form-group">
           <label>Part Number:</label>
           <input
@@ -394,16 +453,16 @@ const handleFileUpload = (e) => {
               value={price.price}
               onChange={(e) => handleSinglePriceChange(index, e)}
             />
-             <button
-          type="button"
-          onClick={handleAddSinglePrice}
-          className="button-base add-product-price-btn"
-        >
-          Add More Prices
-        </button>
+            <button
+              type="button"
+              onClick={handleAddSinglePrice}
+              className="button-base add-product-price-btn"
+            >
+              Add More Prices
+            </button>
           </div>
         ))}
-       
+
         <button type="submit" className="button-base add-product-submit-btn">
           Add Single Product
         </button>

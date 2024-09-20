@@ -7,12 +7,12 @@ import { LuCameraOff } from "react-icons/lu";
 import Footer from "../General Components/Footer";
 import Notification from "../General Components/Notification";
 import { useAuth } from "../MainOpeningpage/AuthContext";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Reviews from "./Reviews";
 import ProductDescription from "./ProductDescription";
 import ProductSpecification from "./ProductSpecification";
 
-export default function ProductDetails({ productdetails, handleAddProduct, cartItems }) {
+export default function ProductDetails({ handleAddProductDetails,productdetails, handleAddProduct, cartItems }) {
   const { currentUser } = useAuth();
   const { partnumber } = useParams();
   const [selectedImage, setSelectedImage] = useState(productdetails[0]?.image);
@@ -287,11 +287,16 @@ export default function ProductDetails({ productdetails, handleAddProduct, cartI
         <h2>Related Products</h2>
         <div className="related-products-list">
           {relatedProducts.map(product => (
-            <div key={product.id} className="related-product-item">
+            <div key={product.id} className="related-product-item"><Link
+            key={product.partnumber}
+            className="mylink_search"
+            to={`/productdetails/${product.partnumber}`}
+            onClick={() => handleAddProductDetails(product)}
+          >
               <img src={product.image} alt={product.Description} />
               <p>{product.Description}</p>
               <p>USD {product.Price}</p>
-              <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
+              <button onClick={() => handleAddToCart(product)}>Add to Cart</button></Link>
             </div>
           ))}
         </div>

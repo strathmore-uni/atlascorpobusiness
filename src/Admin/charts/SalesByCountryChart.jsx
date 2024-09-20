@@ -11,7 +11,7 @@ const fetchCurrentUser = () => {
   if (storedUser) {
     try {
       const parsedUser = JSON.parse(storedUser);
-      console.log('Fetched User:', parsedUser);
+      
       return parsedUser;
     } catch (error) {
       console.error('Error parsing user data from local storage:', error);
@@ -24,7 +24,7 @@ const fetchCurrentUser = () => {
 const currentUser = fetchCurrentUser();
 
 const admin = currentUser.isMiniAdmin;
-console.log(admin)
+
 const SalesByCountryChart = () => {
   const [salesData, setSalesData] = useState([]);
   const [filterType, setFilterType] = useState('monthly');
