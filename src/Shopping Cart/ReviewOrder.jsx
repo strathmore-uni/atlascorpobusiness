@@ -10,6 +10,7 @@ import Footer from '../General Components/Footer';
 import Notification from '../General Components/Notification';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 import Swal from 'sweetalert2';
+import './checkout.css'
 
 const ReviewOrder = () => {
   const [userData, setUserData] = useState({});
@@ -202,8 +203,9 @@ const ReviewOrder = () => {
 
   return (
     <div>
-      <div className='review_container'>
-        <Link to='/shop' className='backtoform'>
+ <div className='review_container'>
+      <div className='review_userinfo'>
+      <Link to='/shop' className='backtoform'>
           <p><IoIosArrowBack className='arrowbackReview' />Back</p>
         </Link>
         <Link to='/userprofile' className='editinfo'>
@@ -223,18 +225,11 @@ const ReviewOrder = () => {
         <p>Phone: {userData.phone}</p>
         <p>Email: {userData.email}</p>
         <p>Country: {userData.country}</p>
-      </div>
+      
 
-      <div className='order_summary_checkout'>
-        <p>Order Summary</p>
-        <p className='p_carttotal'>Subtotal</p>
-        <small className='cart_totalitemsprice'>${totalPrice}</small>
-        <p>Shipping: <small style={{ position: 'absolute', right: '2rem' }}>${shipping_fee}</small></p>
-        <p>VAT: <small style={{ position: 'absolute', right: '2rem' }}>${vat}</small></p>
-        <p>Total: <small style={{ position: 'absolute', right: '2rem' }}>${formattedTotalPrice}</small></p>
-        <button className='checkout_btn' onClick={handlePlaceOrder}>Place the Order</button>
-      </div>
 
+      </div>
+       
       <div className='productsdisplay_shoppingcart_review'>
         <h2 style={{ color: '#0078a1' }}>Cart Items</h2>
         <hr className='hr_shoppingcartpage' />
@@ -263,9 +258,22 @@ const ReviewOrder = () => {
       <div className="shoppingcart_footer">
         <Footer />
       </div>
+      
+      <div className='order_summary_checkout'>
+        <p>Order Summary</p>
+        <p className='p_carttotal'>Subtotal</p>
+        <small className='cart_totalitemsprice'>${totalPrice}</small>
+        <p>Shipping: <small style={{ position: 'absolute', right: '2rem' }}>${shipping_fee}</small></p>
+        <p>VAT: <small style={{ position: 'absolute', right: '2rem' }}>${vat}</small></p>
+        <p>Total: <small style={{ position: 'absolute', right: '2rem' }}>${formattedTotalPrice}</small></p>
+        <button className='checkout_btn' onClick={handlePlaceOrder}>Place the Order</button>
+      </div>
       {notificationMessage && <Notification message={notificationMessage} />}
-      <NavigationBar />
+      
     </div>
+    <NavigationBar />
+    </div>
+   
   );
 };
 

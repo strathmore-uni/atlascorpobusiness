@@ -25,10 +25,8 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const [notifications, setNotifications] = useState([]);
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
 
-  const toggleDropdownVisibility = () =>
-    setIsDropdownVisible(!isDropdownVisible);
+  const toggleDropdownVisibility = () => setIsDropdownVisible(!isDropdownVisible);
 
-  // Add outside click detection to close the dropdown
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
@@ -128,7 +126,7 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   const handleBarsClick = () => {
     setIsCategoriesVisible((prevState) => !prevState);
   };
-  
+
   const handleCategoriesClose = () => {
     setIsCategoriesVisible(false);
   };
@@ -163,30 +161,64 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
   };
 
   return (
-    
     <div className={`container_NavigationBar ${isScrolled ? "scrolled" : ""}`}>
-      <div className="bars_nav" onClick={handleBarsClick}>
+      {currentUser && (
+        <div className="bars_nav" onClick={handleBarsClick}>
         <FaBars />
       </div>
+      )}
+      
 
-      <Link style={{ textDecoration: "none" }} to="/">
+      <Link style={{ textDecoration: "none" }} to="/" className="link_title">
         <h3 className="title_h3">Atlas Copco - Kenya Web Shop</h3>
       </Link>
 
-      <div className="div_search">
-        <input
-          className="input"
-          name="text"
-          type="search"
-          value={searchQuery}
-          placeholder="Search for Part Numbers or Names or Category"
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <button className="search-button" onClick={handleSearch}>
-          Search
-        </button>
-      </div>
+      {currentUser && (
+        <>
+          <div className="div_search">
+            <input
+              className="input"
+              name="text"
+              type="search"
+              value={searchQuery}
+              placeholder="Search for Part Numbers or Names or Category"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button className="search-button" onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+
+          <div className="wrapper_cart">
+            <div className="notification-bell-nav">
+              <Link to="/usernotifications" style={{ textDecoration: "none" }}>
+                <span className="bell-icon-nav">&#128276;</span>
+                {unreadNotificationsCount > 0 && (
+                  <span className="notification-count-nav">
+                    {unreadNotificationsCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+
+            <div className="cart_container">
+              <Link
+                to="/Cart"
+                className="p_cart"
+                style={{ textDecoration: "none" }}
+              >
+                <GrCart className="icon_cart" />
+                <small>Cart</small>
+                <span className="count">
+                  {cartItems.length === 0 ? "" : cartItems.length}
+                </span>
+                
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
 
       <div className="user-profile-container">
         {currentUser ? (
@@ -219,38 +251,11 @@ export default function NavigationBar({ cartItems = [], guestEmail }) {
         ) : (
           <button onClick={handlemove} className="sign_in_button">
             Sign In
-            <div class="arrow-wrapper">
-              <div class="arrow"></div>
+            <div className="arrow-wrapper">
+              <div className="arrow"></div>
             </div>
           </button>
         )}
-      </div>
-
-      <div className="wrapper_cart">
-        <div className="notification-bell-nav">
-          <Link to="/usernotifications" style={{ textDecoration: "none" }}>
-            <span className="bell-icon-nav">&#128276;</span>
-            {unreadNotificationsCount > 0 && (
-              <span className="notification-count-nav">
-                {unreadNotificationsCount}
-              </span>
-            )}
-          </Link>
-        </div>
-
-        <div>
-          <Link
-            to="/Cart"
-            className="p_cart"
-            style={{ textDecoration: "none" }}
-          >
-            <GrCart className="icon_cart" />
-            <span className="count">
-              {cartItems.length === 0 ? "" : cartItems.length}
-            </span>
-            <small>Cart</small>
-          </Link>
-        </div>
       </div>
 
       {isCategoriesVisible && (

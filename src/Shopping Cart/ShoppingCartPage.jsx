@@ -7,6 +7,7 @@ import "./shoppingcartpage.css";
 import NavigationBar from "../General Components/NavigationBar";
 import { useAuth } from "../MainOpeningpage/AuthContext";
 import ReviewOrder from "./ReviewOrder";
+import Footer from "../General Components/Footer";
 
 export default function ShoppingCartPage({
   handleRemoveProduct,
@@ -257,7 +258,9 @@ export default function ShoppingCartPage({
         <p>Email:</p>
         <a href="mailto:power.technique.uk@atlascopco.com">power.technique.uk@atlascopco.com</a>
       </div>
-
+      <div className="shoppingcart_footer">
+        <Footer />
+      </div>
       <NavigationBar cartItems={cartItems} />
     </div>
   );

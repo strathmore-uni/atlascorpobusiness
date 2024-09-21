@@ -6,6 +6,8 @@ import { toast, ToastContainer } from "react-toastify"; // Toast notifications
 import "react-toastify/dist/ReactToastify.css"; // Toast styles
 import AdminCategory from "./AdminCategory"; // Category component
 import { useAuth } from "../MainOpeningpage/AuthContext";
+import { Rings } from 'react-loader-spinner'; // Use Rings instead
+
 
 const AddProduct = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +16,7 @@ const AddProduct = () => {
   const [headers, setHeaders] = useState([]);
   const [isFileLoaded, setIsFileLoaded] = useState(false);
   const [fileChosen, setFileChosen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [singleProduct, setSingleProduct] = useState({
     partnumber: "",
@@ -29,23 +32,50 @@ const AddProduct = () => {
 
   const [isTableVisible, setIsTableVisible] = useState(true);
   const [selectedCountries, setSelectedCountries] = useState([]);
-
-  const countryCodeMapping = {
-    "Kenya": "KE",
-    "Uganda": "UG",
-    // Add more countries as needed
-  };
+  const [countries, setCountries] = useState([]);
+ 
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_LOCAL}/api/settings/countries`
+        );
+        console.log("API Response:", response.data); // Log the response to check the structure
+        if (Array.isArray(response.data)) {
+          setCountries(response.data); // Assuming the response is an array of countries
+        } else if (response.data.countries) {
+          setCountries(response.data.countries); // Original structure assumption
+        } else {
+          toast.error("Unexpected API response structure");
+        }
+      } catch (error) {
+        toast.error("Error fetching countries");
+      }
+    };
+  
+    fetchCountries();
+  }, []); // Adding an empty dependency array prevents the endless loop
+  
+ 
   
   const handleCountrySelection = (countryName) => {
-    const countryCode = countryCodeMapping[countryName];
-  
+    const selectedCountry = countries.find(
+      (country) => country.name === countryName
+    );
+
+    if (!selectedCountry) {
+      toast.error('Country not found');
+      return;
+    }
+
+    const countryCode = selectedCountry.code;
+
     if (selectedCountries.includes(countryCode)) {
-      setSelectedCountries(selectedCountries.filter(code => code !== countryCode));
+      setSelectedCountries(selectedCountries.filter((code) => code !== countryCode));
     } else {
       setSelectedCountries([...selectedCountries, countryCode]);
     }
   };
-  
 
   // Fetch categories and subcategories
   useEffect(() => {
@@ -168,65 +198,83 @@ const AddProduct = () => {
   // Handle bulk product submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
+
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const userEmail = currentUser ? currentUser.email : null;
-  
+
     if (!userEmail) {
-      toast.error("User email not found in localStorage");
-      return;
+        toast.error("User email not found in localStorage");
+        setLoading(false); // Stop loading
+        return;
     }
-  
+
     if (!products.length) {
-      toast.error("No products to add. Please upload a file first.");
-      return;
+        toast.error("No products to add. Please upload a file first.");
+        setLoading(false); // Stop loading
+        return;
     }
-  
+
     const productsWithCountryCode = products.map((product) => {
-      const price = product.prices && product.prices.length > 0 ? product.prices[0].price : null;
-  
-      if (!price) {
-        toast.error(`Price not found for product: ${product.name || "Unknown product"}`);
-        return null;
-      }
-  
-      return {
-        ...product,
-        prices: selectedCountries.map((countryCode) => ({
-          country_code: countryCode,
-          price: price,
-          stock_quantity: product.stock,
-        })),
-      };
+        const price = product.prices && product.prices.length > 0 ? product.prices[0].price : null;
+
+        if (!price) {
+            toast.error(`Price not found for product: ${product.partnumber || "Unknown product"}`);
+            return null;
+        }
+
+        return {
+            ...product,
+            prices: selectedCountries.map((countryCode) => ({
+                country_code: countryCode,
+                price: price,
+                stock_quantity: product.stock,
+            })),
+        };
     }).filter(product => product !== null); // Filter out any null products
-  
+
     if (!productsWithCountryCode.length) {
-      toast.error("No valid products to add.");
-      return;
+        toast.error("No valid products to add.");
+        setLoading(false); // Stop loading
+        return;
     }
-  
-    try {
-      const response = await axios.post(
+
+    const apiCall = axios.post(
         `${process.env.REACT_APP_LOCAL}/api/newproducts/batch`,
         { products: productsWithCountryCode },
         {
-          headers: {
-            "User-Email": userEmail,
-            "Content-Type": "application/json",
-          },
+            headers: {
+                "User-Email": userEmail,
+                "Content-Type": "application/json",
+            },
         }
-      );
-      toast.success("Products added successfully");
-      setProducts([]);
-      setIsFileLoaded(false);
-      setFileChosen(false);
-      setIsTableVisible(true);
-    } catch (error) {
-      toast.error(
-        "Error adding products: You do not have the required permissions"
-      );
-    }
-  };
-  
+    );
+
+    // Use Promise.race to handle both the API call and the timeout
+    Promise.race([
+        apiCall,
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 5000))
+    ])
+    .then(() => {
+        toast.success("Products added successfully");
+        setProducts([]);
+        setIsFileLoaded(false);
+        setFileChosen(false);
+        setIsTableVisible(true);
+    })
+    .catch((error) => {
+        if (axios.isAxiosError(error)) {
+            toast.error("Error adding products: You do not have the required permissions");
+        } else {
+            toast.error(error.message); // Handle the timeout error
+        }
+    })
+    .finally(() => {
+        setLoading(false); // Stop loading after 5 seconds
+    });
+};
+
+
 
   // Handle single product form submission
   const handleSingleProductSubmit = async (e) => {
@@ -311,25 +359,18 @@ const AddProduct = () => {
      {adminRole === true && isFileLoaded && (
   <div className="country-selection">
     <h3>Select Countries for Price Adjustment:</h3>
-    <label>
-      <input
-        type="checkbox"
-        value="Kenya"
-        onChange={() => handleCountrySelection("Kenya")}
-        checked={selectedCountries.includes("KE")} // Use ISO code here
-      />
-      Kenya
-    </label>
-    <label>
-      <input
-        type="checkbox"
-        value="Uganda"
-        onChange={() => handleCountrySelection("Uganda")}
-        checked={selectedCountries.includes("UG")} // Use ISO code here
-      />
-      Uganda
-    </label>
-    {/* Add more countries as needed */}
+    {countries.map((country) => (
+          <ul key={country.code}>
+            <label>
+              <input
+                type="checkbox"
+                checked={selectedCountries.includes(country.code)}
+                onChange={() => handleCountrySelection(country.name)}
+              />
+              {country.name}
+            </label>
+          </ul>
+        ))}
   </div>
 )}
 
@@ -370,9 +411,14 @@ const AddProduct = () => {
         className="button-base add-product-submit-btn"
         disabled={!products.length}
       >
-        Add Products
+         {loading ? 'Adding...' : 'Add Product'}
       </button>
-
+      {loading && (
+        <div style={{ marginTop: '20px' }}>
+          <Rings color="#00BFFF" loading={loading} size={50} />
+          <p>Uploading product...</p>
+        </div>
+      )}
       <ToastContainer />
 
       <h2>Add Single Product</h2>

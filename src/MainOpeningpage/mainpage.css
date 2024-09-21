@@ -134,7 +134,7 @@ section {
 
 .individual_images {
   height: 10rem;
-  width: auto;
+  width: 100%;
 }
 
 /* Buttons */
