@@ -130,6 +130,7 @@
     .sidebar_search{
       position: relative;
       top:8rem;
+      height: 30rem;
       
      overflow-y: auto;
       width: 10rem;

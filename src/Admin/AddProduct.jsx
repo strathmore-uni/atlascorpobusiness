@@ -18,6 +18,20 @@ const AddProduct = () => {
   const [fileChosen, setFileChosen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const deriveCategoriesFromName = (productName) => {
+    // Split product name by space or any delimiter (e.g., underscore or dash)
+    const nameParts = productName.split(' ');
+  
+    // The first word is assigned as the mainCategory, and the second as the subCategory
+    const mainCategory = nameParts[0] || "Uncategorized";
+    const subCategory = nameParts[1] || "General";
+  
+    return {
+      mainCategory,
+      subCategory,
+    };
+  };
+  
   const [singleProduct, setSingleProduct] = useState({
     partnumber: "",
     description: "",
@@ -155,28 +169,30 @@ const AddProduct = () => {
           acc[header] = row[index] || "";
           return acc;
         }, {});
-      
- 
+  
+        // Automatically assign categories based on the product name
+        const categoryAssignment = deriveCategoriesFromName(product.description || product.partnumber);
+  
         return {
           partnumber: product["partnumber"] || "",
           description: product["description"] || "",
           image: product["image"] || "",
           thumb1: product["thumb1"] || "",
           thumb2: product["thumb2"] || "",
-          mainCategory: product["maincategory"] || "",
-          subCategory: product["subcategory"] || "",
+          mainCategory: categoryAssignment.mainCategory, // Automatically derived mainCategory
+          subCategory: categoryAssignment.subCategory,   // Automatically derived subCategory
           prices: [
             {
               country_code: selectedCountries, // Assuming country code; replace with your dynamic logic
-              price: parseFloat(product['price']) || 0,
-              stock_quantity: parseInt(product['stock']) || 0,
+              price: parseFloat(product["price"]) || 0,
+              stock_quantity: parseInt(product["stock"]) || 0,
             },
           ],
         };
-        
       });
+  
       console.log("Parsed Products:", parsedProducts);
-
+  
       setProducts(parsedProducts);
       setIsFileLoaded(true);
       setIsTableVisible(true);

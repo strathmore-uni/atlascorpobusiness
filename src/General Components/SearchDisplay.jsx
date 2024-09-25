@@ -4,7 +4,6 @@ import NavigationBar from "./NavigationBar";
 import "./searchdisplay.css";
 import { LuCameraOff } from "react-icons/lu";
 import ReactPaginate from "react-paginate";
-import { CiGrid41, CiGrid2H } from "react-icons/ci";
 import { IoIosArrowBack } from "react-icons/io";
 import axios from "axios";
 import Footer from "./Footer";
@@ -29,6 +28,8 @@ export default function SearchDisplay({
   const pageCount = Math.ceil(results.length / itemsPerPage);
   const [searchTerm, setSearchTerm] = useState(initialTerm || "");
   const { currentUser } = useAuth();
+
+  // Calculate categories and their item counts
   useEffect(() => {
     if (initialResults.length > 0) {
       const categoryCount = initialResults.reduce((acc, item) => {
@@ -38,6 +39,7 @@ export default function SearchDisplay({
       setCategories(categoryCount);
     }
   }, [initialResults]);
+
   const handleAddToCart = async (product) => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     if (!currentUser) {
@@ -45,24 +47,15 @@ export default function SearchDisplay({
       return;
     }
 
-    console.log("User Email:", currentUser.email); // Debugging
-    console.log("Product Part Number:", product.partnumber); // Debugging
-
     try {
       await axios.post(`${process.env.REACT_APP_LOCAL}/api/singlecart`, {
         partnumber: product.partnumber,
         quantity: 1,
-        userEmail: currentUser.email, // Ensure userEmail is correctly set
-        description: product.Description, // Include description
-        price: product.Price, // Include price
+        userEmail: currentUser.email,
+        description: product.Description,
+        price: product.Price,
       });
       handleAddProduct(product);
-      setNotificationMessage(
-        `${product.Description} has been added to the cart.`
-      );
-      setTimeout(() => {
-        setNotificationMessage("");
-      }, 3000);
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
@@ -103,45 +96,49 @@ export default function SearchDisplay({
       <div className="search_display_wrapper">
         <div className="productdisplay_container_search">
           <div className={`sub_productdisplay_container_search ${layoutMode}`}>
-            {results
-              .slice(pagesVisited, pagesVisited + itemsPerPage)
-              .map((item, index) => (
-                <Link
-                  key={item.partnumber}
-                  className="mylink_search"
-                  to={`/productdetails/${item.partnumber}`}
-                  onClick={() => handleAddProductDetails(item)}
-                >
-                  {item.image ? (
-                    <img className="prdt_image" src={item.image} alt="" />
-                  ) : (
-                    <p className="cameraoff_icon">
-                      <LuCameraOff />
-                    </p>
-                  )}
-                  <p className="prdt_partnumber">{item.partnumber}</p>
-                  <p className="prdt_title">{item.Description}</p>
-                  <p className="prdt_price">${item.Price}</p>
-                  <div className="stock_status">
-                    <div
-                      className={`status_indicator ${
-                        item.quantity > 0 ? "in_stock" : "out_of_stock"
-                      }`}
-                    ></div>
-                    <div className="in_out_stock">
-                      {item.quantity > 0 ? "In Stock" : "Out of Stock"}
-                    </div>
-                    <div
-                      className="get_quote_productpage"
-                      onClick={() => handleAddToCart(item)}
-                    >
-                      <p>
-                        <GrCart className="cart_productpage" />
+            {results.length === 0 ? (
+              <p>No products found.</p>
+            ) : (
+              results
+                .slice(pagesVisited, pagesVisited + itemsPerPage)
+                .map((item) => (
+                  <Link
+                    key={item.partnumber}
+                    className="mylink_search"
+                    to={`/productdetails/${item.partnumber}`}
+                    onClick={() => handleAddProductDetails(item)}
+                  >
+                    {item.image ? (
+                      <img className="prdt_image" src={item.image} alt="" />
+                    ) : (
+                      <p className="cameraoff_icon">
+                        <LuCameraOff />
                       </p>
+                    )}
+                    <p className="prdt_partnumber">{item.partnumber}</p>
+                    <p className="prdt_title">{item.Description}</p>
+                    <p className="prdt_price">${item.Price}</p>
+                    <div className="stock_status">
+                      <div
+                        className={`status_indicator ${
+                          item.quantity > 0 ? "in_stock" : "out_of_stock"
+                        }`}
+                      ></div>
+                      <div className="in_out_stock">
+                        {item.quantity > 0 ? "In Stock" : "Out of Stock"}
+                      </div>
+                      <div
+                        className="get_quote_productpage"
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        <p>
+                          <GrCart className="cart_productpage" />
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))
+            )}
             <small className="featuredprdts_length">
               {results.length} Results
             </small>
@@ -164,15 +161,18 @@ export default function SearchDisplay({
         <div className="sidebar_search">
           <h3>Categories</h3>
           <ul>
-            {Object.entries(categories).map(([category, count], index) => (
-              <li
-                key={index}
-                onClick={() => handleCategoryClick(category)}
-                style={{ cursor: "pointer" }}
-              >
-                {category} ({count})
-              </li>
-            ))}
+            {Object.entries(categories)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([category, count], index) => (
+                <li
+                  key={index}
+                  onClick={() => handleCategoryClick(category)}
+                  style={{ cursor: "pointer" }}
+                  className="category-item"
+                >
+                  {category} ({count})
+                </li>
+              ))}
           </ul>
         </div>
       </div>
