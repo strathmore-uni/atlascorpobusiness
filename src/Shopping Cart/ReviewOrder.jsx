@@ -10,17 +10,14 @@ import Footer from '../General Components/Footer';
 import Notification from '../General Components/Notification';
 import { useAuth } from '../MainOpeningpage/AuthContext';
 import Swal from 'sweetalert2';
-import './checkout.css'
 
 const ReviewOrder = () => {
   const [userData, setUserData] = useState({});
   const [notificationMessage, setNotificationMessage] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
   const { currentUser } = useAuth();
-
-
   const location = useLocation();
-  const { totalPrice, cartItems=[] } = location.state || { totalPrice: 0 };
+  const { totalPrice, cartItems = [] } = location.state || { totalPrice: 0 };
 
   // Function to fetch the admin email
   const fetchAdminEmail = async (userEmail) => {
@@ -36,7 +33,7 @@ const ReviewOrder = () => {
 
   useEffect(() => {
     if (currentUser?.email) {
-      fetchAdminEmail(currentUser.email); // Fetch admin email based on the current user's email
+      fetchAdminEmail(currentUser.email);
     }
   }, [currentUser]);
 
@@ -51,7 +48,6 @@ const ReviewOrder = () => {
         console.error('Error fetching user data:', error);
       }
     };
-
     if (currentUser?.email) {
       fetchUserData();
     }
@@ -63,7 +59,6 @@ const ReviewOrder = () => {
         console.warn('No current user or email available.');
         return;
       }
-
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/cart`, {
           params: { email: currentUser.email }
@@ -73,19 +68,14 @@ const ReviewOrder = () => {
         console.error('Error fetching cart items:', error);
       }
     };
-
     fetchCartItems();
   }, [currentUser]);
 
-  const numericTotalPrice = Number(totalPrice); 
-
-
+  const numericTotalPrice = Number(totalPrice);
   const shipping_fee = 40;
   const vat = numericTotalPrice * 0.10;
   const newPrice = numericTotalPrice + vat + shipping_fee;
-
-  const formattedTotalPrice = newPrice;  // Ensure two decimal places
-
+  const formattedTotalPrice = newPrice;
 
   const generateOrderNumber = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -96,7 +86,45 @@ const ReviewOrder = () => {
     return orderNumber + Date.now();
   };
 
-
+  // Test Invoice Ninja connection
+  const testInvoiceNinja = async () => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_LOCAL}/api/send-invoice`, {
+        client: {
+          name: 'Test Client',
+          email: 'mikekariuki10028@gmail.com',
+          phone: '1234567890',
+          address1: 'Test Address',
+          city: 'Test City',
+          zip: '12345',
+          country: 'Kenya'
+        },
+        items: [{
+          product_key: 'Test Product',
+          notes: 'Test item for Invoice Ninja integration',
+          cost: 100.00,
+          quantity: 1,
+        }],
+        orderNumber: 'TEST-' + Date.now(),
+        total: 100.00,
+      });
+      
+      if (response.data.success) {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Invoice Ninja integration is working! Check your Invoice Ninja dashboard.',
+          icon: 'success'
+        });
+      }
+    } catch (error) {
+      console.error('Invoice Ninja test failed:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Invoice Ninja test failed. Check console for details.',
+        icon: 'error'
+      });
+    }
+  };
 
   const handlePlaceOrder = async () => {
     const result = await Swal.fire({
@@ -190,7 +218,33 @@ const ReviewOrder = () => {
           await emailjs.send('service_bmvwx28', 'template_zsdszy8', clientEmailData, 'KeePPXIGkpTcoiTBJ');
           await emailjs.send('service_ie3g4m5', 'template_igi5iov', adminEmailData, 'HSw7Ydql4N9nzAoVn');
       
-          setNotificationMessage('Order placed and confirmation emails sent to you and the admin.');
+          // Send invoice via Invoice Ninja
+          try {
+            await axios.post(`${process.env.REACT_APP_LOCAL}/api/send-invoice`, {
+              client: {
+                name: userData.firstName + ' ' + userData.secondName,
+                email: userData.email,
+                phone: userData.phone,
+                address1: userData.address1,
+                address2: userData.address2,
+                city: userData.city,
+                zip: userData.zip,
+                country: userData.country
+              },
+              items: cartItems.map(item => ({
+                product_key: item.description || item.name,
+                notes: `Part Number: ${item.partnumber}`,
+                cost: parseFloat(item.price),
+                quantity: parseInt(item.quantity),
+              })),
+              orderNumber,
+              total: newPrice,
+            });
+            setNotificationMessage('Order placed, confirmation emails sent, and invoice sent to your email!');
+          } catch (invoiceError) {
+            console.error('Invoice Ninja error:', invoiceError);
+            setNotificationMessage('Order placed and confirmation emails sent, but failed to send invoice. Please contact support.');
+          }
         } else {
           console.error('Order placement failed:', response.data.message);
         }
@@ -202,78 +256,109 @@ const ReviewOrder = () => {
   
 
   return (
-    <div>
- <div className='review_container'>
-      <div className='review_userinfo'>
-      <Link to='/shop' className='backtoform'>
-          <p><IoIosArrowBack className='arrowbackReview' />Back</p>
-        </Link>
-        <Link to='/userprofile' className='editinfo'>
-          <p>Edit Info<AiTwotoneEdit /></p>
-        </Link>
-        
-        <h1>Review Order</h1>
-        <h3>User Information</h3>
-        <p>Company Name: {userData.companyName}</p>
-        <p>Title: {userData.title}</p>
-        <p>First Name: {userData.firstName}</p>
-        <p>Second Name: {userData.secondName}</p>
-        <p>Address 1: {userData.address1}</p>
-        <p>Address 2: {userData.address2}</p>
-        <p>City: {userData.city}</p>
-        <p>Zip Code: {userData.zip}</p>
-        <p>Phone: {userData.phone}</p>
-        <p>Email: {userData.email}</p>
-        <p>Country: {userData.country}</p>
-      
-
-
-      </div>
-       
-      <div className='productsdisplay_shoppingcart_review'>
-        <h2 style={{ color: '#0078a1' }}>Cart Items</h2>
-        <hr className='hr_shoppingcartpage' />
-        <small className='tbl_description' style={{ position: 'absolute', top: '3rem', left: '5rem', fontWeight: '500' }}>Description</small>
-        <small className='tbl_total' style={{ position: 'absolute', top: '3rem', right: '1rem', fontWeight: '500' }}>Total</small>
-        <small className='tbl_net' style={{ position: 'absolute', top: '3rem', left: '25rem', fontWeight: '500' }}>Net Price</small>
-        <small className='tbl_qty' style={{ position: 'absolute', top: '3rem', right: '15rem', fontWeight: '500' }}>Qty</small>
-
-        {cartItems.length === 0 && (
-          <p className="cart_empty">No items are added</p>
-        )}
-        {cartItems.map((item) => (
-          <div key={item.partnumber} className='display_cart'>
-            <p className='lucameraoff_cart'><LuCameraOff /></p>
-            <div className='btngroup_cart'>
-              <p className='cart_quantity_review'>{item.quantity}</p>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <NavigationBar cartItems={cartItems} />
+      <main className="flex-1 w-full max-w-6xl mx-auto px-2 sm:px-6 lg:px-8 py-8">
+        {/* Stepper */}
+        <div className="flex items-center justify-center mb-8">
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col items-center">
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-700 text-white font-bold">1</span>
+              <span className="text-xs mt-1 text-blue-700 font-semibold">Cart</span>
             </div>
-            <p className='p_serialnumber'>Serial Number:&nbsp;{item.partnumber}</p>
-            <p className='p_description'>{item.description}</p>
-            <p className='net_cart_itemprice_revieworder'>${item.price}</p>
-            <p className='cart_itemprice_revieworder'>${item.price * item.quantity}</p>
-            <hr className='hr_incartdisplay' />
+            <span className="w-8 h-1 bg-blue-200 rounded"></span>
+            <div className="flex flex-col items-center">
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-700 text-white font-bold">2</span>
+              <span className="text-xs mt-1 text-blue-700 font-semibold">Review</span>
+            </div>
+            <span className="w-8 h-1 bg-blue-200 rounded"></span>
+            <div className="flex flex-col items-center">
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-500 font-bold">3</span>
+              <span className="text-xs mt-1 text-gray-500 font-semibold">Payment</span>
+            </div>
+            <span className="w-8 h-1 bg-blue-200 rounded"></span>
+            <div className="flex flex-col items-center">
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-gray-500 font-bold">4</span>
+              <span className="text-xs mt-1 text-gray-500 font-semibold">Confirmation</span>
+            </div>
           </div>
-        ))}
-      </div>
-      <div className="shoppingcart_footer">
-        <Footer />
-      </div>
-      
-      <div className='order_summary_checkout'>
-        <p>Order Summary</p>
-        <p className='p_carttotal'>Subtotal</p>
-        <small className='cart_totalitemsprice'>${totalPrice}</small>
-        <p>Shipping: <small style={{ position: 'absolute', right: '2rem' }}>${shipping_fee}</small></p>
-        <p>VAT: <small style={{ position: 'absolute', right: '2rem' }}>${vat}</small></p>
-        <p>Total: <small style={{ position: 'absolute', right: '2rem' }}>${formattedTotalPrice}</small></p>
-        <button className='checkout_btn' onClick={handlePlaceOrder}>Place the Order</button>
-      </div>
-      {notificationMessage && <Notification message={notificationMessage} />}
-      
+        </div>
+        {/* Split Layout */}
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Left: Cart Items */}
+          <section className="flex-1 bg-white rounded-2xl shadow p-6 overflow-y-auto max-h-[600px]">
+            <h2 className="text-xl font-bold text-blue-900 mb-4">Your Cart</h2>
+            {cartItems.length === 0 ? (
+              <p className="text-center text-gray-500 py-8">No items are added</p>
+            ) : (
+              <div className="space-y-6">
+                {cartItems.map((item) => (
+                  <div key={item.partnumber} className="flex items-center gap-4 border-b pb-4 last:border-b-0">
+                    <div className="w-16 h-16 flex items-center justify-center bg-gray-100 rounded">
+                      {item.image ? (
+                        <img className="w-full h-full object-cover rounded" src={item.image} alt={item.description} />
+                      ) : (
+                        <LuCameraOff className="text-3xl text-gray-400" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-800">{item.description}</p>
+                      <p className="text-xs text-gray-500">Serial Number: {item.partnumber}</p>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <span className="text-blue-800 font-bold">${item.price}</span>
+                      <span className="text-gray-600 text-sm">Qty: {item.quantity}</span>
+                      <span className="text-blue-900 font-bold">Total: ${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+          {/* Right: User Info & Order Summary */}
+          <aside className="w-full lg:w-[350px] flex flex-col gap-8">
+            {/* User Info Card */}
+            <div className="bg-white rounded-2xl shadow p-6 mb-4 sticky top-8">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-lg font-bold text-blue-900">User Info</h2>
+                <Link to="/userprofile" className="flex items-center gap-1 text-blue-700 hover:underline"><AiTwotoneEdit />Edit</Link>
+              </div>
+              <div className="text-gray-700 text-sm space-y-1">
+                <div><span className="font-semibold">Name:</span> {userData.firstName} {userData.secondName}</div>
+                <div><span className="font-semibold">Email:</span> {userData.email}</div>
+                <div><span className="font-semibold">Phone:</span> {userData.phone}</div>
+                <div><span className="font-semibold">Address:</span> {userData.address1}, {userData.address2}, {userData.city}, {userData.zip}</div>
+                <div><span className="font-semibold">Country:</span> {userData.country}</div>
+              </div>
+            </div>
+            {/* Order Summary Card */}
+            <div className="bg-white rounded-2xl shadow p-6 sticky top-44">
+              <h3 className="text-lg font-bold text-blue-900 mb-4">Order Summary</h3>
+              <div className="flex justify-between mb-2"><span>Subtotal:</span><span className="font-semibold">${totalPrice}</span></div>
+              <div className="flex justify-between mb-2"><span>Shipping:</span><span className="font-semibold">${shipping_fee}</span></div>
+              <div className="flex justify-between mb-2"><span>VAT:</span><span className="font-semibold">${vat.toFixed(2)}</span></div>
+              <div className="flex justify-between mb-4 text-lg"><span>Total:</span><span className="font-bold text-blue-800">${formattedTotalPrice}</span></div>
+              <button
+                className="w-full px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg font-semibold transition"
+                onClick={handlePlaceOrder}
+                disabled={cartItems.length === 0}
+              >
+                Place the Order
+              </button>
+              {/* Test button for Invoice Ninja - Remove in production */}
+              <button
+                className="w-full mt-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition"
+                onClick={testInvoiceNinja}
+              >
+                Test Invoice Ninja
+              </button>
+              {notificationMessage && <div className="mt-4"><Notification message={notificationMessage} /></div>}
+            </div>
+          </aside>
+        </div>
+      </main>
+      <Footer />
     </div>
-    <NavigationBar />
-    </div>
-   
   );
 };
 

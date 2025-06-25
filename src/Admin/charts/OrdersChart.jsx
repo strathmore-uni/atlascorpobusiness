@@ -25,7 +25,7 @@ const fetchCurrentUser = () => {
 };
 const currentUser = fetchCurrentUser();
 
-const admin = currentUser.isMiniAdmin;
+const admin = currentUser;
 
 const OrdersChart = () => {
   const [doughnutData, setDoughnutData] = useState({

@@ -23,7 +23,7 @@ const fetchCurrentUser = () => {
 };
 const currentUser = fetchCurrentUser();
 
-const admin = currentUser.isMiniAdmin;
+const admin = currentUser;
 
 const SalesByCountryChart = () => {
   const [salesData, setSalesData] = useState([]);

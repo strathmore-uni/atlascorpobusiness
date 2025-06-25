@@ -1,20 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const express = require('express');
 const mysql = require('mysql2/promise');
 const app = express();
@@ -607,8 +590,133 @@ app.get('/api/products/partnumber/:partnumber', async (req, res) => {
   }
 });
 
+// Invoice Ninja Integration
+app.post('/api/send-invoice', async (req, res) => {
+  const { client, items, orderNumber, total } = req.body;
+  
+  const INVOICE_NINJA_URL = 'http://localhost:8000/api/v1';
+  const API_TOKEN = 'lplYeuCJfmmcWfhPdJ9BHA1GcBuU7aBQHmY4K1xBpxU2RhB3Tr8y0VcZL3QHNDFB';
 
+  try {
+    // 1. Create or get client
+    let clientId;
+    try {
+      // Try to find existing client by email
+      const searchResponse = await fetch(`${INVOICE_NINJA_URL}/clients?email=${client.email}`, {
+        headers: { 
+          'X-API-Token': API_TOKEN,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+      
+      const searchData = await searchResponse.json();
+      
+      if (searchData.data && searchData.data.length > 0) {
+        clientId = searchData.data[0].id;
+        console.log('Found existing client:', clientId);
+      } else {
+        // Create new client
+        const createClientResponse = await fetch(`${INVOICE_NINJA_URL}/clients`, {
+          method: 'POST',
+          headers: { 
+            'X-API-Token': API_TOKEN,
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({
+            name: client.name,
+            email: client.email,
+            phone: client.phone || '',
+            address1: client.address1 || '',
+            address2: client.address2 || '',
+            city: client.city || '',
+            state: client.state || '',
+            postal_code: client.zip || '',
+            country_id: client.country || 1
+          })
+        });
+        
+        const createClientData = await createClientResponse.json();
+        clientId = createClientData.data.id;
+        console.log('Created new client:', clientId);
+      }
+    } catch (clientError) {
+      console.error('Error handling client:', clientError);
+      return res.status(500).json({ error: 'Failed to create/find client' });
+    }
 
+    // 2. Create invoice
+    const lineItems = items.map(item => ({
+      product_key: item.product_key || item.name,
+      notes: item.notes || item.description || '',
+      cost: parseFloat(item.cost || item.price),
+      qty: parseInt(item.quantity),
+      tax_name1: 'VAT',
+      tax_rate1: 10
+    }));
+
+    const invoiceData = {
+      client_id: clientId,
+      line_items: lineItems,
+      invoice_number: orderNumber,
+      po_number: orderNumber,
+      terms: 'Net 30',
+      footer: 'Thank you for your business!',
+      public_notes: `Order Number: ${orderNumber}`,
+      private_notes: `Order placed on ${new Date().toISOString()}`
+    };
+
+    const createInvoiceResponse = await fetch(`${INVOICE_NINJA_URL}/invoices`, {
+      method: 'POST',
+      headers: { 
+        'X-API-Token': API_TOKEN,
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify(invoiceData)
+    });
+
+    const createInvoiceData = await createInvoiceResponse.json();
+    
+    if (!createInvoiceResponse.ok) {
+      console.error('Invoice creation failed:', createInvoiceData);
+      return res.status(500).json({ error: 'Failed to create invoice' });
+    }
+
+    const invoiceId = createInvoiceData.data.id;
+    console.log('Created invoice:', invoiceId);
+
+    // 3. Send invoice email
+    const sendEmailResponse = await fetch(`${INVOICE_NINJA_URL}/email_invoice`, {
+      method: 'POST',
+      headers: { 
+        'X-API-Token': API_TOKEN,
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify({
+        invoices: [{ id: invoiceId }]
+      })
+    });
+
+    if (!sendEmailResponse.ok) {
+      console.error('Failed to send invoice email');
+      return res.status(500).json({ error: 'Invoice created but failed to send email' });
+    }
+
+    console.log('Invoice sent successfully');
+    res.json({ 
+      success: true, 
+      message: 'Invoice created and sent successfully',
+      invoiceId: invoiceId
+    });
+
+  } catch (error) {
+    console.error('Invoice Ninja integration error:', error);
+    res.status(500).json({ error: 'Failed to process invoice' });
+  }
+});
 
 const port = process.env.PORT || 3001;
 httpsServer.listen(port, () => {
