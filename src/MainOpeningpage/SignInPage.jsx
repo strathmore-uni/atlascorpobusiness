@@ -4,7 +4,8 @@ import { signInWithPopup } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import NavigationBar from '../General Components/NavigationBar';
-import './SignInPage.css';
+import LoadingSpinner from '../General Components/LoadingSpinner';
+import { FaGoogle, FaEye, FaEyeSlash, FaEnvelope, FaLock, FaArrowRight } from 'react-icons/fa';
 import axios from 'axios';
 
 const SignInPage = () => {
@@ -14,6 +15,7 @@ const SignInPage = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,9 +27,7 @@ const SignInPage = () => {
           navigate('/warehouse/dashboard');
         } else if(currentUser.isFinance){
           navigate('/finance/dashboard');
-        }
-        
-        else {
+        } else {
           navigate('/shop')
         }
       }, 3000); // 3 seconds delay
@@ -45,6 +45,7 @@ const SignInPage = () => {
       .catch((error) => {
         console.error('Error during Google Sign-In:', error);
         setIsLoading(false);
+        setError('Google sign-in failed. Please try again.');
       });
   };
 
@@ -57,6 +58,7 @@ const SignInPage = () => {
     }
   
     setIsLoading(true);
+    setError('');
   
     try {
       const response = await axios.post(`${process.env.REACT_APP_LOCAL}/login`, { email, password });
@@ -86,52 +88,241 @@ const SignInPage = () => {
       setIsLoading(false);
     }
   };
-  
-  
 
   const handleForgotPassword = () => {
     navigate('/forgot-password');
   };
 
+  if (redirecting) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 flex items-center justify-center">
+        <div className="text-center text-white">
+          <LoadingSpinner
+            type="wave"
+            size="large"
+            color="white"
+            text="Signing you in..."
+            fullScreen={false}
+          />
+          <p className="mt-4 text-lg font-medium">Welcome to Atlas Copco!</p>
+          <p className="mt-2 text-blue-100">Redirecting you to your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className='signincontainer'>
-      {redirecting ? (
-        <div className="loading-container">
-          <div className="spinner"></div>
-          <p>Loading, please wait...</p>
-        </div>
-      ) : (
-        <div className="form-container">
-          {error && <p className='error_login'>{error}</p>}
-          <div className="line-container">
-            <div className="line"></div>
-            <div className="or">or</div>
-            <div className="line"></div>
-          </div>
-          <p className="title">Sign in</p>
-          <form className="form" onSubmit={handleEmailSignIn}>
-            <label className='lbl_signin'>Email</label>
-            <input type="email" className="input-email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
-            <label className='lbl_signin'>Password</label>
-            <input type="password" className='input-password' placeholder='Password' onChange={e => setPassword(e.target.value)} />
-            <button type="submit" className="signin-form-btn">Sign in</button>
-          </form>
-          <div className="buttons-container">
-            <div className="google-login-button" onClick={handleGoogleSignIn}>
-              <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1.1" x="0px" y="0px" className="google-icon" viewBox="0 0 48 48" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
-                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
-                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-              </svg>
-              <span>Sign in with Google</span>
-            </div>
-            <p className='signup_link'>Don't have an Account?<Link to="/Checkout" className='link'>Sign Up</Link></p>
-            <p onClick={handleForgotPassword} className='signinforgotbtn'>Forgot password?</p>
-          </div>
-        </div>
-      )}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       <NavigationBar />
+      
+      <div className="flex min-h-screen">
+        {/* Left Side - Hero Section */}
+        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 relative overflow-hidden">
+          <div className="absolute inset-0 bg-black opacity-20"></div>
+          <div className="relative z-10 flex flex-col justify-center px-12 text-white">
+            <div className="max-w-md">
+              <h1 className="text-4xl font-bold mb-6">
+                Welcome to Atlas Copco
+              </h1>
+              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+                Access your industrial solutions dashboard and manage your account with ease.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <FaEnvelope className="text-white text-sm" />
+                  </div>
+                  <span className="text-blue-100">Secure authentication</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <FaLock className="text-white text-sm" />
+                  </div>
+                  <span className="text-blue-100">24/7 access to your account</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <FaArrowRight className="text-white text-sm" />
+                  </div>
+                  <span className="text-blue-100">Quick navigation to services</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Decorative Elements */}
+          <div className="absolute top-20 right-20 w-32 h-32 bg-blue-600 rounded-full opacity-20"></div>
+          <div className="absolute bottom-20 left-20 w-24 h-24 bg-blue-500 rounded-full opacity-30"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-600 rounded-full opacity-10"></div>
+        </div>
+
+        {/* Right Side - Sign In Form */}
+        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full space-y-8">
+            <div className="text-center">
+              <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-6">
+                <FaLock className="text-white text-2xl" />
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                Sign in to your account
+              </h2>
+              <p className="text-gray-600">
+                Welcome back! Please enter your details to continue.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-700 text-sm font-medium">{error}</p>
+                </div>
+              )}
+
+              <form className="space-y-6" onSubmit={handleEmailSignIn}>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    Email address
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <FaEnvelope className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="Enter your email"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <FaLock className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="current-password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      placeholder="Enter your password"
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <FaEyeSlash className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                      ) : (
+                        <FaEye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input
+                      id="remember-me"
+                      name="remember-me"
+                      type="checkbox"
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                      Remember me
+                    </label>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                >
+                  {isLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <LoadingSpinner type="ring" size="small" color="white" text="" />
+                      <span>Signing in...</span>
+          </div>
+                  ) : (
+                    <span>Sign in</span>
+                  )}
+                </button>
+          </form>
+
+              <div className="mt-6">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <button
+                    onClick={handleGoogleSignIn}
+                    disabled={isLoading}
+                    className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                  >
+                    {isLoading ? (
+                      <LoadingSpinner type="ring" size="small" color="gray" text="" />
+                    ) : (
+                      <FaGoogle className="h-5 w-5 text-red-500 mr-3" />
+                    )}
+              <span>Sign in with Google</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-8 text-center">
+                <p className="text-sm text-gray-600">
+                  Don't have an account?{' '}
+                  <Link
+                    to="/Checkout"
+                    className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+                  >
+                    Sign up
+                  </Link>
+                </p>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="text-center">
+              <p className="text-xs text-gray-500">
+                By signing in, you agree to our{' '}
+                <a href="#" className="text-blue-600 hover:text-blue-500">Terms of Service</a>
+                {' '}and{' '}
+                <a href="#" className="text-blue-600 hover:text-blue-500">Privacy Policy</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

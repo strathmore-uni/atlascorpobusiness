@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../MainOpeningpage/AuthContext';
-import './admincategory.css';
-import './notificationspage.css';
-import './admindashboard.css'
-import '../Admin/charts/saleschartcountry.css'
 import { Bar, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import AdminCategory from './AdminCategory';
@@ -12,7 +8,10 @@ import CountUp from 'react-countup';
 import { Link } from 'react-router-dom';
 import MonthlyUserGrowthChart from './MonthlyUserGrowthChart ';
 import { Doughnut } from 'react-chartjs-2';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown, FaUsers } from 'react-icons/fa';
+import { FiShoppingBag } from 'react-icons/fi';
+import { FaCartArrowDown } from 'react-icons/fa6';
+import { IoMdNotifications } from 'react-icons/io';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import SalesByCountryChart from './charts/SalesByCountryChart';
@@ -22,17 +21,12 @@ import CountryWithMostLogins from './charts/CountryWithMostLogins';
 import OrdersChart from './charts/OrdersChart';
 import LoggedInUsers from './charts/LoggedInUsers';
 import UserLoginsChart from './charts/UserLoginsChart';
-import { FaUsers } from "react-icons/fa";
-import { FiShoppingBag } from "react-icons/fi";
-import { FaCartArrowDown } from "react-icons/fa6";
-import { IoMdNotifications } from "react-icons/io";
 import OrderStatsComparison from '../AdminFinance/OrderStatsComparison';
 import MonthlySalesLineChart from '../AdminFinance/MonthlySalesLineChart';
 import OrderTransitCount from '../AdminFinance/OrderTransitCount';
 import SalesChart from './charts/SalesChart';
 import CompanySalesComparison from './charts/CompanySalesComparison ';
 import ProfileTab from './ProfileTab';
-
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 const AdminDashboardSummary = () => {
@@ -336,307 +330,198 @@ const AdminDashboardSummary = () => {
   const mycurrentUser = fetchCurrentUser();
 
   return (
-    <div>
-      <div className="maincontainer_admin">
-      <ProfileTab />
-        <h2>Dashboard</h2>
-        <div className="quick-buttons">
-      <Link to="/ordereditems/orders" className="quick-button">Orders</Link>
-      <Link to="/registeredusers" className="quick-button">Users</Link>
-      {mycurrentUser && mycurrentUser.isAdmin &&  (
-        <Link to="/admin/create-admin" className="quick-button">Create Admin</Link>
-      )}
-      {mycurrentUser && mycurrentUser.isAdmin && (
- <Link to="/admin/settings" className="quick-button">Settings</Link>
-      )}
-     
-     <div className='notification_date' >
-
-     <div className="notification-bell-admin">
-        <Link to="/notifications">
-          <IoMdNotifications />
-          {summary.unreadNotificationsCount > 0 && (
-            <span className="notification-count-admin">{summary.unreadNotificationsCount}</span>
-          )}
-        </Link>
-      </div>
-      <div className="current-date">
-        <p>{currentDate}</p>
-      </div>
-     </div>
-     
-    </div>
-
-        <div className="admin-dashboard-summary-counts">
-        <div className="summary-item-counts">
-        
-        <div className='admin_icons'>
-          <FiShoppingBag />
+    <div className="bg-gray-50 min-h-screen p-4 md:p-8 md:ml-32 lg:ml-48">
+      <div className="max-w-7xl mx-auto">
+        <ProfileTab />
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4 md:mb-0">Admin Dashboard</h2>
+          <div className="flex flex-wrap gap-2 items-center">
+            <Link to="/ordereditems/orders" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Orders</Link>
+            <Link to="/registeredusers" className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">Users</Link>
+            {mycurrentUser && mycurrentUser.isAdmin && (
+              <Link to="/admin/create-admin" className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">Create Admin</Link>
+            )}
+            {mycurrentUser && mycurrentUser.isAdmin && (
+              <Link to="/admin/settings" className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition">Settings</Link>
+            )}
+            <div className="flex items-center gap-2 bg-white rounded shadow px-3 py-2">
+              <Link to="/notifications" className="relative">
+                <IoMdNotifications className="text-2xl text-yellow-500" />
+                {summary.unreadNotificationsCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">{summary.unreadNotificationsCount}</span>
+                )}
+              </Link>
+              <span className="text-gray-500 text-sm">{currentDate}</span>
+            </div>
+          </div>
         </div>
-  <h3>Total Orders</h3>
-  <CountUp end={summary.orders} duration={2} />
 
-  {orderGrowthPercentage !== null && (
-    <div
-      className={`percentage-change ${
-        orderGrowthPercentage > 0 ? 'increase' : 'decrease'
-      }`}
-    >
-      {orderGrowthPercentage > 0 ? (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="icon-up"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M5 15l7-7 7 7"
-          />
-        </svg>
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="icon-down"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      )}
-      <span>{Math.abs(orderGrowthPercentage.toFixed(2))}%</span>
-    </div>
-  )}
-</div>
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+          {/* Orders */}
+          <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+            <div className="bg-blue-100 p-3 rounded-full mb-2"><FiShoppingBag className="text-2xl text-blue-600" /></div>
+            <h3 className="text-lg font-semibold text-gray-700">Total Orders</h3>
+            <CountUp end={summary.orders} duration={2} className="text-2xl font-bold text-gray-900" />
+            {orderGrowthPercentage !== null && (
+              <div className={`flex items-center mt-2 text-sm font-medium ${orderGrowthPercentage > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {orderGrowthPercentage > 0 ? (
+                  <FaArrowUp className="mr-1" />
+                ) : (
+                  <FaArrowDown className="mr-1" />
+                )}
+                <span>{Math.abs(orderGrowthPercentage.toFixed(2))}%</span>
+              </div>
+            )}
+          </div>
+          {/* Products */}
+          <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+            <div className="bg-green-100 p-3 rounded-full mb-2"><FaCartArrowDown className="text-2xl text-green-600" /></div>
+            <h3 className="text-lg font-semibold text-gray-700">Total Products</h3>
+            <CountUp end={summary.products} duration={2} className="text-2xl font-bold text-gray-900" />
+          </div>
+          {/* Users */}
+          <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+            <div className="bg-yellow-100 p-3 rounded-full mb-2"><FaUsers className="text-2xl text-yellow-600" /></div>
+            <h3 className="text-lg font-semibold text-gray-700">Total Users</h3>
+            <CountUp end={summary.users} duration={2} className="text-2xl font-bold text-gray-900" />
+            {userGrowthPercentage !== null && (
+              <div className={`flex items-center mt-2 text-sm font-medium ${userGrowthPercentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {userGrowthPercentage >= 0 ? <FaArrowUp className="mr-1" /> : <FaArrowDown className="mr-1" />}
+                <span>{userGrowthPercentage.toFixed(2)}%</span>
+              </div>
+            )}
+          </div>
+          {/* Logged-in Users */}
+          <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+            <div className="bg-indigo-100 p-3 rounded-full mb-2"><FaUsers className="text-2xl text-indigo-600" /></div>
+            <h3 className="text-lg font-semibold text-gray-700">Logged-in Users</h3>
+            <CountUp end={loggedInUsersCount} duration={2} className="text-2xl font-bold text-gray-900" />
+          </div>
+        </div>
 
-  <div className="summary-item-counts">
-    <div className='admin_icons'>
-    <FaCartArrowDown />
-    </div>
- 
-    <h3>Total Products</h3>
-    <CountUp end={summary.products} duration={2} />
-  </div>
-  <div className="summary-item-counts">
-    <div className='admin_icons'>
-       <FaUsers /> 
-    </div>
-
-    <h3>Total Users</h3>
-    <CountUp end={summary.users} duration={2} />
-    {userGrowthPercentage !== null && (
-      <div
-        className={`growth-indicator ${
-          userGrowthPercentage >= 0 ? "positive" : "negative"
-        }`}
-      >
-        {userGrowthPercentage >= 0 ? <FaArrowUp /> : <FaArrowDown />}
-        <span>{userGrowthPercentage.toFixed(2)}%</span>
-      </div>
-    )}
-  
-  </div>
-  <div className="summary-item-counts">
-  <div className='admin_icons'>
-       <FaUsers /> 
-    </div>
-        <h3>Logged-in Users</h3>
-        <CountUp end={loggedInUsersCount} duration={2} />
-    
-    
-      </div>
-
-    
-      
-
-</div>
-
-
-        <div className="admin-dashboard-summary">
-          <div className="summary-item-chart">
-            <h3>Orders, Products, Users</h3>
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Orders, Products, Users</h3>
             <Bar data={barData} options={barOptions} />
           </div>
-
-          <div className="summary-item-chart">
-            <h3>Most Ordered Products</h3>
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Most Ordered Products</h3>
             <Line data={lineData} options={lineOptions} />
           </div>
-
-
-
-
         </div>
 
-
-       
-
-       
-<div className='recentusers_container'>
-   <div className="recent-users">
-          <h3>New Users</h3>
-          <ul>
-            {summary.recentUsers.map(user => (
-              <li key={user.email}>
-                <div className="user-profile-pic">
-                  {/* User profile picture or initials */}
-                </div>
-                <div className="user-info">
-                  <span>{user.name}</span>
-                  <span>{user.email}</span>
-                  <span>{user.registration_date}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-        </div>
-        <div className="monthly-users-chart">
-    <h3>Monthly User Growth</h3>
-    {userGrowthPercentage !== null && (
-    <div
-      style={{
-        color: userGrowthPercentage >= 0 ? 'green' : 'red',
-        display: 'flex',
-        alignItems: 'center',
-        marginTop: '5px'
-      }}
-    >
-      {userGrowthPercentage >= 0 ? <FaArrowUp /> : <FaArrowDown />}
-      <span style={{ marginLeft: '5px' }}>
-        {userGrowthPercentage.toFixed(2)}%
-      </span>
-    </div>
-  )}
-    <MonthlyUserGrowthChart adminEmail={currentUser.email} />
-</div>
-</div>
-     
-        
-   
-<div className='order_counts_country'>
-    
-      <div  className='orders_country_chart' >
-       <OrdersChart />
-      </div>
-       <div className="total-sales-chart">
-
-<SalesByCountryChart />
-
-</div>
-    </div>
-    <div className='order_transit_stats' >
-  
-  <OrderStatsComparison />
-  <OrderTransitCount />
-  </div>
- 
- {/** 
-<div className="admin-dashboard-summary-orders">
-          <div className="summary-item-recent">
-            <h3>Recent Orders (Last 7 Days)</h3>
-            <div className="recent-orders-list">
-              <ul>
-                {summary.recentOrders.map(order => (
-                  <Link to={`/orderdetails/${order.id}`} className="order-link" key={order.id}>
-                    <li>
-                      Order Number: {order.ordernumber} Email: {order.email}
-                    </li>
-                  </Link>
-                ))}
-              </ul>
-            </div>
+        {/* New Users & Monthly Growth */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">New Users</h3>
+            <ul className="divide-y divide-gray-200">
+              {summary.recentUsers.map(user => (
+                <li key={user.email} className="flex items-center py-3">
+                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-lg font-bold text-gray-600 mr-4">
+                    {user.name ? user.name[0] : user.email[0]}
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-800">{user.name}</div>
+                    <div className="text-gray-500 text-sm">{user.email}</div>
+                    <div className="text-gray-400 text-xs">{user.registration_date}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
-
-          <div className="summary-item-pending">
-            <h3>Pending Orders</h3>
-            <div className="pending-orders-list">
-              <ul>
-                {summary.pendingOrders.map(order => (
-                  <Link to={`/orderdetails/${order.id}`} className="order-link" key={order.id}>
-                    <li>
-                      Order Number: {order.ordernumber} Email: {order.email}
-                    </li>
-                  </Link>
-                ))}
-              </ul>
-            </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Monthly User Growth</h3>
+            {userGrowthPercentage !== null && (
+              <div className={`flex items-center mb-2 text-sm font-medium ${userGrowthPercentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {userGrowthPercentage >= 0 ? <FaArrowUp className="mr-1" /> : <FaArrowDown className="mr-1" />}
+                <span>{userGrowthPercentage.toFixed(2)}%</span>
+              </div>
+            )}
+            <MonthlyUserGrowthChart adminEmail={currentUser.email} />
           </div>
         </div>
-       */} 
 
-        <div className="company-comparison">
-        <h3>Company Comparison</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Company Name</th>
-              <th>Orders</th>
-              <th>Sales</th>
-            </tr>
-          </thead>
-          <tbody>
-            {summary.companyComparison.map((company, index) => (
-              <tr key={index}>
-                <td>{company.company_name}</td>
-                <td>{company.order_count}</td>
-                <td>${company.total_sales}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className='companycomparisonchart' >
-      <CompanyComparisonChart adminEmail={currentUser.email} />
+        {/* Orders by Country & Sales by Country */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Orders by Country</h3>
+            <OrdersChart />
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-700">Sales by Country</h3>
+            <SalesByCountryChart />
+          </div>
+        </div>
 
+        {/* Order Stats & Transit Count */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <OrderStatsComparison />
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <OrderTransitCount />
+          </div>
+        </div>
+
+        {/* Company Comparison */}
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-700">Company Comparison</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Orders</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sales</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {summary.companyComparison.map((company, index) => (
+                  <tr key={index}>
+                    <td className="px-4 py-2 whitespace-nowrap">{company.company_name}</td>
+                    <td className="px-4 py-2 whitespace-nowrap">{company.order_count}</td>
+                    <td className="px-4 py-2 whitespace-nowrap">${company.total_sales}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-6"><CompanyComparisonChart adminEmail={currentUser.email} /></div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <CompanySalesComparison />
+        </div>
+
+        {/* Monthly Sales & Sales Chart */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <MonthlySalesLineChart />
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <SalesChart />
+          </div>
+        </div>
+
+        {/* Sales by Month Bar Chart */}
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-700">Sales by Month</h3>
+          <Bar data={salesBarData} options={{ scales: { y: { beginAtZero: true } } }} />
+        </div>
+
+        {/* Logins by Country & User Logins Chart */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <CountryWithMostLogins />
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <UserLoginsChart />
+          </div>
+        </div>
+
+        <AdminCategory />
       </div>
-    
-      </div>
-      <div>
-  <CompanySalesComparison />
-</div>
-      <div className='country_comparison_container' >
-
-</div>
-
-<div  className='monthly_order_comparison' >
-
-<div className='monthlysales_container'>
-  <MonthlySalesLineChart />
-</div>
-
-<SalesChart />
-</div>
-<div className='admin-chart_sales_month'>
-      <h1>Sales by Month</h1>
-      <Bar data={salesBarData} options={{ scales: { y: { beginAtZero: true } } }} />
-</div>
-
-<div className='logins_container' >
-<div>
-        <CountryWithMostLogins />
-      </div>
-
-<div className='userloginschart'>
-  <UserLoginsChart />
-</div>
-
-
-</div>
-      
-
-
-      </div>
-     
-      <AdminCategory />
     </div>
   );
 };

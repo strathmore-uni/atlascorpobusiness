@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import './OrderDetailsPage.css';
 import AdminCategory from './AdminCategory';
 
 const OrderDetailsPage = () => {
@@ -96,97 +95,104 @@ const OrderDetailsPage = () => {
 
   if (loading) {
     return (
-      <div className="center-spinner">
-      <div className="user-spinner"></div>
-    </div>
+      <div className="flex items-center justify-center min-h-[40vh]">
+        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
     );
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="text-red-600 text-center mt-8">{error}</div>;
   }
 
   return (
-    <div className="order-details-page">
-      <h1>{category.charAt(0).toUpperCase() + category.slice(1)} Orders</h1>
-      <div className="filter-section">
-        {currentUser.email === 'superadmin@gmail.com' && (
-          <div className="filter-container">
-            <label htmlFor="country-select">Filter by Country:</label>
-            <select
-              id="country-select"
-              value={selectedCountry}
-              onChange={handleCountryChange}
-            >
-              <option value="">All Countries</option>
-              {countries.map(country => (
-                <option key={country.code} value={country.code}>{country.name}</option>
-              ))}
-            </select>
+    <div className="bg-gray-50 min-h-screen p-4 md:p-8 md:ml-32 lg:ml-48">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">
+          {category.charAt(0).toUpperCase() + category.slice(1)} Orders
+        </h1>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+          {currentUser.email === 'superadmin@gmail.com' && (
+            <div className="flex flex-col md:flex-row gap-2 items-center">
+              <label htmlFor="country-select" className="font-medium text-gray-700">Country:</label>
+              <select
+                id="country-select"
+                value={selectedCountry}
+                onChange={handleCountryChange}
+                className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">All Countries</option>
+                {countries.map(country => (
+                  <option key={country.code} value={country.code}>{country.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
+          <div className="flex flex-col md:flex-row gap-2 items-center">
+            <label htmlFor="start-date" className="font-medium text-gray-700">Start Date:</label>
+            <input
+              type="date"
+              id="start-date"
+              value={startDate}
+              onChange={handleStartDateChange}
+              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <label htmlFor="end-date" className="font-medium text-gray-700">End Date:</label>
+            <input
+              type="date"
+              id="end-date"
+              value={endDate}
+              onChange={handleEndDateChange}
+              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+        </div>
+        <input
+          type="text"
+          placeholder="Search orders"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="w-full mb-6 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        {orders.length === 0 && !loading && (
+          <div className="bg-white rounded shadow p-6 text-center text-gray-500">
+            <p>No orders found for {category}.</p>
           </div>
         )}
-
-        
-        <div className="date-filter-container">
-          <label htmlFor="start-date">Start Date:</label>
-          <input
-            type="date"
-            id="start-date"
-            value={startDate}
-            onChange={handleStartDateChange}
-          />
-          <label htmlFor="end-date">End Date:</label>
-          <input
-            type="date"
-            id="end-date"
-            value={endDate}
-            onChange={handleEndDateChange}
-          />
+        <ul className="space-y-4">
+          {filteredOrders.slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage).map(order => (
+            <li key={order.id} className="bg-white rounded-lg shadow p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2 hover:shadow-lg transition">
+              <Link to={`/orderdetails/${order.id}`} className="text-blue-600 font-semibold hover:underline">
+                Order Number: {order.ordernumber || 'N/A'}
+              </Link>
+              <div className="text-gray-700">Status: <span className="font-medium">{order.status || 'N/A'}</span></div>
+            </li>
+          ))}
+        </ul>
+        {/* Pagination Controls */}
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            &laquo; Previous
+          </button>
+          <span className="text-gray-700 font-medium">Page {currentPage} of {totalPages}</span>
+          <button
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next &raquo;
+          </button>
+        </div>
+        <div className="mt-10">
+          <AdminCategory />
         </div>
       </div>
-      <input
-        type="text"
-        placeholder="Search orders"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className="search-bar"
-      />
-      {orders.length === 0 && !loading && (
-        <div className="no-orders-message">
-          <p>No orders found for {category}.</p>
-        </div>
-      )}
-      <ul>
-        {filteredOrders.slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage).map(order => (
-          <li key={order.id}>
-            <Link to={`/orderdetails/${order.id}`} className="order-details-link">
-              <div>Order Number: {order.ordernumber || 'N/A'}</div>
-            </Link>
-            <div>Status: {order.status || 'N/A'}</div>
-          </li>
-        ))}
-      </ul>
-      <div className="pagination-controls">
-  <button 
-    className="pagination-button" 
-    onClick={() => handlePageChange(currentPage - 1)} 
-    disabled={currentPage === 1}
-  >
-    &laquo; Previous
-  </button>
-  <span className="pagination-info">Page {currentPage} of {totalPages}</span>
-  <button 
-    className="pagination-button" 
-    onClick={() => handlePageChange(currentPage + 1)} 
-    disabled={currentPage === totalPages}
-  >
-    Next &raquo;
-  </button>
-</div>
-
-      <AdminCategory />
     </div>
   );
-};
+}
 
 export default OrderDetailsPage;

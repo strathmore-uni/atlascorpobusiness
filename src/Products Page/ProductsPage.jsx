@@ -199,7 +199,7 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
       navigate('/signin');
       return;
     }
-
+  
     try {
       await axios.post(`${process.env.REACT_APP_LOCAL}/api/cart`, {
         partnumber: product.partnumber,
@@ -335,22 +335,22 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
           <div className="flex items-center space-x-2 py-4 text-sm">
             <Link to="/" className="text-blue-600 hover:text-blue-800 transition-colors">
               Home
-            </Link>
+        </Link>
             <FiChevronRight className="text-gray-400" />
             <Link to="/Shop" className="text-blue-600 hover:text-blue-800 transition-colors">
               Shop
-            </Link>
+        </Link>
             <FiChevronRight className="text-gray-400" />
             <span className="text-gray-900 font-medium">{category}</span>
           </div>
         </div>
       </div>
-
+   
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          </div>
+           </div>
         ) : (
           <>
             {error && (
@@ -571,10 +571,10 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
                           className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                         />
                         <span className="ml-2 text-sm text-gray-700">Out of Stock</span>
-                      </label>
-                    </div>
-                  </div>
-
+                </label>
+              </div>
+            </div>
+          
                   {/* Rating Filter */}
                   <div className="mb-6">
                     <h3 className="font-medium text-gray-900 mb-3">Minimum Rating</h3>
@@ -781,9 +781,9 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
                             <p className="text-xs text-gray-500 font-mono">{product.partnumber}</p>
                           </div>
                           
-                          <Link
-                            to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
-                            onClick={() => handleAddProductDetails(product)}
+                    <Link
+                      to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+                      onClick={() => handleAddProductDetails(product)}
                             className="block mb-2"
                           >
                             <h3 className={`font-medium text-gray-900 hover:text-blue-600 transition-colors ${
@@ -791,7 +791,7 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
                             }`}>
                               {product.Description}
                             </h3>
-                          </Link>
+                    </Link>
 
                           <div className="flex items-center justify-between mb-3">
                             <p className="text-lg font-bold text-gray-900">${product.Price}</p>
@@ -802,11 +802,11 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
                               <span className={`text-xs font-medium ${
                                 product.Stock > 0 ? "text-green-600" : "text-red-600"
                               }`}>
-                                {product.Stock > 0 ? "In Stock" : "Out of Stock"}
+                        {product.Stock > 0 ? "In Stock" : "Out of Stock"}
                               </span>
                             </div>
-                          </div>
-
+                      </div>
+                    
                           <button
                             onClick={() => handleAddToCart(product)}
                             disabled={product.Stock <= 0}
@@ -822,7 +822,7 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
                         </div>
                       </div>
                     ))}
-                  </div>
+                    </div>
                 ) : (
                   <div className="text-center py-12">
                     <div className="mx-auto h-12 w-12 text-gray-400">
@@ -840,17 +840,17 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
                     >
                       Clear All Filters
                     </button>
-                  </div>
+                    </div>
                 )}
 
                 {/* Pagination */}
                 {displayProducts.length > itemsPerPage && (
                   <div className="mt-8 flex justify-center">
-                    <ReactPaginate
+                <ReactPaginate
                       previousLabel="Previous"
                       nextLabel="Next"
-                      pageCount={pageCount}
-                      onPageChange={(e) => setPageNumber(e.selected)}
+                  pageCount={pageCount}
+                  onPageChange={(e) => setPageNumber(e.selected)}
                       containerClassName="flex items-center space-x-1"
                       pageClassName="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700"
                       previousClassName="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700"

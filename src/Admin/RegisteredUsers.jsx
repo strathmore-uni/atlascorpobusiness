@@ -5,19 +5,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import './users.css';
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useAuth } from '../MainOpeningpage/AuthContext';
+import { useLoading } from '../General Components/LoadingProvider';
+import LoadingSpinner from '../General Components/LoadingSpinner';
 
 import AdminCategory from './AdminCategory';
 
 const RegisteredUsers = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [countries, setCountries] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
   const [activeTab, setActiveTab] = useState('details'); // State for active tab
   const { currentUser } = useAuth();
+  const { setLoading, getLoadingState } = useLoading();
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -28,6 +30,7 @@ const RegisteredUsers = () => {
         return;
       }
 
+      setLoading('users', true, 'Loading users...');
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/registeredusers`, {
           params: { email: currentUser.email }
@@ -40,54 +43,48 @@ const RegisteredUsers = () => {
         setError('Failed to fetch users.');
         toast.error('Failed to fetch users.');
       } finally {
-        setLoading(false);
+        setLoading('users', false);
       }
     };
 
     fetchUsers();
-  }, [currentUser]);
+  }, [currentUser, setLoading]);
 
   useEffect(() => {
     const fetchCountries = async () => {
+      setLoading('countries', true, 'Loading countries...');
       try {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/countries`);
-        if (Array.isArray(response.data)) {
-          setCountries(response.data);
-        } else {
-          console.error('Unexpected data format:', response.data);
-        }
+        setCountries(response.data);
       } catch (error) {
         console.error('Error fetching countries:', error);
         toast.error('Failed to fetch countries.');
+      } finally {
+        setLoading('countries', false);
       }
     };
 
     fetchCountries();
-  }, []);
+  }, [setLoading]);
 
-  const handleViewDetails = async (userId) => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/registeredusers/${userId}`, {
-        params: { email: currentUser.email }
-      });
-      setSelectedUser(response.data);
-      
-      // Fetch order history
-      const historyResponse = await axios.get(`${process.env.REACT_APP_LOCAL}/api/orders/history`, {
-        params: { email: response.data.email }
-      });
-      setOrderHistory(historyResponse.data);
-      setActiveTab('details'); // Switch to details tab by default
-    } catch (error) {
-      console.error('Error fetching user details:', error);
-      toast.error('Failed to fetch user details or you don\'t have necessary permissions.');
+  const handleUserClick = async (user) => {
+    setSelectedUser(user);
+    setActiveTab('details');
+    
+    if (user.email) {
+      setLoading('orderHistory', true, 'Loading order history...');
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/user/orders`, {
+          params: { email: user.email }
+        });
+        setOrderHistory(response.data);
+      } catch (error) {
+        console.error('Error fetching order history:', error);
+        toast.error('Failed to fetch order history.');
+      } finally {
+        setLoading('orderHistory', false);
+      }
     }
-  };
-
-  const handleBackToList = () => {
-    setSelectedUser(null);
-    setOrderHistory([]);
-    setActiveTab('details'); // Reset to details tab when going back to list
   };
 
   const handleCountryChange = async (event) => {
@@ -97,6 +94,7 @@ const RegisteredUsers = () => {
     // Debug log to check the selected country
     console.log(`Selected Country: ${selectedCountry}`);
   
+    setLoading('filterUsers', true, 'Filtering users...');
     try {
       const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/registeredusers`, {
         params: { email: currentUser.email, country: selectedCountry || undefined },
@@ -109,150 +107,214 @@ const RegisteredUsers = () => {
     } catch (error) {
       console.error('Error fetching filtered users:', error);
       toast.error('Failed to filter users.');
+    } finally {
+      setLoading('filterUsers', false);
     }
   };
   
-  
-  
-
   const handleSuspendUser = async (userId) => {
     if (!window.confirm('Are you sure you want to suspend this user?')) {
       return;
     }
 
+    setLoading('suspendUser', true, 'Suspending user...');
     try {
       await axios.post(`${process.env.REACT_APP_LOCAL}/api/suspenduser`, {
         email: currentUser.email,
         userId
       });
       toast.success('User suspended successfully');
-      fetchUsers(); // Refresh user list after suspension
+      // Refresh user list after suspension
+      const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/registeredusers`, {
+        params: { email: currentUser.email }
+      });
+      setUsers(response.data);
+      setFilteredUsers(response.data);
     } catch (error) {
       console.error('Error suspending user:', error);
       toast.error('Failed to suspend user.');
+    } finally {
+      setLoading('suspendUser', false);
     }
   };
 
-  if (loading) {
+  const usersLoading = getLoadingState('users');
+  const countriesLoading = getLoadingState('countries');
+  const orderHistoryLoading = getLoadingState('orderHistory');
+  const filterUsersLoading = getLoadingState('filterUsers');
+  const suspendUserLoading = getLoadingState('suspendUser');
+
+  if (usersLoading.isLoading) {
     return (
-      <div className="center-spinner">
-            <div className="user-spinner"></div>
-          </div>
+      <LoadingSpinner
+        type="dots"
+        size="large"
+        color="blue"
+        text="Loading users..."
+        fullScreen={true}
+      />
     );
   }
 
-  if (selectedUser) {
+  if (error) {
     return (
-      <div className="user-details-container">
-       
-        <button onClick={handleBackToList} className="back-button">  <IoChevronBackOutline /> Back to List</button>
-        <h2>User Details</h2>
-        <div className="tabs">
-           
-          <button
-            className={`tab-button ${activeTab === 'details' ? 'active' : ''}`}
-            onClick={() => setActiveTab('details')}
-          >
-            User Details
-          </button>
-          <button
-            className={`tab-button ${activeTab === 'history' ? 'active' : ''}`}
-            onClick={() => setActiveTab('history')}
-          >
-            Order History
-          </button>
-        </div>
-        <div className="tab-content">
-          {activeTab === 'details' && (
-            <div className="user-details-info">
-              <strong>Email:</strong> {selectedUser.email}<br />
-              <strong>Name:</strong> {selectedUser.firstName} {selectedUser.secondName}<br />
-              <strong>Company:</strong> {selectedUser.companyName}<br />
-              <strong>Address 1:</strong> {selectedUser.address1}<br />
-              <strong>Address 2:</strong> {selectedUser.address2}<br />
-              <strong>Phone:</strong> {selectedUser.phone}<br />
-              <strong>City:</strong> {selectedUser.city}<br />
-              <strong>Zip Code:</strong> {selectedUser.zip}<br />
-              <strong>Country:</strong> {selectedUser.country}<br />
-              <button
-                onClick={() => handleSuspendUser(selectedUser.id)}
-                className="suspend-button"
-              >
-                Suspend User
-              </button>
-            </div>
-          )}
-          {activeTab === 'history' && (
-            <div>
-              <h3>Order History</h3>
-              {orderHistory.length > 0 ? (
-                <ul className="order-history-list">
-                  {orderHistory.map(order => (
-                    <li key={order.id} className="order-history-item">
-                      <strong>Order Number:</strong> {order.ordernumber}<br />
-                      <strong>Status:</strong> {order.status}<br />
-                      <strong>Total Price:</strong> ${order.totalprice}<br />
-                      <strong>Items:</strong>
-                      <ul>
-                        {order.items.map((item, index) => (
-                          <li key={index}>
-                            {item.description} - {item.quantity} x ${item.price}
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No order history available for this user.</p>
-              )}
-            </div>
-          )}
-        </div>
+      <div className="users-container">
         <AdminCategory />
-        <ToastContainer />
+        <div className="error-message">
+          <h2>Error</h2>
+          <p>{error}</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="users-container">
-      <h2>Registered Users</h2>
-      {error && <p className="error-message">{error}</p>}
-
-      {currentUser.email === 'superadmin@gmail.com' && (
-        <div className="filter-container">
-          <label htmlFor="country-select">Filter by Country:</label>
-          <select
-            id="country-select"
-            value={selectedCountry}
-            onChange={handleCountryChange}
-          >
-            <option value="">All Countries</option>
-            {countries.map(country => (
-              <option key={country.code} value={country.name}>{country.name}</option>
-            ))}
-          </select>
-        </div>
-      )}
-      <ul className="user-list">
-        {filteredUsers.map(user => (
-          <li key={user.id} className="user-card">
-            <div className="user-details">
-              <strong>Email:</strong> {user.email}<br />
-              <strong>Name:</strong> {user.firstName} {user.secondName}<br />
-              <strong>Company:</strong> {user.companyName}<br />
-            </div>
-            <button
-              className="view-button"
-              onClick={() => handleViewDetails(user.id)}
-            >
-              View Details
-            </button>
-          </li>
-        ))}
-      </ul>
       <AdminCategory />
+      <div className="users-content">
+        <div className="users-header">
+          <h2>Registered Users</h2>
+          <div className="filter-section">
+            <label htmlFor="country-select">Filter by Country:</label>
+            <select
+              id="country-select"
+              value={selectedCountry}
+              onChange={handleCountryChange}
+              disabled={countriesLoading.isLoading}
+            >
+              <option value="">All Countries</option>
+              {countries.map(country => (
+                <option key={country.code} value={country.code}>{country.name}</option>
+              ))}
+            </select>
+            {countriesLoading.isLoading && (
+              <LoadingSpinner type="ring" size="small" color="blue" text="" />
+            )}
+          </div>
+        </div>
+
+        <div className="users-list">
+          {filterUsersLoading.isLoading ? (
+            <LoadingSpinner
+              type="wave"
+              size="medium"
+              color="blue"
+              text="Filtering users..."
+            />
+          ) : (
+            filteredUsers.map((user) => (
+              <div key={user.id} className="user-card" onClick={() => handleUserClick(user)}>
+                <div className="user-details-info">
+                  <strong>Name:</strong> {user.name || 'N/A'}<br />
+                  <strong>Email:</strong> {user.email}<br />
+                  <strong>Country:</strong> {user.country || 'N/A'}<br />
+                  <strong>Phone:</strong> {user.phone || 'N/A'}<br />
+                  <strong>Status:</strong> {user.status || 'Active'}
+                </div>
+                <button
+                  className="view-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUserClick(user);
+                  }}
+                >
+                  View Details
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+
+        {selectedUser && (
+          <div className="modal-overlay" onClick={() => setSelectedUser(null)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h3>User Details</h3>
+                <button
+                  className="close-button"
+                  onClick={() => setSelectedUser(null)}
+                >
+                  ×
+                </button>
+              </div>
+              
+              <div className="modal-tabs">
+                <button
+                  className={`tab-button ${activeTab === 'details' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('details')}
+                >
+                  Details
+                </button>
+                <button
+                  className={`tab-button ${activeTab === 'orders' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('orders')}
+                >
+                  Order History
+                </button>
+              </div>
+
+              <div className="modal-body">
+                {activeTab === 'details' && (
+                  <div className="user-details">
+                    <p><strong>Name:</strong> {selectedUser.name || 'N/A'}</p>
+                    <p><strong>Email:</strong> {selectedUser.email}</p>
+                    <p><strong>Country:</strong> {selectedUser.country || 'N/A'}</p>
+                    <p><strong>Phone:</strong> {selectedUser.phone || 'N/A'}</p>
+                    <p><strong>Status:</strong> {selectedUser.status || 'Active'}</p>
+                    <p><strong>Registration Date:</strong> {new Date(selectedUser.created_at).toLocaleDateString()}</p>
+                  </div>
+                )}
+
+                {activeTab === 'orders' && (
+                  <div className="order-history">
+                    {orderHistoryLoading.isLoading ? (
+                      <LoadingSpinner
+                        type="bounce"
+                        size="medium"
+                        color="blue"
+                        text="Loading order history..."
+                      />
+                    ) : orderHistory.length > 0 ? (
+                      <div className="orders-list">
+                        {orderHistory.map((order) => (
+                          <div key={order.id} className="order-item">
+                            <p><strong>Order ID:</strong> {order.id}</p>
+                            <p><strong>Status:</strong> {order.status}</p>
+                            <p><strong>Total:</strong> ${order.total}</p>
+                            <p><strong>Date:</strong> {new Date(order.created_at).toLocaleDateString()}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p>No order history found for this user.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  className="modal-button"
+                  onClick={() => setSelectedUser(null)}
+                >
+                  Close
+                </button>
+                <button
+                  className="modal-button suspend-button"
+                  onClick={() => handleSuspendUser(selectedUser.id)}
+                  disabled={suspendUserLoading.isLoading}
+                >
+                  {suspendUserLoading.isLoading ? (
+                    <LoadingSpinner type="ring" size="small" color="white" text="" />
+                  ) : (
+                    'Suspend User'
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
       <ToastContainer />
     </div>
   );

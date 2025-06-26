@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import './admincategory.css'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiHome, FiShoppingCart, FiPlus, FiList, FiUsers, FiPackage, FiBarChart, FiShield, FiFileText, FiFile, FiMail } from "react-icons/fi";
 import { useAuth } from '../MainOpeningpage/AuthContext';
-import axios from 'axios';
+
 export default function AdminCategory() {
   const [showSubLinks, setShowSubLinks] = useState(false);
   const { currentUser, signOut } = useAuth();
   const navigate = useNavigate();
+  
   const toggleSubLinks = () => {
     setShowSubLinks(!showSubLinks);
   };
@@ -18,7 +18,6 @@ export default function AdminCategory() {
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-      
         return parsedUser;
       } catch (error) {
         console.error('Error parsing user data from local storage:', error);
@@ -28,119 +27,126 @@ export default function AdminCategory() {
     console.error('No user data found in local storage.');
     return null;
   };
+  
   const mycurrentUser = fetchCurrentUser();
 
   const handleSignOut = async () => {
-   
     signOut();
     console.log('User signed out successfully.');
     navigate('/signin');
     localStorage.removeItem('userEmail');
   };
+  
   const getInitial = (email) => {
-    return email ? email : '';
+    return email ? email.charAt(0).toUpperCase() : 'A';
   };
 
-  return (
-    <div className='admin-category'>
-      <div className="profile-initial-admin">{getInitial(currentUser ? currentUser.email : "Sign in")}</div>
-      <IoMdNotificationsOutline />
-      <div onClick={handleSignOut}>  
-      <FiLogOut className='logout_icon' />
-     </div>
-     <Link to='/dashboard' className='' style={{textDecoration:'none'}} ><h3>Admin </h3></Link> 
-  
-        <div class="inputadmin">
-        <Link to='/dashboard' className='link_category' ><button class="value">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg>
-   Dashboard
-  </button></Link>
-            <Link to=''  className='link_category'>
-  <button class="value" onClick={toggleSubLinks} >
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
-    Ordered Items
-  </button></Link>
-  {showSubLinks && (
-          <div className="sub-links">
-            <Link to="/ordereditems/orders" style={{listStyle:'none',color:'white'}} className="sub-link">Orders</Link>
-            <Link to="/ordereditems/approved" className="sub-link">Approved</Link>
-            <Link to="/ordereditems/pending" className="sub-link">Pending</Link>
-            <Link to="/ordereditems/cancelled" className="sub-link">Cancelled</Link>
-            <Link to="/ordereditems/finished_packing" className="sub-link">Ready for Transport</Link>
-            <Link to="/ordereditems/completed_orders" className="sub-link">Completed Orders</Link>
-          </div>
-        )}
-  <Link to="/addproduct"  className='link_category'>
-  <button class="value">
-    <svg id="Line" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path fill="#7D8590" id="XMLID_1646_" d="m17.074 30h-2.148c-1.038 0-1.914-.811-1.994-1.846l-.125-1.635c-.687-.208-1.351-.484-1.985-.824l-1.246 1.067c-.788.677-1.98.631-2.715-.104l-1.52-1.52c-.734-.734-.78-1.927-.104-2.715l1.067-1.246c-.34-.635-.616-1.299-.824-1.985l-1.634-.125c-1.035-.079-1.846-.955-1.846-1.993v-2.148c0-1.038.811-1.914 1.846-1.994l1.635-.125c.208-.687.484-1.351.824-1.985l-1.068-1.247c-.676-.788-.631-1.98.104-2.715l1.52-1.52c.734-.734 1.927-.779 2.715-.104l1.246 1.067c.635-.34 1.299-.616 1.985-.824l.125-1.634c.08-1.034.956-1.845 1.994-1.845h2.148c1.038 0 1.914.811 1.994 1.846l.125 1.635c.687.208 1.351.484 1.985.824l1.246-1.067c.787-.676 1.98-.631 2.715.104l1.52 1.52c.734.734.78 1.927.104 2.715l-1.067 1.246c.34.635.616 1.299.824 1.985l1.634.125c1.035.079 1.846.955 1.846 1.993v2.148c0 1.038-.811 1.914-1.846 1.994l-1.635.125c-.208.687-.484 1.351-.824 1.985l1.067 1.246c.677.788.631 1.98-.104 2.715l-1.52 1.52c-.734.734-1.928.78-2.715.104l-1.246-1.067c-.635.34-1.299.616-1.985.824l-.125 1.634c-.079 1.035-.955 1.846-1.993 1.846zm-5.835-6.373c.848.53 1.768.912 2.734 1.135.426.099.739.462.772.898l.18 2.341 2.149-.001.18-2.34c.033-.437.347-.8.772-.898.967-.223 1.887-.604 2.734-1.135.371-.232.849-.197 1.181.089l1.784 1.529 1.52-1.52-1.529-1.784c-.285-.332-.321-.811-.089-1.181.53-.848.912-1.768 1.135-2.734.099-.426.462-.739.898-.772l2.341-.18h-.001v-2.148l-2.34-.18c-.437-.033-.8-.347-.898-.772-.223-.967-.604-1.887-1.135-2.734-.232-.37-.196-.849.089-1.181l1.529-1.784-1.52-1.52-1.784 1.529c-.332.286-.81.321-1.181.089-.848-.53-1.768-.912-2.734-1.135-.426-.099-.739-.462-.772-.898l-.18-2.341-2.148.001-.18 2.34c-.033.437-.347.8-.772.898-.967.223-1.887.604-2.734 1.135-.37.232-.849.197-1.181-.089l-1.785-1.529-1.52 1.52 1.529 1.784c.285.332.321.811.089 1.181-.53.848-.912 1.768-1.135 2.734-.099.426-.462.739-.898.772l-2.341.18.002 2.148 2.34.18c.437.033.8.347.898.772.223.967.604 1.887 1.135 2.734.232.37.196.849-.089 1.181l-1.529 1.784 1.52 1.52 1.784-1.529c.332-.287.813-.32 1.18-.089z"></path><path id="XMLID_1645_" fill="#7D8590" d="m16 23c-3.859 0-7-3.141-7-7s3.141-7 7-7 7 3.141 7 7-3.141 7-7 7zm0-12c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"></path></svg>
-   Add product
-  </button></Link>
-  <Link to='/productlist'  className='link_category'>
-  <button class="value">
-    <svg id="svg8" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="layer1" transform="translate(-33.022 -30.617)"><path fill="#7D8590" id="path26276" d="m49.021 31.617c-2.673 0-4.861 2.188-4.861 4.861 0 1.606.798 3.081 1.873 3.834h-7.896c-1.7 0-3.098 1.401-3.098 3.1s1.399 3.098 3.098 3.098h4.377l.223 2.641s-1.764 8.565-1.764 8.566c-.438 1.642.55 3.355 2.191 3.795s3.327-.494 3.799-2.191l2.059-5.189 2.059 5.189c.44 1.643 2.157 2.631 3.799 2.191s2.63-2.153 2.191-3.795l-1.764-8.566.223-2.641h4.377c1.699 0 3.098-1.399 3.098-3.098s-1.397-3.1-3.098-3.1h-7.928c1.102-.771 1.904-2.228 1.904-3.834 0-2.672-2.189-4.861-4.862-4.861zm0 2c1.592 0 2.861 1.27 2.861 2.861 0 1.169-.705 2.214-1.789 2.652-.501.203-.75.767-.563 1.273l.463 1.254c.145.393.519.654.938.654h8.975c.626 0 1.098.473 1.098 1.1s-.471 1.098-1.098 1.098h-5.297c-.52 0-.952.398-.996.916l-.311 3.701c-.008.096-.002.191.018.285 0 0 1.813 8.802 1.816 8.82.162.604-.173 1.186-.777 1.348s-1.184-.173-1.346-.777c-.01-.037-3.063-7.76-3.063-7.76-.334-.842-1.525-.842-1.859 0 0 0-3.052 7.723-3.063 7.76-.162.604-.741.939-1.346.777s-.939-.743-.777-1.348c.004-.019 1.816-8.82 1.816-8.82.02-.094.025-.189.018-.285l-.311-3.701c-.044-.518-.477-.916-.996-.916h-5.297c-.627 0-1.098-.471-1.098-1.098s.472-1.1 1.098-1.1h8.975c.419 0 .793-.262.938-.654l.463-1.254c.188-.507-.062-1.07-.563-1.273-1.084-.438-1.789-1.483-1.789-2.652.001-1.591 1.271-2.861 2.862-2.861z"></path></g></svg>
-    Product List
-  </button></Link>
-  <Link to='/registeredusers' className='link_category'>
-  <button class="value">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M112 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm40 304l0 128c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-223.1L59.4 304.5c-9.1 15.1-28.8 20-43.9 10.9s-20-28.8-10.9-43.9l58.3-97c17.4-28.9 48.6-46.6 82.3-46.6l29.7 0c33.7 0 64.9 17.7 82.3 46.6l58.3 97c9.1 15.1 4.2 34.8-10.9 43.9s-34.8 4.2-43.9-10.9L232 256.9 232 480c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-128-16 0z"/></svg>
-    Users
-  </button></Link>
-  <Link to='/stock' className='link_category'>
-  <button class="value">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M388.3 104.1a4.7 4.7 0 0 0 -4.4-4c-2 0-37.2-.8-37.2-.8s-21.6-20.8-29.6-28.8V503.2L442.8 472S388.7 106.5 388.3 104.1zM288.7 70.5a116.7 116.7 0 0 0 -7.2-17.6C271 32.9 255.4 22 237 22a15 15 0 0 0 -4 .4c-.4-.8-1.2-1.2-1.6-2C223.4 11.6 213 7.6 200.6 8c-24 .8-48 18-67.3 48.8-13.6 21.6-24 48.8-26.8 70.1-27.6 8.4-46.8 14.4-47.2 14.8-14 4.4-14.4 4.8-16 18-1.2 10-38 291.8-38 291.8L307.9 504V65.7a41.7 41.7 0 0 0 -4.4 .4S297.9 67.7 288.7 70.5zM233.4 87.7c-16 4.8-33.6 10.4-50.8 15.6 4.8-18.8 14.4-37.6 25.6-50 4.4-4.4 10.4-9.6 17.2-12.8C232.2 54.9 233.8 74.5 233.4 87.7zM200.6 24.4A27.5 27.5 0 0 1 215 28c-6.4 3.2-12.8 8.4-18.8 14.4-15.2 16.4-26.8 42-31.6 66.5-14.4 4.4-28.8 8.8-42 12.8C131.3 83.3 163.8 25.2 200.6 24.4zM154.2 244.6c1.6 25.6 69.3 31.2 73.3 91.7 2.8 47.6-25.2 80.1-65.7 82.5-48.8 3.2-75.7-25.6-75.7-25.6l10.4-44s26.8 20.4 48.4 18.8c14-.8 19.2-12.4 18.8-20.4-2-33.6-57.2-31.6-60.8-86.9-3.2-46.4 27.2-93.3 94.5-97.7 26-1.6 39.2 4.8 39.2 4.8L221.4 225.4s-17.2-8-37.6-6.4C154.2 221 153.8 239.8 154.2 244.6zM249.4 82.9c0-12-1.6-29.2-7.2-43.6 18.4 3.6 27.2 24 31.2 36.4Q262.6 78.7 249.4 82.9z"/></svg>
-    Stock
-  </button></Link>
-  {mycurrentUser && mycurrentUser.isAdmin && (
-      <Link to="/admin/country-comparison" className="link_category">
-        <button className="value">
-          <svg
-            fill="none"
-            viewBox="0 0 24 25"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              clipRule="evenodd"
-              d="M11.9572 4.31201C8.60319 4.31201 5.94814 6.90942 5.94814 10.2038v3.29037c0 .1986-.05916.3927-.16992.5576l-1.62529 2.4193-.01077.0157c-.18701.2673-.16653.5113-.07001.6868.10031.1825.31959.3528.67282.3528h14.52603c.2546 0 .5013-.1515.6391-.3968.1315-.2343.1117-.4475-.0118-.6093-.0065-.0085-.0129-.0171-.0191-.0258l-1.7269-2.4194c-.121-.1695-.186-.3726-.186-.5809v-3.29037c0-1.54561-.6851-3.023-1.7072-4.00431-1.1617-1.01594-2.6545-1.67311-4.3019-1.67311zm-8.00906 5.67742c0-4.27483 3.64294-7.67742 8.00906-7.67742 2.2055 0 4.1606.88547 5.6378 2.18455.01.00877.0198.01774.0294.02691 1.408 1.34136 2.3419 3.34131 2.3419 5.46596v2.97007l1.5325 2.1471c.6775.8999.6054 1.9859.1552 2.7877-.4464.795-1.3171 1.4177-2.383 1.4177h-14.52603c-2.16218 0-3.55087-2.302-2.24739-4.1777l1.45056-2.1593zm4.05187 11.32257c0-.5523.44772-1 1-1h5.99999c.5523 0 1 .4477 1 1s-.4477 1-1 1h-5.99999c-.55228 0-1-.4477-1-1z"
-              fill="#7D8590"
-              fillRule="evenodd"
-            ></path>
-          </svg>
-          Comparison
-        </button>
-      </Link>
-    )}
-   {mycurrentUser && mycurrentUser.isAdmin &&(
-  <Link to='/admin/adminrightsmanagement' className='link_category'>
-  <button class="value">
-    <svg fill="none" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="m11.9572 4.31201c-3.35401 0-6.00906 2.59741-6.00906 5.67742v3.29037c0 .1986-.05916.3927-.16992.5576l-1.62529 2.4193-.01077.0157c-.18701.2673-.16653.5113-.07001.6868.10031.1825.31959.3528.67282.3528h14.52603c.2546 0 .5013-.1515.6391-.3968.1315-.2343.1117-.4475-.0118-.6093-.0065-.0085-.0129-.0171-.0191-.0258l-1.7269-2.4194c-.121-.1695-.186-.3726-.186-.5809v-3.29037c0-1.54561-.6851-3.023-1.7072-4.00431-1.1617-1.01594-2.6545-1.67311-4.3019-1.67311zm-8.00906 5.67742c0-4.27483 3.64294-7.67742 8.00906-7.67742 2.2055 0 4.1606.88547 5.6378 2.18455.01.00877.0198.01774.0294.02691 1.408 1.34136 2.3419 3.34131 2.3419 5.46596v2.97007l1.5325 2.1471c.6775.8999.6054 1.9859.1552 2.7877-.4464.795-1.3171 1.4177-2.383 1.4177h-14.52603c-2.16218 0-3.55087-2.302-2.24739-4.1777l1.45056-2.1593zm4.05187 11.32257c0-.5523.44772-1 1-1h5.99999c.5523 0 1 .4477 1 1s-.4477 1-1 1h-5.99999c-.55228 0-1-.4477-1-1z" fill="#7D8590" fill-rule="evenodd"></path></svg>
-    Admin Rights
-  </button></Link>
-  )}
-     {mycurrentUser && mycurrentUser.isAdmin &&(
-  <Link to='/admin/auditlog' className='link_category'>
-  <button class="value">
-    <svg fill="none" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="m11.9572 4.31201c-3.35401 0-6.00906 2.59741-6.00906 5.67742v3.29037c0 .1986-.05916.3927-.16992.5576l-1.62529 2.4193-.01077.0157c-.18701.2673-.16653.5113-.07001.6868.10031.1825.31959.3528.67282.3528h14.52603c.2546 0 .5013-.1515.6391-.3968.1315-.2343.1117-.4475-.0118-.6093-.0065-.0085-.0129-.0171-.0191-.0258l-1.7269-2.4194c-.121-.1695-.186-.3726-.186-.5809v-3.29037c0-1.54561-.6851-3.023-1.7072-4.00431-1.1617-1.01594-2.6545-1.67311-4.3019-1.67311zm-8.00906 5.67742c0-4.27483 3.64294-7.67742 8.00906-7.67742 2.2055 0 4.1606.88547 5.6378 2.18455.01.00877.0198.01774.0294.02691 1.408 1.34136 2.3419 3.34131 2.3419 5.46596v2.97007l1.5325 2.1471c.6775.8999.6054 1.9859.1552 2.7877-.4464.795-1.3171 1.4177-2.383 1.4177h-14.52603c-2.16218 0-3.55087-2.302-2.24739-4.1777l1.45056-2.1593zm4.05187 11.32257c0-.5523.44772-1 1-1h5.99999c.5523 0 1 .4477 1 1s-.4477 1-1 1h-5.99999c-.55228 0-1-.4477-1-1z" fill="#7D8590" fill-rule="evenodd"></path></svg>
-    Audit Logs
-  </button></Link>
-  )}
-   {mycurrentUser && mycurrentUser.isAdmin && (
-  <Link to='/admin/records' className='link_category'>
-  <button class="value">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>
-    Records
-  </button></Link>
-  
-  )}
-   {mycurrentUser && mycurrentUser.isAdmin && (
-  <Link to='/admin/questions' className='link_category'>
-  <button class="value">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
-   Questions
-  </button></Link>
-  
-  )}
-</div>
+  const navigationItems = [
+    { name: 'Dashboard', icon: FiHome, path: '/dashboard', color: 'bg-blue-500' },
+    { name: 'Orders', icon: FiShoppingCart, path: '', color: 'bg-green-500', hasSubmenu: true },
+    { name: 'Add Product', icon: FiPlus, path: '/addproduct', color: 'bg-purple-500' },
+    { name: 'Product List', icon: FiList, path: '/productlist', color: 'bg-orange-500' },
+    { name: 'Users', icon: FiUsers, path: '/registeredusers', color: 'bg-indigo-500' },
+    { name: 'Stock', icon: FiPackage, path: '/stock', color: 'bg-red-500' },
+    { name: 'Comparison', icon: FiBarChart, path: '/admin/country-comparison', color: 'bg-teal-500', adminOnly: true },
+    { name: 'Admin Rights', icon: FiShield, path: '/admin/adminrightsmanagement', color: 'bg-yellow-500', adminOnly: true },
+    { name: 'Audit Logs', icon: FiFileText, path: '/admin/auditlog', color: 'bg-pink-500', adminOnly: true },
+    { name: 'Records', icon: FiFile, path: '/admin/records', color: 'bg-gray-500', adminOnly: true },
+    { name: 'Questions', icon: FiMail, path: '/admin/questions', color: 'bg-cyan-500', adminOnly: true },
+  ];
 
+  const subMenuItems = [
+    { name: 'Orders', path: '/ordereditems/orders' },
+    { name: 'Approved', path: '/ordereditems/approved' },
+    { name: 'Pending', path: '/ordereditems/pending' },
+    { name: 'Cancelled', path: '/ordereditems/cancelled' },
+    { name: 'Ready for Transport', path: '/ordereditems/finished_packing' },
+    { name: 'Completed Orders', path: '/ordereditems/completed_orders' },
+  ];
+
+  return (
+    <div className="fixed left-0 top-0 h-full w-52 bg-gradient-to-b from-gray-900 to-gray-800 shadow-2xl z-50 overflow-y-auto">
+      {/* Header */}
+      <div className="flex items-center justify-between p-3 border-b border-gray-700">
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md">
+            {getInitial(currentUser ? currentUser.email : "Admin")}
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-white">Admin</h3>
+            <p className="text-xs text-gray-400 truncate max-w-32">{currentUser ? currentUser.email : "Sign in"}</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-1">
+          <button className="p-1.5 text-gray-400 hover:text-blue-400 hover:bg-gray-700 rounded transition-all duration-200">
+            <IoMdNotificationsOutline className="w-3.5 h-3.5" />
+          </button>
+          <button 
+            onClick={handleSignOut}
+            className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-gray-700 rounded transition-all duration-200"
+            title="Sign Out"
+          >
+            <FiLogOut className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <div className="p-3 space-y-1">
+        {navigationItems.map((item) => {
+          if (item.adminOnly && !mycurrentUser?.isAdmin) return null;
+          
+          const Icon = item.icon;
+          
+          if (item.hasSubmenu) {
+            return (
+              <div key={item.name}>
+                <button
+                  onClick={toggleSubLinks}
+                  className="w-full flex items-center space-x-3 px-3 py-2.5 text-left text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition-all duration-200 group"
+                >
+                  <div className={`w-7 h-7 ${item.color} rounded-lg flex items-center justify-center text-white shadow-md`}>
+                    <Icon className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="font-medium text-sm truncate">{item.name}</span>
+                  <div className={`ml-auto transform transition-transform duration-200 ${showSubLinks ? 'rotate-180' : ''}`}>
+                    <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </button>
+                
+                {showSubLinks && (
+                  <div className="ml-10 mt-1 space-y-0.5">
+                    {subMenuItems.map((subItem) => (
+                      <Link
+                        key={subItem.name}
+                        to={subItem.path}
+                        className="block px-3 py-2 text-xs text-gray-400 hover:text-blue-400 hover:bg-gray-700 rounded-lg transition-all duration-200 truncate"
+                      >
+                        {subItem.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          }
+          
+          return (
+            <Link
+              key={item.name}
+              to={item.path}
+              className="flex items-center space-x-3 px-3 py-2.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition-all duration-200 group"
+            >
+              <div className={`w-7 h-7 ${item.color} rounded-lg flex items-center justify-center text-white shadow-md`}>
+                <Icon className="w-3.5 h-3.5" />
+              </div>
+              <span className="font-medium text-sm truncate">{item.name}</span>
+            </Link>
+          );
+        })}
+      </div>
     </div>
-  )
+  );
 }

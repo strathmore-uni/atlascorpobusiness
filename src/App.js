@@ -21,6 +21,7 @@ import ProductsPage from "./Products Page/ProductsPage";
 import BackToTopButton from "./General Components/BackToTopButton";
 import SignInPage from "./MainOpeningpage/SignInPage";
 import { AuthProvider, useAuth } from "./MainOpeningpage/AuthContext";
+import { LoadingProvider } from "./General Components/LoadingProvider";
 
 import OrderHistory from "./Shopping Cart/OrderHistory";
 
@@ -355,179 +356,181 @@ function App() {
     <>     
       <AuthProvider>
         <CartProvider>
-          <BrowserRouter>
-            <ScrollToTop />
+          <LoadingProvider>
+            <BrowserRouter>
+              <ScrollToTop />
 
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Mainpage
-                    handleAddProductDetails={handleAddProductDetails}
-                    quotationItems={quotationItems}
-                    handleAddQuotationProduct={handleAddQuotationProduct}
-                  />
-                }
-              />
-              <Route
-                path="/shop"
-                element={
-                  <Shop
-                    handleAddProductDetails={handleAddProductDetails}
-                    quotationItems={quotationItems}
-                    handleAddQuotationProduct={handleAddQuotationProduct}
-                  />
-                }
-              />
-              <Route
-                path="/productdetails/:partnumber"
-                element={
-                  <Productdetails
-                    handleAddProductDetails={handleAddProductDetails}
-                    productdetails={productdetails}
-                  />
-                }
-              />
-              <Route
-                path="/cart"
-                element={
-                  <>
-                    <ShoppingCartPage
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <Mainpage
+                      handleAddProductDetails={handleAddProductDetails}
+                      quotationItems={quotationItems}
+                      handleAddQuotationProduct={handleAddQuotationProduct}
+                    />
+                  }
+                />
+                <Route
+                  path="/shop"
+                  element={
+                    <Shop
+                      handleAddProductDetails={handleAddProductDetails}
+                      quotationItems={quotationItems}
+                      handleAddQuotationProduct={handleAddQuotationProduct}
+                    />
+                  }
+                />
+                <Route
+                  path="/productdetails/:partnumber"
+                  element={
+                    <Productdetails
+                      handleAddProductDetails={handleAddProductDetails}
+                      productdetails={productdetails}
+                    />
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <>
+                      <ShoppingCartPage
+                        handleRemoveSingleQuotationProduct={
+                          handleRemoveSingleQuotationProduct
+                        }
+                        quotationItems={quotationItems}
+                        handleAddQuotationProduct={handleAddQuotationProduct}
+                        handleRemoveQuotationProduct={handleRemoveQuotationProduct}
+                        handleCartClearance={handleCartClearance}
+                      />
+                    </>
+                  }
+                />
+
+                <Route
+                  path="/delivery"
+                  element={
+                    <Delivery />
+                  }
+                />
+                <Route
+                  path="/form"
+                  element={<Form />}
+                />
+                <Route
+                  path="/review-order"
+                  element={
+                    <ReviewOrder />
+                  }
+                />
+                <Route
+                  path="/search"
+                  element={
+                    <SearchDisplay
+                      handleAddProductDetails={handleAddProductDetails}
+                    />
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <Checkout />
+                  }
+                />
+               
+                <Route path="/categories" element={<Categories />} />
+
+                <Route path="/mytestingpage" element={<Mytestingpage />} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
+                <Route path="/emailconfirmation" element={<EmailConfirmation />} />
+
+                <Route path="" element={<Notification />} />
+
+                <Route
+                  path="/products"
+                  element={
+                    <Products
+                      handleAddProductDetails={handleAddProductDetails}
+                      quotationItems={quotationItems}
+                      handleAddQuotationProduct={handleAddQuotationProduct}
+                    />
+                  }
+                />
+                <Route
+                  path="/products/:category"
+                  element={
+                    <ProductsPage
+                      handleAddProductDetails={handleAddProductDetails}
+                    />
+                  }
+                />
+                <Route
+                  path="/signin"
+                  element={<SignInPage setGuestEmail={setGuestEmail} />}
+                />
+                <Route path="/orderhistory" element={<OrderHistory />} />
+
+                <Route path="/userprofile" element={<Userprofile />} />
+                <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+                <Route
+                  path="/saveditems"
+                  element={
+                    <Saveditems
+                      handleSavedItemsProduct={handleSavedItemsProduct}
+                      saveditem={saveditem}
+                      quotationItems={quotationItems}
                       handleRemoveSingleQuotationProduct={
                         handleRemoveSingleQuotationProduct
                       }
-                      quotationItems={quotationItems}
-                      handleAddQuotationProduct={handleAddQuotationProduct}
-                      handleRemoveQuotationProduct={handleRemoveQuotationProduct}
-                      handleCartClearance={handleCartClearance}
                     />
-                  </>
-                }
-              />
+                  }
+                />
+                <Route path="/Adminprofile" element={<AdminProfile />} />
+                <Route path="/mainadmin" element={<Mainadmin  />} />
+                <Route path="" element={<Ordereditems />} />
+                <Route path="/order-history/:email" element={<AdminOrderHistory/>} />
+                <Route path="/ordereditems/:category" element={<OrderDetailsPage />} />
+                <Route path="/addproduct"  element={<AddProduct />}/>
+                <Route path="/dashboard" element={<AdminDashboardSummary />} />
+                <Route path="/admin/settings" element={<Settings />}  />
+                <Route path="/admin/create-admin" element={<CreateAdmin />} />
+                <Route path="/admin/country-comparison" element={<CountryComparison />}  />
+                <Route path='/stock' element={<Stock />} />
+                <Route path="/editproduct/:id"  element={<EditProduct />}/>
+                <Route path="/admin/adminrightsmanagement" element={<AdminRightsManagement />}  />
+                <Route path="/productlist"  element={<ProductsList />}/>
+                <Route path="/registeredusers"  element={<RegisteredUsers />}/>
+                <Route path="orderdetails/:orderId" element={<OrderDetails />} />
+                <Route path="/notifications" element={<NotificationsPage />}  />
+                <Route path="/usernotifications" element={<UserNotificationPage />}  />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+       
+                <Route path="/admin/auditlog" element={<AuditLogPage/>}  />
+                <Route path="/admin/records" element={<AdminRecords />}   />
+                <Route path='/admin/questions' element={<AdminQuestionsPage/>}  />
 
-              <Route
-                path="/delivery"
-                element={
-                  <Delivery />
-                }
-              />
-              <Route
-                path="/form"
-                element={<Form />}
-              />
-              <Route
-                path="/review-order"
-                element={
-                  <ReviewOrder />
-                }
-              />
-              <Route
-                path="/search"
-                element={
-                  <SearchDisplay
-                    handleAddProductDetails={handleAddProductDetails}
-                  />
-                }
-              />
-              <Route
-                path="/checkout"
-                element={
-                  <Checkout />
-                }
-              />
-             
-              <Route path="/categories" element={<Categories />} />
+                {/**  Warehouse Admin  */}
+                <Route path="/warehouse/dashboard" element={<Dashboard />}  />
+                <Route path="" element={<Ordereditems />} />
+                
+                <Route path="/warehouseordertails/:orderId"  element={<WarehouseOrderDetails />}  />
+                <Route path="/warehouseordereditems/:category"  element={<WarehouseOrderDetailsPage />}  />
 
-              <Route path="/mytestingpage" element={<Mytestingpage />} />
-              <Route path="/verify-email" element={<VerifyEmail />} />
-              <Route path="/emailconfirmation" element={<EmailConfirmation />} />
-
-              <Route path="" element={<Notification />} />
-
-              <Route
-                path="/products"
-                element={
-                  <Products
-                    handleAddProductDetails={handleAddProductDetails}
-                    quotationItems={quotationItems}
-                    handleAddQuotationProduct={handleAddQuotationProduct}
-                  />
-                }
-              />
-              <Route
-                path="/products/:category"
-                element={
-                  <ProductsPage
-                    handleAddProductDetails={handleAddProductDetails}
-                  />
-                }
-              />
-              <Route
-                path="/signin"
-                element={<SignInPage setGuestEmail={setGuestEmail} />}
-              />
-              <Route path="/orderhistory" element={<OrderHistory />} />
-
-              <Route path="/userprofile" element={<Userprofile />} />
-              <Route path="/forgot-password" element={<ForgotPasswordForm />} />
-              <Route
-                path="/saveditems"
-                element={
-                  <Saveditems
-                    handleSavedItemsProduct={handleSavedItemsProduct}
-                    saveditem={saveditem}
-                    quotationItems={quotationItems}
-                    handleRemoveSingleQuotationProduct={
-                      handleRemoveSingleQuotationProduct
-                    }
-                  />
-                }
-              />
-              <Route path="/Adminprofile" element={<AdminProfile />} />
-              <Route path="/mainadmin" element={<Mainadmin  />} />
-              <Route path="" element={<Ordereditems />} />
-              <Route path="/order-history/:email" element={<AdminOrderHistory/>} />
-              <Route path="/ordereditems/:category" element={<OrderDetailsPage />} />
-              <Route path="/addproduct"  element={<AddProduct />}/>
-              <Route path="/dashboard" element={<AdminDashboardSummary />} />
-              <Route path="/admin/settings" element={<Settings />}  />
-              <Route path="/admin/create-admin" element={<CreateAdmin />} />
-              <Route path="/admin/country-comparison" element={<CountryComparison />}  />
-              <Route path='/stock' element={<Stock />} />
-              <Route path="/editproduct/:id"  element={<EditProduct />}/>
-              <Route path="/admin/adminrightsmanagement" element={<AdminRightsManagement />}  />
-              <Route path="/productlist"  element={<ProductsList />}/>
-              <Route path="/registeredusers"  element={<RegisteredUsers />}/>
-              <Route path="orderdetails/:orderId" element={<OrderDetails />} />
-              <Route path="/notifications" element={<NotificationsPage />}  />
-              <Route path="/usernotifications" element={<UserNotificationPage />}  />
-              <Route path="/reset-password" element={<ResetPasswordPage />} />
-     
-              <Route path="/admin/auditlog" element={<AuditLogPage/>}  />
-              <Route path="/admin/records" element={<AdminRecords />}   />
-              <Route path='/admin/questions' element={<AdminQuestionsPage/>}  />
-
-              {/**  Warehouse Admin  */}
-              <Route path="/warehouse/dashboard" element={<Dashboard />}  />
-              <Route path="" element={<Ordereditems />} />
+                {/**   Warehouse Admin  */}
               
-              <Route path="/warehouseordertails/:orderId"  element={<WarehouseOrderDetails />}  />
-              <Route path="/warehouseordereditems/:category"  element={<WarehouseOrderDetailsPage />}  />
 
-              {/**   Warehouse Admin  */}
-            
+                {/** Finance Admin   */}
+                <Route path="/finance/dashboard" element={<FinanceDashboard />}   />
+                <Route path="/finaceordertails/:orderId"  element={<FinanceOrderViewPage />}  />
+                <Route path="/finance/registeredusers"  element={<FinanceUsers />}  />
+                <Route  path='/finance/orders' element={<FinanceOrders />} /> 
 
-              {/** Finance Admin   */}
-              <Route path="/finance/dashboard" element={<FinanceDashboard />}   />
-              <Route path="/finaceordertails/:orderId"  element={<FinanceOrderViewPage />}  />
-              <Route path="/finance/registeredusers"  element={<FinanceUsers />}  />
-              <Route  path='/finance/orders' element={<FinanceOrders />} /> 
-
-              {/** Finance Admin  */}
-            </Routes>
-           
-          </BrowserRouter>
-          <BackToTopButton />
+                {/** Finance Admin  */}
+              </Routes>
+             
+            </BrowserRouter>
+            <BackToTopButton />
+          </LoadingProvider>
         </CartProvider>
       </AuthProvider>
     

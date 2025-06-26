@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../Admin/admincategory.css'
+
 import { Link,useNavigate } from 'react-router-dom'
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { FiLogOut } from "react-icons/fi";

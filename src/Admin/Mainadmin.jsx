@@ -2,7 +2,7 @@ import React from 'react';
 import AdminCategory from './AdminCategory';
 
 import Ordereditems from './Ordereditems';
-import './admincategory.css'; 
+
 import AdminDashboardSummary from './AdminDashboardSummary ';
 
 export default function Mainadmin() {

@@ -156,7 +156,7 @@ export default function SearchDisplay({
             >
               <IoIosArrowBack className="text-xl" /> 
               Back to Shop
-            </Link>
+      </Link>
           </div>
           
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
@@ -335,7 +335,7 @@ export default function SearchDisplay({
                     <p className="text-gray-600 mb-6">
                       Try adjusting your search terms or filters to find what you're looking for.
                     </p>
-                    <Link
+                  <Link
                       to="/Shop"
                       className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
@@ -440,19 +440,19 @@ export default function SearchDisplay({
                     <div className="text-sm text-gray-600">
                       Page {pageNumber + 1} of {pageCount}
                     </div>
-                    <ReactPaginate
+            <ReactPaginate
                       previousLabel="Previous"
                       nextLabel="Next"
-                      pageCount={pageCount}
-                      onPageChange={(e) => setPageNumber(e.selected)}
+              pageCount={pageCount}
+              onPageChange={(e) => setPageNumber(e.selected)}
                       containerClassName="flex items-center space-x-1"
                       pageClassName="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 transition-colors"
                       previousClassName="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 transition-colors"
                       nextClassName="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 transition-colors"
                       activeClassName="px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-lg"
                       disabledClassName="px-3 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-lg cursor-not-allowed"
-                    />
-                  </div>
+            />
+          </div>
                 )}
               </>
             )}
