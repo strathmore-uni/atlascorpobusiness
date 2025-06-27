@@ -8,7 +8,7 @@ import AdminCategory from "./AdminCategory"; // Category component
 import { useAuth } from "../MainOpeningpage/AuthContext";
 import { Rings } from 'react-loader-spinner'; // Use Rings instead
 
-
+ 
 const AddProduct = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
