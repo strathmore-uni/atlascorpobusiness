@@ -95,7 +95,12 @@ const CartProvider = ({ children }) => {
       setCartItems(response.data || []);
     } catch (error) {
       console.error('Error fetching cart items:', error);
-      setError('Failed to load cart items');
+      // If it's a 404 (no cart items found), treat as empty cart
+      if (error.response?.status === 404) {
+        setCartItems([]);
+      } else {
+        setError('Failed to load cart items');
+      }
     } finally {
       setIsLoading(false);
     }

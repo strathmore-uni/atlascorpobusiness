@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { IoIosArrowBack, IoIosCheckmarkCircle, IoIosTime, IoIosCart, IoIosRefresh, IoIosEye, IoIosClose, IoIosCalendar, IoIosCard } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../MainOpeningpage/AuthContext';
-import { useCart } from '../App';
-import NavigationBar from '../General Components/NavigationBar';
+import { FaEye, FaDownload, FaCalendar, FaMapMarkerAlt, FaTruck, FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
+import axiosInstance from "../axiosInstance";
+import { useAuth } from "../MainOpeningpage/AuthContext";
+import LoadingSpinner from "../General Components/LoadingSpinner";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [receivedStatus, setReceivedStatus] = useState({});
   const [selectedOrder, setSelectedOrder] = useState(null);
   const { currentUser } = useAuth();
-  const { addToCart } = useCart();
   const navigate = useNavigate();
   
   // Pagination state
@@ -147,6 +149,50 @@ const OrderHistory = () => {
   // Handle page changes
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleReorder = async (order) => {
+    try {
+      // Add all items from the order to cart
+      for (const item of order.items) {
+        await addToCart({
+          productId: item.productId,
+          name: item.name,
+          price: item.price,
+          image: item.image,
+          quantity: item.quantity,
+          email: currentUser.email
+        });
+      }
+      
+      toast.success("Items added to cart");
+      navigate("/cart");
+    } catch (error) {
+      console.error("Error reordering:", error);
+      toast.error("Failed to add items to cart");
+    }
+  };
+
+  const handleDownloadInvoice = async (orderId) => {
+    try {
+      const response = await axiosInstance.get(`/api/orders/${orderId}/invoice`, {
+        responseType: 'blob'
+      });
+      
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `invoice-${orderId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      
+      toast.success("Invoice downloaded successfully");
+    } catch (error) {
+      console.error("Error downloading invoice:", error);
+      toast.error("Failed to download invoice");
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-20">
@@ -158,7 +204,6 @@ const OrderHistory = () => {
             </div>
           </div>
         </div>
-        <NavigationBar />
       </div>
     );
   }
@@ -311,7 +356,7 @@ const OrderHistory = () => {
                       </button>
                       
                       <button
-                        onClick={() => handleAddOrderItemsToCart(order.id)}
+                        onClick={() => handleReorder(order)}
                         className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
                       >
                         <IoIosCart className="mr-2 h-4 w-4" />
@@ -406,7 +451,6 @@ const OrderHistory = () => {
           </div>
         )}
       </div>
-      <NavigationBar />
     </div>
   );
 };

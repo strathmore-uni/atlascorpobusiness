@@ -1,69 +1,45 @@
 import { useState, useCallback } from 'react';
-import { useLoading } from './LoadingProvider';
+import axiosInstance from '../axiosInstance';
 
-export const useApiWithLoading = () => {
-  const { setLoading, setGlobalLoadingState } = useLoading();
+const useApiWithLoading = () => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const apiCall = useCallback(async (
-    apiFunction,
-    loadingKey = 'default',
-    options = {}
-  ) => {
-    const {
-      showGlobalLoading = false,
-      loadingMessage = 'Loading...',
-      errorMessage = 'An error occurred',
-      onSuccess,
-      onError,
-      onFinally
-    } = options;
-
+  const apiCall = useCallback(async (method, url, data = null, config = {}) => {
+    setLoading(true);
+    setError(null);
+    
     try {
-      setError(null);
-      
-      if (showGlobalLoading) {
-        setGlobalLoadingState(true, loadingMessage);
-      } else {
-        setLoading(loadingKey, true, loadingMessage);
-      }
-
-      const result = await apiFunction();
-      
-      if (onSuccess) {
-        onSuccess(result);
-      }
-      
-      return result;
+      const response = await axiosInstance({
+        method,
+        url,
+        data,
+        ...config
+      });
+      return response.data;
     } catch (err) {
-      const errorMsg = err.response?.data?.message || err.message || errorMessage;
-      setError(errorMsg);
-      
-      if (onError) {
-        onError(err, errorMsg);
-      }
-      
+      const errorMessage = err.response?.data?.message || err.message || 'An error occurred';
+      setError(errorMessage);
       throw err;
     } finally {
-      if (showGlobalLoading) {
-        setGlobalLoadingState(false);
-      } else {
-        setLoading(loadingKey, false);
-      }
-      
-      if (onFinally) {
-        onFinally();
-      }
+      setLoading(false);
     }
-  }, [setLoading, setGlobalLoadingState]);
-
-  const clearError = useCallback(() => {
-    setError(null);
   }, []);
 
+  const get = useCallback((url, config = {}) => apiCall('GET', url, null, config), [apiCall]);
+  const post = useCallback((url, data = null, config = {}) => apiCall('POST', url, data, config), [apiCall]);
+  const put = useCallback((url, data = null, config = {}) => apiCall('PUT', url, data, config), [apiCall]);
+  const del = useCallback((url, config = {}) => apiCall('DELETE', url, null, config), [apiCall]);
+
   return {
-    apiCall,
+    loading,
     error,
-    clearError
+    apiCall,
+    get,
+    post,
+    put,
+    delete: del
   };
-}; 
+};
+
+export default useApiWithLoading; 

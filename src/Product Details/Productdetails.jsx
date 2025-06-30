@@ -6,22 +6,27 @@ import { LuCameraOff } from "react-icons/lu";
 import Footer from "../General Components/Footer";
 import Notification from "../General Components/Notification";
 import { useAuth } from "../MainOpeningpage/AuthContext";
-import { useCart } from "../App";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Reviews from "./Reviews";
 import ProductDescription from "./ProductDescription";
 import ProductSpecification from "./ProductSpecification";
+import { useCart } from "../App";
+import "./productdetails.css";
 
-export default function ProductDetails({ handleAddProductDetails, productdetails }) {
+export default function ProductDetails() {
   const { currentUser } = useAuth();
+  const [selectedImage, setSelectedImage] = useState(0);
   const { addToCart } = useCart();
-  const { partnumber } = useParams();
-  const [selectedImage, setSelectedImage] = useState(productdetails[0]?.image);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [activeTab, setActiveTab] = useState('description');
   const { isAuthenticated } = useAuth();
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const navigate = useNavigate();
+  const [images, setImages] = useState([]);
+  const { partnumber } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleImageClick = (image) => setSelectedImage(image);
 
@@ -33,7 +38,7 @@ export default function ProductDetails({ handleAddProductDetails, productdetails
     
     try {
       await addToCart(product, 1);
-      setNotificationMessage(`${product.Description} has been added to the cart.`);
+      setNotificationMessage(`${product.Description || product.description} has been added to the cart.`);
       setTimeout(() => setNotificationMessage(''), 3000);
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -47,7 +52,7 @@ export default function ProductDetails({ handleAddProductDetails, productdetails
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const productId = productdetails[0]?.id;
+  const productId = product?.id;
 
   const fetchRelatedProducts = async () => {
     try {
@@ -110,12 +115,51 @@ export default function ProductDetails({ handleAddProductDetails, productdetails
     }
   };
 
+  useEffect(() => {
+    console.log('ProductDetails mounted');
+    console.log('product prop:', product);
+  }, []);
+
+  useEffect(() => {
+    if (product) {
+      const images = [product.image, product.thumb1, product.thumb2, product.image4, product.image5].filter(Boolean);
+      setImages(images);
+      setSelectedImage(0);
+      console.log('Fetched product:', product);
+      console.log('Images array:', images);
+    } else {
+      console.log('No product found');
+    }
+  }, [product]);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!partnumber || !currentUser?.email) return;
+      
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL}/api/products/partnumber/${partnumber}`, {
+          params: { email: currentUser.email }
+        });
+        setProduct(response.data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+        setError('Failed to load product details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [partnumber, currentUser?.email]);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <NavigationBar />
       <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {productdetails.map((product) => (
-          <div className="bg-white rounded-2xl shadow p-6 md:p-10 mb-8" key={product.partnumber}>
+        {product && (
+          <div className="bg-white rounded-2xl shadow p-6 md:p-10 mb-8">
             {/* Breadcrumb */}
             <nav className="flex items-center text-sm text-blue-700 mb-6 space-x-2" aria-label="Breadcrumb">
               <a href="/" className="hover:underline">Home</a>
@@ -128,20 +172,20 @@ export default function ProductDetails({ handleAddProductDetails, productdetails
               {/* Image Gallery */}
               <div className="flex flex-col gap-4 md:w-1/2">
                 <div className="w-full h-80 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden">
-                  {selectedImage ? (
-                    <img src={selectedImage} alt="Big" className="object-contain w-full h-full" />
+                  {selectedImage !== 0 ? (
+                    <img src={images[selectedImage]} alt="Big" className="object-contain w-full h-full" />
                   ) : (
                     <LuCameraOff className="text-6xl text-gray-400" />
                   )}
                 </div>
                 <div className="flex gap-2 mt-2">
-                  {[product.image, product.thumb1, product.thumb2, product.image4, product.image5].filter(Boolean).map((img, idx) => (
+                  {images.map((img, idx) => (
                     <img
                       key={idx}
                       src={img}
                       alt={`Thumbnail ${idx + 1}`}
-                      className={`w-16 h-16 object-cover rounded cursor-pointer border-2 ${selectedImage === img ? 'border-blue-600' : 'border-transparent'} transition`}
-                      onClick={() => handleImageClick(img)}
+                      className={`w-16 h-16 object-cover rounded cursor-pointer border-2 ${selectedImage === idx ? 'border-blue-600' : 'border-transparent'} transition`}
+                      onClick={() => handleImageClick(idx)}
                     />
                   ))}
                 </div>
@@ -181,7 +225,9 @@ export default function ProductDetails({ handleAddProductDetails, productdetails
                   </button>
                 </div>
                 <div className="bg-gray-50 rounded-b-lg p-4">
-                  {activeTab === 'description' && <ProductDescription productId={productId} />}
+                  {activeTab === 'description' && product?.partnumber && (
+                    <ProductDescription partnumber={product.partnumber} />
+                  )}
                   {activeTab === 'specification' && <ProductSpecification productId={productId} />}
                 </div>
               </div>
@@ -297,7 +343,7 @@ export default function ProductDetails({ handleAddProductDetails, productdetails
               </div>
             )}
           </div>
-        ))}
+        )}
       </main>
       <Footer />
     </div>

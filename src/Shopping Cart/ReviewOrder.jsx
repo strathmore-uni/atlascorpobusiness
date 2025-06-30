@@ -218,7 +218,10 @@ const ReviewOrder = () => {
           await emailjs.send('service_bmvwx28', 'template_zsdszy8', clientEmailData, 'KeePPXIGkpTcoiTBJ');
           await emailjs.send('service_ie3g4m5', 'template_igi5iov', adminEmailData, 'HSw7Ydql4N9nzAoVn');
       
-          // Send invoice via Invoice Ninja
+          // Set success message first
+          setNotificationMessage('Order placed and confirmation emails sent successfully!');
+          
+          // Try to send invoice via Invoice Ninja (optional - don't block order placement)
           try {
             await axios.post(`${process.env.REACT_APP_LOCAL}/api/send-invoice`, {
               client: {
@@ -240,10 +243,11 @@ const ReviewOrder = () => {
               orderNumber,
               total: newPrice,
             });
+            // Update message if invoice was sent successfully
             setNotificationMessage('Order placed, confirmation emails sent, and invoice sent to your email!');
           } catch (invoiceError) {
             console.error('Invoice Ninja error:', invoiceError);
-            setNotificationMessage('Order placed and confirmation emails sent, but failed to send invoice. Please contact support.');
+            // Keep the original success message - invoice failure doesn't affect order placement
           }
         } else {
           console.error('Order placement failed:', response.data.message);
@@ -345,13 +349,14 @@ const ReviewOrder = () => {
               >
                 Place the Order
               </button>
-              {/* Test button for Invoice Ninja - Remove in production */}
+              {/* Invoice Ninja test button temporarily disabled
               <button
                 className="w-full mt-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition"
                 onClick={testInvoiceNinja}
               >
                 Test Invoice Ninja
               </button>
+              */}
               {notificationMessage && <div className="mt-4"><Notification message={notificationMessage} /></div>}
             </div>
           </aside>

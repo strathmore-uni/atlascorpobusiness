@@ -4,6 +4,7 @@ import axios from 'axios';
 const ProductDescription = ({ productId }) => {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   useEffect(() => {
     const fetchProduct = async () => {

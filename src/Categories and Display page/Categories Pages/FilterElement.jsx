@@ -21,14 +21,21 @@ export default function FilterElement({ handleAddProductDetails, cartItems }) {
 
  
 useEffect(() => {
-  axios
-    .get("http://localhost:3001/api/products")
-    .then((response) => {
-      setData(response.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
+  // Get user email from localStorage
+  const userEmail = localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')).email : null;
+  
+  if (userEmail) {
+    axios
+      .get("http://localhost:3001/api/products", {
+        params: { email: userEmail }
+      })
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
 }, []);
 
 
@@ -46,7 +53,15 @@ useEffect(() => {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/products');
+      const userEmail = localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')).email : null;
+      
+      if (!userEmail) {
+        console.error("No user email found");
+        setIsLoading(false);
+        return;
+      }
+
+      const response = await fetch(`http://localhost:3001/api/products?email=${encodeURIComponent(userEmail)}`);
       if (!response.ok) {
         throw new Error("Failed to fetch items from MySQL");
       }
@@ -56,6 +71,7 @@ useEffect(() => {
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching items:", error);
+      setIsLoading(false);
     }
   };
 
@@ -88,7 +104,7 @@ useEffect(() => {
   
         <div className={`sub_productdisplay_container ${layoutMode}`}>
           <small className="featuredprdts_length">
-          {products.length} Results
+          {data.length} Results
           </small>
           <div className="btn_group">
             <small>Sort by:</small>
@@ -101,13 +117,13 @@ useEffect(() => {
             </p>
           </div>
 
-          {products
+          {data
             .slice(pagesVisited, pagesVisited + itemsPerPage)
             .map((product, index) => (
               <Link
                 key={product.partnumber}
                 className="mylink"
-                to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+                to={`/productdetails/${product.partnumber}`}
                 onClick={() => !isLoading && handleAddProductDetails(product)}
               >
                 <div key={product.partnumber}>
@@ -129,7 +145,7 @@ useEffect(() => {
                       </p>
                       <p className="prdt_partnumber">{product.partnumber}</p>
                       <p className="prdt_title">{product.Description}</p>
-                      <p className="prdt_price">${product.price}</p>
+                      <p className="prdt_price">${product.Price}</p>
                     </>
                   )}
                 </div>

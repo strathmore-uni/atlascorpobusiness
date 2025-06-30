@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -7,41 +6,32 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        try {
-          const response = await axios.post(`${process.env.REACT_APP_LOCAL}/verifyToken`, { token });
-          setCurrentUser({ email: response.data.email });
-          console.log('User is authenticated:', response.data.email); // Add this line
-        } catch (error) {
-          console.error('Token verification failed:', error);
-          localStorage.removeItem('authToken');
-        }
-      }
-      setLoading(false);
-    };
-    
-
-    verifyToken();
+    // Restore user from localStorage on mount
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
   }, []);
-
-  const signOut = async () => {
-    setCurrentUser(null);
-    localStorage.removeItem('authToken');
-  };
 
   const signIn = (user, token) => {
     setCurrentUser(user);
     localStorage.setItem('authToken', token);
+    localStorage.setItem('currentUser', JSON.stringify(user));
   };
 
+  const signOut = () => {
+    setCurrentUser(null);
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('currentUser');
+  };
+
+  const IsAuthenticated = !!currentUser;
+
   return (
-    <AuthContext.Provider value={{ currentUser, signIn, signOut, loading }}>
-      {!loading && children}
+    <AuthContext.Provider value={{ currentUser, signIn, signOut, IsAuthenticated }}>
+      {children}
     </AuthContext.Provider>
   );
 };

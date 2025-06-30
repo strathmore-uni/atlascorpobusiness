@@ -6,7 +6,7 @@ import { useAuth } from './AuthContext';
 import NavigationBar from '../General Components/NavigationBar';
 import LoadingSpinner from '../General Components/LoadingSpinner';
 import { FaGoogle, FaEye, FaEyeSlash, FaEnvelope, FaLock, FaArrowRight } from 'react-icons/fa';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 
 const SignInPage = () => {
   const { signIn, currentUser } = useAuth();
@@ -61,7 +61,7 @@ const SignInPage = () => {
     setError('');
   
     try {
-      const response = await axios.post(`${process.env.REACT_APP_LOCAL}/login`, { email, password });
+      const response = await axiosInstance.post('http://localhost:3001/login', { email, password });
   
       // Check for specific response status or data indicating account suspension
       if (response.data.suspended) {
@@ -69,10 +69,8 @@ const SignInPage = () => {
       } else if (response.data.token) {
         const { token, isAdmin, isMiniAdmin, isWarehouse, isFinance, country } = response.data;
         const currentUser = { email, isAdmin, isMiniAdmin, isWarehouse, isFinance, country };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        localStorage.setItem('token', token);
-        localStorage.setItem('country', country);
-  
+        
+        // Use the signIn function from AuthContext which handles localStorage
         signIn(currentUser, token);
         setRedirecting(true);
       } else {
@@ -265,12 +263,12 @@ const SignInPage = () => {
                     <div className="flex items-center space-x-2">
                       <LoadingSpinner type="ring" size="small" color="white" text="" />
                       <span>Signing in...</span>
-          </div>
+                    </div>
                   ) : (
                     <span>Sign in</span>
                   )}
                 </button>
-          </form>
+              </form>
 
               <div className="mt-6">
                 <div className="relative">
@@ -293,7 +291,7 @@ const SignInPage = () => {
                     ) : (
                       <FaGoogle className="h-5 w-5 text-red-500 mr-3" />
                     )}
-              <span>Sign in with Google</span>
+                    <span>Sign in with Google</span>
                   </button>
                 </div>
               </div>

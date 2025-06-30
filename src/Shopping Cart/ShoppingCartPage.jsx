@@ -19,7 +19,7 @@ export default function ShoppingCartPage({
   const [quickOrderCode, setQuickOrderCode] = useState('');
   const [quickOrderQty, setQuickOrderQty] = useState(1);
   const { currentUser } = useAuth();
-  const { cartItems, removeFromCart, updateQuantity, clearCart, getCartTotal, isLoading, error } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart, getCartTotal, isLoading, error, addToCart } = useCart();
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -42,7 +42,7 @@ export default function ShoppingCartPage({
       const product = response.data;
       if (product) {
         // Add to cart using the context
-        await addToCart({ ...product, quantity: quickOrderQty });
+        await addToCart(product, quickOrderQty);
         setQuickOrderCode("");
         setQuickOrderQty(1);
       } else {

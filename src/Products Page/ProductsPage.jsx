@@ -782,7 +782,7 @@ const ProductsPage = ({ handleAddProductDetails, handleAddProduct, cartItems }) 
                           </div>
                           
                     <Link
-                      to={`/Productdetails?name=${product.Description}?id=${product.partnumber}`}
+                      to={`/productdetails/${product.partnumber}`}
                       onClick={() => handleAddProductDetails(product)}
                             className="block mb-2"
                           >
