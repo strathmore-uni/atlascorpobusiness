@@ -37,9 +37,9 @@ axiosInstance.interceptors.response.use(
 
             const currentPath = window.location.pathname;
             if (currentPath.startsWith('/admin')) {
-                window.location.href = '/admin/login';
+                window.location.href = '/admin/signin';
             } else {
-                window.location.href = '/login';
+                window.location.href = '/signin';
             }
         }
         return Promise.reject(error);

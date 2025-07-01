@@ -20,7 +20,7 @@ const fetchCurrentUser = () => {
       return null;
     }
   }
-  console.error('No user data found in local storage.');
+  
   return null;
 };
 const currentUser = fetchCurrentUser();
